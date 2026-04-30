@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Phone, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Magnetic } from "@/components/magnetic"
 import { Link } from "@tanstack/react-router"
 
 const navLinks = [
