@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useInView } from "framer-motion"
 import { ChevronLeft, ChevronRight, Star, Play } from "lucide-react"
+import { FloatingDecoField } from "@/components/floating-deco"
 
 const testimonials = [
   {
