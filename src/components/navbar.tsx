@@ -107,11 +107,11 @@ export function Navbar() {
             {/* Right side */}
             <div className="hidden lg:flex items-center gap-4">
               <a 
-                href="tel:+977-9800-000000" 
+                href="tel:+9779861141699" 
                 className="flex items-center gap-2 text-plum hover:text-rose transition-colors"
               >
                 <Phone className="w-4 h-4" />
-                <span className="text-sm font-medium">+977-9800-000000</span>
+                <span className="text-sm font-medium">+977 9861141699</span>
               </a>
               <Magnetic>
                 <Button
@@ -164,11 +164,11 @@ export function Navbar() {
               </div>
               <div className="mt-8 flex flex-col gap-4">
                 <a 
-                  href="tel:+977-9800-000000" 
+                  href="tel:+9779861141699" 
                   className="flex items-center gap-2 text-plum"
                 >
                   <Phone className="w-5 h-5" />
-                  <span className="font-medium">+977-9800-000000</span>
+                  <span className="font-medium">+977 9861141699</span>
                 </a>
                 <Button 
                   className="bg-gradient-to-r from-rose to-rose-dark text-white rounded-full w-full"
