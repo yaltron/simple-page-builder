@@ -99,6 +99,7 @@ function ProcessStep({
               src={step.image}
               alt={step.title}
               className="w-full h-auto object-cover"
+              loading="lazy"
             />
           </div>
         </motion.div>
