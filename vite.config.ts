@@ -17,10 +17,5 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  plugins: [
-    tailwindcss(),
-    tanstackStart({
-      client: { entry: "./src/client.tsx" },
-    }),
-  ],
+  plugins: [tailwindcss(), tanstackStart()],
 });
