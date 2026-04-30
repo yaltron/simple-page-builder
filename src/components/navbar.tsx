@@ -76,16 +76,12 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2">
-              <LotusIcon className="w-10 h-10 text-rose" />
-              <div className="flex flex-col">
-                <span className="font-serif font-bold text-xl text-plum leading-tight">
-                  Subhashree IVF
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  Fertility Centre
-                </span>
-              </div>
+            <Link to="/" className="flex items-center">
+              <img
+                src={logo}
+                alt="Shubhashree IVF Clinic Pvt. Ltd."
+                className="h-12 lg:h-14 w-auto"
+              />
             </Link>
 
             {/* Desktop Navigation */}
