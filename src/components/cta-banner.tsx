@@ -5,6 +5,7 @@ import { useInView } from "framer-motion"
 import { Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { MorphingBlob } from "@/components/morphing-blob"
+import { Magnetic } from "@/components/magnetic"
 
 export function CTABanner() {
   const ref = useRef(null)
