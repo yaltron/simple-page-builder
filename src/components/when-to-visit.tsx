@@ -4,6 +4,7 @@ import { useInView } from "framer-motion"
 import { useRef } from "react"
 import { Check, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { FloatingDecoField } from "@/components/floating-deco"
 
 const reasons = [
   "Couples who cannot conceive naturally",
