@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { MorphingBlob } from "@/components/morphing-blob"
 
 export function CTABanner() {
   const ref = useRef(null)
@@ -11,12 +12,39 @@ export function CTABanner() {
 
   return (
     <section id="contact" ref={ref} className="py-20 lg:py-24 bg-gradient-to-r from-rose to-rose-dark relative overflow-hidden">
-      {/* Background decorative shapes */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-20 -left-20 w-80 h-80 bg-white/5 rounded-full blur-3xl" />
-        <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-white/5 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/4 w-40 h-40 bg-white/5 rounded-full blur-2xl" />
+      {/* Morphing white blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <MorphingBlob
+          color="#ffffff"
+          size={550}
+          opacity={0.1}
+          duration={26}
+          driftX={50}
+          driftY={40}
+          style={{ top: "-180px", left: "-160px" }}
+        />
+        <MorphingBlob
+          color="#ffffff"
+          size={620}
+          opacity={0.08}
+          duration={32}
+          delay={-9}
+          driftX={-60}
+          driftY={50}
+          style={{ bottom: "-220px", right: "-180px" }}
+        />
+        <MorphingBlob
+          color="#ffffff"
+          size={400}
+          opacity={0.06}
+          duration={38}
+          delay={-16}
+          driftX={40}
+          driftY={-50}
+          style={{ top: "30%", left: "40%" }}
+        />
       </div>
+
 
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
