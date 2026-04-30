@@ -1,0 +1,124 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Brand Colors */
+  --rose: #C2185B;
+  --rose-dark: #880E4F;
+  --rose-light: #F8BBD9;
+  --teal: #00897B;
+  --teal-light: #B2DFDB;
+  --gold: #F9A825;
+  --gold-light: #FFF8E1;
+  --cream: #FFFAF7;
+  --plum: #2D1B35;
+  --plum-dark: #1A0D20;
+  
+  /* Semantic tokens */
+  --background: #FFFAF7;
+  --foreground: #2D1B35;
+  --card: #FFFFFF;
+  --card-foreground: #2D1B35;
+  --popover: #FFFFFF;
+  --popover-foreground: #2D1B35;
+  --primary: #C2185B;
+  --primary-foreground: #FFFFFF;
+  --secondary: #00897B;
+  --secondary-foreground: #FFFFFF;
+  --muted: #F5F0ED;
+  --muted-foreground: #6B5A6E;
+  --accent: #F9A825;
+  --accent-foreground: #2D1B35;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --border: #E8DFD9;
+  --input: #E8DFD9;
+  --ring: #C2185B;
+  --radius: 0.625rem;
+}
+
+@theme inline {
+  --font-sans: var(--font-nunito), system-ui, sans-serif;
+  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-mono: 'Geist Mono', monospace;
+  
+  /* Brand color utilities */
+  --color-rose: var(--rose);
+  --color-rose-dark: var(--rose-dark);
+  --color-rose-light: var(--rose-light);
+  --color-teal: var(--teal);
+  --color-teal-light: var(--teal-light);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-cream: var(--cream);
+  --color-plum: var(--plum);
+  --color-plum-dark: var(--plum-dark);
+  
+  /* Semantic colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Marquee animation for partner logos */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--rose-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--rose);
+}
