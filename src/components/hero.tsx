@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { MorphingBlob } from "@/components/morphing-blob"
 import { FloatingDecoField } from "@/components/floating-deco"
 import { GradientMesh } from "@/components/gradient-mesh"
+import { Magnetic } from "@/components/magnetic"
 
 const stats = [
   { icon: Baby, number: "5,000+", label: "Babies Born" },
