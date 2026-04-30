@@ -32,7 +32,39 @@ export function Hero() {
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-rose-light/30 rounded-full blur-3xl"
         />
 
+        {/* Morphing rose blobs */}
+        <MorphingBlob
+          color="var(--rose)"
+          size={650}
+          opacity={0.1}
+          duration={26}
+          driftX={60}
+          driftY={40}
+          style={{ top: "-180px", left: "-200px" }}
+        />
+        <MorphingBlob
+          color="var(--rose-light)"
+          size={520}
+          opacity={0.12}
+          duration={32}
+          delay={-8}
+          driftX={-50}
+          driftY={50}
+          style={{ bottom: "-220px", right: "-180px" }}
+        />
+        <MorphingBlob
+          color="var(--rose)"
+          size={420}
+          opacity={0.06}
+          duration={36}
+          delay={-14}
+          driftX={70}
+          driftY={-40}
+          style={{ top: "30%", right: "-160px" }}
+        />
+
         {/* Floating particles */}
+
         {[...Array(36)].map((_, i) => {
           // Deterministic pseudo-random for SSR stability
           const rand = (seed: number) => {
