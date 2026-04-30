@@ -113,7 +113,7 @@ export function DoctorsCarousel() {
 
       {/* Auto-scrolling marquee */}
       <div
-        className="relative group"
+        className="relative"
         style={{
           maskImage:
             "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
@@ -121,24 +121,11 @@ export function DoctorsCarousel() {
             "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
         }}
       >
-        <motion.div
-          className="flex gap-6 w-max py-4"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{
-            duration: 40,
-            ease: "linear",
-            repeat: Infinity,
-          }}
-          style={{
-            // Pause animation on hover via CSS
-            animationPlayState: "running",
-          }}
-          whileHover={{ animationPlayState: "paused" }}
-        >
+        <div className="flex w-max py-4 animate-marquee hover:[animation-play-state:paused] gap-6">
           {loop.map((doctor, i) => (
             <DoctorCard key={`${doctor.name}-${i}`} doctor={doctor} />
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )
