@@ -68,20 +68,24 @@ export function CTABanner() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
           >
-            <Button 
-              size="lg"
-              className="bg-white text-rose hover:bg-white/90 rounded-full px-8 text-base"
-            >
-              Book Free Consultation
-            </Button>
-            <Button 
-              size="lg"
-              variant="outline"
-              className="rounded-full px-8 text-base border-white/30 text-white hover:bg-white/10 hover:text-white"
-            >
-              <Phone className="w-4 h-4 mr-2" />
-              Call: +977-9800-000000
-            </Button>
+            <Magnetic>
+              <Button
+                size="lg"
+                className="bg-white text-rose hover:bg-white/90 rounded-full px-8 text-base"
+              >
+                Book Free Consultation
+              </Button>
+            </Magnetic>
+            <Magnetic>
+              <Button
+                size="lg"
+                variant="outline"
+                className="rounded-full px-8 text-base border-white/30 text-white hover:bg-white/10 hover:text-white"
+              >
+                <Phone className="w-4 h-4 mr-2" />
+                Call: +977-9800-000000
+              </Button>
+            </Magnetic>
           </motion.div>
         </motion.div>
       </div>
