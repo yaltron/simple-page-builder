@@ -18,7 +18,7 @@ export const Route = createRootRoute({
       { name: "theme-color", content: "#C2185B" },
       {
         title:
-          "Shubhashree IVF & Fertility Centre | Where Dreams of Parenthood Begin",
+          "Subhashree IVF & Fertility Centre | Where Dreams of Parenthood Begin",
       },
       {
         name: "description",
@@ -32,7 +32,7 @@ export const Route = createRootRoute({
       },
       {
         property: "og:title",
-        content: "Shubhashree IVF & Fertility Centre",
+        content: "Subhashree IVF & Fertility Centre",
       },
       {
         property: "og:description",
@@ -40,6 +40,15 @@ export const Route = createRootRoute({
           "Nepal's leading IVF centre with 12+ years of excellence and 5,000+ successful treatments.",
       },
       { property: "og:type", content: "website" },
+      { title: "Subhashree IVF" },
+      { property: "og:title", content: "Subhashree IVF" },
+      { name: "twitter:title", content: "Subhashree IVF" },
+      { name: "description", content: "Bringing Happiness Into Your Life" },
+      { property: "og:description", content: "Bringing Happiness Into Your Life" },
+      { name: "twitter:description", content: "Bringing Happiness Into Your Life" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2763929e-3781-4f77-96d6-089915beb33e/id-preview-0338afa5--21c28b4a-1c9f-40e2-a587-0b34d8e11f6f.lovable.app-1777588428747.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2763929e-3781-4f77-96d6-089915beb33e/id-preview-0338afa5--21c28b4a-1c9f-40e2-a587-0b34d8e11f6f.lovable.app-1777588428747.png" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
