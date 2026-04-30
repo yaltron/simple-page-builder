@@ -1,6 +1,7 @@
 
 import { Link } from "@tanstack/react-router"
 import { Facebook, Instagram, Youtube } from "lucide-react"
+import logo from "@/assets/logo.png"
 
 const quickLinks = [
   { name: "About Us", href: "#about" },
