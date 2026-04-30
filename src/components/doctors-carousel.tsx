@@ -3,37 +3,43 @@ import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import doctor1 from "@/assets/doctor-1.jpg"
+import doctor2 from "@/assets/doctor-2.jpg"
+import doctor3 from "@/assets/doctor-3.jpg"
+import doctor4 from "@/assets/doctor-4.jpg"
+import doctor5 from "@/assets/doctor-5.jpg"
+import doctor6 from "@/assets/doctor-6.jpg"
 
 const doctors = [
   {
     name: "Dr. Subhashree Devi",
     specialty: "Chief Fertility Specialist",
-    image: "https://placehold.co/280x350/FFE4EC/C2185B?text=Dr.+Subhashree",
+    image: doctor1,
   },
   {
     name: "Dr. Anita Rana",
     specialty: "Reproductive Endocrinologist",
-    image: "https://placehold.co/280x350/E0F2F1/00897B?text=Dr.+Anita",
+    image: doctor2,
   },
   {
     name: "Dr. Rajesh Shrestha",
     specialty: "Senior Embryologist",
-    image: "https://placehold.co/280x350/FFF8E1/F9A825?text=Dr.+Rajesh",
+    image: doctor3,
   },
   {
     name: "Dr. Priya Poudel",
     specialty: "Fertility Specialist",
-    image: "https://placehold.co/280x350/FFE4EC/C2185B?text=Dr.+Priya",
+    image: doctor4,
   },
   {
     name: "Dr. Amit KC",
     specialty: "Reproductive Medicine",
-    image: "https://placehold.co/280x350/E0F2F1/00897B?text=Dr.+Amit",
+    image: doctor5,
   },
   {
     name: "Dr. Sita Thapa",
     specialty: "Fertility Specialist",
-    image: "https://placehold.co/280x350/FFF8E1/F9A825?text=Dr.+Sita",
+    image: doctor6,
   },
 ]
 
