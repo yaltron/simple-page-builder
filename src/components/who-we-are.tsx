@@ -4,6 +4,9 @@ import { useInView } from "framer-motion"
 import { useRef } from "react"
 import { Check, ArrowRight } from "lucide-react"
 import { MorphingBlob } from "@/components/morphing-blob"
+import whoClinic from "@/assets/who-clinic.jpg"
+import whoLab from "@/assets/who-lab.jpg"
+import whoTeam from "@/assets/who-team.jpg"
 
 const highlights = [
   "ISO Certified Embryology Lab",
@@ -71,25 +74,28 @@ export function WhoWeAre() {
               <div className="space-y-4">
                 <div className="rounded-2xl overflow-hidden h-48">
                   <img
-                    src="https://placehold.co/300x200/FFE4EC/C2185B?text=Clinic"
+                    src={whoClinic}
                     alt="Our modern clinic"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
                 <div className="rounded-2xl overflow-hidden h-32">
                   <img
-                    src="https://placehold.co/300x150/E0F2F1/00897B?text=Lab"
+                    src={whoLab}
                     alt="Advanced laboratory"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
               </div>
               <div className="pt-8">
                 <div className="rounded-2xl overflow-hidden h-64">
                   <img
-                    src="https://placehold.co/300x300/FFF8E1/F9A825?text=Team"
+                    src={whoTeam}
                     alt="Our caring team"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
               </div>

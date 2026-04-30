@@ -6,6 +6,9 @@ import { MorphingBlob } from "@/components/morphing-blob"
 import { FloatingDecoField } from "@/components/floating-deco"
 import { GradientMesh } from "@/components/gradient-mesh"
 import { Magnetic } from "@/components/magnetic"
+import heroFamily from "@/assets/hero-family.jpg"
+import heroDoctor from "@/assets/hero-doctor.jpg"
+import heroConsultation from "@/assets/hero-consultation.jpg"
 
 const stats = [
   { icon: Baby, number: "5,000+", label: "Babies Born" },
@@ -347,26 +350,30 @@ export function Hero() {
               {/* Main image */}
               <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://placehold.co/400x500/FFE4EC/C2185B?text=Happy+Family"
+                  src={heroFamily}
                   alt="Happy family at Subhashree IVF"
                   className="w-full h-auto object-cover"
+                  width={800}
+                  height={1024}
                 />
               </div>
-              
+
               {/* Overlapping images */}
               <div className="absolute -top-8 -right-8 w-32 h-32 rounded-2xl overflow-hidden shadow-xl z-20 hidden lg:block">
                 <img
-                  src="https://placehold.co/150x150/E0F2F1/00897B?text=Doctor"
+                  src={heroDoctor}
                   alt="Expert doctor"
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
-              
+
               <div className="absolute -bottom-8 -left-8 w-40 h-28 rounded-2xl overflow-hidden shadow-xl z-20 hidden lg:block">
                 <img
-                  src="https://placehold.co/200x150/FFF8E1/F9A825?text=Consultation"
+                  src={heroConsultation}
                   alt="Consultation session"
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
 
