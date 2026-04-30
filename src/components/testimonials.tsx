@@ -57,8 +57,18 @@ export function Testimonials() {
   }
 
   return (
-    <section id="testimonials" ref={ref} className="py-20 lg:py-32 bg-cream overflow-hidden">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="testimonials" ref={ref} className="py-20 lg:py-32 bg-cream overflow-hidden relative">
+      <FloatingDecoField
+        items={[
+          { shape: "dashed-ring", color: "rose", size: 48, top: "8%", left: "6%", floatDuration: 9, rotateDuration: 24, delay: 0 },
+          { shape: "plus", color: "teal", size: 20, top: "18%", right: "8%", floatDuration: 7, rotateDuration: 19, delay: -2 },
+          { shape: "hollow-circle", color: "gold", size: 30, top: "70%", right: "5%", floatDuration: 8, rotateDuration: 22, delay: -3 },
+          { shape: "square", color: "rose", size: 18, top: "50%", left: "4%", floatDuration: 6, rotateDuration: 17, delay: -1 },
+          { shape: "lines", color: "gold", size: 22, top: "85%", left: "20%", floatDuration: 7, rotateDuration: 20, delay: -4 },
+          { shape: "plus", color: "teal", size: 16, top: "40%", right: "15%", floatDuration: 8, rotateDuration: 18, delay: -5 },
+        ]}
+      />
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
