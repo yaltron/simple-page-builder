@@ -95,8 +95,17 @@ export function FAQ() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="py-20 lg:py-32 bg-white">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section ref={ref} className="py-20 lg:py-32 bg-white relative overflow-hidden">
+      <FloatingDecoField
+        items={[
+          { shape: "hollow-circle", color: "rose", size: 38, top: "10%", left: "5%", floatDuration: 8, rotateDuration: 22, delay: 0 },
+          { shape: "dashed-ring", color: "teal", size: 46, top: "65%", right: "6%", floatDuration: 9, rotateDuration: 24, delay: -3 },
+          { shape: "plus", color: "gold", size: 20, top: "35%", right: "10%", floatDuration: 7, rotateDuration: 19, delay: -2 },
+          { shape: "square", color: "rose", size: 18, top: "85%", left: "12%", floatDuration: 6, rotateDuration: 18, delay: -4 },
+          { shape: "lines", color: "teal", size: 24, top: "50%", left: "8%", floatDuration: 8, rotateDuration: 21, delay: -1 },
+        ]}
+      />
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
