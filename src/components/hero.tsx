@@ -3,6 +3,7 @@ import { motion } from "framer-motion"
 import { Play, ChevronDown, Baby, TrendingUp, Award } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { MorphingBlob } from "@/components/morphing-blob"
+import { FloatingDecoField } from "@/components/floating-deco"
 
 const stats = [
   { icon: Baby, number: "5,000+", label: "Babies Born" },
