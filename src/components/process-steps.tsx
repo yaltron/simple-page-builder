@@ -2,6 +2,7 @@
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
+import { FloatingDecoField } from "@/components/floating-deco"
 
 const steps = [
   {
