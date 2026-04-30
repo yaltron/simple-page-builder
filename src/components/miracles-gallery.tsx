@@ -4,17 +4,23 @@ import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import miracle1 from "@/assets/miracle-1.jpg"
+import miracle2 from "@/assets/miracle-2.jpg"
+import miracle3 from "@/assets/miracle-3.jpg"
+import miracle4 from "@/assets/miracle-4.jpg"
+import miracle5 from "@/assets/miracle-5.jpg"
+import miracle6 from "@/assets/miracle-6.jpg"
 
 const images = [
-  { src: "https://placehold.co/200x200/FFE4EC/C2185B?text=Baby+1", size: "small" },
-  { src: "https://placehold.co/200x300/E0F2F1/00897B?text=Family+1", size: "tall" },
-  { src: "https://placehold.co/200x200/FFF8E1/F9A825?text=Baby+2", size: "small" },
-  { src: "https://placehold.co/300x200/FFE4EC/C2185B?text=Family+2", size: "wide" },
-  { src: "https://placehold.co/200x200/E0F2F1/00897B?text=Baby+3", size: "small" },
-  { src: "https://placehold.co/200x300/FFF8E1/F9A825?text=Family+3", size: "tall" },
-  { src: "https://placehold.co/200x200/FFE4EC/C2185B?text=Baby+4", size: "small" },
-  { src: "https://placehold.co/200x200/E0F2F1/00897B?text=Baby+5", size: "small" },
-  { src: "https://placehold.co/200x200/FFF8E1/F9A825?text=Baby+6", size: "small" },
+  { src: miracle1, size: "small" },
+  { src: miracle2, size: "tall" },
+  { src: miracle3, size: "small" },
+  { src: miracle4, size: "wide" },
+  { src: miracle5, size: "small" },
+  { src: miracle6, size: "tall" },
+  { src: miracle3, size: "small" },
+  { src: miracle1, size: "small" },
+  { src: miracle5, size: "small" },
 ]
 
 export function MiraclesGallery() {
@@ -71,6 +77,7 @@ export function MiraclesGallery() {
                     src={image.src}
                     alt={`Success story ${index + 1}`}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
                   />
                 </motion.div>
               ))}

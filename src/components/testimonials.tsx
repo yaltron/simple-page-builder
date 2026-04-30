@@ -4,31 +4,36 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useInView } from "framer-motion"
 import { ChevronLeft, ChevronRight, Star, Play } from "lucide-react"
 import { FloatingDecoField } from "@/components/floating-deco"
+import testimonial1 from "@/assets/testimonial-1.jpg"
+import testimonial2 from "@/assets/testimonial-2.jpg"
+import testimonial3 from "@/assets/testimonial-3.jpg"
+import testimonial4 from "@/assets/testimonial-4.jpg"
+import testimonialVideo from "@/assets/testimonial-video.jpg"
 
 const testimonials = [
   {
     quote: "After four failed attempts elsewhere, Subhashree IVF gave us hope again. Their expertise and compassion made all the difference. Today, we are proud parents of a beautiful baby girl.",
     name: "Sita M.",
     location: "Kathmandu",
-    image: "https://placehold.co/80x80/FFE4EC/C2185B?text=SM",
+    image: testimonial1,
   },
   {
     quote: "We came from India specifically and conceived on the very first try! The team's professionalism and the advanced facilities exceeded our expectations. Highly recommended!",
     name: "Ramesh & Priya",
     location: "New Delhi",
-    image: "https://placehold.co/80x80/E0F2F1/00897B?text=RP",
+    image: testimonial2,
   },
   {
     quote: "At 42, I had almost given up on becoming a mother. Their donor programme gave me twins. The joy they've brought into my life is immeasurable. Thank you, Subhashree IVF!",
     name: "Maya K.",
     location: "Lalitpur",
-    image: "https://placehold.co/80x80/FFF8E1/F9A825?text=MK",
+    image: testimonial3,
   },
   {
     quote: "The team treats you like family. From the first consultation to holding our baby, they were with us every step. Forever grateful for making our dream come true.",
     name: "Nirmal & Rita",
     location: "Pokhara",
-    image: "https://placehold.co/80x80/FFE4EC/C2185B?text=NR",
+    image: testimonial4,
   },
 ]
 
@@ -135,9 +140,10 @@ export function Testimonials() {
                 {/* Video thumbnail */}
                 <div className="mt-8 rounded-xl overflow-hidden relative group cursor-pointer max-w-xs">
                   <img
-                    src={`https://placehold.co/300x200/2D1B35/FFFFFF?text=Video+Testimonial`}
+                    src={testimonialVideo}
                     alt="Watch video testimonial"
                     className="w-full h-auto"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                     <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center transition-transform group-hover:scale-110">

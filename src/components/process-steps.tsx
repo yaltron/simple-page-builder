@@ -3,34 +3,38 @@ import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
 import { FloatingDecoField } from "@/components/floating-deco"
+import stepAppointment from "@/assets/step-appointment.jpg"
+import stepAssessment from "@/assets/step-assessment.jpg"
+import stepTreatment from "@/assets/step-treatment.jpg"
+import stepSupport from "@/assets/step-support.jpg"
 
 const steps = [
   {
     number: "01",
     title: "Book Your Appointment",
     description: "Schedule a consultation with our fertility specialists. We offer both in-person and virtual consultations for your convenience.",
-    image: "https://placehold.co/400x300/FFE4EC/C2185B?text=Appointment",
+    image: stepAppointment,
     imagePosition: "right",
   },
   {
     number: "02",
     title: "Get Checked & Know Your Options",
     description: "Undergo comprehensive fertility assessments. Our team will explain all available treatment options tailored to your unique situation.",
-    image: "https://placehold.co/400x300/E0F2F1/00897B?text=Assessment",
+    image: stepAssessment,
     imagePosition: "left",
   },
   {
     number: "03",
     title: "Start Your Treatment",
     description: "Begin your personalized fertility treatment with our experienced team. We use the latest techniques and technologies for optimal results.",
-    image: "https://placehold.co/400x300/FFF8E1/F9A825?text=Treatment",
+    image: stepTreatment,
     imagePosition: "right",
   },
   {
     number: "04",
     title: "Stay Supported Every Step",
     description: "Receive continuous support throughout your journey. Our counselors and medical team are with you from consultation to conception and beyond.",
-    image: "https://placehold.co/400x300/FFE4EC/C2185B?text=Support",
+    image: stepSupport,
     imagePosition: "left",
   },
 ]
@@ -95,6 +99,7 @@ function ProcessStep({
               src={step.image}
               alt={step.title}
               className="w-full h-auto object-cover"
+              loading="lazy"
             />
           </div>
         </motion.div>
