@@ -22,7 +22,7 @@ export function MiraclesGallery() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="py-20 lg:py-32 bg-plum-dark overflow-hidden">
+    <section ref={ref} className="py-20 lg:py-32 bg-gradient-to-br from-cream via-rose-light/20 to-teal-light/20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-5 gap-12 items-center">
           {/* Left side - Content */}
@@ -35,10 +35,10 @@ export function MiraclesGallery() {
             <div className="font-serif text-6xl lg:text-7xl font-bold text-rose">
               5,000+
             </div>
-            <h2 className="font-serif text-3xl lg:text-4xl font-bold text-white">
+            <h2 className="font-serif text-3xl lg:text-4xl font-bold text-plum">
               Miracles & Counting
             </h2>
-            <p className="text-white/70 leading-relaxed">
+            <p className="text-plum/70 leading-relaxed">
               Every baby born at Subhashree IVF is a miracle we celebrate. 
               These are the faces of hope, the smiles of joy, and the 
               beginning of beautiful family stories.
