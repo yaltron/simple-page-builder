@@ -12,7 +12,7 @@ import doctor6 from "@/assets/doctor-6.jpg"
 
 const doctors = [
   {
-    name: "Dr. Subhashree Devi",
+    name: "Dr. Shubhashree Devi",
     specialty: "Chief Fertility Specialist",
     image: doctor1,
   },

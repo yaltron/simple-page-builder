@@ -142,19 +142,19 @@ export function Footer() {
               </li>
               <li className="text-plum/70">
                 <span className="block text-plum font-medium mb-1">Phone</span>
-                <a href="tel:+977-9800-000000" className="hover:text-rose transition-colors">
-                  +977-9800-000000
+                <a href="tel:+9779861141699" className="hover:text-rose transition-colors">
+                  +977 9861141699
                 </a>
               </li>
               <li className="text-plum/70">
                 <span className="block text-plum font-medium mb-1">Email</span>
-                <a href="mailto:info@subhashreeivf.com" className="hover:text-rose transition-colors">
-                  info@subhashreeivf.com
+                <a href="mailto:Shubhashreeivf@gmail.com" className="hover:text-rose transition-colors">
+                  Shubhashreeivf@gmail.com
                 </a>
               </li>
               <li className="text-plum/70">
                 <span className="block text-plum font-medium mb-1">Hours</span>
-                Sun - Fri: 9:00 AM - 6:00 PM
+                Sun - Fri: 8:00 AM - 6:00 PM
               </li>
             </ul>
           </div>
@@ -166,7 +166,7 @@ export function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-plum/60">
             <p>
-              &copy; {new Date().getFullYear()} Subhashree IVF & Fertility Centre. All rights reserved.
+              &copy; {new Date().getFullYear()} Shubhashree IVF & Fertility Centre. All rights reserved.
             </p>
             <p>
               Made with <span className="text-rose">&#10084;</span> in Nepal

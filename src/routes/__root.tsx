@@ -18,7 +18,7 @@ export const Route = createRootRoute({
       { name: "theme-color", content: "#C2185B" },
       {
         title:
-          "Subhashree IVF & Fertility Centre | Where Dreams of Parenthood Begin",
+          "Shubhashree IVF & Fertility Centre | Where Dreams of Parenthood Begin",
       },
       {
         name: "description",
@@ -32,7 +32,7 @@ export const Route = createRootRoute({
       },
       {
         property: "og:title",
-        content: "Subhashree IVF & Fertility Centre",
+        content: "Shubhashree IVF & Fertility Centre",
       },
       {
         property: "og:description",

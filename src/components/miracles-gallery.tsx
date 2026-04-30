@@ -45,7 +45,7 @@ export function MiraclesGallery() {
               Miracles & Counting
             </h2>
             <p className="text-plum/70 leading-relaxed">
-              Every baby born at Subhashree IVF is a miracle we celebrate. 
+              Every baby born at Shubhashree IVF is a miracle we celebrate. 
               These are the faces of hope, the smiles of joy, and the 
               beginning of beautiful family stories.
             </p>

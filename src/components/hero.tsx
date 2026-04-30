@@ -259,7 +259,7 @@ export function Hero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-teal" />
               </span>
-              <span className="text-sm font-medium text-plum">{"Nepal's #1 IVF Centre"}</span>
+              <span className="text-sm font-medium text-plum">Established 2079.03.01 B.S. · Shubhashree IVF Clinic</span>
             </motion.div>
 
             {/* Heading */}
@@ -269,8 +269,8 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-plum leading-tight text-balance"
             >
-              Turning the Hope of Parenthood Into{" "}
-              <span className="text-rose">Life</span>
+              Bringing Happiness Into{" "}
+              <span className="text-rose">Your Life</span>
             </motion.h1>
 
             {/* Subtext */}
@@ -281,7 +281,7 @@ export function Hero() {
               className="text-lg text-muted-foreground max-w-xl leading-relaxed"
             >
               With over 12 years of excellence and 5,000+ successful treatments, 
-              Subhashree IVF & Fertility Centre has been transforming dreams of 
+              Shubhashree IVF & Fertility Centre has been transforming dreams of 
               parenthood into beautiful realities for families across Nepal and beyond.
             </motion.p>
 
@@ -351,7 +351,7 @@ export function Hero() {
               <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
                 <img
                   src={heroFamily}
-                  alt="Happy family at Subhashree IVF"
+                  alt="Happy family at Shubhashree IVF"
                   className="w-full h-auto object-cover"
                   width={800}
                   height={1024}

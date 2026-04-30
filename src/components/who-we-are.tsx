@@ -66,7 +66,7 @@ export function WhoWeAre() {
             {/* Quote */}
             <blockquote className="font-serif text-2xl lg:text-3xl text-plum italic leading-relaxed">
               &ldquo;Every couple is unique, and so is their journey to parenthood. 
-              At Subhashree IVF, we transform hope into life.&rdquo;
+              At Shubhashree IVF, we transform hope into life.&rdquo;
             </blockquote>
 
             {/* Asymmetric image grid */}
@@ -119,7 +119,7 @@ export function WhoWeAre() {
             </div>
 
             <p className="text-muted-foreground leading-relaxed">
-              Subhashree IVF & Fertility Centre is {"Nepal's"} premier fertility clinic, 
+              Shubhashree IVF & Fertility Centre is {"Nepal's"} premier fertility clinic, 
               dedicated to helping couples achieve their dream of parenthood. With 
               state-of-the-art facilities, world-class specialists, and a compassionate 
               approach to care, we have helped over 5,000 families welcome their bundles 
