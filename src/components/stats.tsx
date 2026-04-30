@@ -3,6 +3,7 @@ import { useRef, useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { Trophy, Baby, Users } from "lucide-react"
+import { GradientMesh } from "@/components/gradient-mesh"
 
 const stats = [
   {
