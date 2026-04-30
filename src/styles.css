@@ -1,0 +1,134 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Brand Colors */
+  --rose: #c2185b;
+  --rose-dark: #880e4f;
+  --rose-light: #f8bbd9;
+  --teal: #00897b;
+  --teal-light: #b2dfdb;
+  --gold: #f9a825;
+  --gold-light: #fff8e1;
+  --cream: #fffaf7;
+  --plum: #2d1b35;
+  --plum-dark: #1a0d20;
+
+  /* Font variables (loaded via <link> in __root.tsx) */
+  --font-playfair: "Playfair Display", Georgia, serif;
+  --font-nunito: "Nunito", system-ui, sans-serif;
+
+  /* Semantic tokens */
+  --background: #fffaf7;
+  --foreground: #2d1b35;
+  --card: #ffffff;
+  --card-foreground: #2d1b35;
+  --popover: #ffffff;
+  --popover-foreground: #2d1b35;
+  --primary: #c2185b;
+  --primary-foreground: #ffffff;
+  --secondary: #00897b;
+  --secondary-foreground: #ffffff;
+  --muted: #f5f0ed;
+  --muted-foreground: #6b5a6e;
+  --accent: #f9a825;
+  --accent-foreground: #2d1b35;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: #e8dfd9;
+  --input: #e8dfd9;
+  --ring: #c2185b;
+  --radius: 0.625rem;
+}
+
+@theme inline {
+  --font-sans: var(--font-nunito);
+  --font-serif: var(--font-playfair);
+  --font-mono: "Geist Mono", monospace;
+
+  /* Brand color utilities */
+  --color-rose: var(--rose);
+  --color-rose-dark: var(--rose-dark);
+  --color-rose-light: var(--rose-light);
+  --color-teal: var(--teal);
+  --color-teal-light: var(--teal-light);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-cream: var(--cream);
+  --color-plum: var(--plum);
+  --color-plum-dark: var(--plum-dark);
+
+  /* Semantic colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-nunito);
+  }
+}
+
+/* Marquee animation for partner logos */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--rose-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--rose);
+}
+
+/* Hide scrollbar utility for doctors carousel */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
