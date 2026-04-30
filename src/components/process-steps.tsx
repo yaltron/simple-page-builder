@@ -54,20 +54,28 @@ function ProcessStep({
         <div className="absolute left-1/2 top-full h-20 w-px border-l-2 border-dashed border-rose/30 hidden lg:block" />
       )}
 
-      <div className={`grid lg:grid-cols-2 gap-8 lg:gap-16 items-center ${
-        isImageRight ? "" : "lg:flex-row-reverse"
-      }`}>
+      <div className={`grid lg:grid-cols-2 gap-8 lg:gap-16 items-center`}>
         {/* Content */}
         <motion.div
           initial={{ opacity: 0, x: isImageRight ? -50 : 50 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className={`space-y-4 ${isImageRight ? "lg:order-1" : "lg:order-2"}`}
+          className={`space-y-5 ${isImageRight ? "lg:order-1" : "lg:order-2"}`}
         >
-          <span className="font-serif text-7xl lg:text-8xl font-bold text-rose/20">
-            {step.number}
-          </span>
-          <h3 className="font-serif text-2xl lg:text-3xl font-bold text-plum -mt-12 relative">
+          {/* Number badge + title row */}
+          <div className="flex items-center gap-5">
+            <div className="relative flex-shrink-0">
+              <div className="absolute inset-0 rounded-full bg-rose/10 blur-md" aria-hidden="true" />
+              <div className="relative w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-gradient-to-br from-rose to-rose-dark text-white flex items-center justify-center shadow-lg shadow-rose/20">
+                <span className="font-serif text-2xl lg:text-3xl font-bold">
+                  {step.number}
+                </span>
+              </div>
+            </div>
+            <div className="h-px flex-1 bg-gradient-to-r from-rose/40 to-transparent" />
+          </div>
+
+          <h3 className="font-serif text-2xl lg:text-3xl font-bold text-plum">
             {step.title}
           </h3>
           <p className="text-muted-foreground leading-relaxed max-w-md">
