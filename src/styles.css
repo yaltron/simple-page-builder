@@ -132,3 +132,14 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Hide native cursor on fine-pointer devices (custom cursor takes over) */
+@media (pointer: fine) {
+  html,
+  body,
+  a,
+  button,
+  [role="button"] {
+    cursor: none;
+  }
+}

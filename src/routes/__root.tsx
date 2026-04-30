@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { FloatingButtons } from "@/components/floating-buttons";
+import { CustomCursor } from "@/components/custom-cursor";
 import appCss from "@/styles.css?url";
 
 export const Route = createRootRoute({
@@ -80,6 +81,7 @@ function RootDocument({ children }: { children: ReactNode }) {
       <body className="font-sans antialiased">
         {children}
         <FloatingButtons />
+        <CustomCursor />
         <Scripts />
       </body>
     </html>
