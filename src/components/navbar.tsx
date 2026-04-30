@@ -116,11 +116,13 @@ export function Navbar() {
                 <Phone className="w-4 h-4" />
                 <span className="text-sm font-medium">+977-9800-000000</span>
               </a>
-              <Button 
-                className="bg-gradient-to-r from-rose to-rose-dark hover:from-rose-dark hover:to-rose text-white rounded-full px-6"
-              >
-                Book Appointment
-              </Button>
+              <Magnetic>
+                <Button
+                  className="bg-gradient-to-r from-rose to-rose-dark hover:from-rose-dark hover:to-rose text-white rounded-full px-6"
+                >
+                  Book Appointment
+                </Button>
+              </Magnetic>
             </div>
 
             {/* Mobile menu button */}
