@@ -143,3 +143,21 @@
     cursor: none;
   }
 }
+
+/* Doctors marquee — continuous auto-scroll, loops seamlessly because
+   the track contains the list duplicated twice; -50% returns to the start. */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
