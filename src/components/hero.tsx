@@ -1,4 +1,3 @@
-"use client"
 
 import { motion } from "framer-motion"
 import { Play, ChevronDown, Baby, TrendingUp, Award } from "lucide-react"
