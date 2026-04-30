@@ -289,20 +289,24 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="flex flex-wrap gap-4"
             >
-              <Button 
-                size="lg"
-                className="bg-gradient-to-r from-rose to-rose-dark hover:from-rose-dark hover:to-rose text-white rounded-full px-8 text-base"
-              >
-                Book Free Consultation
-              </Button>
-              <Button 
-                size="lg"
-                variant="outline"
-                className="rounded-full px-8 text-base border-plum/20 text-plum hover:bg-plum/5"
-              >
-                <Play className="w-4 h-4 mr-2 fill-current" />
-                Watch Our Story
-              </Button>
+              <Magnetic>
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-rose to-rose-dark hover:from-rose-dark hover:to-rose text-white rounded-full px-8 text-base"
+                >
+                  Book Free Consultation
+                </Button>
+              </Magnetic>
+              <Magnetic>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="rounded-full px-8 text-base border-plum/20 text-plum hover:bg-plum/5"
+                >
+                  <Play className="w-4 h-4 mr-2 fill-current" />
+                  Watch Our Story
+                </Button>
+              </Magnetic>
             </motion.div>
 
             {/* Stats */}
