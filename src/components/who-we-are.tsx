@@ -3,6 +3,7 @@ import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
 import { Check, ArrowRight } from "lucide-react"
+import { MorphingBlob } from "@/components/morphing-blob"
 
 const highlights = [
   "ISO Certified Embryology Lab",
@@ -15,8 +16,42 @@ export function WhoWeAre() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section id="about" ref={ref} className="py-20 lg:py-32 bg-cream overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="about" ref={ref} className="py-20 lg:py-32 bg-cream overflow-hidden relative">
+      {/* Morphing teal blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <MorphingBlob
+          color="var(--teal)"
+          size={600}
+          opacity={0.08}
+          duration={28}
+          driftX={-50}
+          driftY={40}
+          style={{ top: "-150px", right: "-200px" }}
+        />
+        <MorphingBlob
+          color="var(--teal-light)"
+          size={500}
+          opacity={0.12}
+          duration={34}
+          delay={-10}
+          driftX={60}
+          driftY={-50}
+          style={{ bottom: "-180px", left: "-160px" }}
+        />
+        <MorphingBlob
+          color="var(--teal)"
+          size={420}
+          opacity={0.06}
+          duration={40}
+          delay={-18}
+          driftX={-40}
+          driftY={60}
+          style={{ top: "40%", left: "30%" }}
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Left side - Quote and Images */}
           <motion.div
