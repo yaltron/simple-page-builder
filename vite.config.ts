@@ -17,11 +17,5 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  plugins: [
-    tailwindcss(),
-    tanstackStart({
-      target: "cloudflare-module",
-      customViteReactPlugin: false,
-    }),
-  ],
+  plugins: [tailwindcss(), tanstackStart()],
 });
