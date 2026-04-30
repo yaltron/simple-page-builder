@@ -1,10 +1,9 @@
-"use client"
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Phone, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import Link from "next/link"
+import { Link } from "@tanstack/react-router"
 
 const navLinks = [
   { name: "About Us", href: "#about" },
@@ -75,7 +74,7 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2">
+            <Link to="/" className="flex items-center gap-2">
               <LotusIcon className="w-10 h-10 text-rose" />
               <div className="flex flex-col">
                 <span className="font-serif font-bold text-xl text-plum leading-tight">
@@ -90,7 +89,7 @@ export function Navbar() {
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-6">
               {navLinks.map((link) => (
-                <Link
+                <a
                   key={link.name}
                   href={link.href}
                   className="relative text-sm font-medium text-plum hover:text-rose transition-colors group"
@@ -103,7 +102,7 @@ export function Navbar() {
                         : "w-0 group-hover:w-full"
                     }`}
                   />
-                </Link>
+                </a>
               ))}
             </div>
 
@@ -153,13 +152,13 @@ export function Navbar() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    <Link
+                    <a
                       href={link.href}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="block py-2 text-lg font-medium text-plum hover:text-rose transition-colors"
                     >
                       {link.name}
-                    </Link>
+                    </a>
                   </motion.div>
                 ))}
               </div>

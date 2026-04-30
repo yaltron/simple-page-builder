@@ -1,49 +1,53 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
   /* Brand Colors */
-  --rose: #C2185B;
-  --rose-dark: #880E4F;
-  --rose-light: #F8BBD9;
-  --teal: #00897B;
-  --teal-light: #B2DFDB;
-  --gold: #F9A825;
-  --gold-light: #FFF8E1;
-  --cream: #FFFAF7;
-  --plum: #2D1B35;
-  --plum-dark: #1A0D20;
-  
+  --rose: #c2185b;
+  --rose-dark: #880e4f;
+  --rose-light: #f8bbd9;
+  --teal: #00897b;
+  --teal-light: #b2dfdb;
+  --gold: #f9a825;
+  --gold-light: #fff8e1;
+  --cream: #fffaf7;
+  --plum: #2d1b35;
+  --plum-dark: #1a0d20;
+
+  /* Font variables (loaded via <link> in __root.tsx) */
+  --font-playfair: "Playfair Display", Georgia, serif;
+  --font-nunito: "Nunito", system-ui, sans-serif;
+
   /* Semantic tokens */
-  --background: #FFFAF7;
-  --foreground: #2D1B35;
-  --card: #FFFFFF;
-  --card-foreground: #2D1B35;
-  --popover: #FFFFFF;
-  --popover-foreground: #2D1B35;
-  --primary: #C2185B;
-  --primary-foreground: #FFFFFF;
-  --secondary: #00897B;
-  --secondary-foreground: #FFFFFF;
-  --muted: #F5F0ED;
-  --muted-foreground: #6B5A6E;
-  --accent: #F9A825;
-  --accent-foreground: #2D1B35;
-  --destructive: #DC2626;
-  --destructive-foreground: #FFFFFF;
-  --border: #E8DFD9;
-  --input: #E8DFD9;
-  --ring: #C2185B;
+  --background: #fffaf7;
+  --foreground: #2d1b35;
+  --card: #ffffff;
+  --card-foreground: #2d1b35;
+  --popover: #ffffff;
+  --popover-foreground: #2d1b35;
+  --primary: #c2185b;
+  --primary-foreground: #ffffff;
+  --secondary: #00897b;
+  --secondary-foreground: #ffffff;
+  --muted: #f5f0ed;
+  --muted-foreground: #6b5a6e;
+  --accent: #f9a825;
+  --accent-foreground: #2d1b35;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: #e8dfd9;
+  --input: #e8dfd9;
+  --ring: #c2185b;
   --radius: 0.625rem;
 }
 
 @theme inline {
-  --font-sans: var(--font-nunito), system-ui, sans-serif;
-  --font-serif: var(--font-playfair), Georgia, serif;
-  --font-mono: 'Geist Mono', monospace;
-  
+  --font-sans: var(--font-nunito);
+  --font-serif: var(--font-playfair);
+  --font-mono: "Geist Mono", monospace;
+
   /* Brand color utilities */
   --color-rose: var(--rose);
   --color-rose-dark: var(--rose-dark);
@@ -55,7 +59,7 @@
   --color-cream: var(--cream);
   --color-plum: var(--plum);
   --color-plum-dark: var(--plum-dark);
-  
+
   /* Semantic colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -88,6 +92,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-nunito);
   }
 }
 
@@ -121,4 +126,9 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--rose);
+}
+
+/* Hide scrollbar utility for doctors carousel */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
