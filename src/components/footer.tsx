@@ -63,16 +63,15 @@ export function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Column 1 - Logo & About */}
           <div className="space-y-6">
-            <Link to="/" className="flex items-center gap-2">
-              <LotusIcon className="w-10 h-10 text-rose" />
-              <div className="flex flex-col">
-                <span className="font-serif font-bold text-xl text-white leading-tight">
-                  Subhashree IVF
-                </span>
-                <span className="text-xs text-white/60">
-                  Fertility Centre
-                </span>
-              </div>
+            <Link
+              to="/"
+              className="inline-flex items-center bg-white rounded-2xl p-3 shadow-sm w-fit"
+            >
+              <img
+                src={logo}
+                alt="Shubhashree IVF Clinic Pvt. Ltd."
+                className="h-12 w-auto"
+              />
             </Link>
             <p className="text-white/70 text-sm leading-relaxed">
               {"Nepal's"} leading fertility centre, transforming dreams of parenthood 
