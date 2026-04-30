@@ -1,12 +1,12 @@
-import { createRouter as createTanStackRouter } from "@tanstack/react-router";
+import { createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 
-export function createRouter() {
-  const router = createTanStackRouter({
+export function getRouter() {
+  const router = createRouter({
     routeTree,
     scrollRestoration: true,
     defaultPreload: "intent",
-    defaultErrorComponent: ({ error }) => (
+    defaultErrorComponent: ({ error }: { error: Error }) => (
       <div className="min-h-screen flex items-center justify-center bg-cream p-6">
         <div className="max-w-md text-center space-y-3">
           <h1 className="font-serif text-2xl font-bold text-plum">
@@ -22,6 +22,7 @@ export function createRouter() {
 
 declare module "@tanstack/react-router" {
   interface Register {
-    router: ReturnType<typeof createRouter>;
+    router: ReturnType<typeof getRouter>;
   }
 }
+
