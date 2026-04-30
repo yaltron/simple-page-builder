@@ -259,7 +259,7 @@ export function Hero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-teal" />
               </span>
-              <span className="text-sm font-medium text-plum">{"Nepal's #1 IVF Centre"}</span>
+              <span className="text-sm font-medium text-plum">Established 2079.03.01 B.S. · Shubhashree IVF Clinic</span>
             </motion.div>
 
             {/* Heading */}
@@ -269,8 +269,8 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-plum leading-tight text-balance"
             >
-              Turning the Hope of Parenthood Into{" "}
-              <span className="text-rose">Life</span>
+              Bringing Happiness Into{" "}
+              <span text-rose className="text-rose">Your Life</span>
             </motion.h1>
 
             {/* Subtext */}
