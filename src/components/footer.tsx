@@ -1,5 +1,5 @@
 
-import Link from "next/link"
+import { Link } from "@tanstack/react-router"
 import { Facebook, Instagram, Youtube } from "lucide-react"
 
 const quickLinks = [
