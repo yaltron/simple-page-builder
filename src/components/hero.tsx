@@ -32,35 +32,109 @@ export function Hero() {
         />
 
         {/* Floating particles */}
-        {[...Array(15)].map((_, i) => {
-          const size = 6 + (i % 3) * 4
-          const colors = ["bg-rose/30", "bg-teal/30", "bg-gold/30"]
-          const left = (i * 37) % 100
-          const top = (i * 53) % 100
-          const duration = 8 + (i % 5) * 2
-          const delay = (i % 4) * 0.5
+        {[...Array(36)].map((_, i) => {
+          // Deterministic pseudo-random for SSR stability
+          const rand = (seed: number) => {
+            const x = Math.sin(seed * 9301 + 49297) * 233280
+            return x - Math.floor(x)
+          }
+
+          const shapeType = i % 4 // 0: dot, 1: circle, 2: ring, 3: triangle
+          const colorKey = i % 3 // rose / teal / gold
+          // Depth: 0 (far) -> 1 (near)
+          const depth = rand(i + 1)
+          const size = 4 + depth * 22 // 4px (far) -> 26px (near)
+          const opacity = 0.08 + depth * 0.07 // 0.08 -> 0.15
+          const left = rand(i + 11) * 100
+          const top = rand(i + 23) * 100
+          const duration = 14 + rand(i + 31) * 22 // 14s - 36s
+          const delay = rand(i + 41) * -duration // negative for staggered start
+          const driftX = (rand(i + 53) - 0.5) * 220
+          const driftY = (rand(i + 67) - 0.5) * 220
+          const rotateDir = i % 2 === 0 ? 1 : -1
+          const rotateAmount = (60 + rand(i + 79) * 240) * rotateDir
+
+          const colorVar =
+            colorKey === 0 ? "var(--rose)" : colorKey === 1 ? "var(--teal)" : "var(--gold)"
+
+          // Build shape element based on type
+          let shape: React.ReactNode
+          const baseStyle: React.CSSProperties = {
+            width: size,
+            height: size,
+            opacity,
+          }
+
+          if (shapeType === 0) {
+            // Solid dot
+            shape = (
+              <div
+                style={{ ...baseStyle, background: colorVar, borderRadius: "50%" }}
+              />
+            )
+          } else if (shapeType === 1) {
+            // Soft blurred circle
+            shape = (
+              <div
+                style={{
+                  ...baseStyle,
+                  background: colorVar,
+                  borderRadius: "50%",
+                  filter: `blur(${1 + depth * 2}px)`,
+                }}
+              />
+            )
+          } else if (shapeType === 2) {
+            // Ring (outlined circle)
+            shape = (
+              <div
+                style={{
+                  ...baseStyle,
+                  border: `${Math.max(1, size * 0.12)}px solid ${colorVar}`,
+                  borderRadius: "50%",
+                  background: "transparent",
+                }}
+              />
+            )
+          } else {
+            // Triangle via SVG
+            shape = (
+              <svg
+                width={size}
+                height={size}
+                viewBox="0 0 10 10"
+                style={{ opacity, display: "block" }}
+                aria-hidden="true"
+              >
+                <polygon points="5,1 9,9 1,9" fill={colorVar} />
+              </svg>
+            )
+          }
+
           return (
             <motion.div
               key={i}
-              className={`absolute rounded-full ${colors[i % 3]} blur-sm`}
+              className="absolute"
               style={{
-                width: size,
-                height: size,
                 left: `${left}%`,
                 top: `${top}%`,
+                willChange: "transform",
               }}
               animate={{
-                y: [0, -40, 0],
-                x: [0, 20, 0],
-                opacity: [0, 1, 0],
+                x: [0, driftX, 0],
+                y: [0, driftY, 0],
+                rotate: [0, rotateAmount, 0],
               }}
               transition={{
                 duration,
                 delay,
                 repeat: Infinity,
+                repeatType: "reverse",
                 ease: "easeInOut",
               }}
-            />
+            >
+              {shape}
+            </motion.div>
           )
         })}
       </div>
