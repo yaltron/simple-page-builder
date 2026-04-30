@@ -33,17 +33,17 @@ export function WhenToVisit() {
       <div className="max-w-7xl mx-auto relative">
         <div className="grid lg:grid-cols-2 min-h-[600px]">
           {/* Left side - Rose gradient */}
-          <div className="bg-gradient-to-br from-rose to-rose-dark p-8 lg:p-16 flex flex-col justify-center">
+          <div className="bg-gradient-to-br from-rose-light/50 via-cream to-gold-light/40 p-8 lg:p-16 flex flex-col justify-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5 }}
               className="space-y-6"
             >
-              <span className="text-sm font-medium uppercase tracking-wider text-rose-light">
+              <span className="text-sm font-medium uppercase tracking-wider text-rose">
                 When to Visit
               </span>
-              <h2 className="font-serif text-3xl lg:text-4xl font-bold text-white">
+              <h2 className="font-serif text-3xl lg:text-4xl font-bold text-plum">
                 Signs You Should See a Fertility Specialist
               </h2>
 
@@ -57,10 +57,10 @@ export function WhenToVisit() {
                     transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
                     className="flex items-center gap-3"
                   >
-                    <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-                      <Check className="w-4 h-4 text-white" />
+                    <div className="w-6 h-6 rounded-full bg-rose/15 flex items-center justify-center flex-shrink-0">
+                      <Check className="w-4 h-4 text-rose" />
                     </div>
-                    <span className="text-white/90">{reason}</span>
+                    <span className="text-plum/80">{reason}</span>
                   </motion.div>
                 ))}
               </div>
@@ -71,9 +71,9 @@ export function WhenToVisit() {
                 transition={{ duration: 0.5, delay: 0.8 }}
                 className="pt-6"
               >
-                <Button 
+                <Button
                   size="lg"
-                  className="bg-white text-rose hover:bg-white/90 rounded-full px-8"
+                  className="bg-gradient-to-r from-rose to-rose-dark text-white hover:from-rose-dark hover:to-rose rounded-full px-8"
                 >
                   Book an Appointment
                 </Button>

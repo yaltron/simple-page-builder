@@ -58,14 +58,14 @@ function TikTokIcon({ className }: { className?: string }) {
 
 export function Footer() {
   return (
-    <footer className="bg-plum-dark text-white">
+    <footer className="bg-gradient-to-b from-cream to-rose-light/20 text-plum border-t border-rose-light/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Column 1 - Logo & About */}
           <div className="space-y-6">
             <Link
               to="/"
-              className="inline-flex items-center bg-white rounded-2xl p-3 shadow-sm w-fit"
+              className="inline-flex items-center w-fit"
             >
               <img
                 src={logo}
@@ -73,8 +73,8 @@ export function Footer() {
                 className="h-12 w-auto"
               />
             </Link>
-            <p className="text-white/70 text-sm leading-relaxed">
-              {"Nepal's"} leading fertility centre, transforming dreams of parenthood 
+            <p className="text-plum/70 text-sm leading-relaxed">
+              {"Nepal's"} leading fertility centre, transforming dreams of parenthood
               into reality for over 12 years.
             </p>
             <div className="flex gap-3">
@@ -83,7 +83,7 @@ export function Footer() {
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-rose transition-colors"
+                  className="w-10 h-10 rounded-full bg-rose/10 flex items-center justify-center text-rose hover:bg-rose hover:text-white transition-colors"
                 >
                   <social.icon className="w-5 h-5" />
                 </a>
@@ -91,7 +91,7 @@ export function Footer() {
               <a
                 href="#"
                 aria-label="TikTok"
-                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-rose transition-colors"
+                className="w-10 h-10 rounded-full bg-rose/10 flex items-center justify-center text-rose hover:bg-rose hover:text-white transition-colors"
               >
                 <TikTokIcon className="w-5 h-5" />
               </a>
@@ -100,13 +100,13 @@ export function Footer() {
 
           {/* Column 2 - Quick Links */}
           <div>
-            <h4 className="font-serif font-semibold text-lg mb-6">Quick Links</h4>
+            <h4 className="font-serif font-semibold text-lg mb-6 text-plum">Quick Links</h4>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-white/70 hover:text-rose transition-colors text-sm"
+                    className="text-plum/70 hover:text-rose transition-colors text-sm"
                   >
                     {link.name}
                   </a>
@@ -117,13 +117,13 @@ export function Footer() {
 
           {/* Column 3 - Services */}
           <div>
-            <h4 className="font-serif font-semibold text-lg mb-6">Our Services</h4>
+            <h4 className="font-serif font-semibold text-lg mb-6 text-plum">Our Services</h4>
             <ul className="space-y-3">
               {services.map((service) => (
                 <li key={service}>
                   <a
                     href="#services"
-                    className="text-white/70 hover:text-rose transition-colors text-sm"
+                    className="text-plum/70 hover:text-rose transition-colors text-sm"
                   >
                     {service}
                   </a>
@@ -134,26 +134,26 @@ export function Footer() {
 
           {/* Column 4 - Contact */}
           <div>
-            <h4 className="font-serif font-semibold text-lg mb-6">Contact Us</h4>
+            <h4 className="font-serif font-semibold text-lg mb-6 text-plum">Contact Us</h4>
             <ul className="space-y-4 text-sm">
-              <li className="text-white/70">
-                <span className="block text-white font-medium mb-1">Address</span>
+              <li className="text-plum/70">
+                <span className="block text-plum font-medium mb-1">Address</span>
                 Kathmandu, Nepal
               </li>
-              <li className="text-white/70">
-                <span className="block text-white font-medium mb-1">Phone</span>
+              <li className="text-plum/70">
+                <span className="block text-plum font-medium mb-1">Phone</span>
                 <a href="tel:+977-9800-000000" className="hover:text-rose transition-colors">
                   +977-9800-000000
                 </a>
               </li>
-              <li className="text-white/70">
-                <span className="block text-white font-medium mb-1">Email</span>
+              <li className="text-plum/70">
+                <span className="block text-plum font-medium mb-1">Email</span>
                 <a href="mailto:info@subhashreeivf.com" className="hover:text-rose transition-colors">
                   info@subhashreeivf.com
                 </a>
               </li>
-              <li className="text-white/70">
-                <span className="block text-white font-medium mb-1">Hours</span>
+              <li className="text-plum/70">
+                <span className="block text-plum font-medium mb-1">Hours</span>
                 Sun - Fri: 9:00 AM - 6:00 PM
               </li>
             </ul>
@@ -162,9 +162,9 @@ export function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-white/10">
+      <div className="border-t border-rose-light/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/60">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-plum/60">
             <p>
               &copy; {new Date().getFullYear()} Subhashree IVF & Fertility Centre. All rights reserved.
             </p>

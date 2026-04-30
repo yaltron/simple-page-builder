@@ -56,7 +56,7 @@ export function Services() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section id="services" ref={ref} className="py-20 lg:py-32 bg-plum">
+    <section id="services" ref={ref} className="py-20 lg:py-32 bg-gradient-to-b from-cream via-rose-light/15 to-cream">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -65,10 +65,10 @@ export function Services() {
           transition={{ duration: 0.5 }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <span className="text-sm font-medium uppercase tracking-wider text-rose-light">
+          <span className="text-sm font-medium uppercase tracking-wider text-rose">
             What We Offer
           </span>
-          <h2 className="font-serif text-3xl lg:text-4xl font-bold text-white mt-4">
+          <h2 className="font-serif text-3xl lg:text-4xl font-bold text-plum mt-4">
             Comprehensive Fertility Care, Tailored for You
           </h2>
         </motion.div>
