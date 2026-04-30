@@ -348,7 +348,11 @@ export function Hero() {
           >
             <div className="relative">
               {/* Main image */}
-              <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
+              <motion.div
+                animate={{ y: [0, -12, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                className="relative z-10 rounded-3xl overflow-hidden shadow-2xl"
+              >
                 <img
                   src={heroFamily}
                   alt="Happy family at Shubhashree IVF"
@@ -356,26 +360,34 @@ export function Hero() {
                   width={800}
                   height={1024}
                 />
-              </div>
+              </motion.div>
 
               {/* Overlapping images */}
-              <div className="absolute -top-8 -right-8 w-32 h-32 rounded-2xl overflow-hidden shadow-xl z-20 hidden lg:block">
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+                className="absolute -top-8 -right-8 w-32 h-32 rounded-2xl overflow-hidden shadow-xl z-20 hidden lg:block"
+              >
                 <img
                   src={heroDoctor}
                   alt="Expert doctor"
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />
-              </div>
+              </motion.div>
 
-              <div className="absolute -bottom-8 -left-8 w-40 h-28 rounded-2xl overflow-hidden shadow-xl z-20 hidden lg:block">
+              <motion.div
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute -bottom-8 -left-8 w-40 h-28 rounded-2xl overflow-hidden shadow-xl z-20 hidden lg:block"
+              >
                 <img
                   src={heroConsultation}
                   alt="Consultation session"
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />
-              </div>
+              </motion.div>
 
               {/* Floating card */}
               <motion.div
