@@ -259,7 +259,7 @@ export function Hero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-teal" />
               </span>
-              <span className="text-sm font-medium text-plum">Established 2079.03.01 B.S. · Shubhashree IVF Clinic</span>
+              <span className="text-sm font-medium text-plum">Shubhashree IVF Clinic</span>
             </motion.div>
 
             {/* Heading */}
