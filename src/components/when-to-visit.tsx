@@ -20,8 +20,17 @@ export function WhenToVisit() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="py-20 lg:py-32 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+    <section ref={ref} className="py-20 lg:py-32 overflow-hidden relative">
+      <FloatingDecoField
+        items={[
+          { shape: "hollow-circle", color: "teal", size: 36, top: "10%", left: "5%", floatDuration: 8, rotateDuration: 22, delay: 0 },
+          { shape: "plus", color: "rose", size: 18, top: "20%", right: "8%", floatDuration: 7, rotateDuration: 19, delay: -2 },
+          { shape: "dashed-ring", color: "gold", size: 42, top: "75%", left: "10%", floatDuration: 9, rotateDuration: 24, delay: -4 },
+          { shape: "square", color: "teal", size: 20, top: "55%", right: "5%", floatDuration: 6, rotateDuration: 18, delay: -1 },
+          { shape: "lines", color: "rose", size: 24, top: "82%", right: "20%", floatDuration: 7, rotateDuration: 20, delay: -3 },
+        ]}
+      />
+      <div className="max-w-7xl mx-auto relative">
         <div className="grid lg:grid-cols-2 min-h-[600px]">
           {/* Left side - Rose gradient */}
           <div className="bg-gradient-to-br from-rose to-rose-dark p-8 lg:p-16 flex flex-col justify-center">
