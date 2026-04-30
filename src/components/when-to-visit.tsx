@@ -5,6 +5,10 @@ import { useRef } from "react"
 import { Check, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { FloatingDecoField } from "@/components/floating-deco"
+import visitCare from "@/assets/visit-care.jpg"
+import visitConsult from "@/assets/hero-consultation.jpg"
+import visitHope from "@/assets/visit-hope.jpg"
+import visitVideo from "@/assets/visit-video.jpg"
 
 const reasons = [
   "Couples who cannot conceive naturally",
@@ -92,33 +96,37 @@ export function WhenToVisit() {
               <div className="space-y-4">
                 <div className="rounded-2xl overflow-hidden h-48 lg:h-64">
                   <img
-                    src="https://placehold.co/300x300/FFE4EC/C2185B?text=Care"
+                    src={visitCare}
                     alt="Compassionate care"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
                 <div className="rounded-2xl overflow-hidden h-32 lg:h-40">
                   <img
-                    src="https://placehold.co/300x200/E0F2F1/00897B?text=Consult"
+                    src={visitConsult}
                     alt="Consultation"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
               </div>
               <div className="space-y-4 pt-8">
                 <div className="rounded-2xl overflow-hidden h-32 lg:h-40">
                   <img
-                    src="https://placehold.co/300x200/FFF8E1/F9A825?text=Hope"
+                    src={visitHope}
                     alt="Hope for families"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
                 {/* Video thumbnail */}
                 <div className="rounded-2xl overflow-hidden h-48 lg:h-64 relative group cursor-pointer">
                   <img
-                    src="https://placehold.co/300x300/FFE4EC/C2185B?text=Video"
+                    src={visitVideo}
                     alt="Watch our video"
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                     <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
