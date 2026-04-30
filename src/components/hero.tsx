@@ -270,7 +270,7 @@ export function Hero() {
               className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-plum leading-tight text-balance"
             >
               Bringing Happiness Into{" "}
-              <span text-rose className="text-rose">Your Life</span>
+              <span className="text-rose">Your Life</span>
             </motion.h1>
 
             {/* Subtext */}
