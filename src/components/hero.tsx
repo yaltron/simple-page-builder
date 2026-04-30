@@ -22,7 +22,47 @@ export function Hero() {
           }}
         />
         {/* Decorative blob */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-rose-light/30 rounded-full blur-3xl" />
+        <motion.div
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.3, 0.4, 0.3],
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-rose-light/30 rounded-full blur-3xl"
+        />
+
+        {/* Floating particles */}
+        {[...Array(15)].map((_, i) => {
+          const size = 6 + (i % 3) * 4
+          const colors = ["bg-rose/30", "bg-teal/30", "bg-gold/30"]
+          const left = (i * 37) % 100
+          const top = (i * 53) % 100
+          const duration = 8 + (i % 5) * 2
+          const delay = (i % 4) * 0.5
+          return (
+            <motion.div
+              key={i}
+              className={`absolute rounded-full ${colors[i % 3]} blur-sm`}
+              style={{
+                width: size,
+                height: size,
+                left: `${left}%`,
+                top: `${top}%`,
+              }}
+              animate={{
+                y: [0, -40, 0],
+                x: [0, 20, 0],
+                opacity: [0, 1, 0],
+              }}
+              transition={{
+                duration,
+                delay,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          )
+        })}
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
