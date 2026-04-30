@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   server: {
     port: 8080,
     host: true,
@@ -17,5 +17,17 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  ssr:
+    command === "build"
+      ? {
+          noExternal: [
+            "react",
+            "react-dom",
+            "react/jsx-runtime",
+            "react/jsx-dev-runtime",
+            "react-dom/server",
+          ],
+        }
+      : undefined,
   plugins: [tailwindcss(), tanstackStart()],
-});
+}));
