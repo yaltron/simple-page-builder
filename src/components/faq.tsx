@@ -24,10 +24,10 @@ const faqs = [
   },
   {
     question: "How many IVF cycles are usually needed?",
-    answer: "The number of IVF cycles needed varies for each couple depending on factors like age, cause of infertility, and overall health. Many couples achieve success within 2-3 cycles. At Subhashree IVF, our 75% success rate reflects our commitment to personalized treatment plans that maximize your chances of conception.",
+    answer: "The number of IVF cycles needed varies for each couple depending on factors like age, cause of infertility, and overall health. Many couples achieve success within 2-3 cycles. At Shubhashree IVF, our 75% success rate reflects our commitment to personalized treatment plans that maximize your chances of conception.",
   },
   {
-    question: "What is the cost of IVF at Subhashree IVF?",
+    question: "What is the cost of IVF at Shubhashree IVF?",
     answer: "The cost of IVF varies depending on the specific treatment plan, medications required, and any additional procedures needed. We offer transparent pricing and flexible payment options. Please contact our team for a detailed consultation where we can provide a personalized cost estimate based on your specific needs.",
   },
 ]

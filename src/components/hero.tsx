@@ -281,7 +281,7 @@ export function Hero() {
               className="text-lg text-muted-foreground max-w-xl leading-relaxed"
             >
               With over 12 years of excellence and 5,000+ successful treatments, 
-              Subhashree IVF & Fertility Centre has been transforming dreams of 
+              Shubhashree IVF & Fertility Centre has been transforming dreams of 
               parenthood into beautiful realities for families across Nepal and beyond.
             </motion.p>
 
@@ -351,7 +351,7 @@ export function Hero() {
               <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
                 <img
                   src={heroFamily}
-                  alt="Happy family at Subhashree IVF"
+                  alt="Happy family at Shubhashree IVF"
                   className="w-full h-auto object-cover"
                   width={800}
                   height={1024}

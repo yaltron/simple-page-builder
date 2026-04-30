@@ -12,7 +12,7 @@ import testimonialVideo from "@/assets/testimonial-video.jpg"
 
 const testimonials = [
   {
-    quote: "After four failed attempts elsewhere, Subhashree IVF gave us hope again. Their expertise and compassion made all the difference. Today, we are proud parents of a beautiful baby girl.",
+    quote: "After four failed attempts elsewhere, Shubhashree IVF gave us hope again. Their expertise and compassion made all the difference. Today, we are proud parents of a beautiful baby girl.",
     name: "Sita M.",
     location: "Kathmandu",
     image: testimonial1,
@@ -24,7 +24,7 @@ const testimonials = [
     image: testimonial2,
   },
   {
-    quote: "At 42, I had almost given up on becoming a mother. Their donor programme gave me twins. The joy they've brought into my life is immeasurable. Thank you, Subhashree IVF!",
+    quote: "At 42, I had almost given up on becoming a mother. Their donor programme gave me twins. The joy they've brought into my life is immeasurable. Thank you, Shubhashree IVF!",
     name: "Maya K.",
     location: "Lalitpur",
     image: testimonial3,
