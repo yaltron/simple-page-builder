@@ -74,10 +74,10 @@ export function Stats() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="py-20 lg:py-24 bg-gradient-to-r from-rose-dark to-rose relative overflow-hidden">
-      {/* Animated gradient mesh — screen blend brightens through dark bg */}
+    <section ref={ref} className="py-20 lg:py-24 bg-gradient-to-br from-rose-light/30 via-cream to-gold-light/40 relative overflow-hidden">
+      {/* Animated gradient mesh — multiply blend tints the soft bg */}
       <GradientMesh
-        blendMode="screen"
+        blendMode="multiply"
         items={[
           {
             color: "rose-light",
@@ -103,7 +103,7 @@ export function Stats() {
             right: "-160px",
           },
           {
-            color: "white",
+            color: "rose",
             size: 640,
             minOpacity: 0.08,
             maxOpacity: 0.14,
@@ -141,21 +141,21 @@ export function Stats() {
             >
               {/* Divider */}
               {index < stats.length - 1 && (
-                <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 h-20 w-px bg-white/20" />
+                <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 h-20 w-px bg-plum/15" />
               )}
 
               <div className="flex flex-col items-center">
-                <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center mb-4">
-                  <stat.icon className="w-7 h-7 text-white" />
+                <div className="w-14 h-14 rounded-full bg-rose/10 flex items-center justify-center mb-4">
+                  <stat.icon className="w-7 h-7 text-rose" />
                 </div>
-                <div className="font-serif text-4xl lg:text-5xl font-bold text-white mb-2">
-                  <AnimatedNumber 
-                    value={stat.number} 
-                    suffix={stat.suffix} 
-                    isInView={isInView} 
+                <div className="font-serif text-4xl lg:text-5xl font-bold text-plum mb-2">
+                  <AnimatedNumber
+                    value={stat.number}
+                    suffix={stat.suffix}
+                    isInView={isInView}
                   />
                 </div>
-                <div className="text-white/80">
+                <div className="text-plum/70">
                   <span className="font-medium">{stat.label}</span>
                   <br />
                   <span className="text-sm">{stat.sublabel}</span>
