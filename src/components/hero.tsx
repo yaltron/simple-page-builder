@@ -3,6 +3,7 @@ import { motion } from "framer-motion"
 import { Play, ChevronDown, Baby, TrendingUp, Award } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { MorphingBlob } from "@/components/morphing-blob"
+import { FloatingDecoField } from "@/components/floating-deco"
 
 const stats = [
   { icon: Baby, number: "5,000+", label: "Babies Born" },
@@ -13,6 +14,19 @@ const stats = [
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-cream pt-20">
+      <FloatingDecoField
+        items={[
+          { shape: "hollow-circle", color: "rose", size: 32, top: "12%", left: "8%", floatDuration: 7, rotateDuration: 22, delay: 0 },
+          { shape: "plus", color: "gold", size: 18, top: "22%", left: "42%", floatDuration: 6, rotateDuration: 18, delay: -2 },
+          { shape: "dashed-ring", color: "teal", size: 44, top: "70%", left: "12%", floatDuration: 9, rotateDuration: 25, delay: -4 },
+          { shape: "square", color: "rose", size: 22, top: "35%", left: "28%", floatDuration: 8, rotateDuration: 20, delay: -1 },
+          { shape: "lines", color: "gold", size: 26, top: "82%", left: "55%", floatDuration: 7, rotateDuration: 16, delay: -3 },
+          { shape: "hollow-circle", color: "teal", size: 18, top: "55%", left: "48%", floatDuration: 6, rotateDuration: 19, delay: -5 },
+          { shape: "plus", color: "rose", size: 20, top: "8%", right: "12%", floatDuration: 8, rotateDuration: 21, delay: -2 },
+          { shape: "dashed-ring", color: "gold", size: 36, top: "65%", right: "8%", floatDuration: 10, rotateDuration: 24, delay: -6 },
+          { shape: "square", color: "teal", size: 16, top: "40%", right: "20%", floatDuration: 7, rotateDuration: 17, delay: -1 },
+        ]}
+      />
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Noise texture overlay */}

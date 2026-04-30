@@ -2,6 +2,7 @@
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
+import { FloatingDecoField } from "@/components/floating-deco"
 
 const steps = [
   {
@@ -99,8 +100,18 @@ export function ProcessSteps() {
   const isHeaderInView = useInView(headerRef, { once: true, margin: "-100px" })
 
   return (
-    <section className="py-20 lg:py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 lg:py-32 bg-white relative overflow-hidden">
+      <FloatingDecoField
+        items={[
+          { shape: "plus", color: "rose", size: 22, top: "8%", left: "6%", floatDuration: 7, rotateDuration: 20, delay: 0 },
+          { shape: "dashed-ring", color: "teal", size: 50, top: "30%", right: "5%", floatDuration: 9, rotateDuration: 24, delay: -3 },
+          { shape: "hollow-circle", color: "gold", size: 28, top: "60%", left: "4%", floatDuration: 8, rotateDuration: 22, delay: -2 },
+          { shape: "square", color: "rose", size: 18, top: "85%", right: "12%", floatDuration: 6, rotateDuration: 18, delay: -4 },
+          { shape: "lines", color: "teal", size: 24, top: "45%", left: "48%", floatDuration: 7, rotateDuration: 19, delay: -1 },
+          { shape: "plus", color: "gold", size: 16, top: "78%", left: "32%", floatDuration: 8, rotateDuration: 21, delay: -5 },
+        ]}
+      />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
         <motion.div
           ref={headerRef}
