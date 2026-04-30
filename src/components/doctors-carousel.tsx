@@ -55,12 +55,29 @@ export function DoctorsCarousel() {
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
-      const scrollAmount = 320
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      })
-      setTimeout(checkScroll, 300)
+      const el = scrollRef.current
+      const scrollAmount = 304 // card width (280) + gap (24)
+      const start = el.scrollLeft
+      const target = direction === "left" ? start - scrollAmount : start + scrollAmount
+      const distance = target - start
+      const duration = 600
+      let startTime: number | null = null
+
+      const easeInOutCubic = (t: number) =>
+        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+
+      const step = (timestamp: number) => {
+        if (startTime === null) startTime = timestamp
+        const elapsed = timestamp - startTime
+        const progress = Math.min(elapsed / duration, 1)
+        el.scrollLeft = start + distance * easeInOutCubic(progress)
+        if (progress < 1) {
+          requestAnimationFrame(step)
+        } else {
+          checkScroll()
+        }
+      }
+      requestAnimationFrame(step)
     }
   }
 
