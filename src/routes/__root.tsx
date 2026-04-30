@@ -81,6 +81,7 @@ function RootDocument({ children }: { children: ReactNode }) {
       <body className="font-sans antialiased">
         {children}
         <FloatingButtons />
+        <CustomCursor />
         <Scripts />
       </body>
     </html>
