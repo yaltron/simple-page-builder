@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Phone, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Magnetic } from "@/components/magnetic"
+import logo from "@/assets/logo.png"
 import { Link } from "@tanstack/react-router"
 
 const navLinks = [
