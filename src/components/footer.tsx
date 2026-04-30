@@ -62,7 +62,7 @@ export function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Column 1 - Logo & About */}
           <div className="space-y-6">
-            <Link href="/" className="flex items-center gap-2">
+            <Link to="/" className="flex items-center gap-2">
               <LotusIcon className="w-10 h-10 text-rose" />
               <div className="flex flex-col">
                 <span className="font-serif font-bold text-xl text-white leading-tight">
@@ -104,12 +104,12 @@ export function Footer() {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <Link 
+                  <a
                     href={link.href}
                     className="text-white/70 hover:text-rose transition-colors text-sm"
                   >
                     {link.name}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -121,12 +121,12 @@ export function Footer() {
             <ul className="space-y-3">
               {services.map((service) => (
                 <li key={service}>
-                  <Link 
+                  <a
                     href="#services"
                     className="text-white/70 hover:text-rose transition-colors text-sm"
                   >
                     {service}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
