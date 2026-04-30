@@ -3,6 +3,7 @@ import { useRef, useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { Trophy, Baby, Users } from "lucide-react"
+import { GradientMesh } from "@/components/gradient-mesh"
 
 const stats = [
   {
@@ -74,10 +75,59 @@ export function Stats() {
 
   return (
     <section ref={ref} className="py-20 lg:py-24 bg-gradient-to-r from-rose-dark to-rose relative overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/20 rounded-full blur-3xl" />
-      </div>
+      {/* Animated gradient mesh — screen blend brightens through dark bg */}
+      <GradientMesh
+        blendMode="screen"
+        items={[
+          {
+            color: "rose-light",
+            size: 780,
+            minOpacity: 0.12,
+            maxOpacity: 0.18,
+            driftRange: 90,
+            driftDuration: 22,
+            pulseDuration: 10,
+            top: "-220px",
+            left: "-180px",
+          },
+          {
+            color: "gold",
+            size: 700,
+            minOpacity: 0.1,
+            maxOpacity: 0.16,
+            driftRange: 80,
+            driftDuration: 26,
+            pulseDuration: 11,
+            delay: -6,
+            top: "10%",
+            right: "-160px",
+          },
+          {
+            color: "white",
+            size: 640,
+            minOpacity: 0.08,
+            maxOpacity: 0.14,
+            driftRange: 70,
+            driftDuration: 28,
+            pulseDuration: 9,
+            delay: -10,
+            bottom: "-200px",
+            left: "30%",
+          },
+          {
+            color: "teal-light",
+            size: 720,
+            minOpacity: 0.08,
+            maxOpacity: 0.15,
+            driftRange: 100,
+            driftDuration: 24,
+            pulseDuration: 12,
+            delay: -3,
+            bottom: "-180px",
+            right: "10%",
+          },
+        ]}
+      />
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-3 gap-8 lg:gap-12">

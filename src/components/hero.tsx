@@ -4,6 +4,7 @@ import { Play, ChevronDown, Baby, TrendingUp, Award } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { MorphingBlob } from "@/components/morphing-blob"
 import { FloatingDecoField } from "@/components/floating-deco"
+import { GradientMesh } from "@/components/gradient-mesh"
 
 const stats = [
   { icon: Baby, number: "5,000+", label: "Babies Born" },
@@ -14,6 +15,59 @@ const stats = [
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-cream pt-20">
+      {/* Animated gradient mesh */}
+      <GradientMesh
+        blendMode="multiply"
+        items={[
+          {
+            color: "rose",
+            size: 820,
+            minOpacity: 0.1,
+            maxOpacity: 0.18,
+            driftRange: 90,
+            driftDuration: 22,
+            pulseDuration: 10,
+            top: "-200px",
+            left: "-180px",
+          },
+          {
+            color: "teal",
+            size: 720,
+            minOpacity: 0.08,
+            maxOpacity: 0.15,
+            driftRange: 80,
+            driftDuration: 26,
+            pulseDuration: 12,
+            delay: -6,
+            top: "20%",
+            right: "-200px",
+          },
+          {
+            color: "gold",
+            size: 640,
+            minOpacity: 0.08,
+            maxOpacity: 0.14,
+            driftRange: 70,
+            driftDuration: 30,
+            pulseDuration: 9,
+            delay: -12,
+            bottom: "-220px",
+            left: "30%",
+          },
+          {
+            color: "rose-light",
+            size: 760,
+            minOpacity: 0.1,
+            maxOpacity: 0.18,
+            driftRange: 100,
+            driftDuration: 24,
+            pulseDuration: 11,
+            delay: -3,
+            bottom: "-180px",
+            right: "10%",
+          },
+        ]}
+      />
       <FloatingDecoField
         items={[
           { shape: "hollow-circle", color: "rose", size: 32, top: "12%", left: "8%", floatDuration: 7, rotateDuration: 22, delay: 0 },
