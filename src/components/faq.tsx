@@ -3,6 +3,7 @@ import { useState, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useInView } from "framer-motion"
 import { Plus, Minus } from "lucide-react"
+import { FloatingDecoField } from "@/components/floating-deco"
 
 const faqs = [
   {
