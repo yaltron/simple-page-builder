@@ -6,18 +6,48 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import { NodeRequest, sendNodeResponse } from "srvx/node";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  plugins: [tanstackStart(), react(), tailwindcss(), tsconfigPaths()],
+  plugins: [
+    tanstackStart(),
+    react(),
+    tailwindcss(),
+    tsconfigPaths(),
+    {
+      name: "tanstack-start-dev-request-bridge",
+      apply: "serve",
+      configureServer(viteDevServer) {
+        return () => {
+          viteDevServer.middlewares.use(async (req, res, next) => {
+            try {
+              if (req.originalUrl) {
+                req.url = req.originalUrl;
+              }
+
+              const serverEnv = viteDevServer.environments.ssr;
+              const serverEntry = await serverEnv.runner.import(
+                "virtual:tanstack-start-server-entry",
+              );
+
+              const webReq = new NodeRequest({ req, res });
+              const webRes = await serverEntry.default.fetch(webReq);
+
+              return sendNodeResponse(res, webRes);
+            } catch (error) {
+              return next(error);
+            }
+          });
+        };
+      },
+    },
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-    dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
-  },
-  ssr: {
     noExternal: [
       "react",
       "react-dom",
@@ -26,6 +56,36 @@ export default defineConfig({
       "react-dom/server",
       "@tanstack/react-router",
       "@tanstack/react-router-devtools",
+      "@tanstack/react-start",
+      "@tanstack/react-start/client",
+      "@tanstack/react-start/server",
+    ],
+    dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
+  },
+  ssr: {
+    optimizeDeps: {
+      include: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+        "react-dom/server",
+      ],
+    },
+    resolve: {
+      conditions: ["react-server", "module", "node", "development|production"],
+    },
+    noExternal: [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
+      "react-dom/server",
+      "@tanstack/react-router",
+      "@tanstack/react-router-devtools",
+      "@tanstack/react-start",
+      "@tanstack/react-start/client",
+      "@tanstack/react-start/server",
     ],
   },
   server: {
