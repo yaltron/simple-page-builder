@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { ClientOnly, createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/navbar";
 import { Hero } from "@/components/hero";
 import { WhoWeAre } from "@/components/who-we-are";
@@ -20,21 +20,23 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   return (
-    <main>
-      <Navbar />
-      <Hero />
-      <WhoWeAre />
-      <Services />
-      <ProcessSteps />
-      <WhenToVisit />
-      <PartnerLogos />
-      <DoctorsCarousel />
-      <Stats />
-      <MiraclesGallery />
-      <Testimonials />
-      <FAQ />
-      <CTABanner />
-      <Footer />
-    </main>
+    <ClientOnly fallback={<main className="min-h-screen bg-background" aria-busy="true" />}>
+      <main>
+        <Navbar />
+        <Hero />
+        <WhoWeAre />
+        <Services />
+        <ProcessSteps />
+        <WhenToVisit />
+        <PartnerLogos />
+        <DoctorsCarousel />
+        <Stats />
+        <MiraclesGallery />
+        <Testimonials />
+        <FAQ />
+        <CTABanner />
+        <Footer />
+      </main>
+    </ClientOnly>
   );
 }
