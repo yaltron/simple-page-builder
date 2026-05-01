@@ -1,49 +1,57 @@
-## Problem
+## Diagnosis
 
-The site renders on the server (you see the pink gradient SSR background), but client-side JavaScript crashes with:
+The internal preview shows "Internal Server Error". Pulled the current files (TanStack Start v1 + Vite 8 + React 19 + Tailwind v4) — the stack is correct and matches what Lovable expects. `package.json`, `src/router.tsx`, `src/routes/__root.tsx`, and `src/routes/index.tsx` are all present and valid.
+
+The actual crash comes from `vite.config.ts`. The dev-server log shows on every SSR request:
 
 ```
-ReferenceError: React is not defined
-  at virtual:tanstack-start-client-entry:7:21
+ReferenceError: module is not defined
+    at /dev-server/node_modules/.../react@19.2.5/.../react/index.js:4:3
+    at ESModulesEvaluator.runInlinedModule (vite/.../module-runner.js)
 ```
 
-This stops React from hydrating, leaving the page blank/inert. The Lovable preview shell shows "Internal server error" because the client app never mounts.
+React's published entry is CommonJS (`module.exports = ...`). Vite's SSR module runner is an ES-module evaluator, so when it tries to execute React's CJS file directly, `module` is undefined and SSR dies — producing the "Internal Server Error" page.
 
-## Root cause
-
-The default TanStack Start client entry lives inside `node_modules/@tanstack/react-start/dist/plugin/default-entry/client.tsx`. Because that file is outside our `src/` directory, our `tsconfig.json`'s `"jsx": "react-jsx"` setting doesn't apply to it. Vite's esbuild falls back to the **classic JSX transform**, which compiles `<StrictMode>` into `React.createElement(...)` — but the file never imports `React`, so the browser throws `ReferenceError`.
-
-I already created `src/client.tsx` (a project-local copy of that entry) but my attempt to point the plugin at it via `tanstackStart({ client: { entry: "./src/client.tsx" } })` used a wrong path (the plugin resolves entries relative to `src/`, not the project root). I need to fix the wiring in plan mode.
+A previous edit added `ssr.noExternal: ["react", "react-dom", ...]` but **only when `command === "build"`**. In `dev`, React is still externalized → CJS gets loaded raw → crash. That is why the preview keeps failing no matter how many times publish is clicked or how many times the dev server is restarted.
 
 ## Fix
 
-1. **Update `vite.config.ts`** — remove the broken `client.entry` override. The plugin auto-detects `src/client.tsx` as the client entry when present, which means it'll be transformed by Vite using the project's `react-jsx` setting and the bug goes away.
+Apply `noExternal` for React/Router in **both** dev and build by removing the `command === "build"` gate. This forces Vite to process those packages through its dependency-optimizer (which converts CJS → ESM) instead of letting the SSR runner eval React's CJS file directly.
 
-   ```ts
-   plugins: [tailwindcss(), tanstackStart()],
-   ```
+### File: `vite.config.ts`
 
-2. **Keep `src/client.tsx`** as-is:
+Replace the conditional `resolve.noExternal` and `ssr` blocks with unconditional ones:
 
-   ```tsx
-   import { StrictMode, startTransition } from "react";
-   import { hydrateRoot } from "react-dom/client";
-   import { StartClient } from "@tanstack/react-start/client";
+```ts
+export default defineConfig(() => ({
+  server: { port: 8080, host: true, allowedHosts: true },
+  resolve: {
+    alias: { "@": path.resolve(__dirname, "./src") },
+    noExternal: [
+      "@tanstack/react-router",
+      "@tanstack/react-router-devtools",
+    ],
+  },
+  ssr: {
+    noExternal: [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
+      "react-dom/server",
+      "@tanstack/react-router",
+      "@tanstack/react-router-devtools",
+    ],
+  },
+  plugins: [tailwindcss(), tanstackStart()],
+}));
+```
 
-   startTransition(() => {
-     hydrateRoot(
-       document,
-       <StrictMode>
-         <StartClient />
-       </StrictMode>,
-     );
-   });
-   ```
+## Verification steps after the fix
 
-3. **Verify** — reload the preview, confirm the IVF landing page mounts (nav, hero, sections all interactive), and check console is clean.
+1. Tail `/tmp/dev-server-logs/dev-server.log` and confirm no more `ReferenceError: module is not defined`.
+2. `curl -sI http://localhost:8080/` returns 200 and HTML body renders the homepage.
+3. Open the preview to visually confirm the site loads.
+4. Then the user clicks Publish → Update to push the same fix to the live `mini-siter-shine.lovable.app` site.
 
-If the modern JSX transform still doesn't apply for some reason, fallback is to add `import * as React from "react"` to `src/client.tsx` so the classic transform's `React.createElement` reference resolves.
-
-## Why this works
-
-Files inside `src/` go through Vite's normal TypeScript pipeline, which honors `tsconfig.json`'s `"jsx": "react-jsx"` and compiles JSX to `_jsx(...)` calls from `react/jsx-runtime` — no global `React` reference needed. The plugin's auto-discovery picks up `src/client.tsx` automatically, so no extra config is required.
+No source files, dependencies, or routes need to change — the codebase as pushed is correct; only the Vite SSR configuration needs this one-line scope fix.
