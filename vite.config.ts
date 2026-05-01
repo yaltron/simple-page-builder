@@ -6,11 +6,44 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import { NodeRequest, sendNodeResponse } from "srvx/node";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  plugins: [tanstackStart(), react(), tailwindcss(), tsconfigPaths()],
+  plugins: [
+    tanstackStart(),
+    react(),
+    tailwindcss(),
+    tsconfigPaths(),
+    {
+      name: "tanstack-start-dev-request-bridge",
+      apply: "serve",
+      configureServer(viteDevServer) {
+        return () => {
+          viteDevServer.middlewares.use(async (req, res, next) => {
+            try {
+              if (req.originalUrl) {
+                req.url = req.originalUrl;
+              }
+
+              const serverEnv = viteDevServer.environments.ssr;
+              const serverEntry = await serverEnv.runner.import(
+                "virtual:tanstack-start-server-entry",
+              );
+
+              const webReq = new NodeRequest({ req, res });
+              const webRes = await serverEntry.default.fetch(webReq);
+
+              return sendNodeResponse(res, webRes);
+            } catch (error) {
+              return next(error);
+            }
+          });
+        };
+      },
+    },
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
