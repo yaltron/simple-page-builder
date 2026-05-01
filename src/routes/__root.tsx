@@ -4,7 +4,6 @@ import {
   Scripts,
   createRootRoute,
   Link,
-  ClientOnly,
 } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { FloatingButtons } from "@/components/floating-buttons";
