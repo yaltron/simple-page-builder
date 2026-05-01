@@ -1,34 +1,96 @@
-## Goal
+## What’s actually broken
 
-Force a new commit so that clicking Publish → Update on https://mini-site-shine.lovable.app deploys a fresh build that includes the SSR fix (`vite.environments.ssr` with `noDiscovery: false` + React/framer-motion in `noExternal` and `optimizeDeps.include`).
+I found the production root cause in the published server logs:
 
-## Verified current state
+```text
+Error: No such module "h3-v2".
+imported from "server.js"
+```
 
-`vite.config.ts` already contains the correct fix:
-- `SSR_BUNDLE` lists `react`, `react-dom`, `react/jsx-runtime`, `react/jsx-dev-runtime`, `react-dom/server`, `framer-motion`
-- `environments.ssr.resolve.noExternal = SSR_BUNDLE`
-- `environments.ssr.optimizeDeps.noDiscovery = false`
-- `environments.ssr.optimizeDeps.include = SSR_BUNDLE`
+That means the live deployment is not failing because of the React hydration warning or the homepage code. It is failing because the published SSR Worker is trying to import a bare server dependency at runtime instead of having it bundled into the server build.
 
-No logic change is needed — only a no-op edit to produce a new commit.
+The current `vite.config.ts` fix solved the preview refresh loop by forcing React 19 / Framer Motion to be pre-bundled for SSR, but the current setting is still too narrow for production:
 
-## Changes
+- `environments.ssr.optimizeDeps.noDiscovery = false` helped dev SSR stability
+- `environments.ssr.resolve.noExternal = SSR_BUNDLE` only bundles the React/framer-motion allowlist
+- the published Worker still leaves TanStack server runtime deps like `h3-v2` outside the bundle
+- Cloudflare Worker runtime cannot resolve that bare module at runtime, so the live site returns `Internal server error`
 
-1. `vite.config.ts` — append a single trailing comment line at the very bottom of the file:
-   ```
-   // Republish trigger: force fresh build for SSR fix deployment.
-   ```
-   This is a pure no-op (a comment after the default export). It will not affect runtime, types, or build output, but it produces a new commit hash so Publish → Update generates a brand-new build artifact instead of reusing a cached/stale one.
+The hydration mismatch in the browser console is unrelated noise from a browser extension (`data-gr-ext-installed`, Grammarly-style attributes). It is not the reason the published site is 500ing.
 
-2. Nothing else is touched. No dependency changes, no source edits, no route changes.
+## Plan
 
-## After the commit lands
+1. Update `vite.config.ts` so the SSR/server environment uses a Worker-safe bundling strategy instead of the current narrow allowlist.
+   - Replace the fragile `environments.ssr.resolve.noExternal = SSR_BUNDLE` approach with full SSR dependency bundling for production Worker SSR.
+   - Keep the React/Framer Motion `optimizeDeps` settings needed for stable preview refreshes.
+   - Result: both the dev SSR runner and the published Worker use a consistent, fully bundled server graph.
 
-I will tell you explicitly: "Commit pushed — click Publish → Update now." Then:
-- Open the project, click **Publish** (top-right on desktop, or `…` → Publish on mobile).
-- Click **Update** in the dialog.
-- Wait for the build to finish, then hard-refresh https://mini-site-shine.lovable.app.
+2. Preserve the preview stability fix while removing the production regression.
+   - Keep `noDiscovery: false` in `environments.ssr.optimizeDeps`
+   - Keep the React runtime includes that fixed `module is not defined`
+   - Ensure the revised config does not reintroduce the refresh-loop issue in preview
 
-## If the published site still 500s after the fresh deploy
+3. Make a fresh code change commit and trigger a clean publishable build state.
+   - This will ensure the next Publish → Update uses the corrected Worker SSR bundling config, not the current broken artifact
 
-That would mean the production Worker build is failing on something the dev SSR runner tolerates. Next step in that case (not part of this plan unless needed): inspect the production build output for the actual error and adjust the Worker SSR bundling rules accordingly.
+4. Verify both environments after the fix.
+   - Refresh preview multiple times to confirm it stays stable
+   - Check the published URL directly and confirm it returns the working homepage instead of `Internal server error`
+   - Re-check published server logs to confirm the `h3-v2` runtime import error is gone
+
+## Files to change
+
+- `vite.config.ts` — primary fix
+- possibly `.lovable/plan.md` only if the system updates plan tracking automatically
+
+## Technical details
+
+Current risky config:
+
+```ts
+environments: {
+  ssr: {
+    resolve: {
+      noExternal: SSR_BUNDLE,
+    },
+    optimizeDeps: {
+      noDiscovery: false,
+      include: SSR_BUNDLE,
+    },
+  },
+}
+```
+
+Why this is unstable:
+
+- It bundles only the manually listed React-side packages
+- It does not guarantee bundling of TanStack Start server runtime dependencies
+- The published Worker then tries to import `h3-v2` from `server.js`
+- Worker runtime has no Node-style runtime module resolution for that bare module
+
+Target direction:
+
+```ts
+environments: {
+  ssr: {
+    resolve: {
+      noExternal: true,
+    },
+    optimizeDeps: {
+      noDiscovery: false,
+      include: SSR_BUNDLE,
+    },
+  },
+}
+```
+
+If the wrapper/plugin needs a narrower matcher than `true`, I’ll use a comprehensive server-safe matcher instead, but the goal is the same: fully bundle the SSR Worker dependency graph, not just React.
+
+## Expected outcome
+
+After approval and implementation:
+
+- preview remains stable across refreshes
+- published site loads successfully
+- published logs no longer show `No such module "h3-v2"`
+- you’ll have a final working live site instead of a preview-only fix
