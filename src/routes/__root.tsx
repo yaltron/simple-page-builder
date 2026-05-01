@@ -1,4 +1,5 @@
 import {
+  ClientOnly,
   HeadContent,
   Outlet,
   Scripts,
@@ -89,8 +90,10 @@ function RootDocument({ children }: { children: ReactNode }) {
       </head>
       <body className="font-sans antialiased">
         {children}
-        <FloatingButtons />
-        <CustomCursor />
+        <ClientOnly fallback={null}>
+          <FloatingButtons />
+          <CustomCursor />
+        </ClientOnly>
         <Scripts />
       </body>
     </html>
