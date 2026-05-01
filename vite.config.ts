@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export default defineConfig(({ command }) => ({
+export default defineConfig(() => ({
   server: {
     port: 8080,
     host: true,
@@ -16,28 +16,21 @@ export default defineConfig(({ command }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-    ...(command === "build"
-      ? {
-          noExternal: [
-            "@tanstack/react-router",
-            "@tanstack/react-router-devtools",
-          ],
-        }
-      : {}),
+    noExternal: [
+      "@tanstack/react-router",
+      "@tanstack/react-router-devtools",
+    ],
   },
-  ssr:
-    command === "build"
-      ? {
-          noExternal: [
-            "react",
-            "react-dom",
-            "react/jsx-runtime",
-            "react/jsx-dev-runtime",
-            "react-dom/server",
-            "@tanstack/react-router",
-            "@tanstack/react-router-devtools",
-          ],
-        }
-      : undefined,
+  ssr: {
+    noExternal: [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
+      "react-dom/server",
+      "@tanstack/react-router",
+      "@tanstack/react-router-devtools",
+    ],
+  },
   plugins: [tailwindcss(), tanstackStart()],
 }));
