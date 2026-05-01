@@ -30,6 +30,15 @@ export default defineConfig({
     dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
   },
   ssr: {
+    optimizeDeps: {
+      include: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+        "react-dom/server",
+      ],
+    },
     resolve: {
       conditions: ["react-server", "module", "node", "development|production"],
     },
