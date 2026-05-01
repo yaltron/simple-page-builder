@@ -1,4 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Navbar } from "@/components/navbar";
+import { Hero } from "@/components/hero";
+import { WhoWeAre } from "@/components/who-we-are";
+import { Services } from "@/components/services";
+import { ProcessSteps } from "@/components/process-steps";
+import { WhenToVisit } from "@/components/when-to-visit";
+import { PartnerLogos } from "@/components/partner-logos";
+import { DoctorsCarousel } from "@/components/doctors-carousel";
+import { Stats } from "@/components/stats";
+import { MiraclesGallery } from "@/components/miracles-gallery";
+import { Testimonials } from "@/components/testimonials";
+import { FAQ } from "@/components/faq";
+import { CTABanner } from "@/components/cta-banner";
+import { Footer } from "@/components/footer";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -6,13 +20,21 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-cream">
-      <div className="text-center">
-        <h1 className="font-serif text-4xl font-bold text-plum">
-          Subhashree IVF
-        </h1>
-        <p className="text-muted-foreground mt-2">Loading preview…</p>
-      </div>
+    <main>
+      <Navbar />
+      <Hero />
+      <WhoWeAre />
+      <Services />
+      <ProcessSteps />
+      <WhenToVisit />
+      <PartnerLogos />
+      <DoctorsCarousel />
+      <Stats />
+      <MiraclesGallery />
+      <Testimonials />
+      <FAQ />
+      <CTABanner />
+      <Footer />
     </main>
   );
 }
