@@ -16,6 +16,14 @@ export default defineConfig(({ command }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    ...(command === "build"
+      ? {
+          noExternal: [
+            "@tanstack/react-router",
+            "@tanstack/react-router-devtools",
+          ],
+        }
+      : {}),
   },
   ssr:
     command === "build"
@@ -26,6 +34,8 @@ export default defineConfig(({ command }) => ({
             "react/jsx-runtime",
             "react/jsx-dev-runtime",
             "react-dom/server",
+            "@tanstack/react-router",
+            "@tanstack/react-router-devtools",
           ],
         }
       : undefined,
