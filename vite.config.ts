@@ -20,6 +20,14 @@ export default defineConfig({
       name: "tanstack-start-dev-request-bridge",
       apply: "serve",
       configureServer(viteDevServer) {
+        // Prevent unhandled SSR stream errors from crashing the dev process.
+        const swallow = (err: unknown) => {
+          // eslint-disable-next-line no-console
+          console.error("[ssr-bridge] swallowed error:", err);
+        };
+        process.on("uncaughtException", swallow);
+        process.on("unhandledRejection", swallow);
+
         return () => {
           viteDevServer.middlewares.use(async (req, res, next) => {
             try {
@@ -37,7 +45,18 @@ export default defineConfig({
 
               return sendNodeResponse(res, webRes);
             } catch (error) {
-              return next(error);
+              // eslint-disable-next-line no-console
+              console.error("[ssr-bridge] request failed:", error);
+              if (!res.headersSent) {
+                res.statusCode = 500;
+                res.setHeader("content-type", "text/plain");
+              }
+              try {
+                res.end(
+                  `SSR error: ${(error as Error)?.message ?? String(error)}`,
+                );
+              } catch {}
+              return;
             }
           });
         };
@@ -70,10 +89,8 @@ export default defineConfig({
         "react/jsx-runtime",
         "react/jsx-dev-runtime",
         "react-dom/server",
+        "framer-motion",
       ],
-    },
-    resolve: {
-      conditions: ["react-server", "module", "node", "development|production"],
     },
     noExternal: [
       "react",
@@ -86,6 +103,7 @@ export default defineConfig({
       "@tanstack/react-start",
       "@tanstack/react-start/client",
       "@tanstack/react-start/server",
+      "framer-motion",
     ],
   },
   server: {
