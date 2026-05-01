@@ -72,9 +72,6 @@ export default defineConfig({
         "react-dom/server",
       ],
     },
-    resolve: {
-      conditions: ["react-server", "module", "node", "development|production"],
-    },
     noExternal: [
       "react",
       "react-dom",
