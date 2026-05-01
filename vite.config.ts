@@ -6,9 +6,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   tanstackStart: {
-    resolve: {
-      noExternal: ["@tanstack/react-router", "@tanstack/react-router-devtools"],
-    },
     optimizeDeps: {
       noDiscovery: false,
       include: [
@@ -22,23 +19,39 @@ export default defineConfig({
     },
   },
   vite: {
+    environments: {
+      ssr: {
+        resolve: {
+          noExternal: [
+            "react",
+            "react-dom",
+            "react/jsx-runtime",
+            "react/jsx-dev-runtime",
+            "react-dom/server",
+            "framer-motion",
+            "@tanstack/react-start",
+            "@tanstack/react-router",
+            "@tanstack/react-router-devtools",
+          ],
+        },
+        optimizeDeps: {
+          noDiscovery: false,
+          include: [
+            "react",
+            "react-dom",
+            "react/jsx-runtime",
+            "react/jsx-dev-runtime",
+            "react-dom/server",
+            "framer-motion",
+          ],
+        },
+      },
+    },
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
       },
       dedupe: ["react", "react-dom", "@tanstack/react-start", "@tanstack/react-router"],
-    },
-    ssr: {
-      noExternal: [
-        "react",
-        "react-dom",
-        "react/jsx-runtime",
-        "react/jsx-dev-runtime",
-        "react-dom/server",
-        "framer-motion",
-        "@tanstack/react-router",
-        "@tanstack/react-router-devtools",
-      ],
     },
     optimizeDeps: {
       include: ["framer-motion"],
