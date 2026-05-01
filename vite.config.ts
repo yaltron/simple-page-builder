@@ -4,12 +4,9 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Packages that ship CommonJS or browser-only entry points and therefore must
-// be pre-bundled into ESM for the SSR/server environment. Without this the
-// server runtime tries to evaluate raw CJS (`module.exports = ...`) which
-// crashes with `ReferenceError: module is not defined` and surfaces as the
-// recurring "Internal Server Error" on refresh and on the published site.
-const SSR_BUNDLE = [
+// React / framer-motion need to be pre-bundled into ESM for the SSR
+// environment so the dev SSR runner does not crash on CJS entry points.
+const SSR_OPTIMIZE_INCLUDE = [
   "react",
   "react-dom",
   "react/jsx-runtime",
@@ -34,19 +31,23 @@ export default defineConfig({
     optimizeDeps: {
       include: ["framer-motion"],
     },
-    // Vite 7 environment-aware config. TanStack Start's plugin only injects
-    // its SSR pre-bundle list when the server environment has explicitly
-    // opted into dependency optimization via `noDiscovery: false`. Setting
-    // it here turns that on and keeps React/Router/Framer Motion stable
-    // across cold refreshes and production renders.
+    // Vite 7 environment-aware config. The published Cloudflare Worker has no
+    // runtime module resolution, so EVERY server dependency must be bundled
+    // into the SSR output. Setting `noExternal: true` for the ssr environment
+    // forces full bundling and fixes the production
+    // `Error: No such module "h3-v2"` crash that surfaces as
+    // "Internal server error" on the live site.
+    //
+    // `noDiscovery: false` keeps TanStack Start's React/jsx-runtime
+    // pre-bundling active so dev SSR refreshes stay stable.
     environments: {
       ssr: {
         resolve: {
-          noExternal: SSR_BUNDLE,
+          noExternal: true,
         },
         optimizeDeps: {
           noDiscovery: false,
-          include: SSR_BUNDLE,
+          include: SSR_OPTIMIZE_INCLUDE,
         },
       },
     },
@@ -57,6 +58,3 @@ export default defineConfig({
     },
   },
 });
-
-// Republish trigger: force fresh build for SSR fix deployment.
-
