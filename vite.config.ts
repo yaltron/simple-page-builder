@@ -15,6 +15,18 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    noExternal: [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
+      "react-dom/server",
+      "@tanstack/react-router",
+      "@tanstack/react-router-devtools",
+      "@tanstack/react-start",
+      "@tanstack/react-start/client",
+      "@tanstack/react-start/server",
+    ],
     dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
   },
   ssr: {
@@ -26,6 +38,9 @@ export default defineConfig({
       "react-dom/server",
       "@tanstack/react-router",
       "@tanstack/react-router-devtools",
+      "@tanstack/react-start",
+      "@tanstack/react-start/client",
+      "@tanstack/react-start/server",
     ],
   },
   server: {
