@@ -70,6 +70,7 @@ export default defineConfig({
         "react/jsx-runtime",
         "react/jsx-dev-runtime",
         "react-dom/server",
+        "framer-motion",
       ],
     },
     noExternal: [
@@ -83,6 +84,7 @@ export default defineConfig({
       "@tanstack/react-start",
       "@tanstack/react-start/client",
       "@tanstack/react-start/server",
+      "framer-motion",
     ],
   },
   server: {
