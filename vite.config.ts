@@ -6,14 +6,6 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const reactDeps = [
-  "react",
-  "react/jsx-runtime",
-  "react/jsx-dev-runtime",
-  "react-dom",
-  "react-dom/server",
-];
-
 export default defineConfig(() => ({
   server: {
     port: 8080,
@@ -31,25 +23,23 @@ export default defineConfig(() => ({
   },
   ssr: {
     noExternal: [
-      ...reactDeps,
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
+      "react-dom/server",
       "@tanstack/react-router",
       "@tanstack/react-router-devtools",
     ],
   },
-  environments: {
-    server: {
-      optimizeDeps: {
-        include: reactDeps,
-      },
-      resolve: {
-        noExternal: [...reactDeps, "@tanstack/react-router", "@tanstack/react-router-devtools"],
-      },
-    },
-    client: {
-      optimizeDeps: {
-        include: reactDeps,
-      },
-    },
-  },
-  plugins: [tailwindcss(), tanstackStart()],
+  plugins: [
+    tailwindcss(),
+    tanstackStart({
+      // Enable Vite's optimizeDeps for the server environment so React's
+      // CJS-only build (react@19) is converted to ESM before SSR loads it.
+      // Without this, the Vite SSR module runner tries to evaluate React's
+      // CommonJS index.js as ESM and crashes with "module is not defined".
+      optimizeDeps: { noDiscovery: false },
+    }),
+  ],
 }));
