@@ -5,14 +5,32 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  tanstackStart: {},
+  tanstackStart: {
+    resolve: {
+      noExternal: ["@tanstack/react-router", "@tanstack/react-router-devtools"],
+    },
+    environments: {
+      ssr: {
+        optimizeDeps: {
+          noDiscovery: false,
+          include: [
+            "react",
+            "react-dom",
+            "react/jsx-runtime",
+            "react/jsx-dev-runtime",
+            "react-dom/server",
+            "framer-motion",
+          ],
+        },
+      },
+    },
+  },
   vite: {
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
       },
       dedupe: ["react", "react-dom", "@tanstack/react-start", "@tanstack/react-router"],
-      noExternal: ["@tanstack/react-router", "@tanstack/react-router-devtools"],
     },
     ssr: {
       noExternal: [
