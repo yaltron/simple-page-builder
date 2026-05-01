@@ -32,14 +32,18 @@ export default defineConfig(() => ({
       "@tanstack/react-router-devtools",
     ],
   },
-  plugins: [
-    tailwindcss(),
-    tanstackStart({
-      // Enable Vite's optimizeDeps for the server environment so React's
-      // CJS-only build (react@19) is converted to ESM before SSR loads it.
-      // Without this, the Vite SSR module runner tries to evaluate React's
-      // CommonJS index.js as ESM and crashes with "module is not defined".
-      optimizeDeps: { noDiscovery: false },
-    }),
-  ],
+  // Opt the SSR ("server") environment into Vite's dependency optimizer.
+  // The TanStack Start plugin only adds React (which ships CJS-only in v19)
+  // to the SSR optimizeDeps include list when `noDiscovery: false` is set
+  // on the server environment. Without this, the SSR module runner tries to
+  // execute React's CommonJS index.js as ESM and crashes with
+  // "ReferenceError: module is not defined".
+  environments: {
+    server: {
+      optimizeDeps: {
+        noDiscovery: false,
+      },
+    },
+  },
+  plugins: [tailwindcss(), tanstackStart()],
 }));
