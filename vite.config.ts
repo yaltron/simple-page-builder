@@ -6,6 +6,14 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+const reactDeps = [
+  "react",
+  "react/jsx-runtime",
+  "react/jsx-dev-runtime",
+  "react-dom",
+  "react-dom/server",
+];
+
 export default defineConfig(() => ({
   server: {
     port: 8080,
@@ -23,14 +31,25 @@ export default defineConfig(() => ({
   },
   ssr: {
     noExternal: [
-      "react",
-      "react-dom",
-      "react/jsx-runtime",
-      "react/jsx-dev-runtime",
-      "react-dom/server",
+      ...reactDeps,
       "@tanstack/react-router",
       "@tanstack/react-router-devtools",
     ],
+  },
+  environments: {
+    server: {
+      optimizeDeps: {
+        include: reactDeps,
+      },
+      resolve: {
+        noExternal: [...reactDeps, "@tanstack/react-router", "@tanstack/react-router-devtools"],
+      },
+    },
+    client: {
+      optimizeDeps: {
+        include: reactDeps,
+      },
+    },
   },
   plugins: [tailwindcss(), tanstackStart()],
 }));
