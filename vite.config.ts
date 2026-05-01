@@ -9,20 +9,16 @@ export default defineConfig({
     resolve: {
       noExternal: ["@tanstack/react-router", "@tanstack/react-router-devtools"],
     },
-    environments: {
-      ssr: {
-        optimizeDeps: {
-          noDiscovery: false,
-          include: [
-            "react",
-            "react-dom",
-            "react/jsx-runtime",
-            "react/jsx-dev-runtime",
-            "react-dom/server",
-            "framer-motion",
-          ],
-        },
-      },
+    optimizeDeps: {
+      noDiscovery: false,
+      include: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+        "react-dom/server",
+        "framer-motion",
+      ],
     },
   },
   vite: {
