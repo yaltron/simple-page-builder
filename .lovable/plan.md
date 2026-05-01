@@ -1,57 +1,85 @@
-## Diagnosis
+## Plan
 
-The internal preview shows "Internal Server Error". Pulled the current files (TanStack Start v1 + Vite 8 + React 19 + Tailwind v4) — the stack is correct and matches what Lovable expects. `package.json`, `src/router.tsx`, `src/routes/__root.tsx`, and `src/routes/index.tsx` are all present and valid.
+I inspected the current bootstrap and the recurring failure is not coming from missing routes or a broken app wrapper.
 
-The actual crash comes from `vite.config.ts`. The dev-server log shows on every SSR request:
+What I found:
+- The app is already using the correct TanStack Start file layout:
+  - `src/client.tsx` is the client entry
+  - `src/router.tsx` creates the router
+  - `src/routes/__root.tsx` and `src/routes/index.tsx` are the route shell and home route
+- There is no `App.tsx` or `main.tsx` in this codebase now, which is normal for this stack.
+- I did not find any `React.lazy(...)` or dynamic `import(...)` route code that would explain the refresh crash.
+- The page currently renders in the live preview browser session, which means the failure is intermittent rather than a permanent route-definition bug.
+- The published site is still returning `Internal server error`.
 
-```
-ReferenceError: module is not defined
-    at /dev-server/node_modules/.../react@19.2.5/.../react/index.js:4:3
-    at ESModulesEvaluator.runInlinedModule (vite/.../module-runner.js)
-```
+The likely root cause is the server-side Vite/TanStack Start config, not the router tree itself:
+- React 19 still ships through a CommonJS entry (`module.exports = ...`).
+- If TanStack Start’s server runtime does not prebundle that dependency into ESM for the actual server environment, SSR refreshes can fail with `module is not defined`, which shows up as a 500/internal server error.
+- The current `vite.config.ts` is trying to force SSR bundling under `vite.environments.ssr`, but TanStack Start’s plugin uses its own server environment handling. That means the current fix is likely being applied to the wrong config layer or wrong environment name, which explains why it seems to work briefly and then breaks again on refresh/redeploy.
 
-React's published entry is CommonJS (`module.exports = ...`). Vite's SSR module runner is an ES-module evaluator, so when it tries to execute React's CJS file directly, `module` is undefined and SSR dies — producing the "Internal Server Error" page.
+## What I will change
 
-A previous edit added `ssr.noExternal: ["react", "react-dom", ...]` but **only when `command === "build"`**. In `dev`, React is still externalized → CJS gets loaded raw → crash. That is why the preview keeps failing no matter how many times publish is clicked or how many times the dev server is restarted.
+### 1) Replace the current Vite SSR patching with a canonical TanStack Start server config
+- Remove the fragile `vite.environments.ssr` workaround.
+- Move the React/Router server-bundling rules into the TanStack Start plugin config path that the framework actually reads.
+- Keep only stable Vite basics under `vite`:
+  - alias
+  - dedupe
+  - sandbox port/host
+- Ensure the actual server runtime always bundles/pre-optimizes the packages that can crash SSR refreshes:
+  - `react`
+  - `react-dom`
+  - `react/jsx-runtime`
+  - `react/jsx-dev-runtime`
+  - `react-dom/server`
+  - `@tanstack/react-router`
+  - `@tanstack/react-router-devtools`
+  - `framer-motion` if needed
 
-## Fix
+### 2) Keep the router/bootstrap structure intact unless a true mismatch is found during implementation
+- Do not rewrite page content or UI.
+- Keep `src/client.tsx`, `src/router.tsx`, `src/routes/__root.tsx`, and `src/routes/index.tsx` in the TanStack Start pattern.
+- Only make bootstrap changes if validation shows a real framework mismatch.
 
-Apply `noExternal` for React/Router in **both** dev and build by removing the `command === "build"` gate. This forces Vite to process those packages through its dependency-optimizer (which converts CJS → ESM) instead of letting the SSR runner eval React's CJS file directly.
+### 3) Normalize framework dependency state
+- Check the installed TanStack package set and lockfile for version drift.
+- If needed, align the TanStack Start / Router packages to a compatible set and refresh the lockfile so preview and publish use the same stable dependency graph.
+- This is important because the installed versions are not fully aligned right now, which can contribute to unstable runtime behavior.
 
-### File: `vite.config.ts`
+### 4) Validate as a cold-start stability fix, not a hot-patch
+After the config change I will verify the failure mode directly:
+- restart against a cold dev session
+- inspect `/tmp/dev-server-logs/dev-server.log`
+- confirm the React CJS/SSR error is gone
+- load the preview
+- refresh the preview multiple times
+- confirm it stays up instead of only working once after a code edit
+- check browser console/network for any remaining runtime failures
 
-Replace the conditional `resolve.noExternal` and `ssr` blocks with unconditional ones:
+### 5) Republish and verify the live URL
+- Push the same fix through publish/update
+- verify the published site responds successfully instead of returning `Internal server error`
 
-```ts
-export default defineConfig(() => ({
-  server: { port: 8080, host: true, allowedHosts: true },
-  resolve: {
-    alias: { "@": path.resolve(__dirname, "./src") },
-    noExternal: [
-      "@tanstack/react-router",
-      "@tanstack/react-router-devtools",
-    ],
-  },
-  ssr: {
-    noExternal: [
-      "react",
-      "react-dom",
-      "react/jsx-runtime",
-      "react/jsx-dev-runtime",
-      "react-dom/server",
-      "@tanstack/react-router",
-      "@tanstack/react-router-devtools",
-    ],
-  },
-  plugins: [tailwindcss(), tanstackStart()],
-}));
-```
+## Expected files to change
+- `vite.config.ts`
+- possibly `package.json`
+- possibly `bun.lock`
+- only if required by validation: minimal bootstrap files, but not page/UI components
 
-## Verification steps after the fix
+## Technical details
 
-1. Tail `/tmp/dev-server-logs/dev-server.log` and confirm no more `ReferenceError: module is not defined`.
-2. `curl -sI http://localhost:8080/` returns 200 and HTML body renders the homepage.
-3. Open the preview to visually confirm the site loads.
-4. Then the user clicks Publish → Update to push the same fix to the live `mini-siter-shine.lovable.app` site.
+Why I do **not** think the route files are the real issue:
+- `src/client.tsx` uses `StartClient`, which matches the installed TanStack Start package.
+- `src/router.tsx` creates a router from `routeTree.gen.ts` correctly.
+- `src/routes/index.tsx` defines `/` with a component.
+- `src/routes/__root.tsx` provides the required shell and not-found handler.
+- There are no lazy route imports in the app code that would explain a reload-only crash.
 
-No source files, dependencies, or routes need to change — the codebase as pushed is correct; only the Vite SSR configuration needs this one-line scope fix.
+Why I think the SSR config is the real root cause:
+- The recurring symptom happens on refresh / server render, not just client navigation.
+- The published site also fails, which points to server/runtime bundling rather than a browser-only bug.
+- React’s CommonJS entry is a known failure point when Vite’s server runtime evaluates it without proper prebundling.
+- The current fix is aimed at `environments.ssr`, but TanStack Start’s plugin wiring suggests the stable fix should be applied through the framework’s own server/plugin config path instead of this patchy environment override.
+
+## Result after implementation
+A stable preview that survives refreshes, plus the same fix propagated to the published site, without changing any content or UI.
