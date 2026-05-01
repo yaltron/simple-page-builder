@@ -1,29 +1,38 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
-import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   tanstackStart: {},
   vite: {
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+      },
+      dedupe: ["react", "react-dom", "@tanstack/react-start", "@tanstack/react-router"],
+      noExternal: ["@tanstack/react-router", "@tanstack/react-router-devtools"],
     },
-    dedupe: ["react", "react-dom", "@tanstack/react-start", "@tanstack/react-router"],
-  },
-  ssr: {
-    noExternal: ["framer-motion"],
+    ssr: {
+      noExternal: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+        "react-dom/server",
+        "framer-motion",
+        "@tanstack/react-router",
+        "@tanstack/react-router-devtools",
+      ],
+    },
     optimizeDeps: {
       include: ["framer-motion"],
     },
-  },
-  server: {
-    host: "::",
-    port: 8080,
-    strictPort: true,
-  },
+    server: {
+      host: true,
+      port: 8080,
+      strictPort: true,
+    },
   },
 });
