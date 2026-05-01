@@ -30,6 +30,9 @@ export default defineConfig({
     dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
   },
   ssr: {
+    resolve: {
+      conditions: ["react-server", "module", "node", "development|production"],
+    },
     noExternal: [
       "react",
       "react-dom",
