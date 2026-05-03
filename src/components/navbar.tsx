@@ -127,7 +127,7 @@ export function Navbar() {
         <div
           style={{
             height: row1Height,
-            background: isScrolled ? "rgba(255,255,255,0.85)" : "#ffffff",
+            background: isScrolled ? "rgba(255,241,247,0.85)" : COLORS.pinkSoft,
             backdropFilter: isScrolled ? "blur(16px)" : "none",
             WebkitBackdropFilter: isScrolled ? "blur(16px)" : "none",
             transition: "height 0.35s ease, background 0.35s ease",
@@ -288,8 +288,8 @@ export function Navbar() {
             transition: "background 0.35s ease",
           }}
         >
-          <div className="max-w-7xl mx-auto h-full px-4 flex items-center justify-center">
-            <div className="flex items-center gap-1">
+          <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center">
+            <div className="flex items-center justify-between w-full">
               {navLinks.map((link, idx) => {
                 const isActive = activeSection === link.href.replace("#", "")
                 return (
@@ -300,7 +300,7 @@ export function Navbar() {
                       style={{
                         color: isActive ? COLORS.magenta : COLORS.navLink,
                         fontWeight: 600,
-                        fontSize: 15,
+                        fontSize: 17,
                         transition: "color 0.2s ease",
                       }}
                       onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = COLORS.magenta)}
