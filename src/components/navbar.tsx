@@ -1,29 +1,39 @@
-
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Phone, Menu, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Magnetic } from "@/components/magnetic"
-import logo from "@/assets/logo.png"
+import { Phone, Menu, X, Calendar, ChevronDown, Copy, Check, Hospital, Video } from "lucide-react"
 import { Link } from "@tanstack/react-router"
+import logo from "@/assets/logo.png"
+
+const COLORS = {
+  magenta: "#E6007E",
+  magentaDark: "#C4006A",
+  blue: "#1BA0DC",
+  pinkSoft: "#FFF1F7",
+  blueSoft: "#EAF7FD",
+  plum: "#2D0A1E",
+  navLink: "#7A2050",
+}
 
 const navLinks = [
   { name: "About Us", href: "#about" },
   { name: "Services", href: "#services" },
   { name: "Our Team", href: "#team" },
   { name: "Success Stories", href: "#testimonials" },
-  { name: "Blog", href: "#blog" },
-  { name: "International Patients", href: "#international" },
-  { name: "Contact", href: "#contact" },
+  { name: "Blog & News", href: "#blog" },
+  { name: "International Patient", href: "#international" },
+  { name: "Clinic", href: "#clinic" },
+  { name: "Contact Us", href: "#contact" },
+]
+
+const phones = [
+  { label: "Reception", number: "+977-01-1234567" },
+  { label: "Emergency", number: "+977-9800-123456" },
+  { label: "WhatsApp", number: "+977-9800-654321" },
 ]
 
 function LotusIcon({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 100 100"
-      className={className}
-      fill="currentColor"
-    >
+    <svg viewBox="0 0 100 100" className={className} fill="currentColor">
       <path d="M50 15c-5 10-5 25 0 35 5-10 5-25 0-35z" />
       <path d="M35 25c0 15 10 30 15 35-10-5-20-20-15-35z" />
       <path d="M65 25c0 15-10 30-15 35 10-5 20-20 15-35z" />
@@ -36,163 +46,369 @@ function LotusIcon({ className }: { className?: string }) {
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("")
+  const [bookOpen, setBookOpen] = useState(false)
+  const [callOpen, setCallOpen] = useState(false)
+  const [logoFailed, setLogoFailed] = useState(false)
+  const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
+
+  const bookRef = useRef<HTMLDivElement>(null)
+  const callRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-      
-      // Scroll spy
-      const sections = navLinks.map(link => link.href.replace("#", ""))
-      for (const section of sections.reverse()) {
-        const element = document.getElementById(section)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          if (rect.top <= 150) {
-            setActiveSection(section)
-            break
-          }
+      setIsScrolled(window.scrollY > 60)
+      const sections = navLinks.map(l => l.href.replace("#", ""))
+      for (const s of [...sections].reverse()) {
+        const el = document.getElementById(s)
+        if (el && el.getBoundingClientRect().top <= 150) {
+          setActiveSection(s)
+          break
         }
       }
     }
-
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (bookOpen && bookRef.current && !bookRef.current.contains(e.target as Node)) setBookOpen(false)
+      if (callOpen && callRef.current && !callRef.current.contains(e.target as Node)) setCallOpen(false)
+    }
+    const onEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { setBookOpen(false); setCallOpen(false); setIsMobileOpen(false) }
+    }
+    document.addEventListener("mousedown", onClick)
+    document.addEventListener("keydown", onEsc)
+    return () => {
+      document.removeEventListener("mousedown", onClick)
+      document.removeEventListener("keydown", onEsc)
+    }
+  }, [bookOpen, callOpen])
+
+  const copy = (txt: string, idx: number) => {
+    navigator.clipboard?.writeText(txt)
+    setCopiedIdx(idx)
+    setTimeout(() => setCopiedIdx(null), 1500)
+  }
+
+  const row1Height = isScrolled ? 54 : 68
+  const logoScale = isScrolled ? 0.88 : 1
+
+  const Logo = (
+    <Link to="/" className="flex items-center gap-2" style={{ transform: `scale(${logoScale})`, transformOrigin: "left center", transition: "transform 0.35s ease" }}>
+      {!logoFailed ? (
+        <img src={logo} alt="Subhashree IVF" style={{ width: 160, height: "auto" }} onError={() => setLogoFailed(true)} />
+      ) : (
+        <span className="flex items-center gap-2" style={{ color: COLORS.magenta }}>
+          <LotusIcon className="w-8 h-8" />
+          <span className="font-bold text-lg">Subhashree IVF</span>
+        </span>
+      )}
+    </Link>
+  )
+
   return (
     <>
-      <motion.nav
+      <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled 
-            ? "bg-white/95 backdrop-blur-sm shadow-lg" 
-            : "bg-transparent"
-        }`}
+        className="fixed top-0 left-0 right-0 w-full"
+        style={{
+          zIndex: 1000,
+          boxShadow: isScrolled ? "0 4px 24px rgba(230,0,126,0.10)" : "none",
+          transition: "box-shadow 0.35s ease",
+        }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <Link to="/" className="flex items-center">
-              <img
-                src={logo}
-                alt="Shubhashree IVF Clinic Pvt. Ltd."
-                className="h-12 lg:h-14 w-auto"
-              />
-            </Link>
+        {/* ROW 1 */}
+        <div
+          style={{
+            height: row1Height,
+            background: isScrolled ? "rgba(255,255,255,0.85)" : "#ffffff",
+            backdropFilter: isScrolled ? "blur(16px)" : "none",
+            WebkitBackdropFilter: isScrolled ? "blur(16px)" : "none",
+            transition: "height 0.35s ease, background 0.35s ease",
+          }}
+        >
+          <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            {Logo}
 
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-6">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="relative text-sm font-medium text-plum hover:text-rose transition-colors group"
+            {/* Desktop CTAs */}
+            <div className="hidden md:flex items-center gap-3">
+              {/* Book */}
+              <div className="relative" ref={bookRef}>
+                <button
+                  onClick={() => { setBookOpen(v => !v); setCallOpen(false) }}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-all"
+                  style={{ background: COLORS.magenta }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = COLORS.magentaDark; (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)" }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = COLORS.magenta; (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)" }}
                 >
-                  {link.name}
-                  <span 
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-rose transition-all duration-300 ${
-                      activeSection === link.href.replace("#", "") 
-                        ? "w-full" 
-                        : "w-0 group-hover:w-full"
-                    }`}
-                  />
-                </a>
-              ))}
-            </div>
-
-            {/* Right side */}
-            <div className="hidden lg:flex items-center gap-4">
-              <a 
-                href="tel:+9779861141699" 
-                className="flex items-center gap-2 text-plum hover:text-rose transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-                <span className="text-sm font-medium">+977 9861141699</span>
-              </a>
-              <Magnetic>
-                <Button
-                  className="bg-gradient-to-r from-rose to-rose-dark hover:from-rose-dark hover:to-rose text-white rounded-full px-6"
-                >
+                  <Calendar className="w-4 h-4" />
                   Book Appointment
-                </Button>
-              </Magnetic>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${bookOpen ? "rotate-180" : ""}`} />
+                </button>
+                <AnimatePresence>
+                  {bookOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.25 }}
+                      className="absolute right-0 mt-3 p-5"
+                      style={{
+                        width: 360,
+                        background: "#fff",
+                        borderRadius: 20,
+                        borderTop: `3px solid ${COLORS.magenta}`,
+                        boxShadow: "0 16px 60px rgba(230,0,126,0.15)",
+                      }}
+                    >
+                      <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: COLORS.plum }} className="font-bold">
+                        Book a Consultation
+                      </h3>
+                      <p className="text-sm text-gray-500 mt-1">Free first consultation — no obligation</p>
+
+                      <div className="grid grid-cols-2 gap-3 mt-4">
+                        {[
+                          { icon: <Hospital className="w-5 h-5" />, title: "Visit In-Clinic", bg: COLORS.pinkSoft },
+                          { icon: <Video className="w-5 h-5" />, title: "Video Consult", bg: COLORS.blueSoft },
+                        ].map((opt) => (
+                          <button key={opt.title} className="text-left p-3 rounded-xl hover:scale-[1.02] transition-transform" style={{ background: opt.bg }}>
+                            <div style={{ color: COLORS.magenta }}>{opt.icon}</div>
+                            <div className="font-semibold text-sm mt-2" style={{ color: COLORS.plum }}>{opt.title}</div>
+                            <div className="inline-block mt-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-700">Available Today</div>
+                          </button>
+                        ))}
+                      </div>
+
+                      <div className="mt-4 space-y-2">
+                        <input type="text" placeholder="Your Name" className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none transition-colors" style={{ borderColor: undefined }} onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                        <input type="tel" placeholder="Phone Number" className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                      </div>
+
+                      <button
+                        className="w-full mt-4 py-3 text-white font-bold text-sm transition-transform hover:scale-[1.02]"
+                        style={{ background: `linear-gradient(90deg, ${COLORS.magenta}, ${COLORS.blue})`, borderRadius: 50 }}
+                      >
+                        Confirm Appointment →
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Call */}
+              <div className="relative" ref={callRef}>
+                <button
+                  onClick={() => { setCallOpen(v => !v); setBookOpen(false) }}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-colors"
+                  style={{ background: COLORS.plum }}
+                  onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.background = COLORS.magenta)}
+                  onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.background = COLORS.plum)}
+                >
+                  <Phone className="w-4 h-4" />
+                  Call Us
+                </button>
+                <AnimatePresence>
+                  {callOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.25 }}
+                      className="absolute right-0 mt-3 p-4"
+                      style={{
+                        width: 270,
+                        background: "#fff",
+                        borderRadius: 16,
+                        borderTop: `3px solid ${COLORS.plum}`,
+                        boxShadow: "0 16px 60px rgba(45,10,30,0.15)",
+                      }}
+                    >
+                      <div className="space-y-2">
+                        {phones.map((p, i) => (
+                          <div key={p.label} className="flex items-center justify-between gap-2">
+                            <div>
+                              <div className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: COLORS.navLink }}>{p.label}</div>
+                              <div className="text-sm font-semibold" style={{ color: COLORS.plum }}>{p.number}</div>
+                            </div>
+                            <button
+                              onClick={() => copy(p.number, i)}
+                              className="p-2 rounded-lg transition-colors"
+                              style={{ background: copiedIdx === i ? COLORS.magenta : COLORS.pinkSoft, color: copiedIdx === i ? "#fff" : COLORS.plum }}
+                              onMouseEnter={e => { if (copiedIdx !== i) { (e.currentTarget as HTMLButtonElement).style.background = COLORS.magenta; (e.currentTarget as HTMLButtonElement).style.color = "#fff" } }}
+                              onMouseLeave={e => { if (copiedIdx !== i) { (e.currentTarget as HTMLButtonElement).style.background = COLORS.pinkSoft; (e.currentTarget as HTMLButtonElement).style.color = COLORS.plum } }}
+                              aria-label={`Copy ${p.label}`}
+                            >
+                              {copiedIdx === i ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
 
-            {/* Mobile menu button */}
+            {/* Mobile hamburger */}
             <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-plum"
+              onClick={() => setIsMobileOpen(v => !v)}
+              className="md:hidden p-2"
+              style={{ color: COLORS.magenta }}
+              aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              <AnimatePresence mode="wait" initial={false}>
+                {isMobileOpen ? (
+                  <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
+                    <X className="w-7 h-7" />
+                  </motion.span>
+                ) : (
+                  <motion.span key="m" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
+                    <Menu className="w-7 h-7" />
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </button>
           </div>
         </div>
-      </motion.nav>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-y-0 right-0 z-50 w-80 bg-white shadow-2xl lg:hidden"
-          >
-            <div className="flex flex-col h-full pt-24 px-6">
-              <div className="flex flex-col gap-4">
-                {navLinks.map((link, index) => (
-                  <motion.div
-                    key={link.name}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                  >
+        {/* ROW 2 */}
+        <div
+          className="hidden md:block relative"
+          style={{
+            height: 48,
+            background: isScrolled ? "rgba(255,241,247,0.85)" : COLORS.pinkSoft,
+            backdropFilter: isScrolled ? "blur(16px)" : "none",
+            WebkitBackdropFilter: isScrolled ? "blur(16px)" : "none",
+            transition: "background 0.35s ease",
+          }}
+        >
+          <div className="max-w-7xl mx-auto h-full px-4 flex items-center justify-center">
+            <div className="flex items-center gap-1">
+              {navLinks.map((link, idx) => {
+                const isActive = activeSection === link.href.replace("#", "")
+                return (
+                  <div key={link.name} className="flex items-center">
                     <a
                       href={link.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="block py-2 text-lg font-medium text-plum hover:text-rose transition-colors"
+                      className="relative px-3 py-1 group"
+                      style={{
+                        color: isActive ? COLORS.magenta : COLORS.navLink,
+                        fontWeight: 600,
+                        fontSize: 15,
+                        transition: "color 0.2s ease",
+                      }}
+                      onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = COLORS.magenta)}
+                      onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = isActive ? COLORS.magenta : COLORS.navLink)}
                     >
                       {link.name}
+                      <span
+                        className="absolute left-3 right-3 -bottom-0.5 h-[2px] origin-left transition-transform duration-300 group-hover:scale-x-100"
+                        style={{
+                          background: COLORS.magenta,
+                          transform: isActive ? "scaleX(1)" : "scaleX(0)",
+                        }}
+                      />
                     </a>
-                  </motion.div>
-                ))}
-              </div>
-              <div className="mt-8 flex flex-col gap-4">
-                <a 
-                  href="tel:+9779861141699" 
-                  className="flex items-center gap-2 text-plum"
-                >
-                  <Phone className="w-5 h-5" />
-                  <span className="font-medium">+977 9861141699</span>
-                </a>
-                <Button 
-                  className="bg-gradient-to-r from-rose to-rose-dark text-white rounded-full w-full"
-                >
-                  Book Appointment
-                </Button>
-              </div>
+                    {idx < navLinks.length - 1 && (
+                      <span style={{ color: COLORS.navLink, opacity: 0.4 }}>|</span>
+                    )}
+                  </div>
+                )
+              })}
             </div>
-          </motion.div>
+          </div>
+          {/* Gradient bottom border */}
+          <div
+            className="absolute bottom-0 left-0 right-0"
+            style={{ height: 2.5, background: `linear-gradient(90deg, ${COLORS.magenta}, ${COLORS.blue})` }}
+          />
+        </div>
+
+        {/* Mobile gradient line under row 1 */}
+        <div
+          className="md:hidden"
+          style={{ height: 2.5, background: `linear-gradient(90deg, ${COLORS.magenta}, ${COLORS.blue})` }}
+        />
+      </motion.header>
+
+      {/* Mobile drawer */}
+      <AnimatePresence>
+        {isMobileOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileOpen(false)}
+              className="fixed inset-0 bg-black/50 md:hidden"
+              style={{ zIndex: 1001 }}
+            />
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+              className="fixed top-0 right-0 bottom-0 bg-white md:hidden flex flex-col"
+              style={{ width: "min(340px, 90vw)", zIndex: 1002 }}
+            >
+              <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: COLORS.pinkSoft }}>
+                <img src={logo} alt="Subhashree IVF" style={{ width: 130 }} onError={(e) => ((e.currentTarget.style.display = "none"))} />
+                <button onClick={() => setIsMobileOpen(false)} aria-label="Close menu" style={{ color: COLORS.plum }}>
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              <nav className="flex-1 overflow-y-auto px-2 py-2">
+                {navLinks.map((link, i) => (
+                  <motion.a
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setIsMobileOpen(false)}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.04 }}
+                    className="flex items-center px-4 font-semibold border-b"
+                    style={{
+                      height: 52,
+                      color: COLORS.navLink,
+                      borderColor: COLORS.pinkSoft,
+                      fontSize: 15,
+                    }}
+                  >
+                    {link.name}
+                  </motion.a>
+                ))}
+              </nav>
+
+              <div className="p-4 space-y-3 border-t" style={{ borderColor: COLORS.pinkSoft }}>
+                <button
+                  className="w-full py-3 text-white font-bold flex items-center justify-center gap-2"
+                  style={{ background: COLORS.magenta, borderRadius: 50 }}
+                >
+                  📅 Book Appointment
+                </button>
+                <a
+                  href="tel:+9779800123456"
+                  className="w-full py-3 font-bold flex items-center justify-center gap-2 border-2"
+                  style={{ borderColor: COLORS.plum, color: COLORS.plum, borderRadius: 50 }}
+                >
+                  📞 Call Us
+                </a>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 
-      {/* Overlay */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="fixed inset-0 z-40 bg-black/50 lg:hidden"
-          />
-        )}
-      </AnimatePresence>
+      {/* Spacer to offset fixed navbar height */}
+      <div style={{ height: isScrolled ? 104 : 118 }} className="hidden md:block" />
+      <div style={{ height: 70 }} className="md:hidden" />
     </>
   )
 }
