@@ -1,15 +1,14 @@
-import { useRef } from "react"
-import { motion, useInView } from "framer-motion"
-import { ArrowRight, Baby, TrendingUp, Heart } from "lucide-react"
+import { useRef, useEffect, useState } from "react"
+import { motion, useInView, AnimatePresence } from "framer-motion"
+import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import miracle1 from "@/assets/miracle-1.jpg"
-import miracle2 from "@/assets/miracle-2.jpg"
-import miracle3 from "@/assets/miracle-3.jpg"
-import miracle4 from "@/assets/miracle-4.jpg"
-import miracle5 from "@/assets/miracle-5.jpg"
-import miracle6 from "@/assets/miracle-6.jpg"
 
-const images = [miracle1, miracle2, miracle3, miracle4, miracle5, miracle6]
+const photoPool = [
+  "https://images.unsplash.com/photo-1492725764893-90b379c2b6e7?w=800",
+  "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=800",
+  "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800",
+  "https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=800",
+]
 
 const dots = [
   { top: "8%", left: "6%", size: 12, color: "rgba(230,0,126,0.12)", dur: 9, delay: 0 },
@@ -22,15 +21,63 @@ const dots = [
   { top: "92%", left: "15%", size: 18, color: "rgba(230,0,126,0.12)", dur: 9, delay: 2.5 },
 ]
 
-const pills = [
-  { Icon: Baby, num: "5,000+", label: "Babies Born", delay: 0 },
-  { Icon: TrendingUp, num: "75%", label: "Success Rate", delay: 0.8 },
-  { Icon: Heart, num: "12+", label: "Years of Care", delay: 1.6 },
-]
+function useCountUp(target: number, duration: number, start: boolean) {
+  const [value, setValue] = useState(0)
+  useEffect(() => {
+    if (!start) return
+    let raf = 0
+    const t0 = performance.now()
+    const tick = (now: number) => {
+      const p = Math.min((now - t0) / (duration * 1000), 1)
+      const eased = 1 - Math.pow(1 - p, 3)
+      setValue(Math.round(target * eased))
+      if (p < 1) raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [start, target, duration])
+  return value
+}
+
+function RotatingCell({ offset }: { offset: number }) {
+  const [idx, setIdx] = useState(offset % photoPool.length)
+  useEffect(() => {
+    // each cell swaps every 12s (4 cells * 3s) but staggered by offset*3s
+    const interval = setInterval(() => {
+      setIdx((i) => (i + 1) % photoPool.length)
+    }, 12000)
+    const t = setTimeout(() => {
+      setIdx((i) => (i + 1) % photoPool.length)
+    }, offset * 3000 + 3000)
+    return () => {
+      clearInterval(interval)
+      clearTimeout(t)
+    }
+  }, [offset])
+
+  return (
+    <div className="relative w-full h-full overflow-hidden">
+      <AnimatePresence mode="sync">
+        <motion.img
+          key={idx}
+          src={photoPool[idx]}
+          alt=""
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="lazy"
+        />
+      </AnimatePresence>
+    </div>
+  )
+}
 
 export function MiraclesGallery() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const count = useCountUp(5000, 2, isInView)
 
   return (
     <section
@@ -42,17 +89,12 @@ export function MiraclesGallery() {
       }}
     >
       <style>{`
-        @keyframes pillBob {
-          0%, 100% { transform: translateY(0); }
-          50%      { transform: translateY(-5px); }
-        }
         @keyframes dotFloat {
           0%, 100% { transform: translateY(0); }
           50%      { transform: translateY(-14px); }
         }
       `}</style>
 
-      {/* Floating background dots */}
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         {dots.map((d, i) => (
           <span
@@ -73,7 +115,6 @@ export function MiraclesGallery() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ zIndex: 10 }}>
         <div className="grid lg:grid-cols-5 gap-12 items-center">
-          {/* Left side - Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -81,7 +122,7 @@ export function MiraclesGallery() {
             className="lg:col-span-2 space-y-6"
           >
             <div className="font-serif text-6xl lg:text-7xl font-bold text-rose">
-              5,000+
+              {count.toLocaleString()}+
             </div>
             <h2 className="font-serif text-3xl lg:text-4xl font-bold text-plum">
               Miracles & Counting
@@ -98,118 +139,34 @@ export function MiraclesGallery() {
               Your Miracle Awaits
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
-
-            {/* Floating stat pills */}
-            <div className="flex flex-col gap-2.5" style={{ marginTop: 28 }}>
-              {pills.map((p, i) => {
-                const Icon = p.Icon
-                return (
-                  <motion.div
-                    key={p.label}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
-                    className="inline-flex items-center self-start bg-white rounded-full"
-                    style={{
-                      gap: 10,
-                      border: "1px solid rgba(230,0,126,0.15)",
-                      padding: "10px 18px",
-                      boxShadow: "0 4px 20px rgba(230,0,126,0.10)",
-                      animation: `pillBob 3s ease-in-out ${p.delay}s infinite`,
-                    }}
-                  >
-                    <span
-                      className="inline-flex items-center justify-center rounded-full"
-                      style={{
-                        width: 32,
-                        height: 32,
-                        background: "#FFF1F7",
-                        color: "#E6007E",
-                        flexShrink: 0,
-                      }}
-                    >
-                      <Icon className="w-4 h-4" />
-                    </span>
-                    <span style={{ fontWeight: 700, color: "#1A1535", fontSize: 15 }}>
-                      {p.num}
-                    </span>
-                    <span style={{ color: "#6B6B8A", fontSize: 12 }}>{p.label}</span>
-                  </motion.div>
-                )
-              })}
-            </div>
           </motion.div>
 
-          {/* Right side - Logo-masked gallery with rotating ring */}
-          <div className="lg:col-span-3 flex justify-end">
-            <div
-              className="relative"
-              style={{ width: 520, height: 520, maxWidth: "100%" }}
+          <div className="lg:col-span-3 flex justify-end items-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              style={{
+                width: 560,
+                height: 560,
+                maxWidth: "100%",
+                WebkitMaskImage: `url('/shubhashree-01.png')`,
+                maskImage: `url('/shubhashree-01.png')`,
+                WebkitMaskRepeat: "no-repeat",
+                maskRepeat: "no-repeat",
+                WebkitMaskPosition: "center",
+                maskPosition: "center",
+                WebkitMaskSize: "contain",
+                maskSize: "contain",
+                filter: "drop-shadow(0 0 50px rgba(230, 0, 126, 0.20))",
+              }}
             >
-              {/* Rotating gradient ring */}
-              <motion.div
-                aria-hidden
-                className="absolute rounded-full"
-                style={{
-                  top: -24,
-                  left: -24,
-                  right: -24,
-                  bottom: -24,
-                  background:
-                    "conic-gradient(#E6007E, #1BA0DC, #E6007E)",
-                  padding: 3,
-                  opacity: 0.7,
-                  zIndex: 0,
-                }}
-                animate={{ rotate: 360 }}
-                transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-              >
-                <div
-                  className="w-full h-full rounded-full"
-                  style={{ background: "transparent" }}
-                />
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                style={{
-                  position: "relative",
-                  zIndex: 10,
-                  width: "100%",
-                  height: "100%",
-                  WebkitMaskImage: `url('/shubhashree-01.png')`,
-                  maskImage: `url('/shubhashree-01.png')`,
-                  WebkitMaskRepeat: "no-repeat",
-                  maskRepeat: "no-repeat",
-                  WebkitMaskPosition: "center",
-                  maskPosition: "center",
-                  WebkitMaskSize: "contain",
-                  maskSize: "contain",
-                  filter: "drop-shadow(0 0 30px rgba(230, 0, 126, 0.25))",
-                }}
-              >
-                <div className="grid grid-cols-2 grid-rows-3 w-full h-full">
-                  {images.map((src, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0 }}
-                      animate={isInView ? { opacity: 1 } : {}}
-                      transition={{ duration: 0.4, delay: 0.8 + index * 0.2 }}
-                      className="overflow-hidden"
-                    >
-                      <img
-                        src={src}
-                        alt={`Success story ${index + 1}`}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            </div>
+              <div className="grid grid-cols-2 grid-rows-2 w-full h-full">
+                {[0, 1, 2, 3].map((i) => (
+                  <RotatingCell key={i} offset={i} />
+                ))}
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>
