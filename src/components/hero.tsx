@@ -17,11 +17,6 @@ const slides = [
   "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=800",
 ]
 
-const stats = [
-  { icon: Baby, number: "5,000+", label: "Babies Born" },
-  { icon: TrendingUp, number: "75%", label: "Success Rate" },
-  { icon: Award, number: "12+", label: "Years Excellence" },
-]
 
 export function Hero() {
   return (
