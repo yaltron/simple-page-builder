@@ -2,19 +2,7 @@ import { useRef, useEffect, useState } from "react"
 import { motion, useInView } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-const initialPhotos = [
-  "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=800&q=90&fit=crop",
-  "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=800&q=90&fit=crop",
-  "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=90&fit=crop",
-  "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=90&fit=crop",
-]
-
-const swapPool = [
-  "https://images.unsplash.com/photo-1491013516836-7db643ee125a?w=800&q=90&fit=crop",
-  "https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=800&q=90&fit=crop",
-  "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=800&q=90&fit=crop",
-]
+import miracleMask from "@/assets/miracle-mask.jpg"
 
 const dots = [
   { size: 12, color: "#E6007E", top: "10%", left: "85%", dur: 5, delay: 0 },
@@ -40,72 +28,11 @@ function useCountUp(target: number, duration: number, start: boolean) {
   return value
 }
 
-function MaskCell({ src }: { src: string }) {
-  const [current, setCurrent] = useState(src)
-  const [prev, setPrev] = useState<string | null>(null)
-  const [fadingIn, setFadingIn] = useState(true)
-
-  useEffect(() => {
-    if (src === current) return
-    setPrev(current)
-    setCurrent(src)
-    setFadingIn(false)
-    requestAnimationFrame(() => requestAnimationFrame(() => setFadingIn(true)))
-    const t = setTimeout(() => setPrev(null), 700)
-    return () => clearTimeout(t)
-  }, [src])
-
-  return (
-    <div style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden", background: "#1A1535" }}>
-      {prev && (
-        <img
-          src={prev}
-          alt=""
-          style={{
-            position: "absolute", inset: 0, width: "100%", height: "100%",
-            objectFit: "cover",
-            filter: "saturate(1.15) contrast(1.05)",
-          }}
-        />
-      )}
-      <img
-        src={current}
-        alt="Miracle baby"
-        loading="lazy"
-        style={{
-          position: "absolute", inset: 0, width: "100%", height: "100%",
-          objectFit: "cover",
-          opacity: fadingIn ? 1 : 0,
-          transition: "opacity 0.6s ease",
-          filter: "saturate(1.15) contrast(1.05)",
-        }}
-      />
-    </div>
-  )
-}
 
 export function MiraclesGallery() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const count = useCountUp(5000, 2, isInView)
-
-  const [photos, setPhotos] = useState<string[]>(initialPhotos)
-
-  useEffect(() => {
-    if (!isInView) return
-    const interval = setInterval(() => {
-      setPhotos((curr) => {
-        const idx = Math.floor(Math.random() * 4)
-        const candidates = swapPool.filter((p) => !curr.includes(p))
-        const pool = candidates.length ? candidates : swapPool
-        const next = pool[Math.floor(Math.random() * pool.length)]
-        const updated = [...curr]
-        updated[idx] = next
-        return updated
-      })
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [isInView])
 
   return (
     <section
@@ -124,7 +51,6 @@ export function MiraclesGallery() {
 
       <div className="relative">
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[480px]">
-          {/* LEFT */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -151,7 +77,6 @@ export function MiraclesGallery() {
             </Button>
           </motion.div>
 
-          {/* RIGHT — logo mask collage */}
           <div className="relative flex justify-end items-center" style={{ minHeight: 560 }}>
             {dots.map((d, i) => (
               <span
@@ -173,9 +98,7 @@ export function MiraclesGallery() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              style={{
-                filter: "drop-shadow(0 0 40px rgba(230,0,126,0.30))",
-              }}
+              style={{ filter: "drop-shadow(0 0 40px rgba(230,0,126,0.30))" }}
             >
               <div
                 style={{
@@ -190,15 +113,23 @@ export function MiraclesGallery() {
                   WebkitMaskPosition: "center",
                   maskPosition: "center",
                   background: "#1A1535",
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gridTemplateRows: "1fr 1fr",
-                  gap: 0,
+                  position: "relative",
+                  overflow: "hidden",
                 }}
               >
-                {photos.map((p, i) => (
-                  <MaskCell key={i} src={p} />
-                ))}
+                <img
+                  src={miracleMask}
+                  alt="Mother and newborn baby — a Shubhashree IVF miracle"
+                  width={1024}
+                  height={1024}
+                  loading="lazy"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    filter: "saturate(1.15) contrast(1.05)",
+                  }}
+                />
               </div>
             </motion.div>
           </div>
