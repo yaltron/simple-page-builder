@@ -281,7 +281,8 @@ export function Navbar() {
         <div
           className="hidden md:block relative"
           style={{
-            height: 48,
+            height: 56,
+            paddingBottom: 8,
             background: isScrolled ? "rgba(255,241,247,0.85)" : COLORS.pinkSoft,
             backdropFilter: isScrolled ? "blur(16px)" : "none",
             WebkitBackdropFilter: isScrolled ? "blur(16px)" : "none",
