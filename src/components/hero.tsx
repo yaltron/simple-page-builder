@@ -347,3 +347,46 @@ export function Hero() {
     </section>
   )
 }
+
+function HeroSlideshow() {
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % slides.length)
+    }, 3000)
+    return () => clearInterval(id)
+  }, [])
+
+  return (
+    <div className="relative">
+      <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl aspect-[4/5] bg-rose-light/20">
+        <AnimatePresence>
+          <motion.img
+            key={index}
+            src={slides[index]}
+            alt="Shubhashree IVF"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </AnimatePresence>
+      </div>
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setIndex(i)}
+            aria-label={`Go to slide ${i + 1}`}
+            className="w-2.5 h-2.5 rounded-full transition-colors"
+            style={{
+              backgroundColor: i === index ? "#E6007E" : "rgba(230,0,126,0.25)",
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
