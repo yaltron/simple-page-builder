@@ -4,28 +4,16 @@ import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const initialPhotos = [
-  "https://images.unsplash.com/photo-1492725764893-90b379c2b6e7?w=600",
-  "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=600",
-  "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=600",
-  "https://images.unsplash.com/photo-1491013516836-7db643ee125a?w=600",
+  "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=800&q=90&fit=crop",
+  "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=800&q=90&fit=crop",
+  "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=90&fit=crop",
+  "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=90&fit=crop",
 ]
 
 const swapPool = [
-  "https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=600",
-  "https://images.unsplash.com/photo-1560328055-e938bb2ed50a?w=600",
-  "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=600",
-  "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=600",
-]
-
-type CardCfg = {
-  w: number; h: number; rotate: number; top: number; left: number; floatDur: number; delay: number;
-}
-
-const cards: CardCfg[] = [
-  { w: 220, h: 260, rotate: -4, top: 0,   left: 0,   floatDur: 4, delay: 0 },
-  { w: 180, h: 220, rotate: 3,  top: 40,  left: 230, floatDur: 5, delay: 0.15 },
-  { w: 200, h: 240, rotate: 2,  top: 240, left: 20,  floatDur: 6, delay: 0.3 },
-  { w: 170, h: 200, rotate: -3, top: 280, left: 240, floatDur: 7, delay: 0.45 },
+  "https://images.unsplash.com/photo-1491013516836-7db643ee125a?w=800&q=90&fit=crop",
+  "https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=800&q=90&fit=crop",
+  "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=800&q=90&fit=crop",
 ]
 
 const dots = [
@@ -52,73 +40,47 @@ function useCountUp(target: number, duration: number, start: boolean) {
   return value
 }
 
-function FloatingCard({
-  cfg, src, index, inView,
-}: { cfg: CardCfg; src: string; index: number; inView: boolean }) {
+function MaskCell({ src }: { src: string }) {
   const [current, setCurrent] = useState(src)
   const [prev, setPrev] = useState<string | null>(null)
-  const [fading, setFading] = useState(false)
+  const [fadingIn, setFadingIn] = useState(true)
 
   useEffect(() => {
     if (src === current) return
     setPrev(current)
     setCurrent(src)
-    setFading(true)
-    const t = setTimeout(() => { setFading(false); setPrev(null) }, 750)
+    setFadingIn(false)
+    requestAnimationFrame(() => requestAnimationFrame(() => setFadingIn(true)))
+    const t = setTimeout(() => setPrev(null), 700)
     return () => clearTimeout(t)
   }, [src])
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: cfg.delay, ease: "easeOut" }}
-      style={{
-        position: "absolute",
-        top: cfg.top,
-        left: cfg.left,
-        width: cfg.w,
-        height: cfg.h,
-        transform: `rotate(${cfg.rotate}deg)`,
-        animation: inView ? `cardFloat${index} ${cfg.floatDur}s ease-in-out ${cfg.delay + 0.6}s infinite` : undefined,
-        zIndex: 2 + index,
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          borderRadius: 20,
-          overflow: "hidden",
-          border: "3px solid white",
-          boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
-          position: "relative",
-          background: "#eee",
-        }}
-      >
-        {prev && (
-          <img
-            src={prev}
-            alt=""
-            style={{
-              position: "absolute", inset: 0, width: "100%", height: "100%",
-              objectFit: "cover", opacity: fading ? 0 : 1,
-              transition: "opacity 0.7s ease",
-            }}
-          />
-        )}
+    <div style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden", background: "#1A1535" }}>
+      {prev && (
         <img
-          src={current}
-          alt="Miracle baby"
-          loading="lazy"
+          src={prev}
+          alt=""
           style={{
             position: "absolute", inset: 0, width: "100%", height: "100%",
-            objectFit: "cover", opacity: fading ? 1 : 1,
-            transition: "opacity 0.7s ease",
+            objectFit: "cover",
+            filter: "saturate(1.15) contrast(1.05)",
           }}
         />
-      </div>
-    </motion.div>
+      )}
+      <img
+        src={current}
+        alt="Miracle baby"
+        loading="lazy"
+        style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%",
+          objectFit: "cover",
+          opacity: fadingIn ? 1 : 0,
+          transition: "opacity 0.6s ease",
+          filter: "saturate(1.15) contrast(1.05)",
+        }}
+      />
+    </div>
   )
 }
 
@@ -129,7 +91,6 @@ export function MiraclesGallery() {
 
   const [photos, setPhotos] = useState<string[]>(initialPhotos)
 
-  // Auto-rotate one random card every 3s
   useEffect(() => {
     if (!isInView) return
     const interval = setInterval(() => {
@@ -152,27 +113,23 @@ export function MiraclesGallery() {
       className="relative overflow-hidden"
       style={{
         minHeight: 640,
-        padding: "80px 8%",
+        padding: "80px 0 80px 8%",
         background:
           "linear-gradient(120deg, #FFF1F7 0%, #ffffff 55%, #EAF7FD 100%)",
       }}
     >
       <style>{`
-        @keyframes cardFloat0 { 0%,100%{transform:rotate(-4deg) translateY(0);} 50%{transform:rotate(-4deg) translateY(-8px);} }
-        @keyframes cardFloat1 { 0%,100%{transform:rotate(3deg) translateY(0);}  50%{transform:rotate(3deg) translateY(-8px);} }
-        @keyframes cardFloat2 { 0%,100%{transform:rotate(2deg) translateY(0);}  50%{transform:rotate(2deg) translateY(-8px);} }
-        @keyframes cardFloat3 { 0%,100%{transform:rotate(-3deg) translateY(0);} 50%{transform:rotate(-3deg) translateY(-8px);} }
         @keyframes dotFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
       `}</style>
 
-      <div className="relative max-w-7xl mx-auto">
+      <div className="relative">
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[480px]">
           {/* LEFT */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="space-y-6"
+            className="space-y-6 max-w-xl"
           >
             <div className="font-serif text-6xl lg:text-7xl font-bold text-rose">
               {count.toLocaleString()}+
@@ -194,23 +151,8 @@ export function MiraclesGallery() {
             </Button>
           </motion.div>
 
-          {/* RIGHT — floating cards */}
-          <div className="relative" style={{ height: 540 }}>
-            {/* Soft blob */}
-            <div
-              aria-hidden
-              style={{
-                position: "absolute",
-                width: 400, height: 400,
-                top: "50%", left: "50%",
-                transform: "translate(-50%, -50%)",
-                background: "linear-gradient(135deg, #FFF1F7, #EAF7FD)",
-                borderRadius: "50%",
-                opacity: 0.8,
-                zIndex: 0,
-              }}
-            />
-            {/* Brand dots */}
+          {/* RIGHT — logo mask collage */}
+          <div className="relative flex justify-end items-center" style={{ minHeight: 560 }}>
             {dots.map((d, i) => (
               <span
                 key={i}
@@ -227,18 +169,38 @@ export function MiraclesGallery() {
               />
             ))}
 
-            {/* Card stack wrapper */}
-            <div style={{ position: "relative", width: 410, height: 500, margin: "0 auto" }}>
-              {cards.map((cfg, i) => (
-                <FloatingCard
-                  key={i}
-                  cfg={cfg}
-                  src={photos[i]}
-                  index={i}
-                  inView={isInView}
-                />
-              ))}
-            </div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              style={{
+                filter: "drop-shadow(0 0 40px rgba(230,0,126,0.30))",
+              }}
+            >
+              <div
+                style={{
+                  width: 560,
+                  height: 560,
+                  WebkitMaskImage: "url('/shubhashree-01.png')",
+                  maskImage: "url('/shubhashree-01.png')",
+                  WebkitMaskSize: "contain",
+                  maskSize: "contain",
+                  WebkitMaskRepeat: "no-repeat",
+                  maskRepeat: "no-repeat",
+                  WebkitMaskPosition: "center",
+                  maskPosition: "center",
+                  background: "#1A1535",
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gridTemplateRows: "1fr 1fr",
+                  gap: 0,
+                }}
+              >
+                {photos.map((p, i) => (
+                  <MaskCell key={i} src={p} />
+                ))}
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>
