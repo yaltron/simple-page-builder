@@ -119,6 +119,7 @@ export function Navbar() {
         className="fixed top-0 left-0 right-0 w-full"
         style={{
           zIndex: 1000,
+          isolation: "isolate",
           boxShadow: isScrolled ? "0 4px 24px rgba(230,0,126,0.10)" : "none",
           transition: "box-shadow 0.35s ease",
         }}
@@ -165,6 +166,7 @@ export function Navbar() {
                         borderRadius: 20,
                         borderTop: `3px solid ${COLORS.magenta}`,
                         boxShadow: "0 16px 60px rgba(230,0,126,0.15)",
+                        zIndex: 9999,
                       }}
                     >
                       <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: COLORS.plum }} className="font-bold">
@@ -227,6 +229,7 @@ export function Navbar() {
                         borderRadius: 16,
                         borderTop: `3px solid ${COLORS.plum}`,
                         boxShadow: "0 16px 60px rgba(45,10,30,0.15)",
+                        zIndex: 9999,
                       }}
                     >
                       <div className="space-y-2">
