@@ -154,7 +154,7 @@ export function ProcessSteps() {
               >
                 <div
                   className="flex flex-col items-center"
-                  style={{ transform: `translateY(var(--lg-offset, 0px))` }}
+                  style={{ transform: isLg ? `translateY(${lgOffset}px)` : undefined }}
                 >
                   <div className="relative mb-5">
                     {/* Pulse glow ring on arrival */}
