@@ -12,42 +12,45 @@ import {
   ArrowRight 
 } from "lucide-react"
 
+const cardGradients = [
+  "linear-gradient(135deg, #FFF1F7 0%, #fcd4e8 100%)",
+  "linear-gradient(135deg, #EAF7FD 0%, #c2e8f8 100%)",
+  "linear-gradient(135deg, #fcd4e8 0%, #EAF7FD 100%)",
+  "linear-gradient(135deg, #c2e8f8 0%, #FFF1F7 100%)",
+  "linear-gradient(135deg, #FFF1F7 0%, #c2e8f8 100%)",
+  "linear-gradient(135deg, #EAF7FD 0%, #fcd4e8 100%)",
+]
+
 const services = [
   {
     icon: Heart,
     title: "IVF Treatment",
     description: "Advanced in-vitro fertilization with personalized protocols for optimal success rates.",
-    color: "from-rose-light/40 to-rose-light/10",
   },
   {
     icon: Microscope,
     title: "ICSI Procedure",
     description: "Intracytoplasmic sperm injection for male factor infertility with precision technology.",
-    color: "from-teal-light/40 to-teal-light/10",
   },
   {
     icon: Snowflake,
     title: "Embryo Freezing",
     description: "State-of-the-art cryopreservation to preserve your fertility for the future.",
-    color: "from-gold-light/60 to-gold-light/20",
   },
   {
     icon: Dna,
     title: "Genetic Testing (PGT)",
     description: "Preimplantation genetic testing to ensure healthy embryo selection.",
-    color: "from-rose-light/40 to-rose-light/10",
   },
   {
     icon: Users,
     title: "Donor Egg Programme",
     description: "Comprehensive donor egg program with carefully screened donors.",
-    color: "from-teal-light/40 to-teal-light/10",
   },
   {
     icon: Stethoscope,
     title: "Infertility Diagnosis",
     description: "Thorough diagnostic evaluations to identify the root cause of infertility.",
-    color: "from-gold-light/60 to-gold-light/20",
   },
 ]
 
@@ -83,31 +86,39 @@ export function Services() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group relative"
             >
-              <div 
-                className={`relative bg-gradient-to-br ${service.color} rounded-2xl p-6 lg:p-8 h-full
-                  transition-all duration-300 hover:-translate-y-2 hover:shadow-xl
-                  before:absolute before:top-0 before:left-0 before:right-0 before:h-1 
-                  before:bg-rose before:rounded-t-2xl before:scale-x-0 before:origin-left
-                  before:transition-transform before:duration-300 group-hover:before:scale-x-100`}
+              <div
+                className="relative rounded-2xl p-6 lg:p-8 h-full transition-all duration-300 group-hover:-translate-y-1.5"
+                style={{
+                  background: cardGradients[index % cardGradients.length],
+                  border: "1px solid rgba(230, 0, 126, 0.12)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(230, 0, 126, 0.35)"
+                  e.currentTarget.style.boxShadow = "0 12px 40px rgba(230, 0, 126, 0.12)"
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(230, 0, 126, 0.12)"
+                  e.currentTarget.style.boxShadow = "none"
+                }}
               >
                 {/* Icon */}
-                <div className="w-14 h-14 rounded-full bg-white/80 flex items-center justify-center mb-6">
-                  <service.icon className="w-7 h-7 text-rose" />
+                <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center mb-6">
+                  <service.icon className="w-7 h-7" style={{ color: "#E6007E" }} />
                 </div>
 
                 {/* Content */}
-                <h3 className="font-serif text-xl font-semibold text-plum mb-3">
+                <h3 className="font-serif text-xl font-semibold mb-3" style={{ color: "#1A1535" }}>
                   {service.title}
                 </h3>
-                <p className="text-plum/70 text-sm leading-relaxed mb-4">
+                <p className="text-sm leading-relaxed mb-4" style={{ color: "#6B6B8A" }}>
                   {service.description}
                 </p>
 
                 {/* Link */}
-                <a 
-                  href="#" 
-                  className="inline-flex items-center gap-1 text-sm font-medium text-rose 
-                    transition-all duration-300 group-hover:gap-2"
+                <a
+                  href="#"
+                  className="inline-flex items-center gap-1 text-sm font-medium transition-all duration-300 group-hover:gap-2"
+                  style={{ color: "#E6007E" }}
                 >
                   Learn more
                   <ArrowRight className="w-4 h-4" />
