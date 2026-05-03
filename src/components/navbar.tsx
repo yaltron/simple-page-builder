@@ -408,7 +408,7 @@ export function Navbar() {
       </AnimatePresence>
 
       {/* Spacer to offset fixed navbar height */}
-      <div style={{ height: isScrolled ? 104 : 118 }} className="hidden md:block" />
+      <div style={{ height: isScrolled ? 112 : 126 }} className="hidden md:block" />
       <div style={{ height: 70 }} className="md:hidden" />
     </>
   )
