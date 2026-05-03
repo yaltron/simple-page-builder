@@ -229,6 +229,7 @@ export function Navbar() {
                         borderRadius: 16,
                         borderTop: `3px solid ${COLORS.plum}`,
                         boxShadow: "0 16px 60px rgba(45,10,30,0.15)",
+                        zIndex: 9999,
                       }}
                     >
                       <div className="space-y-2">
