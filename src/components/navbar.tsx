@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react"
-import { createPortal } from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { Phone, Menu, X, Calendar, ChevronDown, Copy, Check, Hospital, Video } from "lucide-react"
 import { Link } from "@tanstack/react-router"
@@ -56,32 +55,6 @@ export function Navbar() {
 
   const bookRef = useRef<HTMLDivElement>(null)
   const callRef = useRef<HTMLDivElement>(null)
-  const bookBtnRef = useRef<HTMLButtonElement>(null)
-  const callBtnRef = useRef<HTMLButtonElement>(null)
-  const bookPanelRef = useRef<HTMLDivElement>(null)
-  const callPanelRef = useRef<HTMLDivElement>(null)
-  const [bookPos, setBookPos] = useState<{ top: number; right: number }>({ top: 0, right: 0 })
-  const [callPos, setCallPos] = useState<{ top: number; right: number }>({ top: 0, right: 0 })
-
-  useEffect(() => {
-    const update = () => {
-      if (bookOpen && bookBtnRef.current) {
-        const r = bookBtnRef.current.getBoundingClientRect()
-        setBookPos({ top: r.bottom + 8, right: window.innerWidth - r.right })
-      }
-      if (callOpen && callBtnRef.current) {
-        const r = callBtnRef.current.getBoundingClientRect()
-        setCallPos({ top: r.bottom + 8, right: window.innerWidth - r.right })
-      }
-    }
-    update()
-    window.addEventListener("scroll", update, true)
-    window.addEventListener("resize", update)
-    return () => {
-      window.removeEventListener("scroll", update, true)
-      window.removeEventListener("resize", update)
-    }
-  }, [bookOpen, callOpen])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -101,9 +74,8 @@ export function Navbar() {
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      const t = e.target as Node
-      if (bookOpen && bookRef.current && !bookRef.current.contains(t) && !bookPanelRef.current?.contains(t)) setBookOpen(false)
-      if (callOpen && callRef.current && !callRef.current.contains(t) && !callPanelRef.current?.contains(t)) setCallOpen(false)
+      if (bookOpen && bookRef.current && !bookRef.current.contains(e.target as Node)) setBookOpen(false)
+      if (callOpen && callRef.current && !callRef.current.contains(e.target as Node)) setCallOpen(false)
     }
     const onEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") { setBookOpen(false); setCallOpen(false); setIsMobileOpen(false) }
@@ -124,7 +96,6 @@ export function Navbar() {
 
   const row1Height = isScrolled ? 54 : 68
   const logoScale = isScrolled ? 0.88 : 1
-  const portalRoot = typeof document !== "undefined" ? document.body : null
 
   const Logo = (
     <Link to="/" className="flex items-center gap-2" style={{ transform: `scale(${logoScale})`, transformOrigin: "left center", transition: "transform 0.35s ease" }}>
@@ -147,10 +118,8 @@ export function Navbar() {
         transition={{ duration: 0.5 }}
         className="fixed top-0 left-0 right-0 w-full"
         style={{
-          zIndex: 99999,
+          zIndex: 1000,
           isolation: "isolate",
-          transform: "translateZ(0)",
-          willChange: "transform",
           boxShadow: isScrolled ? "0 4px 24px rgba(230,0,126,0.10)" : "none",
           transition: "box-shadow 0.35s ease",
         }}
@@ -173,18 +142,7 @@ export function Navbar() {
               {/* Book */}
               <div className="relative" ref={bookRef}>
                 <button
-                  ref={bookBtnRef}
-                  onClick={() => {
-                    setBookOpen(v => {
-                      const next = !v
-                      if (next && bookBtnRef.current) {
-                        const r = bookBtnRef.current.getBoundingClientRect()
-                        setBookPos({ top: r.bottom + 8, right: window.innerWidth - r.right })
-                      }
-                      return next
-                    })
-                    setCallOpen(false)
-                  }}
+                  onClick={() => { setBookOpen(v => !v); setCallOpen(false) }}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-all"
                   style={{ background: COLORS.magenta }}
                   onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = COLORS.magentaDark; (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)" }}
@@ -195,25 +153,20 @@ export function Navbar() {
                   <ChevronDown className={`w-4 h-4 transition-transform ${bookOpen ? "rotate-180" : ""}`} />
                 </button>
                 <AnimatePresence>
-                  {bookOpen && portalRoot && createPortal(
+                  {bookOpen && (
                     <motion.div
-                      ref={bookPanelRef}
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.25 }}
-                      className="p-5"
+                      className="absolute right-0 mt-3 p-5"
                       style={{
-                        position: "fixed",
-                        top: bookPos.top,
-                        right: bookPos.right,
-                        left: "auto",
                         width: 360,
                         background: "#fff",
                         borderRadius: 20,
                         borderTop: `3px solid ${COLORS.magenta}`,
                         boxShadow: "0 16px 60px rgba(230,0,126,0.15)",
-                        zIndex: 999999,
+                        zIndex: 9999,
                       }}
                     >
                       <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: COLORS.plum }} className="font-bold">
@@ -245,8 +198,7 @@ export function Navbar() {
                       >
                         Confirm Appointment →
                       </button>
-                    </motion.div>,
-                    portalRoot,
+                    </motion.div>
                   )}
                 </AnimatePresence>
               </div>
@@ -254,18 +206,7 @@ export function Navbar() {
               {/* Call */}
               <div className="relative" ref={callRef}>
                 <button
-                  ref={callBtnRef}
-                  onClick={() => {
-                    setCallOpen(v => {
-                      const next = !v
-                      if (next && callBtnRef.current) {
-                        const r = callBtnRef.current.getBoundingClientRect()
-                        setCallPos({ top: r.bottom + 8, right: window.innerWidth - r.right })
-                      }
-                      return next
-                    })
-                    setBookOpen(false)
-                  }}
+                  onClick={() => { setCallOpen(v => !v); setBookOpen(false) }}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-colors"
                   style={{ background: COLORS.plum }}
                   onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.background = COLORS.magenta)}
@@ -275,25 +216,20 @@ export function Navbar() {
                   Call Us
                 </button>
                 <AnimatePresence>
-                  {callOpen && portalRoot && createPortal(
+                  {callOpen && (
                     <motion.div
-                      ref={callPanelRef}
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.25 }}
-                      className="p-4"
+                      className="absolute right-0 mt-3 p-4"
                       style={{
-                        position: "fixed",
-                        top: callPos.top,
-                        right: callPos.right,
-                        left: "auto",
                         width: 270,
                         background: "#fff",
                         borderRadius: 16,
                         borderTop: `3px solid ${COLORS.plum}`,
                         boxShadow: "0 16px 60px rgba(45,10,30,0.15)",
-                        zIndex: 999999,
+                        zIndex: 9999,
                       }}
                     >
                       <div className="space-y-2">
@@ -316,8 +252,7 @@ export function Navbar() {
                           </div>
                         ))}
                       </div>
-                    </motion.div>,
-                    portalRoot,
+                    </motion.div>
                   )}
                 </AnimatePresence>
               </div>
