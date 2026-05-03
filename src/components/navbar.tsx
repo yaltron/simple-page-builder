@@ -410,7 +410,7 @@ export function Navbar() {
               exit={{ x: "100%" }}
               transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
               className="fixed top-0 right-0 bottom-0 bg-white md:hidden flex flex-col"
-              style={{ width: "min(340px, 90vw)", zIndex: 1002 }}
+              style={{ width: "min(340px, 90vw)", zIndex: 99999 }}
             >
               <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: COLORS.pinkSoft }}>
                 <img src={logo} alt="Subhashree IVF" style={{ width: 130 }} onError={(e) => ((e.currentTarget.style.display = "none"))} />
