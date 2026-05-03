@@ -97,8 +97,12 @@ export function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Column 1 - Brand */}
           <div className="space-y-5">
-            <Link to="/" className="inline-flex items-center w-fit">
-              <img src={logo} alt="Shubhashree IVF Clinic Pvt. Ltd." className="h-12 w-auto" />
+            <Link to="/" className="inline-flex items-center w-fit" style={{ marginBottom: 16 }}>
+              <img
+                src={logo}
+                alt="Shubhashree IVF Clinic Pvt. Ltd."
+                style={{ width: 160, height: "auto" }}
+              />
             </Link>
             <p style={{ color: "#7A2050", fontSize: 14, lineHeight: 1.7 }}>
               Nepal's leading fertility centre, transforming dreams of parenthood into reality for over 12 years.
