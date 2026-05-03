@@ -166,6 +166,7 @@ export function Navbar() {
                         borderRadius: 20,
                         borderTop: `3px solid ${COLORS.magenta}`,
                         boxShadow: "0 16px 60px rgba(230,0,126,0.15)",
+                        zIndex: 9999,
                       }}
                     >
                       <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: COLORS.plum }} className="font-bold">
