@@ -82,8 +82,11 @@ export function MiraclesGallery() {
   return (
     <section
       ref={ref}
-      className="relative py-20 lg:py-32 overflow-hidden"
+      className="relative overflow-hidden"
       style={{
+        minHeight: 620,
+        paddingTop: 80,
+        paddingBottom: 80,
         background:
           "linear-gradient(120deg, #FFF1F7 0%, #ffffff 50%, #EAF7FD 100%)",
       }}
