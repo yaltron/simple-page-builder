@@ -5,7 +5,7 @@ import { WhoWeAre } from "@/components/who-we-are";
 import { Services } from "@/components/services";
 import { ProcessSteps } from "@/components/process-steps";
 import { WhenToVisit } from "@/components/when-to-visit";
-import { PartnerLogos } from "@/components/partner-logos";
+
 import { DoctorsCarousel } from "@/components/doctors-carousel";
 import { Stats } from "@/components/stats";
 import { MiraclesGallery } from "@/components/miracles-gallery";
@@ -28,7 +28,7 @@ function HomePage() {
         <Services />
         <ProcessSteps />
         <WhenToVisit />
-        <PartnerLogos />
+        
         <DoctorsCarousel />
         <Stats />
         <MiraclesGallery />
