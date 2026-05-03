@@ -28,49 +28,6 @@ function useCountUp(target: number, duration: number, start: boolean) {
   return value
 }
 
-function MaskCell({ src }: { src: string }) {
-  const [current, setCurrent] = useState(src)
-  const [prev, setPrev] = useState<string | null>(null)
-  const [fadingIn, setFadingIn] = useState(true)
-
-  useEffect(() => {
-    if (src === current) return
-    setPrev(current)
-    setCurrent(src)
-    setFadingIn(false)
-    requestAnimationFrame(() => requestAnimationFrame(() => setFadingIn(true)))
-    const t = setTimeout(() => setPrev(null), 700)
-    return () => clearTimeout(t)
-  }, [src])
-
-  return (
-    <div style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden", background: "#1A1535" }}>
-      {prev && (
-        <img
-          src={prev}
-          alt=""
-          style={{
-            position: "absolute", inset: 0, width: "100%", height: "100%",
-            objectFit: "cover",
-            filter: "saturate(1.15) contrast(1.05)",
-          }}
-        />
-      )}
-      <img
-        src={current}
-        alt="Miracle baby"
-        loading="lazy"
-        style={{
-          position: "absolute", inset: 0, width: "100%", height: "100%",
-          objectFit: "cover",
-          opacity: fadingIn ? 1 : 0,
-          transition: "opacity 0.6s ease",
-          filter: "saturate(1.15) contrast(1.05)",
-        }}
-      />
-    </div>
-  )
-}
 
 export function MiraclesGallery() {
   const ref = useRef(null)
