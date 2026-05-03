@@ -55,6 +55,31 @@ export function Navbar() {
 
   const bookRef = useRef<HTMLDivElement>(null)
   const callRef = useRef<HTMLDivElement>(null)
+  const bookBtnRef = useRef<HTMLButtonElement>(null)
+  const callBtnRef = useRef<HTMLButtonElement>(null)
+  const [bookPos, setBookPos] = useState<{ top: number; right: number }>({ top: 0, right: 0 })
+  const [callPos, setCallPos] = useState<{ top: number; right: number }>({ top: 0, right: 0 })
+
+  const computePos = (btn: HTMLElement | null) => {
+    if (!btn) return { top: 0, right: 0 }
+    const r = btn.getBoundingClientRect()
+    return { top: r.bottom + 8, right: window.innerWidth - r.right }
+  }
+
+  useEffect(() => {
+    if (!bookOpen && !callOpen) return
+    const update = () => {
+      if (bookOpen) setBookPos(computePos(bookBtnRef.current))
+      if (callOpen) setCallPos(computePos(callBtnRef.current))
+    }
+    update()
+    window.addEventListener("scroll", update, { passive: true })
+    window.addEventListener("resize", update)
+    return () => {
+      window.removeEventListener("scroll", update)
+      window.removeEventListener("resize", update)
+    }
+  }, [bookOpen, callOpen])
 
   useEffect(() => {
     const handleScroll = () => {
