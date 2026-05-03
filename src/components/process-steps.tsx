@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { ClipboardList, UserCheck, CalendarCheck, CheckCircle2, type LucideIcon } from "lucide-react"
 
 type Step = {
@@ -35,9 +36,29 @@ const steps: Step[] = [
   },
 ]
 
+// SVG path connecting step centers in a smooth wave
+const PATH_D =
+  "M 150 60 C 300 60, 300 180, 450 180 S 600 90, 750 90 S 900 180, 1050 180"
+
+// Vertical offsets (px) for each step on desktop — matches SVG y positions
+const STEP_OFFSETS_LG = [0, 120, 30, 120]
+
+// When each step's highlight fires (seconds after section enters)
+const STEP_DELAYS = [0, 0.8, 1.6, 2.4]
+
 export function ProcessSteps() {
   const sectionRef = useRef<HTMLDivElement | null>(null)
-  const [inView, setInView] = useState(false)
+  const [runId, setRunId] = useState(0) // bump to replay animations
+  const [active, setActive] = useState(false)
+  const [isLg, setIsLg] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)")
+    const update = () => setIsLg(mq.matches)
+    update()
+    mq.addEventListener("change", update)
+    return () => mq.removeEventListener("change", update)
+  }, [])
 
   useEffect(() => {
     const el = sectionRef.current
@@ -46,12 +67,14 @@ export function ProcessSteps() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setInView(true)
-            obs.disconnect()
+            setActive(true)
+            setRunId((n) => n + 1)
+          } else {
+            setActive(false)
           }
         })
       },
-      { threshold: 0.15 }
+      { threshold: 0.25 }
     )
     obs.observe(el)
     return () => obs.disconnect()
@@ -68,47 +91,127 @@ export function ProcessSteps() {
         </h2>
 
         <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-14 gap-x-6">
-          {/* Snake connector (desktop only) */}
+          {/* Animated SVG path (desktop only) */}
           <svg
-            className="hidden lg:block absolute left-0 right-0 top-16 h-40 -z-0 w-full pointer-events-none"
-            viewBox="0 0 1200 160"
+            key={`svg-${runId}`}
+            className="hidden lg:block absolute left-0 right-0 top-16 h-60 w-full pointer-events-none -z-0"
+            viewBox="0 0 1200 240"
             preserveAspectRatio="none"
             aria-hidden="true"
           >
+            <defs>
+              <linearGradient id="processProgress" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#1BA0DC" />
+                <stop offset="100%" stopColor="#E6007E" />
+              </linearGradient>
+            </defs>
+
+            {/* Faint dashed base line */}
             <path
-              d="M 130 30 C 320 30, 320 130, 510 130 S 700 30, 890 30 S 1070 130, 1070 130"
-              stroke="oklch(0.62 0.27 357)"
+              d={PATH_D}
+              stroke="rgba(230, 0, 126, 0.15)"
               strokeWidth="2.5"
-              strokeDasharray="2 10"
+              strokeDasharray="8 6"
               strokeLinecap="round"
               fill="none"
-              opacity="0.55"
             />
+
+            {/* Progress fill (gradient) — animated via stroke-dashoffset */}
+            <path
+              d={PATH_D}
+              stroke="url(#processProgress)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              fill="none"
+              pathLength={1}
+              strokeDasharray="1 1"
+              style={{
+                strokeDashoffset: active ? 0 : 1,
+                transition: "stroke-dashoffset 2.5s ease-in-out",
+              }}
+            />
+
+            {/* Travelling glowing dot */}
+            {active && (
+              <circle r="6" fill="#E6007E" style={{ filter: "drop-shadow(0 0 8px #E6007E)" }}>
+                <animateMotion dur="2.5s" repeatCount="1" fill="freeze" path={PATH_D} />
+              </circle>
+            )}
           </svg>
 
           {steps.map((step, i) => {
             const Icon = step.icon
-            const offset = i % 2 === 1 ? "lg:translate-y-24" : "lg:translate-y-0"
+            const lgOffset = STEP_OFFSETS_LG[i]
+            const delay = STEP_DELAYS[i]
             return (
-              <div
+              <motion.div
                 key={step.number}
-                className={`reveal ${inView ? "in-view" : ""} relative z-10 flex flex-col items-center ${offset}`}
-                style={{ transitionDelay: `${i * 140}ms` }}
+                initial={{ opacity: 0, y: 28 }}
+                animate={active ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
+                transition={{ duration: 0.7, delay: i * 0.14, ease: "easeOut" }}
+                className="relative z-10 flex flex-col items-center"
+                style={{ ["--lg-offset" as never]: `${lgOffset}px` }}
               >
-                <div className="relative mb-5">
-                  <span className="absolute inset-0 rounded-full border-2 border-brand-pink/20 animate-pulse-ring" />
-                  <div className="h-28 w-28 rounded-full gradient-brand grid place-items-center text-white shadow-[0_15px_30px_-10px_oklch(0.62_0.27_357/0.5)] card-hover">
-                    <Icon className="h-11 w-11" strokeWidth={1.8} />
+                <div
+                  className="flex flex-col items-center"
+                  style={{ transform: isLg ? `translateY(${lgOffset}px)` : undefined }}
+                >
+                  <div className="relative mb-5">
+                    {/* Pulse glow ring on arrival */}
+                    <AnimatePresence>
+                      {active && (
+                        <motion.span
+                          key={`pulse-${runId}-${i}`}
+                          className="absolute inset-0 rounded-full"
+                          style={{ boxShadow: "0 0 0 0 #E6007E", border: "2px solid #E6007E" }}
+                          initial={{ scale: 1, opacity: 0 }}
+                          animate={{ scale: [1, 1.25, 1], opacity: [0, 0.5, 0] }}
+                          transition={{ duration: 0.6, ease: "easeOut", delay }}
+                        />
+                      )}
+                    </AnimatePresence>
+
+                    <div className="h-28 w-28 rounded-full gradient-brand grid place-items-center text-white shadow-[0_15px_30px_-10px_oklch(0.62_0.27_357/0.5)] card-hover">
+                      <Icon className="h-11 w-11" strokeWidth={1.8} />
+                    </div>
+
+                    {/* Number badge with flash on arrival */}
+                    <motion.span
+                      key={`badge-${runId}-${i}`}
+                      className="absolute -top-1 -right-1 h-9 w-9 rounded-full border-2 border-brand-pink grid place-items-center font-extrabold text-xs shadow-md"
+                      initial={{ backgroundColor: "#ffffff", color: "#E6007E" }}
+                      animate={
+                        active
+                          ? {
+                              backgroundColor: ["#ffffff", "#E6007E", "#ffffff"],
+                              color: ["#E6007E", "#ffffff", "#E6007E"],
+                            }
+                          : { backgroundColor: "#ffffff", color: "#E6007E" }
+                      }
+                      transition={{ duration: 0.4, delay, ease: "easeOut" }}
+                    >
+                      {step.number}
+                    </motion.span>
                   </div>
-                  <span className="absolute -top-1 -right-1 h-9 w-9 rounded-full bg-white border-2 border-brand-pink grid place-items-center text-brand-pink font-extrabold text-xs shadow-md">
-                    {step.number}
-                  </span>
+
+                  <motion.h3
+                    key={`title-${runId}-${i}`}
+                    className="font-bold text-lg mb-2"
+                    initial={{ color: "#1A1535" }}
+                    animate={
+                      active
+                        ? { color: ["#1A1535", "#E6007E", "#1A1535"] }
+                        : { color: "#1A1535" }
+                    }
+                    transition={{ duration: 0.5, delay, ease: "easeOut" }}
+                  >
+                    {step.title}
+                  </motion.h3>
+                  <p className="text-sm text-muted-foreground max-w-[220px] mx-auto">
+                    {step.description}
+                  </p>
                 </div>
-                <h3 className="font-bold text-lg mb-2">{step.title}</h3>
-                <p className="text-sm text-muted-foreground max-w-[220px] mx-auto">
-                  {step.description}
-                </p>
-              </div>
+              </motion.div>
             )
           })}
         </div>
