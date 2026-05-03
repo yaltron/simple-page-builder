@@ -195,18 +195,23 @@ export function Navbar() {
                 <AnimatePresence>
                   {bookOpen && (
                     <motion.div
+                      ref={bookPanelRef}
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.25 }}
-                      className="absolute right-0 mt-3 p-5"
+                      className="p-5"
                       style={{
+                        position: "fixed",
+                        top: bookPos.top,
+                        right: bookPos.right,
+                        left: "auto",
                         width: 360,
                         background: "#fff",
                         borderRadius: 20,
                         borderTop: `3px solid ${COLORS.magenta}`,
                         boxShadow: "0 16px 60px rgba(230,0,126,0.15)",
-                        zIndex: 9999,
+                        zIndex: 999999,
                       }}
                     >
                       <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: COLORS.plum }} className="font-bold">
