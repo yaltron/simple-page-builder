@@ -2,19 +2,7 @@ import { useRef, useEffect, useState } from "react"
 import { motion, useInView } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-const initialPhotos = [
-  "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=800&q=90&fit=crop",
-  "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=800&q=90&fit=crop",
-  "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=90&fit=crop",
-  "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=90&fit=crop",
-]
-
-const swapPool = [
-  "https://images.unsplash.com/photo-1491013516836-7db643ee125a?w=800&q=90&fit=crop",
-  "https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=800&q=90&fit=crop",
-  "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=800&q=90&fit=crop",
-]
+import miracleMask from "@/assets/miracle-mask.jpg"
 
 const dots = [
   { size: 12, color: "#E6007E", top: "10%", left: "85%", dur: 5, delay: 0 },
