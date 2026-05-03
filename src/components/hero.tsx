@@ -1,20 +1,22 @@
 
-import { motion } from "framer-motion"
-import { Play, ChevronDown, Baby, TrendingUp, Award } from "lucide-react"
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Play, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { MorphingBlob } from "@/components/morphing-blob"
 import { FloatingDecoField } from "@/components/floating-deco"
 import { GradientMesh } from "@/components/gradient-mesh"
 import { Magnetic } from "@/components/magnetic"
 import heroFamily from "@/assets/hero-family.jpg"
-import heroDoctor from "@/assets/hero-doctor.jpg"
-import heroConsultation from "@/assets/hero-consultation.jpg"
 
-const stats = [
-  { icon: Baby, number: "5,000+", label: "Babies Born" },
-  { icon: TrendingUp, number: "75%", label: "Success Rate" },
-  { icon: Award, number: "12+", label: "Years Excellence" },
+const slides = [
+  heroFamily,
+  "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800",
+  "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800",
+  "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800",
+  "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=800",
 ]
+
 
 export function Hero() {
   return (
@@ -312,31 +314,6 @@ export function Hero() {
               </Magnetic>
             </motion.div>
 
-            {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-wrap gap-4 pt-4"
-            >
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                  className="flex items-center gap-3 bg-white rounded-2xl px-5 py-3 shadow-sm"
-                >
-                  <div className="w-10 h-10 rounded-full bg-rose-light/50 flex items-center justify-center">
-                    <stat.icon className="w-5 h-5 text-rose" />
-                  </div>
-                  <div>
-                    <div className="font-serif font-bold text-plum">{stat.number}</div>
-                    <div className="text-xs text-muted-foreground">{stat.label}</div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
           </div>
 
           {/* Right side - 40% */}
@@ -346,60 +323,7 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="lg:col-span-2 relative"
           >
-            <div className="relative">
-              {/* Main image */}
-              <motion.div
-                animate={{ y: [0, -12, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="relative z-10 rounded-3xl overflow-hidden shadow-2xl"
-              >
-                <img
-                  src={heroFamily}
-                  alt="Happy family at Shubhashree IVF"
-                  className="w-full h-auto object-cover"
-                  width={800}
-                  height={1024}
-                />
-              </motion.div>
-
-              {/* Overlapping images */}
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
-                className="absolute -top-8 -right-8 w-32 h-32 rounded-2xl overflow-hidden shadow-xl z-20 hidden lg:block"
-              >
-                <img
-                  src={heroDoctor}
-                  alt="Expert doctor"
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </motion.div>
-
-              <motion.div
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute -bottom-8 -left-8 w-40 h-28 rounded-2xl overflow-hidden shadow-xl z-20 hidden lg:block"
-              >
-                <img
-                  src={heroConsultation}
-                  alt="Consultation session"
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </motion.div>
-
-              {/* Floating card */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.7 }}
-                className="absolute bottom-4 right-4 bg-white rounded-2xl px-4 py-3 shadow-lg z-30"
-              >
-                <div className="text-2xl font-serif font-bold text-rose">10,000+</div>
-                <div className="text-sm text-muted-foreground">Miracles</div>
-              </motion.div>
-            </div>
+            <HeroSlideshow />
           </motion.div>
         </div>
       </div>
@@ -421,5 +345,48 @@ export function Hero() {
         </motion.div>
       </motion.div>
     </section>
+  )
+}
+
+function HeroSlideshow() {
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % slides.length)
+    }, 3000)
+    return () => clearInterval(id)
+  }, [])
+
+  return (
+    <div className="relative">
+      <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl aspect-[4/5] bg-rose-light/20">
+        <AnimatePresence>
+          <motion.img
+            key={index}
+            src={slides[index]}
+            alt="Shubhashree IVF"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </AnimatePresence>
+      </div>
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setIndex(i)}
+            aria-label={`Go to slide ${i + 1}`}
+            className="w-2.5 h-2.5 rounded-full transition-colors"
+            style={{
+              backgroundColor: i === index ? "#E6007E" : "rgba(230,0,126,0.25)",
+            }}
+          />
+        ))}
+      </div>
+    </div>
   )
 }
