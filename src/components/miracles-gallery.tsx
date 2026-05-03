@@ -4,8 +4,8 @@ import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const photoPool = [
-  "https://images.unsplash.com/photo-1492725764893-90b379c2b6e7?w=800",
-  "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=800",
+  "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=800",
+  "https://images.unsplash.com/photo-1560328055-e938bb2ed50a?w=800",
   "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800",
   "https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=800",
 ]
@@ -82,8 +82,11 @@ export function MiraclesGallery() {
   return (
     <section
       ref={ref}
-      className="relative py-20 lg:py-32 overflow-hidden"
+      className="relative overflow-hidden"
       style={{
+        minHeight: 620,
+        paddingTop: 80,
+        paddingBottom: 80,
         background:
           "linear-gradient(120deg, #FFF1F7 0%, #ffffff 50%, #EAF7FD 100%)",
       }}
@@ -114,7 +117,7 @@ export function MiraclesGallery() {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ zIndex: 10 }}>
-        <div className="grid lg:grid-cols-5 gap-12 items-center">
+        <div className="grid lg:grid-cols-5 gap-12 items-center min-h-[460px]">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -141,7 +144,7 @@ export function MiraclesGallery() {
             </Button>
           </motion.div>
 
-          <div className="lg:col-span-3 flex justify-end items-center">
+          <div className="lg:col-span-3 flex justify-end items-center pr-10">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
