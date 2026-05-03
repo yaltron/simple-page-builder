@@ -314,31 +314,6 @@ export function Hero() {
               </Magnetic>
             </motion.div>
 
-            {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-wrap gap-4 pt-4"
-            >
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                  className="flex items-center gap-3 bg-white rounded-2xl px-5 py-3 shadow-sm"
-                >
-                  <div className="w-10 h-10 rounded-full bg-rose-light/50 flex items-center justify-center">
-                    <stat.icon className="w-5 h-5 text-rose" />
-                  </div>
-                  <div>
-                    <div className="font-serif font-bold text-plum">{stat.number}</div>
-                    <div className="text-xs text-muted-foreground">{stat.label}</div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
           </div>
 
           {/* Right side - 40% */}
