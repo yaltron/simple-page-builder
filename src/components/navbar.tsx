@@ -245,7 +245,15 @@ export function Navbar() {
               {/* Call */}
               <div className="relative" ref={callRef}>
                 <button
-                  onClick={() => { setCallOpen(v => !v); setBookOpen(false) }}
+                  ref={callBtnRef}
+                  onClick={() => {
+                    setBookOpen(false)
+                    setCallOpen(v => {
+                      const next = !v
+                      if (next) setCallPos(computePos(callBtnRef.current))
+                      return next
+                    })
+                  }}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-colors"
                   style={{ background: COLORS.plum }}
                   onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.background = COLORS.magenta)}
@@ -261,14 +269,18 @@ export function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.25 }}
-                      className="absolute right-0 mt-3 p-4"
+                      className="p-4"
                       style={{
+                        position: "fixed",
+                        top: callPos.top,
+                        right: callPos.right,
+                        left: "auto",
                         width: 270,
                         background: "#fff",
                         borderRadius: 16,
                         borderTop: `3px solid ${COLORS.plum}`,
                         boxShadow: "0 16px 60px rgba(45,10,30,0.15)",
-                        zIndex: 9999,
+                        zIndex: 999999,
                       }}
                     >
                       <div className="space-y-2">
