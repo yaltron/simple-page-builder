@@ -12,42 +12,45 @@ import {
   ArrowRight 
 } from "lucide-react"
 
+const cardGradients = [
+  "linear-gradient(135deg, #FFF1F7 0%, #fcd4e8 100%)",
+  "linear-gradient(135deg, #EAF7FD 0%, #c2e8f8 100%)",
+  "linear-gradient(135deg, #fcd4e8 0%, #EAF7FD 100%)",
+  "linear-gradient(135deg, #c2e8f8 0%, #FFF1F7 100%)",
+  "linear-gradient(135deg, #FFF1F7 0%, #c2e8f8 100%)",
+  "linear-gradient(135deg, #EAF7FD 0%, #fcd4e8 100%)",
+]
+
 const services = [
   {
     icon: Heart,
     title: "IVF Treatment",
     description: "Advanced in-vitro fertilization with personalized protocols for optimal success rates.",
-    color: "from-rose-light/40 to-rose-light/10",
   },
   {
     icon: Microscope,
     title: "ICSI Procedure",
     description: "Intracytoplasmic sperm injection for male factor infertility with precision technology.",
-    color: "from-teal-light/40 to-teal-light/10",
   },
   {
     icon: Snowflake,
     title: "Embryo Freezing",
     description: "State-of-the-art cryopreservation to preserve your fertility for the future.",
-    color: "from-gold-light/60 to-gold-light/20",
   },
   {
     icon: Dna,
     title: "Genetic Testing (PGT)",
     description: "Preimplantation genetic testing to ensure healthy embryo selection.",
-    color: "from-rose-light/40 to-rose-light/10",
   },
   {
     icon: Users,
     title: "Donor Egg Programme",
     description: "Comprehensive donor egg program with carefully screened donors.",
-    color: "from-teal-light/40 to-teal-light/10",
   },
   {
     icon: Stethoscope,
     title: "Infertility Diagnosis",
     description: "Thorough diagnostic evaluations to identify the root cause of infertility.",
-    color: "from-gold-light/60 to-gold-light/20",
   },
 ]
 
