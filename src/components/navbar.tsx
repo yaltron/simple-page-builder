@@ -143,8 +143,10 @@ export function Navbar() {
         transition={{ duration: 0.5 }}
         className="fixed top-0 left-0 right-0 w-full"
         style={{
-          zIndex: 1000,
+          zIndex: 99999,
           isolation: "isolate",
+          transform: "translateZ(0)",
+          willChange: "transform",
           boxShadow: isScrolled ? "0 4px 24px rgba(230,0,126,0.10)" : "none",
           transition: "box-shadow 0.35s ease",
         }}
