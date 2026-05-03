@@ -9,7 +9,9 @@ import { WhenToVisit } from "@/components/when-to-visit";
 import { DoctorsCarousel } from "@/components/doctors-carousel";
 import { Stats } from "@/components/stats";
 import { MiraclesGallery } from "@/components/miracles-gallery";
-import { Testimonials } from "@/components/testimonials";
+import { WhyUs } from "@/components/why-us";
+import { StoriesTestimonials } from "@/components/stories-testimonials";
+import { useReveal } from "@/hooks/use-reveal";
 import { FAQ } from "@/components/faq";
 import { CTABanner } from "@/components/cta-banner";
 import { Footer } from "@/components/footer";
@@ -19,6 +21,7 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
+  useReveal();
   return (
     <ClientOnly fallback={<main className="min-h-screen bg-background" aria-busy="true" />}>
       <main>
@@ -32,7 +35,8 @@ function HomePage() {
         <DoctorsCarousel />
         <Stats />
         <MiraclesGallery />
-        <Testimonials />
+        <WhyUs />
+        <StoriesTestimonials />
         <FAQ />
         <CTABanner />
         <Footer />
