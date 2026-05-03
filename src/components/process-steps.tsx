@@ -50,6 +50,15 @@ export function ProcessSteps() {
   const sectionRef = useRef<HTMLDivElement | null>(null)
   const [runId, setRunId] = useState(0) // bump to replay animations
   const [active, setActive] = useState(false)
+  const [isLg, setIsLg] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)")
+    const update = () => setIsLg(mq.matches)
+    update()
+    mq.addEventListener("change", update)
+    return () => mq.removeEventListener("change", update)
+  }, [])
 
   useEffect(() => {
     const el = sectionRef.current
