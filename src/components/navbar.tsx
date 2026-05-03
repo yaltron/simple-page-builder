@@ -169,7 +169,15 @@ export function Navbar() {
               {/* Book */}
               <div className="relative" ref={bookRef}>
                 <button
-                  onClick={() => { setBookOpen(v => !v); setCallOpen(false) }}
+                  ref={bookBtnRef}
+                  onClick={() => {
+                    setCallOpen(false)
+                    setBookOpen(v => {
+                      const next = !v
+                      if (next) setBookPos(computePos(bookBtnRef.current))
+                      return next
+                    })
+                  }}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-all"
                   style={{ background: COLORS.magenta }}
                   onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = COLORS.magentaDark; (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)" }}
@@ -186,14 +194,18 @@ export function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.25 }}
-                      className="absolute right-0 mt-3 p-5"
+                      className="p-5"
                       style={{
+                        position: "fixed",
+                        top: bookPos.top,
+                        right: bookPos.right,
+                        left: "auto",
                         width: 360,
                         background: "#fff",
                         borderRadius: 20,
                         borderTop: `3px solid ${COLORS.magenta}`,
                         boxShadow: "0 16px 60px rgba(230,0,126,0.15)",
-                        zIndex: 9999,
+                        zIndex: 999999,
                       }}
                     >
                       <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: COLORS.plum }} className="font-bold">
