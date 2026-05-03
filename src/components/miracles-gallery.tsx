@@ -8,6 +8,7 @@ import miracle3 from "@/assets/miracle-3.jpg"
 import miracle4 from "@/assets/miracle-4.jpg"
 import miracle5 from "@/assets/miracle-5.jpg"
 import miracle6 from "@/assets/miracle-6.jpg"
+import silhouette from "@/assets/pregnant-silhouette.png"
 
 const images = [miracle1, miracle2, miracle3, miracle4, miracle5, miracle6]
 
@@ -48,25 +49,22 @@ export function MiraclesGallery() {
 
           {/* Right side - Silhouette-masked gallery */}
           <div className="lg:col-span-3 flex justify-center">
-            {/* Inline SVG defs for the clip path */}
-            <svg width="0" height="0" className="absolute" aria-hidden="true">
-              <defs>
-                <clipPath id="pregnant-silhouette" clipPathUnits="userSpaceOnUse">
-                  <path d="M 180,10 C 210,10 240,25 250,55 C 258,80 245,108 235,125 C 225,142 210,148 208,162 C 205,178 215,192 218,208 C 224,235 220,265 210,288 C 196,318 170,335 155,360 C 135,392 128,430 132,465 C 137,505 158,538 185,560 C 215,585 255,592 290,585 C 330,577 365,555 382,522 C 400,487 395,445 385,412 C 372,372 345,345 332,310 C 318,272 320,232 330,198 C 342,158 368,132 372,98 C 378,58 358,22 325,10 C 300,2 270,5 250,10 C 235,14 215,18 200,14 C 193,12 186,10 180,10 Z" />
-                </clipPath>
-              </defs>
-            </svg>
-
             <motion.div
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ duration: 0.6 }}
               style={{
-                width: 400,
+                width: 480,
                 height: 620,
                 background: "#FFF1F7",
-                clipPath: "url(#pregnant-silhouette)",
-                WebkitClipPath: "url(#pregnant-silhouette)",
+                WebkitMaskImage: `url(${silhouette})`,
+                maskImage: `url(${silhouette})`,
+                WebkitMaskRepeat: "no-repeat",
+                maskRepeat: "no-repeat",
+                WebkitMaskPosition: "center",
+                maskPosition: "center",
+                WebkitMaskSize: "contain",
+                maskSize: "contain",
                 filter: "drop-shadow(0 0 40px rgba(230, 0, 126, 0.15))",
               }}
               className="relative max-w-full"
