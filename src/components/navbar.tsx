@@ -171,7 +171,18 @@ export function Navbar() {
               {/* Book */}
               <div className="relative" ref={bookRef}>
                 <button
-                  onClick={() => { setBookOpen(v => !v); setCallOpen(false) }}
+                  ref={bookBtnRef}
+                  onClick={() => {
+                    setBookOpen(v => {
+                      const next = !v
+                      if (next && bookBtnRef.current) {
+                        const r = bookBtnRef.current.getBoundingClientRect()
+                        setBookPos({ top: r.bottom + 8, right: window.innerWidth - r.right })
+                      }
+                      return next
+                    })
+                    setCallOpen(false)
+                  }}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-all"
                   style={{ background: COLORS.magenta }}
                   onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = COLORS.magentaDark; (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)" }}
