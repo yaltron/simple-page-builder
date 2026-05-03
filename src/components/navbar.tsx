@@ -55,6 +55,31 @@ export function Navbar() {
 
   const bookRef = useRef<HTMLDivElement>(null)
   const callRef = useRef<HTMLDivElement>(null)
+  const bookBtnRef = useRef<HTMLButtonElement>(null)
+  const callBtnRef = useRef<HTMLButtonElement>(null)
+  const [bookPos, setBookPos] = useState<{ top: number; right: number }>({ top: 0, right: 0 })
+  const [callPos, setCallPos] = useState<{ top: number; right: number }>({ top: 0, right: 0 })
+
+  const computePos = (btn: HTMLElement | null) => {
+    if (!btn) return { top: 0, right: 0 }
+    const r = btn.getBoundingClientRect()
+    return { top: r.bottom + 8, right: window.innerWidth - r.right }
+  }
+
+  useEffect(() => {
+    if (!bookOpen && !callOpen) return
+    const update = () => {
+      if (bookOpen) setBookPos(computePos(bookBtnRef.current))
+      if (callOpen) setCallPos(computePos(callBtnRef.current))
+    }
+    update()
+    window.addEventListener("scroll", update, { passive: true })
+    window.addEventListener("resize", update)
+    return () => {
+      window.removeEventListener("scroll", update)
+      window.removeEventListener("resize", update)
+    }
+  }, [bookOpen, callOpen])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -118,8 +143,10 @@ export function Navbar() {
         transition={{ duration: 0.5 }}
         className="fixed top-0 left-0 right-0 w-full"
         style={{
-          zIndex: 1000,
+          zIndex: 99999,
           isolation: "isolate",
+          transform: "translateZ(0)",
+          willChange: "transform",
           boxShadow: isScrolled ? "0 4px 24px rgba(230,0,126,0.10)" : "none",
           transition: "box-shadow 0.35s ease",
         }}
@@ -142,7 +169,15 @@ export function Navbar() {
               {/* Book */}
               <div className="relative" ref={bookRef}>
                 <button
-                  onClick={() => { setBookOpen(v => !v); setCallOpen(false) }}
+                  ref={bookBtnRef}
+                  onClick={() => {
+                    setCallOpen(false)
+                    setBookOpen(v => {
+                      const next = !v
+                      if (next) setBookPos(computePos(bookBtnRef.current))
+                      return next
+                    })
+                  }}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-all"
                   style={{ background: COLORS.magenta }}
                   onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = COLORS.magentaDark; (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)" }}
@@ -159,14 +194,18 @@ export function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.25 }}
-                      className="absolute right-0 mt-3 p-5"
+                      className="p-5"
                       style={{
+                        position: "fixed",
+                        top: bookPos.top,
+                        right: bookPos.right,
+                        left: "auto",
                         width: 360,
                         background: "#fff",
                         borderRadius: 20,
                         borderTop: `3px solid ${COLORS.magenta}`,
                         boxShadow: "0 16px 60px rgba(230,0,126,0.15)",
-                        zIndex: 9999,
+                        zIndex: 999999,
                       }}
                     >
                       <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: COLORS.plum }} className="font-bold">
@@ -206,7 +245,15 @@ export function Navbar() {
               {/* Call */}
               <div className="relative" ref={callRef}>
                 <button
-                  onClick={() => { setCallOpen(v => !v); setBookOpen(false) }}
+                  ref={callBtnRef}
+                  onClick={() => {
+                    setBookOpen(false)
+                    setCallOpen(v => {
+                      const next = !v
+                      if (next) setCallPos(computePos(callBtnRef.current))
+                      return next
+                    })
+                  }}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-colors"
                   style={{ background: COLORS.plum }}
                   onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.background = COLORS.magenta)}
@@ -222,14 +269,18 @@ export function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.25 }}
-                      className="absolute right-0 mt-3 p-4"
+                      className="p-4"
                       style={{
+                        position: "fixed",
+                        top: callPos.top,
+                        right: callPos.right,
+                        left: "auto",
                         width: 270,
                         background: "#fff",
                         borderRadius: 16,
                         borderTop: `3px solid ${COLORS.plum}`,
                         boxShadow: "0 16px 60px rgba(45,10,30,0.15)",
-                        zIndex: 9999,
+                        zIndex: 999999,
                       }}
                     >
                       <div className="space-y-2">
@@ -351,7 +402,7 @@ export function Navbar() {
               exit={{ opacity: 0 }}
               onClick={() => setIsMobileOpen(false)}
               className="fixed inset-0 bg-black/50 md:hidden"
-              style={{ zIndex: 1001 }}
+              style={{ zIndex: 99998 }}
             />
             <motion.div
               initial={{ x: "100%" }}
@@ -359,7 +410,7 @@ export function Navbar() {
               exit={{ x: "100%" }}
               transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
               className="fixed top-0 right-0 bottom-0 bg-white md:hidden flex flex-col"
-              style={{ width: "min(340px, 90vw)", zIndex: 1002 }}
+              style={{ width: "min(340px, 90vw)", zIndex: 99999 }}
             >
               <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: COLORS.pinkSoft }}>
                 <img src={logo} alt="Subhashree IVF" style={{ width: 130 }} onError={(e) => ((e.currentTarget.style.display = "none"))} />
