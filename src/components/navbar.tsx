@@ -281,8 +281,8 @@ export function Navbar() {
         <div
           className="hidden md:block relative"
           style={{
-            height: 56,
-            paddingBottom: 8,
+            height: 72,
+            paddingBottom: 24,
             background: isScrolled ? "rgba(255,241,247,0.85)" : COLORS.pinkSoft,
             backdropFilter: isScrolled ? "blur(16px)" : "none",
             WebkitBackdropFilter: isScrolled ? "blur(16px)" : "none",
@@ -408,7 +408,7 @@ export function Navbar() {
       </AnimatePresence>
 
       {/* Spacer to offset fixed navbar height */}
-      <div style={{ height: isScrolled ? 112 : 126 }} className="hidden md:block" />
+      <div style={{ height: isScrolled ? 128 : 142 }} className="hidden md:block" />
       <div style={{ height: 70 }} className="md:hidden" />
     </>
   )
