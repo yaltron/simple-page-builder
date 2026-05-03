@@ -54,8 +54,8 @@ export function MiraclesGallery() {
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ duration: 0.6 }}
               style={{
-                width: 480,
-                height: 620,
+                width: 220,
+                height: 700,
                 background: "#FFF1F7",
                 WebkitMaskImage: `url(${silhouette})`,
                 maskImage: `url(${silhouette})`,
