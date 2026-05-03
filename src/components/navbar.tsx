@@ -402,7 +402,7 @@ export function Navbar() {
               exit={{ opacity: 0 }}
               onClick={() => setIsMobileOpen(false)}
               className="fixed inset-0 bg-black/50 md:hidden"
-              style={{ zIndex: 1001 }}
+              style={{ zIndex: 99998 }}
             />
             <motion.div
               initial={{ x: "100%" }}
