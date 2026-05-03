@@ -323,63 +323,7 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="lg:col-span-2 relative"
           >
-            <div className="relative">
-              {/* Main image */}
-              <motion.div
-                animate={{ y: [0, -12, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="relative z-10 rounded-3xl overflow-hidden shadow-2xl"
-              >
-                <img
-                  src={heroFamily}
-                  alt="Happy family at Shubhashree IVF"
-                  className="w-full h-auto object-cover"
-                  width={800}
-                  height={1024}
-                />
-              </motion.div>
-
-              {/* Overlapping images */}
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
-                className="absolute -top-8 -right-8 w-32 h-32 rounded-2xl overflow-hidden shadow-xl z-20 hidden lg:block"
-              >
-                <img
-                  src={heroDoctor}
-                  alt="Expert doctor"
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </motion.div>
-
-              <motion.div
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute -bottom-8 -left-8 w-40 h-28 rounded-2xl overflow-hidden shadow-xl z-20 hidden lg:block"
-              >
-                <img
-                  src={heroConsultation}
-                  alt="Consultation session"
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </motion.div>
-
-              {/* Floating card */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.7 }}
-                className="absolute bottom-4 right-4 bg-white rounded-2xl px-4 py-3 shadow-lg z-30"
-              >
-                <div className="text-2xl font-serif font-bold text-rose">10,000+</div>
-                <div className="text-sm text-muted-foreground">Miracles</div>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
+            <HeroSlideshow />
 
       {/* Scroll indicator */}
       <motion.div
