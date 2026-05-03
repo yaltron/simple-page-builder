@@ -144,7 +144,7 @@ export function MiraclesGallery() {
             </Button>
           </motion.div>
 
-          <div className="lg:col-span-3 flex justify-end items-center">
+          <div className="lg:col-span-3 flex justify-end items-center pr-10">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
