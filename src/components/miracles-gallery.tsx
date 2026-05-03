@@ -1,24 +1,37 @@
 import { useRef, useEffect, useState } from "react"
-import { motion, useInView, AnimatePresence } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-const photoPool = [
-  "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=800",
-  "https://images.unsplash.com/photo-1560328055-e938bb2ed50a?w=800",
-  "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800",
-  "https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=800",
+const initialPhotos = [
+  "https://images.unsplash.com/photo-1492725764893-90b379c2b6e7?w=600",
+  "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=600",
+  "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=600",
+  "https://images.unsplash.com/photo-1491013516836-7db643ee125a?w=600",
+]
+
+const swapPool = [
+  "https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=600",
+  "https://images.unsplash.com/photo-1560328055-e938bb2ed50a?w=600",
+  "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=600",
+  "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=600",
+]
+
+type CardCfg = {
+  w: number; h: number; rotate: number; top: number; left: number; floatDur: number; delay: number;
+}
+
+const cards: CardCfg[] = [
+  { w: 220, h: 260, rotate: -4, top: 0,   left: 0,   floatDur: 4, delay: 0 },
+  { w: 180, h: 220, rotate: 3,  top: 40,  left: 230, floatDur: 5, delay: 0.15 },
+  { w: 200, h: 240, rotate: 2,  top: 240, left: 20,  floatDur: 6, delay: 0.3 },
+  { w: 170, h: 200, rotate: -3, top: 280, left: 240, floatDur: 7, delay: 0.45 },
 ]
 
 const dots = [
-  { top: "8%", left: "6%", size: 12, color: "rgba(230,0,126,0.12)", dur: 9, delay: 0 },
-  { top: "22%", left: "92%", size: 8, color: "rgba(27,160,220,0.10)", dur: 11, delay: 1.5 },
-  { top: "40%", left: "3%", size: 16, color: "rgba(27,160,220,0.10)", dur: 13, delay: 0.8 },
-  { top: "70%", left: "45%", size: 6, color: "rgba(230,0,126,0.12)", dur: 10, delay: 2 },
-  { top: "85%", left: "88%", size: 14, color: "rgba(230,0,126,0.12)", dur: 12, delay: 0.4 },
-  { top: "55%", left: "96%", size: 10, color: "rgba(27,160,220,0.10)", dur: 8, delay: 3 },
-  { top: "15%", left: "55%", size: 7, color: "rgba(27,160,220,0.10)", dur: 14, delay: 1.2 },
-  { top: "92%", left: "15%", size: 18, color: "rgba(230,0,126,0.12)", dur: 9, delay: 2.5 },
+  { size: 12, color: "#E6007E", top: "10%", left: "85%", dur: 5, delay: 0 },
+  { size: 8,  color: "#1BA0DC", top: "75%", left: "5%",  dur: 7, delay: 1 },
+  { size: 16, color: "#E6007E", top: "55%", left: "95%", dur: 6, delay: 0.5 },
 ]
 
 function useCountUp(target: number, duration: number, start: boolean) {
@@ -39,38 +52,73 @@ function useCountUp(target: number, duration: number, start: boolean) {
   return value
 }
 
-function RotatingCell({ offset }: { offset: number }) {
-  const [idx, setIdx] = useState(offset % photoPool.length)
+function FloatingCard({
+  cfg, src, index, inView,
+}: { cfg: CardCfg; src: string; index: number; inView: boolean }) {
+  const [current, setCurrent] = useState(src)
+  const [prev, setPrev] = useState<string | null>(null)
+  const [fading, setFading] = useState(false)
+
   useEffect(() => {
-    // each cell swaps every 12s (4 cells * 3s) but staggered by offset*3s
-    const interval = setInterval(() => {
-      setIdx((i) => (i + 1) % photoPool.length)
-    }, 12000)
-    const t = setTimeout(() => {
-      setIdx((i) => (i + 1) % photoPool.length)
-    }, offset * 3000 + 3000)
-    return () => {
-      clearInterval(interval)
-      clearTimeout(t)
-    }
-  }, [offset])
+    if (src === current) return
+    setPrev(current)
+    setCurrent(src)
+    setFading(true)
+    const t = setTimeout(() => { setFading(false); setPrev(null) }, 750)
+    return () => clearTimeout(t)
+  }, [src])
 
   return (
-    <div className="relative w-full h-full overflow-hidden">
-      <AnimatePresence mode="sync">
-        <motion.img
-          key={idx}
-          src={photoPool[idx]}
-          alt=""
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.6 }}
-          className="absolute inset-0 w-full h-full object-cover"
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay: cfg.delay, ease: "easeOut" }}
+      style={{
+        position: "absolute",
+        top: cfg.top,
+        left: cfg.left,
+        width: cfg.w,
+        height: cfg.h,
+        transform: `rotate(${cfg.rotate}deg)`,
+        animation: inView ? `cardFloat${index} ${cfg.floatDur}s ease-in-out ${cfg.delay + 0.6}s infinite` : undefined,
+        zIndex: 2 + index,
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          borderRadius: 20,
+          overflow: "hidden",
+          border: "3px solid white",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
+          position: "relative",
+          background: "#eee",
+        }}
+      >
+        {prev && (
+          <img
+            src={prev}
+            alt=""
+            style={{
+              position: "absolute", inset: 0, width: "100%", height: "100%",
+              objectFit: "cover", opacity: fading ? 0 : 1,
+              transition: "opacity 0.7s ease",
+            }}
+          />
+        )}
+        <img
+          src={current}
+          alt="Miracle baby"
           loading="lazy"
+          style={{
+            position: "absolute", inset: 0, width: "100%", height: "100%",
+            objectFit: "cover", opacity: fading ? 1 : 1,
+            transition: "opacity 0.7s ease",
+          }}
         />
-      </AnimatePresence>
-    </div>
+      </div>
+    </motion.div>
   )
 }
 
@@ -79,50 +127,52 @@ export function MiraclesGallery() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const count = useCountUp(5000, 2, isInView)
 
+  const [photos, setPhotos] = useState<string[]>(initialPhotos)
+
+  // Auto-rotate one random card every 3s
+  useEffect(() => {
+    if (!isInView) return
+    const interval = setInterval(() => {
+      setPhotos((curr) => {
+        const idx = Math.floor(Math.random() * 4)
+        const candidates = swapPool.filter((p) => !curr.includes(p))
+        const pool = candidates.length ? candidates : swapPool
+        const next = pool[Math.floor(Math.random() * pool.length)]
+        const updated = [...curr]
+        updated[idx] = next
+        return updated
+      })
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [isInView])
+
   return (
     <section
       ref={ref}
       className="relative overflow-hidden"
       style={{
-        minHeight: 620,
-        paddingTop: 80,
-        paddingBottom: 80,
+        minHeight: 640,
+        padding: "80px 8%",
         background:
-          "linear-gradient(120deg, #FFF1F7 0%, #ffffff 50%, #EAF7FD 100%)",
+          "linear-gradient(120deg, #FFF1F7 0%, #ffffff 55%, #EAF7FD 100%)",
       }}
     >
       <style>{`
-        @keyframes dotFloat {
-          0%, 100% { transform: translateY(0); }
-          50%      { transform: translateY(-14px); }
-        }
+        @keyframes cardFloat0 { 0%,100%{transform:rotate(-4deg) translateY(0);} 50%{transform:rotate(-4deg) translateY(-8px);} }
+        @keyframes cardFloat1 { 0%,100%{transform:rotate(3deg) translateY(0);}  50%{transform:rotate(3deg) translateY(-8px);} }
+        @keyframes cardFloat2 { 0%,100%{transform:rotate(2deg) translateY(0);}  50%{transform:rotate(2deg) translateY(-8px);} }
+        @keyframes cardFloat3 { 0%,100%{transform:rotate(-3deg) translateY(0);} 50%{transform:rotate(-3deg) translateY(-8px);} }
+        @keyframes dotFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
       `}</style>
 
-      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
-        {dots.map((d, i) => (
-          <span
-            key={i}
-            style={{
-              position: "absolute",
-              top: d.top,
-              left: d.left,
-              width: d.size,
-              height: d.size,
-              borderRadius: "50%",
-              background: d.color,
-              animation: `dotFloat ${d.dur}s ease-in-out ${d.delay}s infinite`,
-            }}
-          />
-        ))}
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ zIndex: 10 }}>
-        <div className="grid lg:grid-cols-5 gap-12 items-center min-h-[460px]">
+      <div className="relative max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[480px]">
+          {/* LEFT */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-2 space-y-6"
+            className="space-y-6"
           >
             <div className="font-serif text-6xl lg:text-7xl font-bold text-rose">
               {count.toLocaleString()}+
@@ -144,32 +194,51 @@ export function MiraclesGallery() {
             </Button>
           </motion.div>
 
-          <div className="lg:col-span-3 flex justify-end items-center pr-10">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+          {/* RIGHT — floating cards */}
+          <div className="relative" style={{ height: 540 }}>
+            {/* Soft blob */}
+            <div
+              aria-hidden
               style={{
-                width: 560,
-                height: 560,
-                maxWidth: "100%",
-                WebkitMaskImage: `url('/shubhashree-01.png')`,
-                maskImage: `url('/shubhashree-01.png')`,
-                WebkitMaskRepeat: "no-repeat",
-                maskRepeat: "no-repeat",
-                WebkitMaskPosition: "center",
-                maskPosition: "center",
-                WebkitMaskSize: "contain",
-                maskSize: "contain",
-                filter: "drop-shadow(0 0 50px rgba(230, 0, 126, 0.20))",
+                position: "absolute",
+                width: 400, height: 400,
+                top: "50%", left: "50%",
+                transform: "translate(-50%, -50%)",
+                background: "linear-gradient(135deg, #FFF1F7, #EAF7FD)",
+                borderRadius: "50%",
+                opacity: 0.8,
+                zIndex: 0,
               }}
-            >
-              <div className="grid grid-cols-2 grid-rows-2 w-full h-full">
-                {[0, 1, 2, 3].map((i) => (
-                  <RotatingCell key={i} offset={i} />
-                ))}
-              </div>
-            </motion.div>
+            />
+            {/* Brand dots */}
+            {dots.map((d, i) => (
+              <span
+                key={i}
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  top: d.top, left: d.left,
+                  width: d.size, height: d.size,
+                  borderRadius: "50%",
+                  background: d.color,
+                  zIndex: 1,
+                  animation: `dotFloat ${d.dur}s ease-in-out ${d.delay}s infinite`,
+                }}
+              />
+            ))}
+
+            {/* Card stack wrapper */}
+            <div style={{ position: "relative", width: 410, height: 500, margin: "0 auto" }}>
+              {cards.map((cfg, i) => (
+                <FloatingCard
+                  key={i}
+                  cfg={cfg}
+                  src={photos[i]}
+                  index={i}
+                  inView={isInView}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
