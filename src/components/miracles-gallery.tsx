@@ -54,8 +54,8 @@ export function MiraclesGallery() {
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ duration: 0.6 }}
               style={{
-                width: 480,
-                height: 620,
+                width: 220,
+                height: 700,
                 background: "#FFF1F7",
                 WebkitMaskImage: `url(${silhouette})`,
                 maskImage: `url(${silhouette})`,
@@ -69,7 +69,7 @@ export function MiraclesGallery() {
               }}
               className="relative max-w-full"
             >
-              <div className="grid grid-cols-2 grid-rows-3 gap-1 w-full h-full">
+              <div className="grid grid-cols-1 grid-rows-6 gap-1 w-full h-full">
                 {images.map((src, index) => (
                   <motion.div
                     key={index}
