@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react"
+import { createPortal } from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { Phone, Menu, X, Calendar, ChevronDown, Copy, Check, Hospital, Video } from "lucide-react"
 import { Link } from "@tanstack/react-router"
@@ -123,6 +124,7 @@ export function Navbar() {
 
   const row1Height = isScrolled ? 54 : 68
   const logoScale = isScrolled ? 0.88 : 1
+  const portalRoot = typeof document !== "undefined" ? document.body : null
 
   const Logo = (
     <Link to="/" className="flex items-center gap-2" style={{ transform: `scale(${logoScale})`, transformOrigin: "left center", transition: "transform 0.35s ease" }}>
@@ -193,7 +195,7 @@ export function Navbar() {
                   <ChevronDown className={`w-4 h-4 transition-transform ${bookOpen ? "rotate-180" : ""}`} />
                 </button>
                 <AnimatePresence>
-                  {bookOpen && (
+                  {bookOpen && portalRoot && createPortal(
                     <motion.div
                       ref={bookPanelRef}
                       initial={{ opacity: 0, y: -10 }}
@@ -243,7 +245,8 @@ export function Navbar() {
                       >
                         Confirm Appointment →
                       </button>
-                    </motion.div>
+                    </motion.div>,
+                    portalRoot,
                   )}
                 </AnimatePresence>
               </div>
@@ -272,7 +275,7 @@ export function Navbar() {
                   Call Us
                 </button>
                 <AnimatePresence>
-                  {callOpen && (
+                  {callOpen && portalRoot && createPortal(
                     <motion.div
                       ref={callPanelRef}
                       initial={{ opacity: 0, y: -10 }}
@@ -313,7 +316,8 @@ export function Navbar() {
                           </div>
                         ))}
                       </div>
-                    </motion.div>
+                    </motion.div>,
+                    portalRoot,
                   )}
                 </AnimatePresence>
               </div>
