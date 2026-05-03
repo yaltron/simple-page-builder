@@ -1,7 +1,5 @@
-
 import { useRef } from "react"
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import miracle1 from "@/assets/miracle-1.jpg"
@@ -11,17 +9,7 @@ import miracle4 from "@/assets/miracle-4.jpg"
 import miracle5 from "@/assets/miracle-5.jpg"
 import miracle6 from "@/assets/miracle-6.jpg"
 
-const images = [
-  { src: miracle1, size: "small" },
-  { src: miracle2, size: "tall" },
-  { src: miracle3, size: "small" },
-  { src: miracle4, size: "wide" },
-  { src: miracle5, size: "small" },
-  { src: miracle6, size: "tall" },
-  { src: miracle3, size: "small" },
-  { src: miracle1, size: "small" },
-  { src: miracle5, size: "small" },
-]
+const images = [miracle1, miracle2, miracle3, miracle4, miracle5, miracle6, miracle3, miracle1, miracle5]
 
 export function MiraclesGallery() {
   const ref = useRef(null)
@@ -45,11 +33,11 @@ export function MiraclesGallery() {
               Miracles & Counting
             </h2>
             <p className="text-plum/70 leading-relaxed">
-              Every baby born at Shubhashree IVF is a miracle we celebrate. 
-              These are the faces of hope, the smiles of joy, and the 
+              Every baby born at Shubhashree IVF is a miracle we celebrate.
+              These are the faces of hope, the smiles of joy, and the
               beginning of beautiful family stories.
             </p>
-            <Button 
+            <Button
               size="lg"
               className="bg-rose hover:bg-rose-dark text-white rounded-full px-8"
             >
@@ -58,30 +46,50 @@ export function MiraclesGallery() {
             </Button>
           </motion.div>
 
-          {/* Right side - Gallery */}
-          <div className="lg:col-span-3">
-            <div className="grid grid-cols-3 gap-3">
-              {images.map((image, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                  className={`rounded-xl overflow-hidden ${
-                    image.size === "tall" ? "row-span-2" : ""
-                  } ${
-                    image.size === "wide" ? "col-span-2" : ""
-                  }`}
-                >
-                  <img
-                    src={image.src}
-                    alt={`Success story ${index + 1}`}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
-                  />
-                </motion.div>
-              ))}
-            </div>
+          {/* Right side - Silhouette-masked gallery */}
+          <div className="lg:col-span-3 flex justify-center">
+            {/* Inline SVG defs for the clip path */}
+            <svg width="0" height="0" className="absolute" aria-hidden="true">
+              <defs>
+                <clipPath id="pregnant-silhouette" clipPathUnits="userSpaceOnUse">
+                  <path d="M 420,20 C 390,20 355,35 340,65 C 325,95 330,125 320,145 C 308,168 285,175 275,195 C 260,220 265,248 270,265 C 278,290 295,305 298,325 C 305,360 290,385 275,415 C 255,455 230,480 225,520 C 218,565 235,600 250,630 C 265,658 290,670 310,675 C 340,682 375,678 400,672 C 430,665 455,650 465,625 C 478,595 470,560 462,530 C 452,495 435,470 428,440 C 418,400 420,365 432,335 C 448,295 475,270 488,240 C 502,208 500,175 492,148 C 482,115 460,92 455,65 C 448,35 440,20 420,20 Z" />
+                </clipPath>
+              </defs>
+            </svg>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.6 }}
+              style={{
+                width: 520,
+                height: 700,
+                background: "#FFF1F7",
+                clipPath: "url(#pregnant-silhouette)",
+                WebkitClipPath: "url(#pregnant-silhouette)",
+                filter: "drop-shadow(0 0 40px rgba(230, 0, 126, 0.15))",
+              }}
+              className="relative max-w-full"
+            >
+              <div className="grid grid-cols-3 grid-rows-3 gap-1 w-full h-full">
+                {images.map((src, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.4, delay: 0.3 + index * 0.15 }}
+                    className="overflow-hidden"
+                  >
+                    <img
+                      src={src}
+                      alt={`Success story ${index + 1}`}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>
