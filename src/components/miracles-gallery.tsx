@@ -9,7 +9,7 @@ import miracle4 from "@/assets/miracle-4.jpg"
 import miracle5 from "@/assets/miracle-5.jpg"
 import miracle6 from "@/assets/miracle-6.jpg"
 
-const images = [miracle1, miracle2, miracle3, miracle4, miracle5, miracle6, miracle3, miracle1, miracle5]
+const images = [miracle1, miracle2, miracle3, miracle4, miracle5, miracle6]
 
 export function MiraclesGallery() {
   const ref = useRef(null)
@@ -52,7 +52,7 @@ export function MiraclesGallery() {
             <svg width="0" height="0" className="absolute" aria-hidden="true">
               <defs>
                 <clipPath id="pregnant-silhouette" clipPathUnits="userSpaceOnUse">
-                  <path d="M 420,20 C 390,20 355,35 340,65 C 325,95 330,125 320,145 C 308,168 285,175 275,195 C 260,220 265,248 270,265 C 278,290 295,305 298,325 C 305,360 290,385 275,415 C 255,455 230,480 225,520 C 218,565 235,600 250,630 C 265,658 290,670 310,675 C 340,682 375,678 400,672 C 430,665 455,650 465,625 C 478,595 470,560 462,530 C 452,495 435,470 428,440 C 418,400 420,365 432,335 C 448,295 475,270 488,240 C 502,208 500,175 492,148 C 482,115 460,92 455,65 C 448,35 440,20 420,20 Z" />
+                  <path d="M 180,10 C 210,10 240,25 250,55 C 258,80 245,108 235,125 C 225,142 210,148 208,162 C 205,178 215,192 218,208 C 224,235 220,265 210,288 C 196,318 170,335 155,360 C 135,392 128,430 132,465 C 137,505 158,538 185,560 C 215,585 255,592 290,585 C 330,577 365,555 382,522 C 400,487 395,445 385,412 C 372,372 345,345 332,310 C 318,272 320,232 330,198 C 342,158 368,132 372,98 C 378,58 358,22 325,10 C 300,2 270,5 250,10 C 235,14 215,18 200,14 C 193,12 186,10 180,10 Z" />
                 </clipPath>
               </defs>
             </svg>
@@ -62,8 +62,8 @@ export function MiraclesGallery() {
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ duration: 0.6 }}
               style={{
-                width: 520,
-                height: 700,
+                width: 400,
+                height: 620,
                 background: "#FFF1F7",
                 clipPath: "url(#pregnant-silhouette)",
                 WebkitClipPath: "url(#pregnant-silhouette)",
@@ -71,7 +71,7 @@ export function MiraclesGallery() {
               }}
               className="relative max-w-full"
             >
-              <div className="grid grid-cols-3 grid-rows-3 gap-1 w-full h-full">
+              <div className="grid grid-cols-2 grid-rows-3 gap-1 w-full h-full">
                 {images.map((src, index) => (
                   <motion.div
                     key={index}
