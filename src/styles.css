@@ -4,51 +4,99 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Brand Colors */
-  --rose: #c2185b;
-  --rose-dark: #880e4f;
-  --rose-light: #f8bbd9;
-  --teal: #00897b;
-  --teal-light: #b2dfdb;
-  --gold: #f9a825;
-  --gold-light: #fff8e1;
-  --cream: #fffaf7;
-  --plum: #2d1b35;
-  --plum-dark: #1a0d20;
+  /* ===== Brand palette (pink leads, blue supports) ===== */
+  --brand-pink: oklch(0.62 0.27 357);
+  --brand-pink-foreground: oklch(1 0 0);
+  --brand-blue: oklch(0.70 0.16 232);
+  --brand-blue-foreground: oklch(1 0 0);
 
-  /* Font variables (loaded via <link> in __root.tsx) */
-  --font-playfair: "Playfair Display", Georgia, serif;
-  --font-nunito: "Nunito", system-ui, sans-serif;
+  /* Soft tinted surfaces */
+  --pink-soft: oklch(0.97 0.02 350);
+  --blue-soft: oklch(0.97 0.02 230);
 
-  /* Semantic tokens */
-  --background: #fffaf7;
-  --foreground: #2d1b35;
-  --card: #ffffff;
-  --card-foreground: #2d1b35;
-  --popover: #ffffff;
-  --popover-foreground: #2d1b35;
-  --primary: #c2185b;
-  --primary-foreground: #ffffff;
-  --secondary: #00897b;
-  --secondary-foreground: #ffffff;
-  --muted: #f5f0ed;
-  --muted-foreground: #6b5a6e;
-  --accent: #f9a825;
-  --accent-foreground: #2d1b35;
-  --destructive: #dc2626;
-  --destructive-foreground: #ffffff;
-  --border: #e8dfd9;
-  --input: #e8dfd9;
-  --ring: #c2185b;
-  --radius: 0.625rem;
+  /* Ink / neutrals */
+  --ink: oklch(0.20 0.05 265);
+
+  /* Signature gradient */
+  --gradient-brand: linear-gradient(135deg, var(--brand-blue), var(--brand-pink));
+  --shadow-pink-glow: 0 8px 24px -8px oklch(0.62 0.27 357 / 0.55);
+
+  /* Legacy brand aliases (kept so existing components keep working) */
+  --rose: var(--brand-pink);
+  --rose-dark: oklch(0.52 0.27 357);
+  --rose-light: var(--pink-soft);
+  --teal: var(--brand-blue);
+  --teal-light: var(--blue-soft);
+  --gold: oklch(0.82 0.16 80);
+  --gold-light: oklch(0.97 0.04 90);
+  --cream: oklch(1 0 0);
+  --plum: var(--ink);
+  --plum-dark: oklch(0.16 0.04 265);
+
+  /* Fonts */
+  --font-jakarta: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-playfair: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-nunito: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  /* ===== Semantic tokens ===== */
+  --background: oklch(1 0 0);
+  --foreground: var(--ink);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--ink);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--ink);
+  --primary: var(--brand-pink);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: var(--brand-blue);
+  --secondary-foreground: oklch(1 0 0);
+  --muted: var(--pink-soft);
+  --muted-foreground: oklch(0.45 0.05 265);
+  --accent: var(--blue-soft);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.92 0.02 350);
+  --input: oklch(0.92 0.02 350);
+  --ring: var(--brand-pink);
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: oklch(0.16 0.04 265);
+  --foreground: oklch(0.97 0.01 265);
+  --card: oklch(0.21 0.04 265);
+  --card-foreground: oklch(0.97 0.01 265);
+  --popover: oklch(0.21 0.04 265);
+  --popover-foreground: oklch(0.97 0.01 265);
+  --primary: var(--brand-pink);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: var(--brand-blue);
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.24 0.04 265);
+  --muted-foreground: oklch(0.72 0.03 265);
+  --accent: oklch(0.26 0.05 265);
+  --accent-foreground: oklch(0.97 0.01 265);
+  --border: oklch(0.30 0.04 265);
+  --input: oklch(0.30 0.04 265);
+  --ring: var(--brand-pink);
+
+  --pink-soft: oklch(0.26 0.06 350);
+  --blue-soft: oklch(0.26 0.06 230);
 }
 
 @theme inline {
-  --font-sans: var(--font-nunito);
-  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-jakarta);
+  --font-serif: var(--font-jakarta);
   --font-mono: "Geist Mono", monospace;
 
-  /* Brand color utilities */
+  /* Brand utilities */
+  --color-brand-pink: var(--brand-pink);
+  --color-brand-blue: var(--brand-blue);
+  --color-pink-soft: var(--pink-soft);
+  --color-blue-soft: var(--blue-soft);
+  --color-ink: var(--ink);
+
+  /* Legacy aliases (keep existing class names working) */
   --color-rose: var(--rose);
   --color-rose-dark: var(--rose-dark);
   --color-rose-light: var(--rose-light);
@@ -60,7 +108,7 @@
   --color-plum: var(--plum);
   --color-plum-dark: var(--plum-dark);
 
-  /* Semantic colors */
+  /* Semantic */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -90,74 +138,69 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    font-family: var(--font-jakarta);
+  }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-nunito);
+    font-family: var(--font-jakarta);
+    letter-spacing: -0.01em;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.02em;
+    font-family: var(--font-jakarta);
   }
 }
 
-/* Marquee animation for partner logos */
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+/* ===== Brand utilities ===== */
+.bg-gradient-brand {
+  background-image: var(--gradient-brand);
+}
+.text-gradient-brand {
+  background-image: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.shadow-pink-glow {
+  box-shadow: var(--shadow-pink-glow);
+}
+.btn-pill-brand {
+  border-radius: 9999px;
+  background-image: var(--gradient-brand);
+  color: oklch(1 0 0);
+  box-shadow: var(--shadow-pink-glow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-pill-brand:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px -8px oklch(0.62 0.27 357 / 0.65);
 }
 
-.animate-marquee {
-  animation: marquee 30s linear infinite;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--cream);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--rose-light);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--rose);
-}
-
-/* Hide scrollbar utility for doctors carousel */
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide native cursor on fine-pointer devices (custom cursor takes over) */
-@media (pointer: fine) {
-  html,
-  body,
-  a,
-  button,
-  [role="button"] {
-    cursor: none;
-  }
-}
-
-/* Doctors marquee — continuous auto-scroll, loops seamlessly because
-   the track contains the list duplicated twice; -50% returns to the start. */
+/* Marquee */
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
-
 .animate-marquee {
   animation: marquee 40s linear infinite;
   will-change: transform;
 }
-
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee {
-    animation: none;
-  }
+  .animate-marquee { animation: none; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb {
+  background: var(--pink-soft);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--brand-pink); }
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+@media (pointer: fine) {
+  html, body, a, button, [role="button"] { cursor: none; }
 }
