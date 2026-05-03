@@ -8,7 +8,6 @@ import miracle3 from "@/assets/miracle-3.jpg"
 import miracle4 from "@/assets/miracle-4.jpg"
 import miracle5 from "@/assets/miracle-5.jpg"
 import miracle6 from "@/assets/miracle-6.jpg"
-import silhouette from "@/assets/pregnant-silhouette.png"
 
 const images = [miracle1, miracle2, miracle3, miracle4, miracle5, miracle6]
 
@@ -47,35 +46,35 @@ export function MiraclesGallery() {
             </Button>
           </motion.div>
 
-          {/* Right side - Silhouette-masked gallery */}
-          <div className="lg:col-span-3 flex justify-center">
+          {/* Right side - Logo-masked gallery */}
+          <div className="lg:col-span-3 flex justify-end">
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.6 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.8, ease: "easeOut" }}
               style={{
-                width: 220,
-                height: 700,
-                background: "#FFF1F7",
-                WebkitMaskImage: `url(${silhouette})`,
-                maskImage: `url(${silhouette})`,
+                width: 520,
+                height: 520,
+                maxWidth: "100%",
+                WebkitMaskImage: `url('/shubhashree-01.png')`,
+                maskImage: `url('/shubhashree-01.png')`,
                 WebkitMaskRepeat: "no-repeat",
                 maskRepeat: "no-repeat",
                 WebkitMaskPosition: "center",
                 maskPosition: "center",
                 WebkitMaskSize: "contain",
                 maskSize: "contain",
-                filter: "drop-shadow(0 0 40px rgba(230, 0, 126, 0.15))",
+                filter: "drop-shadow(0 0 30px rgba(230, 0, 126, 0.25))",
               }}
-              className="relative max-w-full"
+              className="relative"
             >
-              <div className="grid grid-cols-1 grid-rows-6 gap-1 w-full h-full">
+              <div className="grid grid-cols-2 grid-rows-3 w-full h-full">
                 {images.map((src, index) => (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ duration: 0.4, delay: 0.3 + index * 0.15 }}
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : {}}
+                    transition={{ duration: 0.4, delay: 0.8 + index * 0.2 }}
                     className="overflow-hidden"
                   >
                     <img
