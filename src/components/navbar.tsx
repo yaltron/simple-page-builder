@@ -100,8 +100,9 @@ export function Navbar() {
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      if (bookOpen && bookRef.current && !bookRef.current.contains(e.target as Node)) setBookOpen(false)
-      if (callOpen && callRef.current && !callRef.current.contains(e.target as Node)) setCallOpen(false)
+      const t = e.target as Node
+      if (bookOpen && bookRef.current && !bookRef.current.contains(t) && !bookPanelRef.current?.contains(t)) setBookOpen(false)
+      if (callOpen && callRef.current && !callRef.current.contains(t) && !callPanelRef.current?.contains(t)) setCallOpen(false)
     }
     const onEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") { setBookOpen(false); setCallOpen(false); setIsMobileOpen(false) }
