@@ -7,7 +7,7 @@ import { ProcessSteps } from "@/components/process-steps";
 import { WhenToVisit } from "@/components/when-to-visit";
 
 import { DoctorsCarousel } from "@/components/doctors-carousel";
-import { Stats } from "@/components/stats";
+
 import { MiraclesGallery } from "@/components/miracles-gallery";
 import { WhyUs } from "@/components/why-us";
 import { StoriesTestimonials } from "@/components/stories-testimonials";
@@ -33,7 +33,6 @@ function HomePage() {
         <WhenToVisit />
         
         <DoctorsCarousel />
-        <Stats />
         <MiraclesGallery />
         <WhyUs />
         <StoriesTestimonials />
