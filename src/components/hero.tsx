@@ -1,14 +1,21 @@
 
-import { motion } from "framer-motion"
-import { Play, ChevronDown, Baby, TrendingUp, Award } from "lucide-react"
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Play, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { MorphingBlob } from "@/components/morphing-blob"
 import { FloatingDecoField } from "@/components/floating-deco"
 import { GradientMesh } from "@/components/gradient-mesh"
 import { Magnetic } from "@/components/magnetic"
 import heroFamily from "@/assets/hero-family.jpg"
-import heroDoctor from "@/assets/hero-doctor.jpg"
-import heroConsultation from "@/assets/hero-consultation.jpg"
+
+const slides = [
+  heroFamily,
+  "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800",
+  "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800",
+  "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800",
+  "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=800",
+]
 
 const stats = [
   { icon: Baby, number: "5,000+", label: "Babies Born" },
