@@ -56,7 +56,7 @@ export function Services() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section id="services" ref={ref} className="py-20 lg:py-32" style={{ background: "linear-gradient(135deg, #1BA0DC, #E6007E)" }}>
+    <section id="services" ref={ref} className="py-20 lg:py-32" style={{ background: "linear-gradient(135deg, #EAF7FD, #FFF1F7)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
