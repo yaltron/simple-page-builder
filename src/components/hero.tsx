@@ -324,6 +324,9 @@ export function Hero() {
             className="lg:col-span-2 relative"
           >
             <HeroSlideshow />
+          </motion.div>
+        </div>
+      </div>
 
       {/* Scroll indicator */}
       <motion.div
