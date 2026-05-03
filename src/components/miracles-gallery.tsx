@@ -77,24 +77,6 @@ export function MiraclesGallery() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const count = useCountUp(5000, 2, isInView)
 
-  const [photos, setPhotos] = useState<string[]>(initialPhotos)
-
-  useEffect(() => {
-    if (!isInView) return
-    const interval = setInterval(() => {
-      setPhotos((curr) => {
-        const idx = Math.floor(Math.random() * 4)
-        const candidates = swapPool.filter((p) => !curr.includes(p))
-        const pool = candidates.length ? candidates : swapPool
-        const next = pool[Math.floor(Math.random() * pool.length)]
-        const updated = [...curr]
-        updated[idx] = next
-        return updated
-      })
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [isInView])
-
   return (
     <section
       ref={ref}
@@ -112,7 +94,6 @@ export function MiraclesGallery() {
 
       <div className="relative">
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[480px]">
-          {/* LEFT */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -139,7 +120,6 @@ export function MiraclesGallery() {
             </Button>
           </motion.div>
 
-          {/* RIGHT — logo mask collage */}
           <div className="relative flex justify-end items-center" style={{ minHeight: 560 }}>
             {dots.map((d, i) => (
               <span
@@ -161,9 +141,7 @@ export function MiraclesGallery() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              style={{
-                filter: "drop-shadow(0 0 40px rgba(230,0,126,0.30))",
-              }}
+              style={{ filter: "drop-shadow(0 0 40px rgba(230,0,126,0.30))" }}
             >
               <div
                 style={{
@@ -178,15 +156,23 @@ export function MiraclesGallery() {
                   WebkitMaskPosition: "center",
                   maskPosition: "center",
                   background: "#1A1535",
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gridTemplateRows: "1fr 1fr",
-                  gap: 0,
+                  position: "relative",
+                  overflow: "hidden",
                 }}
               >
-                {photos.map((p, i) => (
-                  <MaskCell key={i} src={p} />
-                ))}
+                <img
+                  src={miracleMask}
+                  alt="Mother and newborn baby — a Shubhashree IVF miracle"
+                  width={1024}
+                  height={1024}
+                  loading="lazy"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    filter: "saturate(1.15) contrast(1.05)",
+                  }}
+                />
               </div>
             </motion.div>
           </div>
