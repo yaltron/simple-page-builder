@@ -4,8 +4,8 @@ import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const photoPool = [
-  "https://images.unsplash.com/photo-1492725764893-90b379c2b6e7?w=800",
-  "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=800",
+  "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=800",
+  "https://images.unsplash.com/photo-1560328055-e938bb2ed50a?w=800",
   "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800",
   "https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=800",
 ]
