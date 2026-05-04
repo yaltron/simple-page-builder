@@ -43,33 +43,12 @@
   --radius: 0.625rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #100E1F;
-    --foreground: #FFFFFF;
-    --card: #1A1535;
-    --card-foreground: #FFFFFF;
-    --popover: #1A1535;
-    --popover-foreground: #FFFFFF;
-    --muted: #1A1535;
-    --muted-foreground: #C4B8D4;
-    --border: #2A2345;
-    --input: #2A2345;
-    --cream: #100E1F;
-    --plum: #FFFFFF;
-  }
-}
-
 body {
-  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
-  font-weight: 400;
-  letter-spacing: -0.01em;
+  font-family: var(--font-nunito);
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-family: var(--font-playfair);
 }
 
 @theme inline {
