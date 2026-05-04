@@ -4,52 +4,42 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Brand Tokens */
-  --brand-pink: #E6007E;
-  --brand-blue: #1BA0DC;
-  --pink-soft: #FFF1F7;
-  --blue-soft: #EAF7FD;
-  --ink: #1A1535;
-  --muted-ink: #6B6B8A;
-  --brand-border: #F2DCE8;
-  --brand-gradient: linear-gradient(135deg, #1BA0DC, #E6007E);
-
-  /* Legacy aliases mapped to new brand tokens */
-  --rose: #E6007E;
-  --rose-dark: #B8005F;
-  --rose-light: #FFF1F7;
-  --teal: #1BA0DC;
-  --teal-light: #EAF7FD;
-  --gold: #E6007E;
-  --gold-light: #FFF1F7;
-  --cream: #FFFFFF;
-  --plum: #1A1535;
-  --plum-dark: #100E1F;
+  /* Brand Colors */
+  --rose: #c2185b;
+  --rose-dark: #880e4f;
+  --rose-light: #f8bbd9;
+  --teal: #00897b;
+  --teal-light: #b2dfdb;
+  --gold: #f9a825;
+  --gold-light: #fff8e1;
+  --cream: #fffaf7;
+  --plum: #2d1b35;
+  --plum-dark: #1a0d20;
 
   /* Font variables (loaded via <link> in __root.tsx) */
-  --font-playfair: "Plus Jakarta Sans", system-ui, sans-serif;
-  --font-nunito: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-playfair: "Playfair Display", Georgia, serif;
+  --font-nunito: "Nunito", system-ui, sans-serif;
 
   /* Semantic tokens */
-  --background: #FFFFFF;
-  --foreground: #1A1535;
-  --card: #FFFFFF;
-  --card-foreground: #1A1535;
-  --popover: #FFFFFF;
-  --popover-foreground: #1A1535;
-  --primary: #E6007E;
-  --primary-foreground: #FFFFFF;
-  --secondary: #1BA0DC;
-  --secondary-foreground: #FFFFFF;
-  --muted: #FFF1F7;
-  --muted-foreground: #6B6B8A;
-  --accent: #E6007E;
-  --accent-foreground: #FFFFFF;
+  --background: #fffaf7;
+  --foreground: #2d1b35;
+  --card: #ffffff;
+  --card-foreground: #2d1b35;
+  --popover: #ffffff;
+  --popover-foreground: #2d1b35;
+  --primary: #c2185b;
+  --primary-foreground: #ffffff;
+  --secondary: #00897b;
+  --secondary-foreground: #ffffff;
+  --muted: #f5f0ed;
+  --muted-foreground: #6b5a6e;
+  --accent: #f9a825;
+  --accent-foreground: #2d1b35;
   --destructive: #dc2626;
-  --destructive-foreground: #FFFFFF;
-  --border: #F2DCE8;
-  --input: #F2DCE8;
-  --ring: #E6007E;
+  --destructive-foreground: #ffffff;
+  --border: #e8dfd9;
+  --input: #e8dfd9;
+  --ring: #c2185b;
   --radius: 0.625rem;
 }
 
