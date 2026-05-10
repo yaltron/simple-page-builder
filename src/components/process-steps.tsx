@@ -91,53 +91,52 @@ export function ProcessSteps() {
         </h2>
 
         <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-14 gap-x-6">
-          {/* Animated SVG path (desktop only) */}
-          <svg
-            key={`svg-${runId}`}
-            className="hidden lg:block absolute left-0 right-0 top-16 h-60 w-full pointer-events-none -z-0"
-            viewBox="0 0 1200 240"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
-            <defs>
-              <linearGradient id="processProgress" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#1BA0DC" />
-                <stop offset="100%" stopColor="#E6007E" />
-              </linearGradient>
-            </defs>
-
-            {/* Faint dashed base line */}
-            <path
-              d={PATH_D}
-              stroke="rgba(230, 0, 126, 0.15)"
-              strokeWidth="2.5"
-              strokeDasharray="8 6"
-              strokeLinecap="round"
-              fill="none"
-            />
-
-            {/* Progress fill (gradient) — animated via stroke-dashoffset */}
-            <path
-              d={PATH_D}
-              stroke="url(#processProgress)"
-              strokeWidth="3"
-              strokeLinecap="round"
-              fill="none"
-              pathLength={1}
-              strokeDasharray="1 1"
-              style={{
-                strokeDashoffset: active ? 0 : 1,
-                transition: "stroke-dashoffset 2.5s ease-in-out",
-              }}
-            />
-
-            {/* Travelling glowing dot */}
-            {active && (
-              <circle r="6" fill="#E6007E" style={{ filter: "drop-shadow(0 0 8px #E6007E)" }}>
-                <animateMotion dur="2.5s" repeatCount="1" fill="freeze" path={PATH_D} />
-              </circle>
-            )}
-          </svg>
+          {/* Dotted connector lines (desktop only) */}
+          {[0, 1, 2].map((i) => {
+            const positions = [
+              { left: "calc(12.5% + 56px)", right: "calc(62.5% + 56px)", top: 116 },
+              { left: "calc(37.5% + 56px)", right: "calc(37.5% + 56px)", top: 131 },
+              { left: "calc(62.5% + 56px)", right: "calc(12.5% + 56px)", top: 131 },
+            ][i]
+            return (
+              <div
+                key={`conn-${runId}-${i}`}
+                className="hidden lg:block absolute pointer-events-none -z-0"
+                style={{
+                  left: positions.left,
+                  right: positions.right,
+                  top: positions.top,
+                  height: 2.5,
+                }}
+                aria-hidden="true"
+              >
+                <div
+                  style={{
+                    position: "relative",
+                    height: "100%",
+                    width: active ? "100%" : "0%",
+                    transition: `width 0.6s ease ${i * 0.3}s`,
+                    backgroundImage:
+                      "repeating-linear-gradient(90deg, #E6007E 0px, #E6007E 6px, transparent 6px, transparent 14px)",
+                  }}
+                >
+                  <span
+                    style={{
+                      position: "absolute",
+                      right: -2,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      width: 0,
+                      height: 0,
+                      borderTop: "5px solid transparent",
+                      borderBottom: "5px solid transparent",
+                      borderLeft: "8px solid #E6007E",
+                    }}
+                  />
+                </div>
+              </div>
+            )
+          })}
 
           {steps.map((step, i) => {
             const Icon = step.icon
