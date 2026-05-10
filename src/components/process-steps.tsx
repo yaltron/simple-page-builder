@@ -95,12 +95,15 @@ export function ProcessSteps() {
                 initial={{ opacity: 0, y: 28 }}
                 animate={active ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
                 transition={{ duration: 0.7, delay: i * 0.14, ease: "easeOut" }}
-                className="relative z-10 flex flex-col items-center"
+                className="group relative z-10 flex flex-col items-center"
                 style={{ ["--lg-offset" as never]: `${lgOffset}px` }}
               >
                 <div
-                  className="flex flex-col items-center"
-                  style={{ transform: isLg ? `translateY(${lgOffset}px)` : undefined }}
+                  className="flex flex-col items-center transition-transform duration-[400ms] group-hover:-translate-y-2"
+                  style={{
+                    transform: isLg ? `translateY(${lgOffset}px)` : undefined,
+                    transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+                  }}
                 >
                   <div className="relative mb-5">
                     {/* Pulse glow ring on arrival */}
@@ -119,15 +122,16 @@ export function ProcessSteps() {
 
                     <div
                       className="step-circle h-28 w-28 rounded-full gradient-brand grid place-items-center text-white"
-                      style={{ animationDelay: `${i * 0.7}s` }}
                     >
-                      <Icon className="h-11 w-11" strokeWidth={1.8} />
+                      <span className="step-icon inline-flex transition-transform duration-[400ms] ease-out group-hover:scale-[1.15] group-hover:-rotate-[8deg]">
+                        <Icon className="h-11 w-11" strokeWidth={1.8} />
+                      </span>
                     </div>
 
                     {/* Number badge with flash on arrival */}
                     <motion.span
                       key={`badge-${runId}-${i}`}
-                      className="absolute -top-1 -right-1 h-9 w-9 rounded-full border-2 border-brand-pink grid place-items-center font-extrabold text-xs shadow-md"
+                      className="step-badge absolute -top-1 -right-1 h-9 w-9 rounded-full border-2 border-brand-pink grid place-items-center font-extrabold text-xs shadow-md"
                       initial={{ backgroundColor: "#ffffff", color: "#E6007E" }}
                       animate={
                         active
@@ -145,7 +149,7 @@ export function ProcessSteps() {
 
                   <motion.h3
                     key={`title-${runId}-${i}`}
-                    className="font-bold text-lg mb-2"
+                    className="step-title font-bold text-lg mb-2 transition-colors duration-300"
                     initial={{ color: "#1A1535" }}
                     animate={
                       active
