@@ -381,14 +381,14 @@ export function Navbar() {
           {/* Gradient bottom border */}
           <div
             className="absolute bottom-0 left-0 right-0"
-            style={{ height: 2.5, background: `linear-gradient(90deg, transparent, ${COLORS.magenta}, ${COLORS.magenta})` }}
+            style={{ height: 2.5, background: `linear-gradient(90deg, ${COLORS.magenta}, #805AAD)` }}
           />
         </div>
 
         {/* Mobile gradient line under row 1 */}
         <div
           className="md:hidden"
-          style={{ height: 2.5, background: `linear-gradient(90deg, transparent, ${COLORS.magenta}, ${COLORS.magenta})` }}
+          style={{ height: 2.5, background: `linear-gradient(90deg, ${COLORS.magenta}, #805AAD)` }}
         />
       </motion.header>
 
