@@ -73,7 +73,7 @@ export function Footer() {
         style={{
           background: "#FFF1F7",
           borderTop: "2.5px solid transparent",
-          borderImage: "linear-gradient(90deg, transparent, #E6007E, #E6007E) 1",
+          borderImage: "linear-gradient(90deg, #E6007E, #805AAD) 1",
           padding: "60px 8%",
         }}
       >
