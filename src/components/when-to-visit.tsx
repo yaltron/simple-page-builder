@@ -44,10 +44,7 @@ export function WhenToVisit() {
               transition={{ duration: 0.5 }}
               className="space-y-6"
             >
-              <span className="text-sm font-medium uppercase tracking-wider text-rose">
-                When to Visit
-              </span>
-              <h2 className="font-serif text-3xl lg:text-4xl font-bold text-plum">
+              <h2 className="font-serif text-3xl lg:text-4xl font-bold" style={{ color: "#C2185B" }}>
                 Signs You Should See a Fertility Specialist
               </h2>
 
