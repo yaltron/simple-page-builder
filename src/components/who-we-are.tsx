@@ -110,10 +110,7 @@ export function WhoWeAre() {
             className="space-y-6"
           >
             <div className="space-y-4">
-              <span className="text-sm font-medium uppercase tracking-wider text-rose">
-                Who We Are
-              </span>
-              <h2 className="font-serif text-3xl lg:text-4xl font-bold text-plum">
+              <h2 className="font-serif text-3xl lg:text-4xl font-bold" style={{ color: "#E6007E" }}>
                 Turning Hope Into Happiness
               </h2>
             </div>
