@@ -69,9 +69,6 @@ export function Services() {
           className="text-center max-w-3xl mx-auto"
           style={{ marginBottom: 30 }}
         >
-          <span className="text-sm font-medium uppercase tracking-wider text-rose">
-            What We Offer
-          </span>
           <h2
             className="text-3xl lg:text-4xl mt-4"
             style={{
