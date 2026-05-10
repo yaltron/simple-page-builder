@@ -87,52 +87,53 @@ export function ProcessSteps() {
         </h2>
 
         <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-14 gap-x-6">
-          {/* Dotted connector lines (desktop only) */}
-          {[0, 1, 2].map((i) => {
-            const positions = [
-              { left: "calc(12.5% + 56px)", right: "calc(62.5% + 56px)", top: 116 },
-              { left: "calc(37.5% + 56px)", right: "calc(37.5% + 56px)", top: 131 },
-              { left: "calc(62.5% + 56px)", right: "calc(12.5% + 56px)", top: 131 },
-            ][i]
-            return (
-              <div
-                key={`conn-${runId}-${i}`}
-                className="hidden lg:block absolute pointer-events-none -z-0"
-                style={{
-                  left: positions.left,
-                  right: positions.right,
-                  top: positions.top,
-                  height: 2.5,
-                }}
-                aria-hidden="true"
-              >
-                <div
-                  style={{
-                    position: "relative",
-                    height: "100%",
-                    width: active ? "100%" : "0%",
-                    transition: `width 0.6s ease ${i * 0.3}s`,
-                    backgroundImage:
-                      "repeating-linear-gradient(90deg, #E6007E 0px, #E6007E 6px, transparent 6px, transparent 14px)",
-                  }}
-                >
-                  <span
-                    style={{
-                      position: "absolute",
-                      right: -2,
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      width: 0,
-                      height: 0,
-                      borderTop: "5px solid transparent",
-                      borderBottom: "5px solid transparent",
-                      borderLeft: "8px solid #E6007E",
-                    }}
-                  />
-                </div>
-              </div>
-            )
-          })}
+          {/* Animated wave SVG (desktop only) */}
+          <svg
+            key={`wave-${runId}`}
+            className="hidden lg:block absolute pointer-events-none"
+            style={{ top: 0, left: 0, width: "100%", height: "100%", zIndex: 0, overflow: "visible" }}
+            viewBox="0 0 880 400"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#E6007E" />
+                <stop offset="50%" stopColor="#9B26AF" />
+                <stop offset="100%" stopColor="#6A0DAD" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M 80,120 C 180,120 220,280 320,280 C 420,280 460,120 560,120 C 660,120 700,280 800,280"
+              fill="none"
+              stroke="url(#waveGradient)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeDasharray="900"
+              strokeDashoffset={active ? 0 : 900}
+              style={{ transition: "stroke-dashoffset 2s ease-in-out" }}
+            />
+            <path
+              d="M 80,120 C 180,120 220,280 320,280 C 420,280 460,120 560,120 C 660,120 700,280 800,280"
+              fill="none"
+              stroke="url(#waveGradient)"
+              strokeWidth="2"
+              strokeDasharray="8 6"
+              opacity="0.45"
+              strokeDashoffset={active ? 0 : 900}
+              style={{ transition: "stroke-dashoffset 2s ease-in-out" }}
+            />
+            {active && (
+              <circle r="5" fill="#E6007E" style={{ filter: "drop-shadow(0 0 6px #E6007E)" }}>
+                <animateMotion
+                  dur="4s"
+                  begin="2s"
+                  repeatCount="indefinite"
+                  path="M 80,120 C 180,120 220,280 320,280 C 420,280 460,120 560,120 C 660,120 700,280 800,280"
+                />
+              </circle>
+            )}
+          </svg>
 
           {steps.map((step, i) => {
             const Icon = step.icon
