@@ -24,7 +24,7 @@ export function WhenToVisit() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="py-20 lg:py-32 overflow-hidden relative">
+    <section ref={ref} className="pt-20 lg:pt-32 pb-10 overflow-hidden relative">
       <FloatingDecoField
         items={[
           { shape: "hollow-circle", color: "teal", size: 36, top: "10%", left: "5%", floatDuration: 8, rotateDuration: 22, delay: 0 },

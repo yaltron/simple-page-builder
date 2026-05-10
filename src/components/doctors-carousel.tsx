@@ -86,9 +86,6 @@ function DoctorCard({
             {doctor.specialty}
           </p>
 
-          <p className="text-xs text-muted-foreground italic">
-            Hover to see profile
-          </p>
         </div>
 
         {/* Back */}
@@ -156,7 +153,7 @@ export function DoctorsCarousel() {
   const loop = [...doctors, ...doctors]
 
   return (
-    <section id="team" ref={ref} className="py-20 lg:py-32 bg-cream overflow-hidden">
+    <section id="team" ref={ref} className="pt-10 pb-20 lg:pb-32 bg-cream overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -164,10 +161,7 @@ export function DoctorsCarousel() {
           transition={{ duration: 0.5 }}
           className="text-center max-w-3xl mx-auto mb-12 space-y-4"
         >
-          <span className="text-sm font-medium uppercase tracking-wider text-rose">
-            Our Team
-          </span>
-          <h2 className="font-serif text-3xl lg:text-4xl font-bold text-plum">
+          <h2 className="font-serif text-3xl lg:text-4xl font-bold" style={{ color: "#C2185B" }}>
             World-Class Doctors, Dedicated to Your Care
           </h2>
         </motion.div>
