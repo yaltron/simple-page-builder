@@ -64,7 +64,16 @@ export function WhoWeAre() {
             className="space-y-8"
           >
             {/* Quote */}
-            <blockquote className="font-serif text-2xl lg:text-3xl italic leading-relaxed" style={{ color: "#E6007E" }}>
+            <blockquote
+              className="font-serif text-2xl lg:text-3xl italic leading-relaxed"
+              style={{
+                backgroundImage: "linear-gradient(135deg, #E6007E 0%, #C2006A 35%, #1BA0DC 100%)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "transparent",
+              }}
+            >
               &ldquo;Every couple is unique, and so is their journey to parenthood. 
               At Shubhashree IVF, we transform hope into life.&rdquo;
             </blockquote>
