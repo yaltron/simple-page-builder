@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Play, ChevronDown } from "lucide-react"
+import { Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Magnetic } from "@/components/magnetic"
 import heroFamily from "@/assets/hero-family.jpg"
