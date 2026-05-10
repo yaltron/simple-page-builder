@@ -75,7 +75,7 @@ export function Services() {
           <h2
             className="text-3xl lg:text-4xl mt-4"
             style={{
-              color: "#E6007E",
+              color: "#C2185B",
               fontFamily: "'Playfair Display', serif",
               fontWeight: 700,
               fontStyle: "normal",
