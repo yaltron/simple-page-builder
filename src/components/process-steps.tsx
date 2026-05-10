@@ -79,9 +79,6 @@ export function ProcessSteps() {
   return (
     <section id="process" className="py-20 bg-pink-soft/40 overflow-hidden">
       <div ref={sectionRef} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-        <p className="text-brand-pink uppercase tracking-wider text-xs font-semibold mb-3">
-          ✦ How It Works
-        </p>
         <h2 className="text-3xl sm:text-4xl font-extrabold mb-16">
           A Simple Guide to Your <span className="text-brand-pink">Fertility Journey</span>
         </h2>
@@ -107,24 +104,14 @@ export function ProcessSteps() {
               d="M 80,120 C 180,120 220,280 320,280 C 420,280 460,120 560,120 C 660,120 700,280 800,280"
               fill="none"
               stroke="url(#waveGradient)"
-              strokeWidth="3"
+              strokeWidth="4"
               strokeLinecap="round"
-              strokeDasharray="900"
-              strokeDashoffset={active ? 0 : 900}
-              style={{ transition: "stroke-dashoffset 2s ease-in-out" }}
-            />
-            <path
-              d="M 80,120 C 180,120 220,280 320,280 C 420,280 460,120 560,120 C 660,120 700,280 800,280"
-              fill="none"
-              stroke="url(#waveGradient)"
-              strokeWidth="2"
-              strokeDasharray="8 6"
-              opacity="0.45"
+              strokeDasharray="10 7"
               strokeDashoffset={active ? 0 : 900}
               style={{ transition: "stroke-dashoffset 2s ease-in-out" }}
             />
             {active && (
-              <circle r="5" fill="#E6007E" style={{ filter: "drop-shadow(0 0 6px #E6007E)" }}>
+              <circle r="7" fill="#E6007E" style={{ filter: "drop-shadow(0 0 6px #E6007E)" }}>
                 <animateMotion
                   dur="4s"
                   begin="2s"
@@ -167,7 +154,10 @@ export function ProcessSteps() {
                       )}
                     </AnimatePresence>
 
-                    <div className="h-28 w-28 rounded-full gradient-brand grid place-items-center text-white shadow-[0_15px_30px_-10px_oklch(0.62_0.27_357/0.5)] card-hover">
+                    <div
+                      className="step-circle h-28 w-28 rounded-full gradient-brand grid place-items-center text-white"
+                      style={{ animationDelay: `${i * 0.7}s` }}
+                    >
                       <Icon className="h-11 w-11" strokeWidth={1.8} />
                     </div>
 
