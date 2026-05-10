@@ -255,9 +255,9 @@ export function Navbar() {
                     })
                   }}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-colors"
-                  style={{ background: COLORS.plum }}
-                  onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.background = COLORS.magenta)}
-                  onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.background = COLORS.plum)}
+                  style={{ background: "#B5005F" }}
+                  onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.background = "#8C0049")}
+                  onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.background = "#B5005F")}
                 >
                   <Phone className="w-4 h-4" />
                   Call Us
@@ -345,35 +345,31 @@ export function Navbar() {
         >
           <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center">
             <div className="flex items-center justify-between w-full">
-              {navLinks.map((link, idx) => {
+              {navLinks.map((link) => {
                 const isActive = activeSection === link.href.replace("#", "")
                 return (
-                  <div key={link.name} className="flex items-center">
-                    <a
-                      href={link.href}
-                      className="relative px-3 py-1 group"
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="relative px-3 py-1 group"
+                    style={{
+                      color: isActive ? COLORS.magenta : COLORS.navLink,
+                      fontWeight: 600,
+                      fontSize: 17,
+                      transition: "color 0.2s ease",
+                    }}
+                    onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = COLORS.magenta)}
+                    onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = isActive ? COLORS.magenta : COLORS.navLink)}
+                  >
+                    {link.name}
+                    <span
+                      className="absolute left-3 right-3 -bottom-0.5 h-[2px] origin-left transition-transform duration-300 group-hover:scale-x-100"
                       style={{
-                        color: isActive ? COLORS.magenta : COLORS.navLink,
-                        fontWeight: 600,
-                        fontSize: 17,
-                        transition: "color 0.2s ease",
+                        background: COLORS.magenta,
+                        transform: isActive ? "scaleX(1)" : "scaleX(0)",
                       }}
-                      onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = COLORS.magenta)}
-                      onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = isActive ? COLORS.magenta : COLORS.navLink)}
-                    >
-                      {link.name}
-                      <span
-                        className="absolute left-3 right-3 -bottom-0.5 h-[2px] origin-left transition-transform duration-300 group-hover:scale-x-100"
-                        style={{
-                          background: COLORS.magenta,
-                          transform: isActive ? "scaleX(1)" : "scaleX(0)",
-                        }}
-                      />
-                    </a>
-                    {idx < navLinks.length - 1 && (
-                      <span style={{ color: COLORS.navLink, opacity: 0.4 }}>|</span>
-                    )}
-                  </div>
+                    />
+                  </a>
                 )
               })}
             </div>
@@ -381,14 +377,14 @@ export function Navbar() {
           {/* Gradient bottom border */}
           <div
             className="absolute bottom-0 left-0 right-0"
-            style={{ height: 2.5, background: `linear-gradient(90deg, ${COLORS.magenta}, ${COLORS.blue})` }}
+            style={{ height: 2.5, background: "linear-gradient(90deg, #E6007E 0%, #9B26AF 50%, #6A0DAD 100%)" }}
           />
         </div>
 
         {/* Mobile gradient line under row 1 */}
         <div
           className="md:hidden"
-          style={{ height: 2.5, background: `linear-gradient(90deg, ${COLORS.magenta}, ${COLORS.blue})` }}
+          style={{ height: 2.5, background: "linear-gradient(90deg, #E6007E 0%, #9B26AF 50%, #6A0DAD 100%)" }}
         />
       </motion.header>
 
