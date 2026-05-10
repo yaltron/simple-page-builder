@@ -98,13 +98,14 @@ export function MiraclesGallery() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              style={{ filter: "drop-shadow(0 0 20px rgba(230,0,126,0.25))" }}
+              style={{ filter: "drop-shadow(0 0 25px rgba(230,0,126,0.20))" }}
             >
               <div
                 aria-label="Shubhashree IVF logo silhouette"
                 style={{
-                  width: 560,
-                  height: 560,
+                  width: 500,
+                  height: 500,
+                  position: "relative",
                   WebkitMaskImage: "url('/shubhashree-01.png')",
                   maskImage: "url('/shubhashree-01.png')",
                   WebkitMaskSize: "contain",
@@ -113,7 +114,7 @@ export function MiraclesGallery() {
                   maskRepeat: "no-repeat",
                   WebkitMaskPosition: "center",
                   maskPosition: "center",
-                  background: "rgba(230,0,126,0.35)",
+                  background: "rgba(230, 0, 126, 0.12)",
                 }}
               />
             </motion.div>
