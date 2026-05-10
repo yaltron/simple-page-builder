@@ -104,9 +104,9 @@ export function ProcessSteps() {
               d="M 80,120 C 180,120 220,280 320,280 C 420,280 460,120 560,120 C 660,120 700,280 800,280"
               fill="none"
               stroke="url(#waveGradient)"
-              strokeWidth="4"
+              strokeWidth="3.5"
               strokeLinecap="round"
-              strokeDasharray="10 7"
+              strokeDasharray="16 10"
               strokeDashoffset={active ? 0 : 900}
               style={{ transition: "stroke-dashoffset 2s ease-in-out" }}
             />
