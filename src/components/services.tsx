@@ -14,7 +14,7 @@ import {
 
 const cardGradients = [
   "linear-gradient(135deg, #FFF1F7 0%, #fcd4e8 100%)",
-  "linear-gradient(135deg, #EAF7FD 0%, #c2e8f8 100%)",
+  "linear-gradient(135deg, #EAF7FD 0%, #F5DCF0 100%)",
   "linear-gradient(135deg, #fcd4e8 0%, #EAF7FD 100%)",
   "linear-gradient(135deg, #c2e8f8 0%, #FFF1F7 100%)",
   "linear-gradient(135deg, #FFF1F7 0%, #c2e8f8 100%)",
