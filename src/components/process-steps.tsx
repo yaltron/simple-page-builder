@@ -36,10 +36,6 @@ const steps: Step[] = [
   },
 ]
 
-// SVG path connecting step centers in a smooth wave
-const PATH_D =
-  "M 150 60 C 300 60, 300 180, 450 180 S 600 90, 750 90 S 900 180, 1050 180"
-
 // Vertical offsets (px) for each step on desktop — matches SVG y positions
 const STEP_OFFSETS_LG = [0, 120, 30, 120]
 
