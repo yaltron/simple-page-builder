@@ -1,39 +1,32 @@
-## Goal
-Add springy hover interactions to each step in the "How It Works" section (`src/components/process-steps.tsx`). Hovering anywhere on a step (circle + title + description) triggers coordinated animations on the circle, icon, badge, title, and the whole group.
+## Plan — Fix hidden/cut-off text in "How It Works"
 
-## Note on existing state
-The continuous "glow pulse" animation on circles was removed in a previous turn (per your request). The plan below adds the hover effects only — I will not re-add the always-on pulse unless you tell me to.
+Scope: only `src/components/process-steps.tsx` and the `.step-circle` rules in `src/styles.css`. No other sections touched.
 
-## Changes
+### 1. Section overflow + bottom padding
+In `src/components/process-steps.tsx`, update the `<section id="process">`:
+- Remove `overflow-hidden`
+- Add explicit `overflow-visible`
+- Add `pb-20` (80px bottom padding) on top of existing `py-20` (use `pt-20 pb-[80px] overflow-visible`)
 
-### 1. `src/components/process-steps.tsx`
-- Wrap each step's inner container as the hover trigger by adding `group` to the outer `<motion.div>` (the one keyed by `step.number`).
-- Apply group-hover utility classes to children:
-  - **Step container** (inner div): `transition-transform duration-400 group-hover:-translate-y-2` with spring easing.
-  - **Circle** (`.step-circle` div): inline transition + group-hover scale to 1.10 with the double-ring + deep glow box-shadow.
-  - **Icon** (`<Icon />`): wrap in a span with `transition-transform group-hover:scale-115 group-hover:-rotate-[8deg]`.
-  - **Badge** (number `<motion.span>`): on group-hover swap bg → `#E6007E`, text → white, scale 1.2.
-  - **Title** (`<motion.h3>`): on group-hover color → `#E6007E`.
+### 2. Step container — fixed height, overflow visible
+On the inner step content `<div>` (currently the one with `flex flex-col items-center transition-transform ...`):
+- Add `min-h-[320px] relative overflow-visible w-full`
+- Remove the group-hover lift (`group-hover:-translate-y-2`) from this container so text never moves
+- Keep the desktop `translateY(lgOffset)` style
 
-### 2. `src/styles.css` — `.step-circle` rule
-- Replace the current `:hover` rule with a `.group:hover .step-circle` rule (so the whole step area triggers it, not just direct circle hover).
-- Hover state:
-  - `transform: scale(1.10)`
-  - `box-shadow: 0 0 0 10px rgba(230,0,126,0.12), 0 0 0 20px rgba(230,0,126,0.06), 0 16px 50px rgba(230,0,126,0.35)`
-- Transition: `all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)` on hover-in, `all 0.3s ease-out` on hover-out (handled by setting transition on default state to ease-out and overriding on hover).
+The outer `motion.div` keeps `group relative z-10` and gets `overflow-visible`.
 
-## Technical details
+### 3. Move hover lift to the circle only
+Currently `.group:hover .step-circle` only does scale+shadow. Update so only the circle shifts up:
+- In `src/styles.css`, change `.group:hover .step-circle` transform to `translateY(-8px) scale(1.10)` (keep double-ring + deep glow shadow, keep springy easing)
+- Idle `.step-circle` keeps `transition: transform .3s, box-shadow .3s`
+- Remove `group-hover:-translate-y-2` from the inner container (done in step 2) so title/description stay put
 
-### Easing
-- Spring/bounce on enter: `cubic-bezier(0.34, 1.56, 0.64, 1)` for circle scale + container lift + icon scale.
-- Smooth ease for title color and badge color: `0.3s ease`.
+### 4. Keep title/description anchored
+- Title `<motion.h3>` and description `<p>` stay where they are; no group-hover transforms on them besides the existing color change on title.
+- Remove icon's `group-hover:-rotate-[8deg]` rotation? Keep — it stays inside the circle and doesn't affect layout. Keep icon scale/rotate as-is.
 
-### Badge color swap conflict
-The badge is a `motion.span` whose `animate` prop sets `backgroundColor`/`color`. Framer Motion's inline styles will override CSS hover. To make hover work, I'll use Tailwind `group-hover:` classes that set inline styles via a `whileHover` prop on the parent group is not viable (group is not a motion component). Instead I'll switch the badge's hover styling to a plain conditional via CSS custom properties OR add `data-hover` styling. Simplest: add a sibling CSS rule `.group:hover .step-badge { background: #E6007E !important; color: #fff !important; transform: scale(1.2); }` and add `step-badge` class + transition to the span. The `!important` is needed because framer-motion writes inline styles after mount.
+### 5. Verify
+Re-read both files after edit to confirm: section has `overflow-visible pb-20`, inner step container has `min-h-[320px]` and no hover translate, and `.step-circle` hover applies `translateY(-8px) scale(1.10)`.
 
-### Files touched
-- `src/components/process-steps.tsx` — add `group` class, add `step-badge` class, wrap icon in animatable span, add group-hover utility classes.
-- `src/styles.css` — update `.step-circle` block; add `.step-badge` hover rule.
-
-## Out of scope (untouched)
-Wave/dot (already removed), section heading, descriptions copy, background, on-scroll arrival animations, all other sections.
+Out of scope: heading, background color, badges, icons, gradients, colors, arrival pulse animation, all other page sections.
