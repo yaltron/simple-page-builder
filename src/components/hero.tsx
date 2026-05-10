@@ -4,20 +4,25 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Magnetic } from "@/components/magnetic"
-import heroFamily from "@/assets/hero-family.jpg"
-
 const slides = [
-  heroFamily,
-  "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800",
-  "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800",
-  "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800",
-  "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=800",
+  "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=90&fit=crop",
+  "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=90&fit=crop",
+  "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=800&q=90&fit=crop",
+  "https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=800&q=90&fit=crop",
+  "https://images.unsplash.com/photo-1491013516836-7db643ee125a?w=800&q=90&fit=crop",
 ]
 
 
 export function Hero() {
   return (
-    <section className="relative flex items-center overflow-hidden bg-cream" style={{ paddingTop: 40, paddingBottom: 40 }}>
+    <section
+      className="relative flex items-center overflow-hidden"
+      style={{
+        paddingTop: 40,
+        paddingBottom: 40,
+        background: "linear-gradient(135deg, #FFF1F7 0%, #FFD6E8 40%, #FFF1F7 100%)",
+      }}
+    >
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid lg:grid-cols-5 gap-12 items-center">
           {/* Left content - 60% */}
@@ -33,16 +38,7 @@ export function Hero() {
               <span className="text-rose">Your Life</span>
             </motion.h1>
 
-            {/* Heading */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-plum leading-tight text-balance"
-            >
-              Bringing Happiness Into{" "}
-              <span className="text-rose">Your Life</span>
-            </motion.h1>
+
 
             {/* Subtext */}
             <motion.p
