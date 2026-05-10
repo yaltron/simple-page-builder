@@ -59,19 +59,20 @@ export function Services() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section id="services" ref={ref} className="py-20 lg:py-32" style={{ background: "linear-gradient(135deg, #EAF7FD, #FFF1F7)" }}>
+    <section id="services" ref={ref} style={{ background: "linear-gradient(135deg, #EAF7FD, #FFF1F7)", paddingTop: 50, paddingBottom: 50 }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="text-center max-w-3xl mx-auto"
+          style={{ marginBottom: 30 }}
         >
           <span className="text-sm font-medium uppercase tracking-wider text-rose">
             What We Offer
           </span>
-          <h2 className="font-serif text-3xl lg:text-4xl font-bold text-plum mt-4">
+          <h2 className="font-serif text-3xl lg:text-4xl font-bold mt-4" style={{ color: "#E6007E" }}>
             Comprehensive Fertility Care, Tailored for You
           </h2>
         </motion.div>
