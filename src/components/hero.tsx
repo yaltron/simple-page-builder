@@ -20,7 +20,7 @@ export function Hero() {
       style={{
         paddingTop: 40,
         paddingBottom: 40,
-        background: "radial-gradient(ellipse at 30% 50%, #FFD6E8 0%, #FFF1F7 35%, #ffffff 65%, #FFF1F7 100%)",
+        background: "linear-gradient(to right, #FFE4EF 0%, #FFF5F9 25%, #FFFAFC 50%, #ffffff 100%)",
       }}
     >
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
