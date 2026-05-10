@@ -72,7 +72,15 @@ export function Services() {
           <span className="text-sm font-medium uppercase tracking-wider text-rose">
             What We Offer
           </span>
-          <h2 className="font-serif text-3xl lg:text-4xl font-bold mt-4" style={{ color: "#E6007E" }}>
+          <h2
+            className="text-3xl lg:text-4xl mt-4"
+            style={{
+              color: "#E6007E",
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: 700,
+              fontStyle: "normal",
+            }}
+          >
             Comprehensive Fertility Care, Tailored for You
           </h2>
         </motion.div>
