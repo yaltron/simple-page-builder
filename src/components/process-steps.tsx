@@ -77,7 +77,7 @@ export function ProcessSteps() {
   }, [])
 
   return (
-    <section id="process" className="py-20 bg-pink-soft/40 overflow-hidden">
+    <section id="process" className="pt-20 pb-[80px] bg-pink-soft/40 overflow-visible">
       <div ref={sectionRef} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-3xl sm:text-4xl font-extrabold mb-16">
           A Simple Guide to Your <span className="text-brand-pink">Fertility Journey</span>
@@ -95,14 +95,13 @@ export function ProcessSteps() {
                 initial={{ opacity: 0, y: 28 }}
                 animate={active ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
                 transition={{ duration: 0.7, delay: i * 0.14, ease: "easeOut" }}
-                className="group relative z-10 flex flex-col items-center"
+                className="group relative z-10 flex flex-col items-center overflow-visible"
                 style={{ ["--lg-offset" as never]: `${lgOffset}px` }}
               >
                 <div
-                  className="flex flex-col items-center transition-transform duration-[400ms] group-hover:-translate-y-2"
+                  className="flex flex-col items-center w-full min-h-[320px] relative overflow-visible"
                   style={{
                     transform: isLg ? `translateY(${lgOffset}px)` : undefined,
-                    transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)",
                   }}
                 >
                   <div className="relative mb-5">
