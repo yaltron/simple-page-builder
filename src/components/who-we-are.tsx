@@ -64,7 +64,7 @@ export function WhoWeAre() {
             className="space-y-8"
           >
             {/* Quote */}
-            <blockquote className="font-serif text-2xl lg:text-3xl text-plum italic leading-relaxed">
+            <blockquote className="font-serif text-2xl lg:text-3xl italic leading-relaxed" style={{ color: "#E6007E" }}>
               &ldquo;Every couple is unique, and so is their journey to parenthood. 
               At Shubhashree IVF, we transform hope into life.&rdquo;
             </blockquote>
@@ -110,10 +110,7 @@ export function WhoWeAre() {
             className="space-y-6"
           >
             <div className="space-y-4">
-              <span className="text-sm font-medium uppercase tracking-wider text-rose">
-                Who We Are
-              </span>
-              <h2 className="font-serif text-3xl lg:text-4xl font-bold text-plum">
+              <h2 className="font-serif text-3xl lg:text-4xl font-bold" style={{ color: "#E6007E" }}>
                 Turning Hope Into Happiness
               </h2>
             </div>
