@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from "react"
 import { motion, useInView } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import miracleMask from "@/assets/miracle-mask.jpg"
+
 
 const dots = [
   { size: 12, color: "#E6007E", top: "10%", left: "85%", dur: 5, delay: 0 },
@@ -98,9 +98,10 @@ export function MiraclesGallery() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              style={{ filter: "drop-shadow(0 0 40px rgba(230,0,126,0.30))" }}
+              style={{ filter: "drop-shadow(0 0 20px rgba(230,0,126,0.25))" }}
             >
               <div
+                aria-label="Shubhashree IVF logo silhouette"
                 style={{
                   width: 560,
                   height: 560,
@@ -112,25 +113,9 @@ export function MiraclesGallery() {
                   maskRepeat: "no-repeat",
                   WebkitMaskPosition: "center",
                   maskPosition: "center",
-                  background: "#1A1535",
-                  position: "relative",
-                  overflow: "hidden",
+                  background: "rgba(230,0,126,0.35)",
                 }}
-              >
-                <img
-                  src={miracleMask}
-                  alt="Mother and newborn baby — a Shubhashree IVF miracle"
-                  width={1024}
-                  height={1024}
-                  loading="lazy"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    filter: "saturate(1.15) contrast(1.05)",
-                  }}
-                />
-              </div>
+              />
             </motion.div>
           </div>
         </div>
