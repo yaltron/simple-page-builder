@@ -84,43 +84,6 @@ export function ProcessSteps() {
         </h2>
 
         <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-14 gap-x-6">
-          {/* Animated wave SVG (desktop only) */}
-          <svg
-            key={`wave-${runId}`}
-            className="hidden lg:block absolute pointer-events-none"
-            style={{ top: 0, left: 0, width: "100%", height: "100%", zIndex: 0, overflow: "visible" }}
-            viewBox="0 0 880 400"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
-            <defs>
-              <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#E6007E" />
-                <stop offset="50%" stopColor="#9B26AF" />
-                <stop offset="100%" stopColor="#6A0DAD" />
-              </linearGradient>
-            </defs>
-            <path
-              d="M 80,120 C 180,120 220,280 320,280 C 420,280 460,120 560,120 C 660,120 700,280 800,280"
-              fill="none"
-              stroke="url(#waveGradient)"
-              strokeWidth="3.5"
-              strokeLinecap="round"
-              strokeDasharray="16 10"
-              strokeDashoffset={active ? 0 : 900}
-              style={{ transition: "stroke-dashoffset 2s ease-in-out" }}
-            />
-            {active && (
-              <circle r="7" fill="#E6007E" style={{ filter: "drop-shadow(0 0 6px #E6007E)" }}>
-                <animateMotion
-                  dur="4s"
-                  begin="2s"
-                  repeatCount="indefinite"
-                  path="M 80,120 C 180,120 220,280 320,280 C 420,280 460,120 560,120 C 660,120 700,280 800,280"
-                />
-              </circle>
-            )}
-          </svg>
 
           {steps.map((step, i) => {
             const Icon = step.icon
