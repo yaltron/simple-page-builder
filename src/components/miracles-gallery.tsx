@@ -3,6 +3,17 @@ import { motion, useInView } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { Link } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
+import { useHomepageSection } from "@/lib/use-cms-content"
+
+const DEFAULT_MIRACLES = {
+  count: 5000,
+  count_suffix: "+",
+  heading: "Miracles & Counting",
+  description:
+    "Every baby born at Subhashree IVF is a miracle we celebrate. These are the faces of hope, the smiles of joy, and the beginning of beautiful family stories.",
+  cta_text: "Your Miracle Awaits",
+  cta_url: "/success-stories",
+}
 
 
 const dots = [
