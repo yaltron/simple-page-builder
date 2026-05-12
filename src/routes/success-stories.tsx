@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { motion, useInView } from "framer-motion"
 import { Star, Quote, Play } from "lucide-react"
 import { PageLayout, PageCTABanner, Section, SectionHeading, BRAND } from "@/components/page-layout"
+import { VideoModal } from "@/components/video-modal"
 
 export const Route = createFileRoute("/success-stories")({
   head: () => ({
@@ -56,6 +57,7 @@ const videos = [
 ]
 
 function StoriesPage() {
+  const [video, setVideo] = useState<string | null>(null)
   return (
     <PageLayout title="Success Stories" breadcrumb="Success Stories">
       {/* Stats bar */}
@@ -115,7 +117,7 @@ function StoriesPage() {
               className="rounded-2xl overflow-hidden bg-white transition-transform hover:-translate-y-1"
               style={{ border: "1px solid rgba(230,0,126,0.12)" }}
             >
-              <div className="relative aspect-video group cursor-pointer">
+              <div className="relative aspect-video group cursor-pointer" onClick={() => setVideo("https://www.youtube.com/embed/dQw4w9WgXcQ")}>
                 <img src={v.img} alt={v.name} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors">
                   <div className="w-16 h-16 rounded-full flex items-center justify-center transition-transform group-hover:scale-110" style={{ background: BRAND.pink }}>
@@ -125,7 +127,7 @@ function StoriesPage() {
               </div>
               <div className="p-5 text-center">
                 <div className="font-bold mb-1" style={{ color: BRAND.plum }}>{v.name}</div>
-                <a className="text-sm font-semibold" style={{ color: BRAND.pink }}>Watch Story →</a>
+                <button onClick={() => setVideo("https://www.youtube.com/embed/dQw4w9WgXcQ")} className="text-sm font-semibold" style={{ color: BRAND.pink }}>Watch Story →</button>
               </div>
             </motion.div>
           ))}
@@ -133,6 +135,7 @@ function StoriesPage() {
       </Section>
 
       <PageCTABanner />
+      <VideoModal open={video !== null} onClose={() => setVideo(null)} src={video ?? undefined} title="Success Story" />
     </PageLayout>
   )
 }

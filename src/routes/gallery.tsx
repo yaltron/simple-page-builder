@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { motion, AnimatePresence } from "framer-motion"
 import { Search, X, ChevronLeft, ChevronRight, Play } from "lucide-react"
 import { PageLayout, Section, SectionHeading, BRAND } from "@/components/page-layout"
+import { VideoModal } from "@/components/video-modal"
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -37,6 +38,7 @@ const images: { src: string; cat: Exclude<Cat, "All">; h: number }[] = [
 function GalleryPage() {
   const [active, setActive] = useState<Cat>("All")
   const [lightbox, setLightbox] = useState<number | null>(null)
+  const [tourOpen, setTourOpen] = useState(false)
   const filtered = active === "All" ? images : images.filter((i) => i.cat === active)
 
   const next = () => setLightbox((i) => (i === null ? null : (i + 1) % filtered.length))
@@ -97,7 +99,7 @@ function GalleryPage() {
         <div className="max-w-3xl mx-auto text-center">
           <SectionHeading>Take a Virtual Tour of Our Clinic</SectionHeading>
           <p className="mb-8" style={{ color: BRAND.navLink, marginTop: -20 }}>Explore our facilities from the comfort of your home.</p>
-          <button className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-white font-bold transition-transform hover:scale-105" style={{ background: `linear-gradient(90deg, ${BRAND.pink}, ${BRAND.pinkDark})` }}>
+          <button onClick={() => setTourOpen(true)} className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-white font-bold transition-transform hover:scale-105" style={{ background: `linear-gradient(90deg, ${BRAND.pink}, ${BRAND.pinkDark})` }}>
             <Play className="w-4 h-4 fill-current" /> Watch Tour Video
           </button>
         </div>
@@ -121,6 +123,8 @@ function GalleryPage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <VideoModal open={tourOpen} onClose={() => setTourOpen(false)} title="Virtual Clinic Tour" />
     </PageLayout>
   )
 }

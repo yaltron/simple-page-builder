@@ -34,8 +34,12 @@ const posts = [
   { title: "Nutrition Tips for IVF Success", cat: "Lifestyle", date: "07 Apr 2026", read: "4 min", excerpt: "Foods, supplements and habits that support a healthy IVF cycle.", img: "https://placehold.co/800x520/FFF1F7/C2185B?text=Article+6" },
 ]
 
+const slugify = (s: string) =>
+  s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")
+
 function BlogPage() {
   const [email, setEmail] = useState("")
+  const featuredSlug = slugify(featured.title)
   return (
     <PageLayout title="Blogs and News" breadcrumb="Blogs and News">
       {/* Featured post */}
@@ -58,9 +62,9 @@ function BlogPage() {
                 <span>·</span>
                 <span>{featured.author}</span>
               </div>
-              <button className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-transform hover:scale-105" style={{ background: "white", color: BRAND.pink }}>
+              <Link to="/blog/$slug" params={{ slug: featuredSlug }} className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-transform hover:scale-105" style={{ background: "white", color: BRAND.pink }}>
                 Read Article <ArrowRight className="w-4 h-4" />
-              </button>
+              </Link>
             </div>
           </motion.div>
         </div>
@@ -91,9 +95,9 @@ function BlogPage() {
                   <span className="inline-flex items-center gap-1"><Calendar className="w-3 h-3" /> {p.date}</span>
                   <span className="inline-flex items-center gap-1"><Clock className="w-3 h-3" /> {p.read}</span>
                 </div>
-                <a className="inline-flex items-center gap-1 text-sm font-bold cursor-pointer" style={{ color: BRAND.pink }}>
+                <Link to="/blog/$slug" params={{ slug: slugify(p.title) }} className="inline-flex items-center gap-1 text-sm font-bold cursor-pointer" style={{ color: BRAND.pink }}>
                   Read More <ArrowRight className="w-4 h-4" />
-                </a>
+                </Link>
               </div>
             </motion.article>
           ))}
@@ -109,7 +113,15 @@ function BlogPage() {
           <SectionHeading>Stay Informed</SectionHeading>
           <p className="mb-6" style={{ color: BRAND.navLink, marginTop: -16 }}>Fertility tips and clinic news, delivered straight to your inbox.</p>
           <form
-            onSubmit={(e) => { e.preventDefault() }}
+            onSubmit={(e) => {
+              e.preventDefault()
+              if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                toast.error("Please enter a valid email address")
+                return
+              }
+              toast.success("Subscribed! Thanks for joining our newsletter.")
+              setEmail("")
+            }}
             className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
           >
             <input
