@@ -266,51 +266,54 @@ export function Navbar() {
                   <Phone className="w-4 h-4" />
                   Call Us
                 </button>
-                <AnimatePresence>
-                  {callOpen && typeof document !== "undefined" && createPortal(
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.25 }}
-                      className="p-4"
-                      style={{
-                        position: "fixed",
-                        top: callPos.top,
-                        right: callPos.right,
-                        left: "auto",
-                        width: 270,
-                        background: "#fff",
-                        borderRadius: 16,
-                        borderTop: `3px solid ${COLORS.plum}`,
-                        boxShadow: "0 16px 60px rgba(45,10,30,0.15)",
-                        zIndex: 999999,
-                      }}
-                    >
-                      <div className="space-y-2">
-                        {phones.map((p, i) => (
-                          <div key={p.label} className="flex items-center justify-between gap-2">
-                            <div>
-                              <div className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: COLORS.navLink }}>{p.label}</div>
-                              <div className="text-sm font-semibold" style={{ color: COLORS.plum }}>{p.number}</div>
+                {typeof document !== "undefined" && createPortal(
+                  <AnimatePresence>
+                    {callOpen && (
+                      <motion.div
+                        ref={callPanelRef}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.25 }}
+                        className="p-4"
+                        style={{
+                          position: "fixed",
+                          top: callPos.top,
+                          right: callPos.right,
+                          left: "auto",
+                          width: 270,
+                          background: "#fff",
+                          borderRadius: 16,
+                          borderTop: `3px solid ${COLORS.plum}`,
+                          boxShadow: "0 16px 60px rgba(45,10,30,0.15)",
+                          zIndex: 999999,
+                        }}
+                      >
+                        <div className="space-y-2">
+                          {phones.map((p, i) => (
+                            <div key={p.label} className="flex items-center justify-between gap-2">
+                              <div>
+                                <div className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: COLORS.navLink }}>{p.label}</div>
+                                <div className="text-sm font-semibold" style={{ color: COLORS.plum }}>{p.number}</div>
+                              </div>
+                              <button
+                                onClick={() => copy(p.number, i)}
+                                className="p-2 rounded-lg transition-colors"
+                                style={{ background: copiedIdx === i ? COLORS.magenta : COLORS.pinkSoft, color: copiedIdx === i ? "#fff" : COLORS.plum }}
+                                onMouseEnter={e => { if (copiedIdx !== i) { (e.currentTarget as HTMLButtonElement).style.background = COLORS.magenta; (e.currentTarget as HTMLButtonElement).style.color = "#fff" } }}
+                                onMouseLeave={e => { if (copiedIdx !== i) { (e.currentTarget as HTMLButtonElement).style.background = COLORS.pinkSoft; (e.currentTarget as HTMLButtonElement).style.color = COLORS.plum } }}
+                                aria-label={`Copy ${p.label}`}
+                              >
+                                {copiedIdx === i ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                              </button>
                             </div>
-                            <button
-                              onClick={() => copy(p.number, i)}
-                              className="p-2 rounded-lg transition-colors"
-                              style={{ background: copiedIdx === i ? COLORS.magenta : COLORS.pinkSoft, color: copiedIdx === i ? "#fff" : COLORS.plum }}
-                              onMouseEnter={e => { if (copiedIdx !== i) { (e.currentTarget as HTMLButtonElement).style.background = COLORS.magenta; (e.currentTarget as HTMLButtonElement).style.color = "#fff" } }}
-                              onMouseLeave={e => { if (copiedIdx !== i) { (e.currentTarget as HTMLButtonElement).style.background = COLORS.pinkSoft; (e.currentTarget as HTMLButtonElement).style.color = COLORS.plum } }}
-                              aria-label={`Copy ${p.label}`}
-                            >
-                              {copiedIdx === i ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    </motion.div>,
-                    document.body
-                  )}
-                </AnimatePresence>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>,
+                  document.body
+                )}
               </div>
             </div>
 
