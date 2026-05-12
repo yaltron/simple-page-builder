@@ -342,8 +342,8 @@ export function Navbar() {
             transition: "background 0.35s ease",
           }}
         >
-          <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center">
-            <div className="flex items-center justify-between w-full">
+          <div className="h-full flex items-center" style={{ width: "100%", paddingLeft: "5%", paddingRight: "5%" }}>
+            <div className="flex items-center w-full" style={{ justifyContent: "space-evenly" }}>
               {navLinks.map((link) => {
                 const isActive = activeSection === link.href.replace("#", "")
                 return (
