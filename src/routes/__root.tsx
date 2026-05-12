@@ -98,6 +98,7 @@ function RootDocument({ children }: { children: ReactNode }) {
         <ClientOnly fallback={null}>
           <FloatingButtons />
           <CustomCursor />
+          <PopupBanner />
         </ClientOnly>
         <Scripts />
       </body>
