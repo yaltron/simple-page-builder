@@ -76,10 +76,11 @@ export function WhenToVisit() {
                 className="pt-6"
               >
                 <Button
+                  asChild
                   size="lg"
                   className="bg-gradient-to-r from-rose to-rose-dark text-white hover:from-rose-dark hover:to-rose rounded-full px-8"
                 >
-                  Book an Appointment
+                  <Link to="/contact">Book an Appointment</Link>
                 </Button>
               </motion.div>
             </motion.div>
