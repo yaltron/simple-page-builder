@@ -93,6 +93,7 @@ function RootDocument({ children }: { children: ReactNode }) {
       <body className="font-sans antialiased">
         <ScrollToTop />
         {children}
+        <Toaster position="top-center" richColors closeButton />
         <ClientOnly fallback={null}>
           <FloatingButtons />
           <CustomCursor />
