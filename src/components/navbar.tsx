@@ -189,7 +189,7 @@ export function Navbar() {
                   <ChevronDown className={`w-4 h-4 transition-transform ${bookOpen ? "rotate-180" : ""}`} />
                 </button>
                 <AnimatePresence>
-                  {bookOpen && (
+                  {bookOpen && typeof document !== "undefined" && createPortal(
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -237,7 +237,8 @@ export function Navbar() {
                       >
                         Confirm Appointment →
                       </button>
-                    </motion.div>
+                    </motion.div>,
+                    document.body
                   )}
                 </AnimatePresence>
               </div>
