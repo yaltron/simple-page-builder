@@ -38,6 +38,7 @@ function BlogPage() {
   const [email, setEmail] = useState("")
   return (
     <PageLayout title="Blogs and News" breadcrumb="Blogs and News">
+      {(() => null)()}
       {/* Featured post */}
       <section style={{ padding: "60px 5%", background: "white" }}>
         <div className="max-w-7xl mx-auto">
