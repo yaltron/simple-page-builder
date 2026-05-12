@@ -152,6 +152,17 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* Navbar: keep native cursor visible (custom cursor was hiding it) */
+#navbar,
+#navbar * {
+  cursor: auto !important;
+}
+#navbar a,
+#navbar button,
+#navbar [role="button"] {
+  cursor: pointer !important;
+}
+
 /* Doctors marquee — continuous auto-scroll, loops seamlessly because
    the track contains the list duplicated twice; -50% returns to the start. */
 @keyframes marquee {
