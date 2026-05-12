@@ -45,9 +45,9 @@ function LotusIcon({ className }: { className?: string }) {
 }
 
 export function Navbar() {
+  const location = useLocation()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState("")
   const [bookOpen, setBookOpen] = useState(false)
   const [callOpen, setCallOpen] = useState(false)
   const [logoFailed, setLogoFailed] = useState(false)
@@ -84,17 +84,7 @@ export function Navbar() {
   }, [bookOpen, callOpen])
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 60)
-      const sections = navLinks.map(l => l.href.replace("#", ""))
-      for (const s of [...sections].reverse()) {
-        const el = document.getElementById(s)
-        if (el && el.getBoundingClientRect().top <= 150) {
-          setActiveSection(s)
-          break
-        }
-      }
-    }
+    const handleScroll = () => setIsScrolled(window.scrollY > 60)
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
