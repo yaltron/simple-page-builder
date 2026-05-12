@@ -11,9 +11,6 @@ import { CustomCursor } from "@/components/custom-cursor";
 import ScrollToTop from "@/components/scroll-to-top";
 import { PopupBanner } from "@/components/popup-banner";
 import { NotFoundPage } from "@/components/not-found-page";
-import { AnnouncementBar } from "@/components/announcement-bar";
-import { CookieConsent } from "@/components/cookie-consent";
-import { AnalyticsScripts } from "@/components/analytics-scripts";
 import { Toaster } from "sonner";
 import appCss from "@/styles.css?url";
 
@@ -73,19 +70,6 @@ export const Route = createRootRoute({
   }),
   shellComponent: RootDocument,
   notFoundComponent: () => <NotFoundPage />,
-  errorComponent: ({ error }: { error: Error }) => (
-    <div className="min-h-screen flex items-center justify-center p-6" style={{ background: "#FFF1F7" }}>
-      <div className="max-w-md text-center space-y-3">
-        <h1 className="font-serif text-2xl font-bold" style={{ color: "#C2185B" }}>
-          Something went wrong
-        </h1>
-        <p className="text-sm" style={{ color: "#7A2050" }}>{error?.message || "Unexpected error"}</p>
-        <a href="/" className="inline-block mt-2 px-5 py-2 rounded-full text-white font-bold" style={{ background: "#E6007E" }}>
-          Go home
-        </a>
-      </div>
-    </div>
-  ),
 });
 
 function RootDocument({ children }: { children: ReactNode }) {
@@ -96,17 +80,12 @@ function RootDocument({ children }: { children: ReactNode }) {
       </head>
       <body className="font-sans antialiased">
         <ScrollToTop />
-        <ClientOnly fallback={null}>
-          <AnnouncementBar />
-        </ClientOnly>
         {children}
         <Toaster position="top-center" richColors closeButton />
         <ClientOnly fallback={null}>
           <FloatingButtons />
           <CustomCursor />
           <PopupBanner />
-          <CookieConsent />
-          <AnalyticsScripts />
         </ClientOnly>
         <Scripts />
       </body>

@@ -15,7 +15,6 @@ import { useReveal } from "@/hooks/use-reveal";
 import { FAQ } from "@/components/faq";
 import { CTABanner } from "@/components/cta-banner";
 import { Footer } from "@/components/footer";
-import { PatientPortalTeaser } from "@/components/patient-portal-teaser";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -38,7 +37,6 @@ function HomePage() {
         <WhyUs />
         <StoriesTestimonials />
         <FAQ />
-        <PatientPortalTeaser />
         <CTABanner />
         <Footer />
       </main>

@@ -1,68 +1,111 @@
-## Plan
+## Overview
 
-1. Restore a worker-safe root route shape
-- Refactor `src/routes/__root.tsx` to follow the TanStack Start root-route pattern that is safe for preview SSR.
-- Replace the current root export shape with an explicit root component/shell structure and add a proper root `errorComponent` so SSR failures do not collapse into a generic internal server error.
-- Keep the existing UI behavior, but remove the export/config pattern that is causing the worker log error: `Exported value's prototype chain does not end in Object.`
+This is a large scope. I'll deliver it in **4 sequential chunks** so each one stays reviewable and we don't ship 5,000 lines in one untested blob. After each chunk you confirm it works, then I move to the next.
 
-2. Harden every Chunk D `site_settings` consumer
-- Add a shared safe parser/helper for `site_settings` values so `null`, empty rows, malformed JSON, wrong types, or missing keys always fall back to defaults.
-- Update these components to use defensive defaults and no-op safely when data is absent:
-  - `src/components/announcement-bar.tsx`
-  - `src/components/analytics-scripts.tsx`
-  - `src/components/cookie-consent.tsx`
-  - `src/components/patient-portal-teaser.tsx`
-- Ensure browser-only APIs (`window`, `document`, `localStorage`, `sessionStorage`, clipboard) are only touched inside safe client-side effects/handlers.
+All existing design, fonts, colors, navbar, footer, and Supabase setup stay untouched.
 
-3. Make third-party script loading idempotent and failure-safe
-- Guard GA4 and Tawk.to injection against duplicate inserts, bad IDs, missing DOM targets, and rejected network/script loads.
-- Prevent script setup failures from bubbling into app render.
-- Ensure analytics/chat are skipped cleanly when settings are blank.
+---
 
-4. Stabilize admin settings behavior
-- Review `src/routes/admin.settings.index.tsx` and related admin auth/layout code for null access, missing rows, and update failure cases.
-- Make settings save/load resilient when one or more `site_settings` rows are missing by merging fetched rows onto defaults instead of assuming the full set exists.
-- Keep the route rendering even when backend data is incomplete.
+## CHUNK A — Popup Banners + FAQs (Parts 2 & 4)
 
-5. Validate route/module exports introduced around Chunks C/D
-- Re-check newly added routes/components for invalid export shapes or route config values that break preview SSR serialization.
-- Specifically validate:
-  - `src/routes/__root.tsx`
-  - `src/routes/admin.index.tsx`
-  - `src/routes/admin.settings.index.tsx`
-  - `src/routes/blog.$slug.tsx`
-  - `src/components/not-found-page.tsx`
-- Preserve working behavior while removing anything that can produce the preview worker 502.
+Two self-contained features that reuse existing patterns (TipTap + admin shell + storage).
 
-6. Verify after the fix
-- Re-test the real preview/runtime path, not just local 200 responses.
-- Verify these pages render successfully in preview:
-  - `/`
-  - `/admin`
-  - `/admin/settings`
-  - `/blog`
-  - one blog post route if data exists
-- Re-check browser console, network, and server logs to confirm the SSR error signature is gone.
+### Database
+- `popup_banners` table — exactly the schema you specified. Validation trigger ensures only one row has `is_active = true` (toggling activates it and deactivates others atomically). End-date auto-deactivation handled at read time on the frontend (cheap and reliable).
+- `faqs` table — id, question, answer (HTML from TipTap), category, order_index, is_active, timestamps.
+- RLS: public SELECT for active rows; admin full access.
+- Reuse existing `site-media` storage bucket for popup images.
 
-## Expected root cause to fix
-- The concrete preview-side failure is the SSR worker error:
-  - `Error: Exported value's prototype chain does not end in Object.`
-- Based on the timing and code changes, the highest-probability direct trigger is the new root-route/export configuration introduced around Chunk D, not the `site_settings` fetches themselves.
-- The `site_settings` components still need hardening because they currently assume valid data and can regress later even if they are not the direct cause of the 502.
+### Frontend
+- `<PopupBanner />` mounted in root layout. Reads active banner, checks `show_on_pages` against current path, respects `show_after_seconds`, sessionStorage de-dupe, framer-motion spring animation matching your spec, closes on ✕/overlay/Escape.
+- `/faqs` route — category pill filter, accordion list (existing FAQ component animation reused), JSON-LD FAQPage schema in `head()`, full SEO meta. Footer Quick Links gets an "FAQs" entry.
 
-## Files likely to change
-- `src/routes/__root.tsx`
-- `src/router.tsx`
-- `src/components/announcement-bar.tsx`
-- `src/components/analytics-scripts.tsx`
-- `src/components/cookie-consent.tsx`
-- `src/components/patient-portal-teaser.tsx`
-- `src/routes/admin.settings.index.tsx`
-- one small shared helper file for safe settings parsing
+### Admin
+- `/admin/popup` — list + create/edit form (image upload, page multiselect, dates, color picker, show-after seconds, once-per-session toggle), live preview button, active badge. Toggling active deactivates others.
+- `/admin/faqs` — list with drag-to-reorder (dnd-kit), inline status toggle, bulk-select delete. Edit form uses the existing TipTap editor with a stripped toolbar (Bold, Italic, Lists, Link only).
+- Both added to admin sidebar.
+
+---
+
+## CHUNK B — Homepage + About dynamic content (Parts 3 & 5)
+
+### Database
+- `homepage_content` table — `(section text unique, content jsonb)`. Sections: `hero`, `miracles`. Same shape used for `about_content` (`story_images`, `mission_vision`, `values`).
+- Seed both tables with the current hardcoded copy/images so the site looks identical immediately after migration.
+
+### Frontend
+- `Hero` reads from `homepage_content.hero` (headline, subheadline, CTA primary text+url, CTA secondary text, story video URL+thumbnail+alt). Existing markup/animation untouched.
+- New `<StoryVideoModal />` — centered lightbox, dark overlay, 16:9 iframe, autoplay, ✕/overlay/Escape close. Supports YouTube and Vimeo URLs (auto-converts to embed form).
+- `MiraclesGallery` reads number/heading/description/CTA from `homepage_content.miracles`.
+- About page collage, mission/vision, values — read from `about_content`.
+
+### Admin
+- New `/admin/homepage` route with tabs: **Hero** | **Miracles** | **About**.
+  - Hero tab: text inputs + image uploads + live preview pane on the right.
+  - Miracles tab: 4 fields.
+  - About tab: 3 image uploads with alt text and reorder, mission/vision text fields, repeating values list (icon name from lucide + title + description).
+- Sidebar gets a "Homepage" group containing this single page (the spec lists sub-items like "Services / Doctors / Testimonials" under Homepage, but those already have their own admin pages — I'll keep them as siblings rather than duplicate them, and add a note in the sidebar grouping them visually).
+
+---
+
+## CHUNK C — Sidebar reorg + Dashboard widgets + small Part 7 wins (Features 5, 6, 7, 10)
+
+### Sidebar
+- Reorder per your spec, group homepage-related entries visually under a "Homepage" label, add icons for Popup Banners and FAQs (already added in Chunk A).
+
+### Dashboard (`/admin`)
+- Add three appointment cards: **🔴 X new** (link to `/admin/appointments?filter=new`), **Today's appointments**, **This week's appointments**.
+
+### Quick frontend wins
+- **Custom 404** (Feature 10) — shared navbar+footer, sad lotus SVG, two CTAs. Wired into `__root` notFoundComponent.
+- **Blog category page** `/blog/category/$category` (Feature 5) — reuses blog grid card.
+- **Related posts** on each blog post (Feature 6) — 3 posts matching category or tags, "You might also like" heading, same card style.
+- **Social share buttons** (Feature 7) — Facebook, X, WhatsApp, LinkedIn, Copy Link below each post. WhatsApp prominent.
+
+---
+
+## CHUNK D — Site-wide extras (Features 1, 2, 8, 9 + Patient Portal teaser)
+
+### Database
+- `announcement_bar` table per spec.
+- Add seed rows to `site_settings` for keys: `tawkto_id`, `ga4_id`, `cookie_consent_enabled`, `success_calculator_enabled`. All empty/false by default — admin enables in Settings UI.
+
+### Frontend
+- **Announcement bar** above navbar (Feature 2) — sessionStorage dismiss, configurable text/link/bg from CMS.
+- **Tawk.to** auto-injection (Feature 1) — only if `tawkto_id` is set.
+- **Google Analytics 4** auto-injection + event tracking on Book/Call/WhatsApp clicks (Feature 9) — only if `ga4_id` is set.
+- **Cookie consent banner** (Feature 8) — slide-up bottom, Accept/Reject/Manage, localStorage. GA4 respects consent.
+- **Patient Portal teaser** on Contact page + `/patient-portal` "Coming Soon" page with email signup (stored in a new `patient_portal_signups` table).
+
+### Admin
+- New `/admin/settings` page — toggles for Tawk.to ID, GA4 ID, cookie banner, success calculator, plus announcement bar editor (text/link/bg/active toggle).
+
+---
+
+## Out of scope for this round (recommend skipping or doing later)
+
+- **Feature 3 — Success Rate Calculator**: this needs real medical input on the formula/ranges. I'd rather not invent fertility statistics. Suggest doing this in a follow-up once you provide the rate brackets, or skip it.
+
+If you want it included anyway, I'll build the UI with placeholder ranges and a strong "estimate only" disclaimer — say the word.
+
+---
 
 ## Technical notes
-- No schema migration is planned unless a real schema mismatch is found during implementation.
-- Current backend data exists and `site_settings` rows are present, so this is not a missing-seed problem.
-- The fix will target both:
-  - the actual SSR crash source
-  - permanent defensive coding so future settings/layout updates do not bring the preview down again.
+
+- All new tables get RLS: public SELECT on active/published rows only, admin full access. Validation via triggers (no CHECK constraints — keeps mutability).
+- Storage: reuse existing public `site-media` bucket for popup, hero, about, announcement images.
+- TipTap reused with a `simple` toolbar variant for FAQs (no images/headings/etc).
+- Drag-reorder uses `@dnd-kit/core` + `@dnd-kit/sortable` (small, already commonly used).
+- YouTube/Vimeo URL parser handles `watch?v=`, `youtu.be/`, `vimeo.com/ID` forms.
+- All new admin routes follow the existing `admin.<name>.index.tsx` flat naming.
+
+---
+
+## Suggested order
+
+1. Approve this plan → I build **Chunk A** (Popup + FAQs).
+2. You verify in preview → I build **Chunk B** (Homepage + About dynamic).
+3. You verify → **Chunk C** (sidebar/dashboard + 404/categories/related/share).
+4. You verify → **Chunk D** (announcement bar + Tawk + GA4 + cookies + patient portal).
+
+If you'd rather collapse chunks, say which to merge. If you want Feature 3 in scope, confirm whether placeholder ranges are OK.
