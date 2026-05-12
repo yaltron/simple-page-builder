@@ -57,6 +57,8 @@ export function Navbar() {
   const callRef = useRef<HTMLDivElement>(null)
   const bookBtnRef = useRef<HTMLButtonElement>(null)
   const callBtnRef = useRef<HTMLButtonElement>(null)
+  const bookPanelRef = useRef<HTMLDivElement>(null)
+  const callPanelRef = useRef<HTMLDivElement>(null)
   const [bookPos, setBookPos] = useState<{ top: number; right: number }>({ top: 0, right: 0 })
   const [callPos, setCallPos] = useState<{ top: number; right: number }>({ top: 0, right: 0 })
 
