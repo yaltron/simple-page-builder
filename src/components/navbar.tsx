@@ -109,10 +109,29 @@ export function Navbar() {
     }
   }, [bookOpen, callOpen])
 
+  useEffect(() => {
+    const openBook = () => { setCallOpen(false); setBookOpen(true); setBookPos(computePos(bookBtnRef.current)) }
+    const openCall = () => { setBookOpen(false); setCallOpen(true); setCallPos(computePos(callBtnRef.current)) }
+    window.addEventListener("open-book-popover", openBook)
+    window.addEventListener("open-call-popover", openCall)
+    return () => {
+      window.removeEventListener("open-book-popover", openBook)
+      window.removeEventListener("open-call-popover", openCall)
+    }
+  }, [])
+
   const copy = (txt: string, idx: number) => {
     navigator.clipboard?.writeText(txt)
     setCopiedIdx(idx)
+    toast.success("Copied!")
     setTimeout(() => setCopiedIdx(null), 1500)
+  }
+
+  const submitBooking = (e: React.FormEvent) => {
+    e.preventDefault()
+    toast.success("Thank you! We will contact you shortly.")
+    setBookForm({ name: "", phone: "" })
+    setBookOpen(false)
   }
 
   const row1Height = isScrolled ? 54 : 68
