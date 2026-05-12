@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react"
+import { createPortal } from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { Phone, Menu, X, Calendar, ChevronDown, Copy, Check, Hospital, Video } from "lucide-react"
 import { Link } from "@tanstack/react-router"
@@ -188,7 +189,7 @@ export function Navbar() {
                   <ChevronDown className={`w-4 h-4 transition-transform ${bookOpen ? "rotate-180" : ""}`} />
                 </button>
                 <AnimatePresence>
-                  {bookOpen && (
+                  {bookOpen && typeof document !== "undefined" && createPortal(
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -236,7 +237,8 @@ export function Navbar() {
                       >
                         Confirm Appointment →
                       </button>
-                    </motion.div>
+                    </motion.div>,
+                    document.body
                   )}
                 </AnimatePresence>
               </div>
@@ -262,7 +264,7 @@ export function Navbar() {
                   Call Us
                 </button>
                 <AnimatePresence>
-                  {callOpen && (
+                  {callOpen && typeof document !== "undefined" && createPortal(
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -302,7 +304,8 @@ export function Navbar() {
                           </div>
                         ))}
                       </div>
-                    </motion.div>
+                    </motion.div>,
+                    document.body
                   )}
                 </AnimatePresence>
               </div>
