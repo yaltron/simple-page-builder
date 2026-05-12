@@ -16,7 +16,9 @@ const slides = [
 
 
 export function Hero() {
+  const [videoOpen, setVideoOpen] = useState(false)
   return (
+    <>
     <section
       className="relative flex items-center overflow-hidden"
       style={{
