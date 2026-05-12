@@ -63,7 +63,7 @@ function AdminDashboardPage() {
             <tr><th className="px-5 py-3">Title</th><th className="px-5 py-3">Status</th><th className="px-5 py-3">Date</th></tr>
           </thead>
           <tbody>
-            {recent.length === 0 && <tr><td colSpan={3} className="px-5 py-10 text-center text-muted-foreground">No posts yet. <Link to="/admin/blog/new" className="font-semibold" style={{ color: "#E6007E" }}>Create one →</Link></td></tr>}
+            {recent.length === 0 && <tr><td colSpan={3} className="px-5 py-10 text-center text-muted-foreground">No posts yet. <Link to="/admin/blog/$id" params={{ id: "new" }} className="font-semibold" style={{ color: "#E6007E" }}>Create one →</Link></td></tr>}
             {recent.map((b) => (
               <tr key={b.id} className="border-t">
                 <td className="px-5 py-3 font-medium">{b.title}</td>

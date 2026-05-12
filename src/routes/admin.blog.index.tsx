@@ -53,7 +53,7 @@ function AdminBlogListPage() {
           <option value="published">Published</option>
           <option value="draft">Draft</option>
         </select>
-        <Link to="/admin/blog/new" className="ml-auto inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold" style={{ background: "#E6007E" }}>
+        <Link to="/admin/blog/$id" params={{ id: "new" }} className="ml-auto inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold" style={{ background: "#E6007E" }}>
           <Plus className="w-4 h-4" /> New Post
         </Link>
       </div>
