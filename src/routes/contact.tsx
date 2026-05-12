@@ -126,20 +126,26 @@ function ContactPage() {
 
       {/* Map */}
       <Section bg="white">
-        <div className="rounded-2xl overflow-hidden flex items-center justify-center" style={{ height: 380, background: BRAND.blueSoft }}>
-          <div className="text-center">
-            <MapPin className="w-16 h-16 mx-auto mb-4" style={{ color: BRAND.pink }} />
-            <div className="font-serif text-2xl font-bold mb-2" style={{ color: BRAND.heading }}>Find Us in Kathmandu</div>
-            <a
-              href="https://maps.google.com/?q=Kathmandu,Nepal"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-2 font-semibold cursor-pointer"
-              style={{ color: BRAND.pink }}
-            >
-              View on Google Maps <ExternalLink className="w-4 h-4" />
-            </a>
-          </div>
+        <div className="rounded-2xl overflow-hidden relative" style={{ height: 420, border: "1px solid rgba(230,0,126,0.15)" }}>
+          <iframe
+            title="Shubhashree IVF Clinic location"
+            src="https://www.google.com/maps?q=Shubhashree+IVF+Clinic&ll=27.6970864,85.2941404&z=15&output=embed"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            allowFullScreen
+          />
+          <a
+            href="https://maps.app.goo.gl/uBT758S7LyZYjHJz5"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute bottom-4 right-4 inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold bg-white shadow-lg"
+            style={{ color: BRAND.pink }}
+          >
+            View on Google Maps <ExternalLink className="w-4 h-4" />
+          </a>
         </div>
       </Section>
 
