@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from "react"
 import { motion, useInView } from "framer-motion"
 import { ArrowRight } from "lucide-react"
+import { Link } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
 
 
@@ -69,11 +70,14 @@ export function MiraclesGallery() {
               beginning of beautiful family stories.
             </p>
             <Button
+              asChild
               size="lg"
               className="bg-rose hover:bg-rose-dark text-white rounded-full px-8"
             >
-              Your Miracle Awaits
-              <ArrowRight className="w-4 h-4 ml-2" />
+              <Link to="/success-stories">
+                Your Miracle Awaits
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
             </Button>
           </motion.div>
 

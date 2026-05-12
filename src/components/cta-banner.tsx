@@ -3,6 +3,7 @@ import { useRef } from "react"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { Phone } from "lucide-react"
+import { Link } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
 import { MorphingBlob } from "@/components/morphing-blob"
 import { Magnetic } from "@/components/magnetic"
@@ -70,20 +71,24 @@ export function CTABanner() {
           >
             <Magnetic>
               <Button
+                asChild
                 size="lg"
                 className="bg-gradient-to-r from-rose to-rose-dark hover:from-rose-dark hover:to-rose text-white rounded-full px-8 text-base"
               >
-                Book Free Consultation
+                <Link to="/contact">Book Free Consultation</Link>
               </Button>
             </Magnetic>
             <Magnetic>
               <Button
+                asChild
                 size="lg"
                 variant="outline"
                 className="rounded-full px-8 text-base border-plum/20 text-plum hover:bg-plum/5"
               >
-                <Phone className="w-4 h-4 mr-2" />
-                Call: +977-9800-000000
+                <a href="tel:+9779861141699">
+                  <Phone className="w-4 h-4 mr-2" />
+                  Call: +977 9861141699
+                </a>
               </Button>
             </Magnetic>
           </motion.div>

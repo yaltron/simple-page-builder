@@ -1,7 +1,8 @@
 import { useState } from "react"
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, Link } from "@tanstack/react-router"
 import { motion } from "framer-motion"
 import { Calendar, Clock, ArrowRight, Mail } from "lucide-react"
+import { toast } from "sonner"
 import { PageLayout, Section, SectionHeading, BRAND } from "@/components/page-layout"
 
 export const Route = createFileRoute("/blog")({

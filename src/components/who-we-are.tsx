@@ -3,6 +3,7 @@ import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
 import { Check, ArrowRight } from "lucide-react"
+import { Link } from "@tanstack/react-router"
 import { MorphingBlob } from "@/components/morphing-blob"
 import whoClinic from "@/assets/who-clinic.jpg"
 import whoLab from "@/assets/who-lab.jpg"
@@ -158,16 +159,20 @@ export function WhoWeAre() {
             </div>
 
             {/* Link */}
-            <motion.a
-              href="#"
+            <motion.div
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ duration: 0.4, delay: 0.7 }}
-              className="inline-flex items-center gap-2 text-rose font-medium group mt-4"
+              className="mt-4"
             >
-              Learn About Us
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </motion.a>
+              <Link
+                to="/about"
+                className="inline-flex items-center gap-2 text-rose font-medium group"
+              >
+                Learn About Us
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </div>

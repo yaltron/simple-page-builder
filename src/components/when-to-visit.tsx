@@ -1,10 +1,12 @@
 
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { Check, Play } from "lucide-react"
+import { Link } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
 import { FloatingDecoField } from "@/components/floating-deco"
+import { VideoModal } from "@/components/video-modal"
 import visitCare from "@/assets/visit-care.jpg"
 import visitConsult from "@/assets/hero-consultation.jpg"
 import visitHope from "@/assets/visit-hope.jpg"
@@ -22,6 +24,7 @@ const reasons = [
 export function WhenToVisit() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const [videoOpen, setVideoOpen] = useState(false)
 
   return (
     <section ref={ref} className="pt-20 lg:pt-32 pb-10 overflow-hidden relative">
@@ -73,10 +76,11 @@ export function WhenToVisit() {
                 className="pt-6"
               >
                 <Button
+                  asChild
                   size="lg"
                   className="bg-gradient-to-r from-rose to-rose-dark text-white hover:from-rose-dark hover:to-rose rounded-full px-8"
                 >
-                  Book an Appointment
+                  <Link to="/contact">Book an Appointment</Link>
                 </Button>
               </motion.div>
             </motion.div>
@@ -118,7 +122,11 @@ export function WhenToVisit() {
                   />
                 </div>
                 {/* Video thumbnail */}
-                <div className="rounded-2xl overflow-hidden h-48 lg:h-64 relative group cursor-pointer">
+                <button
+                  type="button"
+                  onClick={() => setVideoOpen(true)}
+                  className="rounded-2xl overflow-hidden h-48 lg:h-64 relative group cursor-pointer block w-full"
+                >
                   <img
                     src={visitVideo}
                     alt="Watch our video"
@@ -130,12 +138,13 @@ export function WhenToVisit() {
                       <Play className="w-6 h-6 text-rose fill-rose ml-1" />
                     </div>
                   </div>
-                </div>
+                </button>
               </div>
             </div>
           </motion.div>
         </div>
       </div>
+      <VideoModal open={videoOpen} onClose={() => setVideoOpen(false)} />
     </section>
   )
 }

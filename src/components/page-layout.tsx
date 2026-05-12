@@ -100,17 +100,18 @@ export function PageCTABanner({
           {subtitle}
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <button
+          <Link
+            to="/contact"
             className="px-7 py-3 rounded-full font-bold transition-transform hover:scale-105"
             style={{ background: "white", color: BRAND.pink }}
           >
-            Book Consultation
-          </button>
+            Book Free Consultation
+          </Link>
           <a
             href="tel:+9779861141699"
             className="px-7 py-3 rounded-full font-bold border-2 border-white text-white transition-colors hover:bg-white/10 inline-flex items-center gap-2"
           >
-            <Phone className="w-4 h-4" /> Call Us
+            <Phone className="w-4 h-4" /> Call: +977 9861141699
           </a>
         </div>
         {secondary && (

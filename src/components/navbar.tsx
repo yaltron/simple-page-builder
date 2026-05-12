@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react"
 import { createPortal } from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
-import { Phone, Menu, X, Calendar, ChevronDown, Copy, Check, Hospital, Video } from "lucide-react"
-import { Link, useLocation } from "@tanstack/react-router"
+import { Phone, Menu, X, Calendar, ChevronDown, Copy, Check, Hospital } from "lucide-react"
+import { Link, useLocation, useNavigate } from "@tanstack/react-router"
+import { toast } from "sonner"
 import logo from "@/assets/logo.png"
 
 const COLORS = {
@@ -26,9 +27,9 @@ const navLinks = [
 ] as const
 
 const phones = [
-  { label: "Reception", number: "+977-01-1234567" },
-  { label: "Emergency", number: "+977-9800-123456" },
-  { label: "WhatsApp", number: "+977-9800-654321" },
+  { label: "Reception", number: "+977 9861141699" },
+  { label: "Emergency", number: "+977 9861141699" },
+  { label: "WhatsApp", number: "+977 9861141699" },
 ]
 
 function LotusIcon({ className }: { className?: string }) {
@@ -46,12 +47,14 @@ function LotusIcon({ className }: { className?: string }) {
 
 export function Navbar() {
   const location = useLocation()
+  const navigate = useNavigate()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [bookOpen, setBookOpen] = useState(false)
   const [callOpen, setCallOpen] = useState(false)
   const [logoFailed, setLogoFailed] = useState(false)
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
+  const [bookForm, setBookForm] = useState({ name: "", phone: "" })
 
   const bookRef = useRef<HTMLDivElement>(null)
   const callRef = useRef<HTMLDivElement>(null)
@@ -106,10 +109,29 @@ export function Navbar() {
     }
   }, [bookOpen, callOpen])
 
+  useEffect(() => {
+    const openBook = () => { setCallOpen(false); setBookOpen(true); setBookPos(computePos(bookBtnRef.current)) }
+    const openCall = () => { setBookOpen(false); setCallOpen(true); setCallPos(computePos(callBtnRef.current)) }
+    window.addEventListener("open-book-popover", openBook)
+    window.addEventListener("open-call-popover", openCall)
+    return () => {
+      window.removeEventListener("open-book-popover", openBook)
+      window.removeEventListener("open-call-popover", openCall)
+    }
+  }, [])
+
   const copy = (txt: string, idx: number) => {
     navigator.clipboard?.writeText(txt)
     setCopiedIdx(idx)
+    toast.success("Copied!")
     setTimeout(() => setCopiedIdx(null), 1500)
+  }
+
+  const submitBooking = (e: React.FormEvent) => {
+    e.preventDefault()
+    toast.success("Thank you! We will contact you shortly.")
+    setBookForm({ name: "", phone: "" })
+    setBookOpen(false)
   }
 
   const row1Height = isScrolled ? 54 : 68
@@ -210,28 +232,32 @@ export function Navbar() {
                         <p className="text-sm text-gray-500 mt-1">Free first consultation — no obligation</p>
 
                         <div className="mt-4">
-                          {[
-                            { icon: <Hospital className="w-5 h-5" />, title: "Visit In-Clinic", bg: COLORS.pinkSoft },
-                          ].map((opt) => (
-                            <button key={opt.title} className="w-full text-left p-3 rounded-xl hover:scale-[1.02] transition-transform" style={{ background: opt.bg }}>
-                              <div style={{ color: COLORS.magenta }}>{opt.icon}</div>
-                              <div className="font-semibold text-sm mt-2" style={{ color: COLORS.plum }}>{opt.title}</div>
-                              <div className="inline-block mt-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-700">Available Today</div>
-                            </button>
-                          ))}
+                          <button
+                            type="button"
+                            onClick={() => { setBookOpen(false); navigate({ to: "/contact" }) }}
+                            className="w-full text-left p-3 rounded-xl hover:scale-[1.02] transition-transform"
+                            style={{ background: COLORS.pinkSoft }}
+                          >
+                            <div style={{ color: COLORS.magenta }}><Hospital className="w-5 h-5" /></div>
+                            <div className="font-semibold text-sm mt-2" style={{ color: COLORS.plum }}>Visit In-Clinic</div>
+                            <div className="inline-block mt-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-700">Available Today</div>
+                          </button>
                         </div>
 
-                        <div className="mt-4 space-y-2">
-                          <input type="text" placeholder="Your Name" className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none transition-colors" style={{ borderColor: undefined }} onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
-                          <input type="tel" placeholder="Phone Number" className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
-                        </div>
+                        <form onSubmit={submitBooking}>
+                          <div className="mt-4 space-y-2">
+                            <input type="text" required placeholder="Your Name" value={bookForm.name} onChange={e => setBookForm({ ...bookForm, name: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none transition-colors" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                            <input type="tel" required placeholder="Phone Number" value={bookForm.phone} onChange={e => setBookForm({ ...bookForm, phone: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                          </div>
 
-                        <button
-                          className="w-full mt-4 py-3 text-white font-bold text-sm transition-transform hover:scale-[1.02]"
-                          style={{ background: `linear-gradient(90deg, ${COLORS.magenta}, ${COLORS.blue})`, borderRadius: 50 }}
-                        >
-                          Confirm Appointment →
-                        </button>
+                          <button
+                            type="submit"
+                            className="w-full mt-4 py-3 text-white font-bold text-sm transition-transform hover:scale-[1.02]"
+                            style={{ background: `linear-gradient(90deg, ${COLORS.magenta}, ${COLORS.blue})`, borderRadius: 50 }}
+                          >
+                            Confirm Appointment →
+                          </button>
+                        </form>
                       </motion.div>
                     )}
                   </AnimatePresence>,
@@ -285,10 +311,10 @@ export function Navbar() {
                         <div className="space-y-2">
                           {phones.map((p, i) => (
                             <div key={p.label} className="flex items-center justify-between gap-2">
-                              <div>
+                              <a href={`tel:${p.number.replace(/[^+\d]/g, "")}`} className="block">
                                 <div className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: COLORS.navLink }}>{p.label}</div>
                                 <div className="text-sm font-semibold" style={{ color: COLORS.plum }}>{p.number}</div>
-                              </div>
+                              </a>
                               <button
                                 onClick={() => copy(p.number, i)}
                                 className="p-2 rounded-lg transition-colors"
@@ -442,14 +468,16 @@ export function Navbar() {
               </nav>
 
               <div className="p-4 space-y-3 border-t" style={{ borderColor: COLORS.pinkSoft }}>
-                <button
+                <Link
+                  to="/contact"
+                  onClick={() => setIsMobileOpen(false)}
                   className="w-full py-3 text-white font-bold flex items-center justify-center gap-2"
                   style={{ background: COLORS.magenta, borderRadius: 50 }}
                 >
                   📅 Book Appointment
-                </button>
+                </Link>
                 <a
-                  href="tel:+9779800123456"
+                  href="tel:+9779861141699"
                   className="w-full py-3 font-bold flex items-center justify-center gap-2 border-2"
                   style={{ borderColor: COLORS.plum, color: COLORS.plum, borderRadius: 50 }}
                 >

@@ -3,13 +3,13 @@ import { Facebook, Instagram, Youtube, MapPin, Phone, Mail, Clock } from "lucide
 import logo from "@/assets/logo.png"
 
 const quickLinks = [
-  { name: "About Us", href: "#about" },
-  { name: "Services", href: "#services" },
-  { name: "Our Team", href: "#team" },
-  { name: "Success Stories", href: "#testimonials" },
-  { name: "Blog", href: "#blog" },
-  { name: "Contact", href: "#contact" },
-]
+  { name: "About Us", to: "/about" },
+  { name: "Services", to: "/services" },
+  { name: "Our Team", to: "/team" },
+  { name: "Success Stories", to: "/success-stories" },
+  { name: "Blog", to: "/blog" },
+  { name: "Contact", to: "/contact" },
+] as const
 
 const services = [
   "IVF Treatment",
@@ -29,10 +29,10 @@ function TikTokIcon({ className }: { className?: string }) {
 }
 
 const socialLinks = [
-  { Icon: Facebook, href: "#", label: "Facebook" },
-  { Icon: Instagram, href: "#", label: "Instagram" },
-  { Icon: Youtube, href: "#", label: "YouTube" },
-  { Icon: TikTokIcon, href: "#", label: "TikTok" },
+  { Icon: Facebook, href: "https://facebook.com", label: "Facebook" },
+  { Icon: Instagram, href: "https://instagram.com", label: "Instagram" },
+  { Icon: Youtube, href: "https://youtube.com", label: "YouTube" },
+  { Icon: TikTokIcon, href: "https://tiktok.com", label: "TikTok" },
 ]
 
 const headingStyle: React.CSSProperties = {
@@ -59,11 +59,11 @@ const linkStyle: React.CSSProperties = {
 }
 
 const contactItems = [
-  { Icon: MapPin, label: "Address", value: "Kathmandu, Nepal", href: undefined },
-  { Icon: Phone, label: "Phone", value: "+977 9861141699", href: "tel:+9779861141699" },
-  { Icon: Mail, label: "Email", value: "Shubhashreeivf@gmail.com", href: "mailto:Shubhashreeivf@gmail.com" },
-  { Icon: Clock, label: "Hours", value: "Sun–Fri: 8:00 AM – 6:00 PM", href: undefined },
-]
+  { Icon: MapPin, label: "Address", value: "Kathmandu, Nepal", href: "https://maps.google.com/?q=Kathmandu,Nepal", external: true },
+  { Icon: Phone, label: "Phone", value: "+977 9861141699", href: "tel:+9779861141699", external: false },
+  { Icon: Mail, label: "Email", value: "Shubhashreeivf@gmail.com", href: "mailto:Shubhashreeivf@gmail.com", external: false },
+  { Icon: Clock, label: "Hours", value: "Sun–Fri: 8:00 AM – 6:00 PM", href: undefined, external: false },
+] as const
 
 export function Footer() {
   return (
@@ -95,6 +95,8 @@ export function Footer() {
                 <a
                   key={label}
                   href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   style={{
                     width: 38,
@@ -129,8 +131,8 @@ export function Footer() {
             <ul>
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.to}
                     style={linkStyle}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = "#E6007E"
@@ -142,7 +144,7 @@ export function Footer() {
                     }}
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -154,8 +156,8 @@ export function Footer() {
             <ul>
               {services.map((service) => (
                 <li key={service}>
-                  <a
-                    href="#services"
+                  <Link
+                    to="/services"
                     style={linkStyle}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = "#E6007E"
@@ -167,7 +169,7 @@ export function Footer() {
                     }}
                   >
                     {service}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -177,7 +179,7 @@ export function Footer() {
           <div>
             <ColumnHeading>Contact Us</ColumnHeading>
             <ul>
-              {contactItems.map(({ Icon, label, value, href }) => (
+              {contactItems.map(({ Icon, label, value, href, external }) => (
                 <li
                   key={label}
                   style={{
@@ -208,6 +210,8 @@ export function Footer() {
                     {href ? (
                       <a
                         href={href}
+                        target={external ? "_blank" : undefined}
+                        rel={external ? "noopener noreferrer" : undefined}
                         style={{ color: "#7A2050", fontSize: 13 }}
                         onMouseEnter={(e) => (e.currentTarget.style.color = "#E6007E")}
                         onMouseLeave={(e) => (e.currentTarget.style.color = "#7A2050")}

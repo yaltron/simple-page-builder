@@ -10,6 +10,7 @@ import type { ReactNode } from "react";
 import { FloatingButtons } from "@/components/floating-buttons";
 import { CustomCursor } from "@/components/custom-cursor";
 import ScrollToTop from "@/components/scroll-to-top";
+import { Toaster } from "sonner";
 import appCss from "@/styles.css?url";
 
 export const Route = createRootRoute({
@@ -92,6 +93,7 @@ function RootDocument({ children }: { children: ReactNode }) {
       <body className="font-sans antialiased">
         <ScrollToTop />
         {children}
+        <Toaster position="top-center" richColors closeButton />
         <ClientOnly fallback={null}>
           <FloatingButtons />
           <CustomCursor />

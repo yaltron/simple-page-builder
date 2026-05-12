@@ -2,8 +2,10 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Play } from "lucide-react"
+import { Link } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
 import { Magnetic } from "@/components/magnetic"
+import { VideoModal } from "@/components/video-modal"
 const slides = [
   "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=90&fit=crop",
   "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=90&fit=crop",
@@ -14,7 +16,9 @@ const slides = [
 
 
 export function Hero() {
+  const [videoOpen, setVideoOpen] = useState(false)
   return (
+    <>
     <section
       className="relative flex items-center overflow-hidden"
       style={{
@@ -61,14 +65,17 @@ export function Hero() {
             >
               <Magnetic>
                 <Button
+                  asChild
                   size="lg"
                   className="bg-gradient-to-r from-rose to-rose-dark hover:from-rose-dark hover:to-rose text-white rounded-full px-8 text-base"
                 >
-                  Book Free Consultation
+                  <Link to="/contact">Book Free Consultation</Link>
                 </Button>
               </Magnetic>
               <Magnetic>
                 <Button
+                  type="button"
+                  onClick={() => setVideoOpen(true)}
                   size="lg"
                   variant="outline"
                   className="rounded-full px-8 text-base border-plum/20 text-plum hover:bg-plum/5"
@@ -94,6 +101,8 @@ export function Hero() {
       </div>
 
     </section>
+    <VideoModal open={videoOpen} onClose={() => setVideoOpen(false)} title="Our Story" />
+    </>
   )
 }
 

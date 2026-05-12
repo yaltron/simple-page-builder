@@ -1,7 +1,8 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Calendar, MessageCircle, X } from "lucide-react"
+import { Calendar } from "lucide-react"
+import { Link } from "@tanstack/react-router"
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
@@ -38,7 +39,7 @@ export function FloatingButtons() {
     <>
       {/* WhatsApp button - bottom left */}
       <motion.a
-        href="https://wa.me/9779800000000"
+        href="https://wa.me/9779861141699"
         target="_blank"
         rel="noopener noreferrer"
         initial={{ scale: 0 }}
@@ -53,16 +54,21 @@ export function FloatingButtons() {
       {/* Mobile booking button - bottom right */}
       <AnimatePresence>
         {showMobileBooking && (
-          <motion.button
+          <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
             transition={{ type: "spring" }}
-            className="fixed bottom-6 right-6 z-50 lg:hidden flex items-center gap-2 bg-gradient-to-r from-rose to-rose-dark text-white rounded-full px-5 py-3 shadow-lg"
+            className="fixed bottom-6 right-6 z-50 lg:hidden"
           >
-            <Calendar className="w-5 h-5" />
-            <span className="font-medium text-sm">Book Now</span>
-          </motion.button>
+            <Link
+              to="/contact"
+              className="flex items-center gap-2 bg-gradient-to-r from-rose to-rose-dark text-white rounded-full px-5 py-3 shadow-lg"
+            >
+              <Calendar className="w-5 h-5" />
+              <span className="font-medium text-sm">Book Now</span>
+            </Link>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
