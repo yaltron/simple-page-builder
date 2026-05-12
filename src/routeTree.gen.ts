@@ -26,6 +26,7 @@ import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.
 import { Route as AdminGalleryIndexRouteImport } from './routes/admin.gallery.index'
 import { Route as AdminDoctorsIndexRouteImport } from './routes/admin.doctors.index'
 import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
+import { Route as AdminAppointmentsIndexRouteImport } from './routes/admin.appointments.index'
 import { Route as AdminBlogIdRouteImport } from './routes/admin.blog.$id'
 
 const TeamRoute = TeamRouteImport.update({
@@ -113,6 +114,11 @@ const AdminBlogIndexRoute = AdminBlogIndexRouteImport.update({
   path: '/admin/blog/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminAppointmentsIndexRoute = AdminAppointmentsIndexRouteImport.update({
+  id: '/admin/appointments/',
+  path: '/admin/appointments/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminBlogIdRoute = AdminBlogIdRouteImport.update({
   id: '/admin/blog/$id',
   path: '/admin/blog/$id',
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/blog/$slug': typeof BlogSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
+  '/admin/appointments/': typeof AdminAppointmentsIndexRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/doctors/': typeof AdminDoctorsIndexRoute
   '/admin/gallery/': typeof AdminGalleryIndexRoute
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/blog/$slug': typeof BlogSlugRoute
   '/admin': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
+  '/admin/appointments': typeof AdminAppointmentsIndexRoute
   '/admin/blog': typeof AdminBlogIndexRoute
   '/admin/doctors': typeof AdminDoctorsIndexRoute
   '/admin/gallery': typeof AdminGalleryIndexRoute
@@ -174,6 +182,7 @@ export interface FileRoutesById {
   '/blog/$slug': typeof BlogSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
+  '/admin/appointments/': typeof AdminAppointmentsIndexRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/doctors/': typeof AdminDoctorsIndexRoute
   '/admin/gallery/': typeof AdminGalleryIndexRoute
@@ -196,6 +205,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/admin/'
     | '/admin/blog/$id'
+    | '/admin/appointments/'
     | '/admin/blog/'
     | '/admin/doctors/'
     | '/admin/gallery/'
@@ -216,6 +226,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/admin'
     | '/admin/blog/$id'
+    | '/admin/appointments'
     | '/admin/blog'
     | '/admin/doctors'
     | '/admin/gallery'
@@ -236,6 +247,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/admin/'
     | '/admin/blog/$id'
+    | '/admin/appointments/'
     | '/admin/blog/'
     | '/admin/doctors/'
     | '/admin/gallery/'
@@ -256,6 +268,7 @@ export interface RootRouteChildren {
   AdminLoginRoute: typeof AdminLoginRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminBlogIdRoute: typeof AdminBlogIdRoute
+  AdminAppointmentsIndexRoute: typeof AdminAppointmentsIndexRoute
   AdminBlogIndexRoute: typeof AdminBlogIndexRoute
   AdminDoctorsIndexRoute: typeof AdminDoctorsIndexRoute
   AdminGalleryIndexRoute: typeof AdminGalleryIndexRoute
@@ -384,6 +397,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBlogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/appointments/': {
+      id: '/admin/appointments/'
+      path: '/admin/appointments'
+      fullPath: '/admin/appointments/'
+      preLoaderRoute: typeof AdminAppointmentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/blog/$id': {
       id: '/admin/blog/$id'
       path: '/admin/blog/$id'
@@ -417,6 +437,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminLoginRoute: AdminLoginRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminBlogIdRoute: AdminBlogIdRoute,
+  AdminAppointmentsIndexRoute: AdminAppointmentsIndexRoute,
   AdminBlogIndexRoute: AdminBlogIndexRoute,
   AdminDoctorsIndexRoute: AdminDoctorsIndexRoute,
   AdminGalleryIndexRoute: AdminGalleryIndexRoute,
@@ -426,13 +447,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

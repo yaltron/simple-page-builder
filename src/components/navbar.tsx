@@ -4,7 +4,34 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Phone, Menu, X, Calendar, ChevronDown, Copy, Check, Hospital } from "lucide-react"
 import { Link, useLocation, useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
+import { supabase } from "@/integrations/supabase/client"
 import logo from "@/assets/logo.png"
+
+const SERVICE_OPTIONS = [
+  "IVF Treatment",
+  "ICSI Procedure",
+  "Embryo Freezing",
+  "Genetic Testing (PGT)",
+  "Donor Egg Programme",
+  "Infertility Diagnosis",
+  "General Consultation",
+  "Other",
+] as const
+
+const TIME_OPTIONS = [
+  { value: "Morning 8-11am", label: "Morning (8am - 11am)" },
+  { value: "Afternoon 11am-2pm", label: "Afternoon (11am - 2pm)" },
+  { value: "Evening 2-5pm", label: "Evening (2pm - 5pm)" },
+] as const
+
+function getMinDate() {
+  const d = new Date(); d.setDate(d.getDate() + 1)
+  return d.toISOString().split("T")[0]
+}
+function getMaxDate() {
+  const d = new Date(); d.setMonth(d.getMonth() + 3)
+  return d.toISOString().split("T")[0]
+}
 
 const COLORS = {
   magenta: "#E6007E",
@@ -54,7 +81,12 @@ export function Navbar() {
   const [callOpen, setCallOpen] = useState(false)
   const [logoFailed, setLogoFailed] = useState(false)
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
-  const [bookForm, setBookForm] = useState({ name: "", phone: "" })
+  const [bookForm, setBookForm] = useState({
+    full_name: "", phone: "", email: "",
+    preferred_date: "", preferred_time: "",
+    service: "", message: "",
+  })
+  const [bookSubmitting, setBookSubmitting] = useState(false)
 
   const bookRef = useRef<HTMLDivElement>(null)
   const callRef = useRef<HTMLDivElement>(null)
@@ -127,11 +159,36 @@ export function Navbar() {
     setTimeout(() => setCopiedIdx(null), 1500)
   }
 
-  const submitBooking = (e: React.FormEvent) => {
+  const submitBooking = async (e: React.FormEvent) => {
     e.preventDefault()
-    toast.success("Thank you! We will contact you shortly.")
-    setBookForm({ name: "", phone: "" })
-    setBookOpen(false)
+    if (bookSubmitting) return
+    // Disallow Sundays
+    if (bookForm.preferred_date) {
+      const d = new Date(bookForm.preferred_date + "T00:00:00")
+      if (d.getDay() === 0) {
+        toast.error("Clinic is closed on Sundays. Please pick another date.")
+        return
+      }
+    }
+    setBookSubmitting(true)
+    const { error } = await supabase.from("appointments").insert({
+      full_name: bookForm.full_name.trim(),
+      phone: bookForm.phone.trim(),
+      email: bookForm.email.trim() || null,
+      preferred_date: bookForm.preferred_date,
+      preferred_time: bookForm.preferred_time,
+      service: bookForm.service || null,
+      consultation_type: "In-Clinic",
+      message: bookForm.message.trim() || null,
+    })
+    setBookSubmitting(false)
+    if (error) {
+      toast.error("Could not submit. Please try again.")
+      return
+    }
+    toast.success("Appointment requested! We will confirm via phone within 24 hours.")
+    setBookForm({ full_name: "", phone: "", email: "", preferred_date: "", preferred_time: "", service: "", message: "" })
+    setTimeout(() => setBookOpen(false), 2000)
   }
 
   const row1Height = isScrolled ? 54 : 68
@@ -218,7 +275,9 @@ export function Navbar() {
                           top: bookPos.top,
                           right: bookPos.right,
                           left: "auto",
-                          width: 360,
+                          width: 380,
+                          maxHeight: "calc(100vh - 100px)",
+                          overflowY: "auto",
                           background: "#fff",
                           borderRadius: 20,
                           borderTop: `3px solid ${COLORS.magenta}`,
@@ -246,16 +305,28 @@ export function Navbar() {
 
                         <form onSubmit={submitBooking}>
                           <div className="mt-4 space-y-2">
-                            <input type="text" required placeholder="Your Name" value={bookForm.name} onChange={e => setBookForm({ ...bookForm, name: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none transition-colors" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
-                            <input type="tel" required placeholder="Phone Number" value={bookForm.phone} onChange={e => setBookForm({ ...bookForm, phone: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                            <input type="text" required placeholder="Full Name *" value={bookForm.full_name} onChange={e => setBookForm({ ...bookForm, full_name: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none transition-colors" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                            <input type="tel" required placeholder="Phone *" value={bookForm.phone} onChange={e => setBookForm({ ...bookForm, phone: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                            <input type="email" placeholder="Email (optional)" value={bookForm.email} onChange={e => setBookForm({ ...bookForm, email: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                            <input type="date" required min={getMinDate()} max={getMaxDate()} value={bookForm.preferred_date} onChange={e => setBookForm({ ...bookForm, preferred_date: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                            <select required value={bookForm.preferred_time} onChange={e => setBookForm({ ...bookForm, preferred_time: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none bg-white" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")}>
+                              <option value="">Preferred Time *</option>
+                              {TIME_OPTIONS.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+                            </select>
+                            <select required value={bookForm.service} onChange={e => setBookForm({ ...bookForm, service: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none bg-white" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")}>
+                              <option value="">Service Interested In *</option>
+                              {SERVICE_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
+                            </select>
+                            <textarea placeholder="Any specific concerns?" value={bookForm.message} onChange={e => setBookForm({ ...bookForm, message: e.target.value })} rows={2} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none resize-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
                           </div>
 
                           <button
                             type="submit"
-                            className="w-full mt-4 py-3 text-white font-bold text-sm transition-transform hover:scale-[1.02]"
+                            disabled={bookSubmitting}
+                            className="w-full mt-4 py-3 text-white font-bold text-sm transition-transform hover:scale-[1.02] disabled:opacity-60"
                             style={{ background: `linear-gradient(90deg, ${COLORS.magenta}, ${COLORS.blue})`, borderRadius: 50 }}
                           >
-                            Confirm Appointment →
+                            {bookSubmitting ? "Submitting…" : "Confirm Appointment →"}
                           </button>
                         </form>
                       </motion.div>
