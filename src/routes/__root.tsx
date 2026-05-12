@@ -11,6 +11,7 @@ import { FloatingButtons } from "@/components/floating-buttons";
 import { CustomCursor } from "@/components/custom-cursor";
 import ScrollToTop from "@/components/scroll-to-top";
 import { PopupBanner } from "@/components/popup-banner";
+import { NotFoundPage } from "@/components/not-found-page";
 import { Toaster } from "sonner";
 import appCss from "@/styles.css?url";
 
