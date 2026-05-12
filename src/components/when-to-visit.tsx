@@ -122,7 +122,11 @@ export function WhenToVisit() {
                   />
                 </div>
                 {/* Video thumbnail */}
-                <div className="rounded-2xl overflow-hidden h-48 lg:h-64 relative group cursor-pointer">
+                <button
+                  type="button"
+                  onClick={() => setVideoOpen(true)}
+                  className="rounded-2xl overflow-hidden h-48 lg:h-64 relative group cursor-pointer block w-full"
+                >
                   <img
                     src={visitVideo}
                     alt="Watch our video"
@@ -134,7 +138,7 @@ export function WhenToVisit() {
                       <Play className="w-6 h-6 text-rose fill-rose ml-1" />
                     </div>
                   </div>
-                </div>
+                </button>
               </div>
             </div>
           </motion.div>
