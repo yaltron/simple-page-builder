@@ -212,12 +212,11 @@ export function Navbar() {
                       </h3>
                       <p className="text-sm text-gray-500 mt-1">Free first consultation — no obligation</p>
 
-                      <div className="grid grid-cols-2 gap-3 mt-4">
+                      <div className="mt-4">
                         {[
                           { icon: <Hospital className="w-5 h-5" />, title: "Visit In-Clinic", bg: COLORS.pinkSoft },
-                          { icon: <Video className="w-5 h-5" />, title: "Video Consult", bg: COLORS.blueSoft },
                         ].map((opt) => (
-                          <button key={opt.title} className="text-left p-3 rounded-xl hover:scale-[1.02] transition-transform" style={{ background: opt.bg }}>
+                          <button key={opt.title} className="w-full text-left p-3 rounded-xl hover:scale-[1.02] transition-transform" style={{ background: opt.bg }}>
                             <div style={{ color: COLORS.magenta }}>{opt.icon}</div>
                             <div className="font-semibold text-sm mt-2" style={{ color: COLORS.plum }}>{opt.title}</div>
                             <div className="inline-block mt-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-700">Available Today</div>
