@@ -24,6 +24,7 @@ import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminTestimonialsIndexRouteImport } from './routes/admin.testimonials.index'
 import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
+import { Route as AdminPopupIndexRouteImport } from './routes/admin.popup.index'
 import { Route as AdminGalleryIndexRouteImport } from './routes/admin.gallery.index'
 import { Route as AdminDoctorsIndexRouteImport } from './routes/admin.doctors.index'
 import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
@@ -105,6 +106,11 @@ const AdminServicesIndexRoute = AdminServicesIndexRouteImport.update({
   path: '/admin/services/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminPopupIndexRoute = AdminPopupIndexRouteImport.update({
+  id: '/admin/popup/',
+  path: '/admin/popup/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminGalleryIndexRoute = AdminGalleryIndexRouteImport.update({
   id: '/admin/gallery/',
   path: '/admin/gallery/',
@@ -150,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/doctors/': typeof AdminDoctorsIndexRoute
   '/admin/gallery/': typeof AdminGalleryIndexRoute
+  '/admin/popup/': typeof AdminPopupIndexRoute
   '/admin/services/': typeof AdminServicesIndexRoute
   '/admin/testimonials/': typeof AdminTestimonialsIndexRoute
 }
@@ -172,6 +179,7 @@ export interface FileRoutesByTo {
   '/admin/blog': typeof AdminBlogIndexRoute
   '/admin/doctors': typeof AdminDoctorsIndexRoute
   '/admin/gallery': typeof AdminGalleryIndexRoute
+  '/admin/popup': typeof AdminPopupIndexRoute
   '/admin/services': typeof AdminServicesIndexRoute
   '/admin/testimonials': typeof AdminTestimonialsIndexRoute
 }
@@ -195,6 +203,7 @@ export interface FileRoutesById {
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/doctors/': typeof AdminDoctorsIndexRoute
   '/admin/gallery/': typeof AdminGalleryIndexRoute
+  '/admin/popup/': typeof AdminPopupIndexRoute
   '/admin/services/': typeof AdminServicesIndexRoute
   '/admin/testimonials/': typeof AdminTestimonialsIndexRoute
 }
@@ -219,6 +228,7 @@ export interface FileRouteTypes {
     | '/admin/blog/'
     | '/admin/doctors/'
     | '/admin/gallery/'
+    | '/admin/popup/'
     | '/admin/services/'
     | '/admin/testimonials/'
   fileRoutesByTo: FileRoutesByTo
@@ -241,6 +251,7 @@ export interface FileRouteTypes {
     | '/admin/blog'
     | '/admin/doctors'
     | '/admin/gallery'
+    | '/admin/popup'
     | '/admin/services'
     | '/admin/testimonials'
   id:
@@ -263,6 +274,7 @@ export interface FileRouteTypes {
     | '/admin/blog/'
     | '/admin/doctors/'
     | '/admin/gallery/'
+    | '/admin/popup/'
     | '/admin/services/'
     | '/admin/testimonials/'
   fileRoutesById: FileRoutesById
@@ -285,6 +297,7 @@ export interface RootRouteChildren {
   AdminBlogIndexRoute: typeof AdminBlogIndexRoute
   AdminDoctorsIndexRoute: typeof AdminDoctorsIndexRoute
   AdminGalleryIndexRoute: typeof AdminGalleryIndexRoute
+  AdminPopupIndexRoute: typeof AdminPopupIndexRoute
   AdminServicesIndexRoute: typeof AdminServicesIndexRoute
   AdminTestimonialsIndexRoute: typeof AdminTestimonialsIndexRoute
 }
@@ -396,6 +409,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminServicesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/popup/': {
+      id: '/admin/popup/'
+      path: '/admin/popup'
+      fullPath: '/admin/popup/'
+      preLoaderRoute: typeof AdminPopupIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/gallery/': {
       id: '/admin/gallery/'
       path: '/admin/gallery'
@@ -462,9 +482,20 @@ const rootRouteChildren: RootRouteChildren = {
   AdminBlogIndexRoute: AdminBlogIndexRoute,
   AdminDoctorsIndexRoute: AdminDoctorsIndexRoute,
   AdminGalleryIndexRoute: AdminGalleryIndexRoute,
+  AdminPopupIndexRoute: AdminPopupIndexRoute,
   AdminServicesIndexRoute: AdminServicesIndexRoute,
   AdminTestimonialsIndexRoute: AdminTestimonialsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
