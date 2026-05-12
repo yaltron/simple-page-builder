@@ -122,14 +122,14 @@ export function Services() {
                 </p>
 
                 {/* Link */}
-                <a
-                  href="#"
+                <Link
+                  to="/services"
                   className="inline-flex items-center gap-1 text-sm font-medium transition-all duration-300 group-hover:gap-2"
                   style={{ color: "#E6007E" }}
                 >
                   Learn more
                   <ArrowRight className="w-4 h-4" />
-                </a>
+                </Link>
               </div>
             </motion.div>
           ))}
