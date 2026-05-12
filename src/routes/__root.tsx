@@ -83,12 +83,17 @@ function RootDocument({ children }: { children: ReactNode }) {
       </head>
       <body className="font-sans antialiased">
         <ScrollToTop />
+        <ClientOnly fallback={null}>
+          <AnnouncementBar />
+        </ClientOnly>
         {children}
         <Toaster position="top-center" richColors closeButton />
         <ClientOnly fallback={null}>
           <FloatingButtons />
           <CustomCursor />
           <PopupBanner />
+          <CookieConsent />
+          <AnalyticsScripts />
         </ClientOnly>
         <Scripts />
       </body>
