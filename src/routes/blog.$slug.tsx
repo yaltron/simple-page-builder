@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react"
 import { createFileRoute, Link, notFound } from "@tanstack/react-router"
 import { motion } from "framer-motion"
-import { ArrowLeft, Calendar, Clock } from "lucide-react"
+import { ArrowLeft, Calendar, Clock, Facebook, Twitter, Linkedin, Link2, MessageCircle } from "lucide-react"
+import { toast } from "sonner"
 import { PageLayout, PageCTABanner, Section, BRAND } from "@/components/page-layout"
-import { supabase } from "@/integrations/supabase/client"
 import { createServerFn } from "@tanstack/react-start"
 
 const fetchPost = createServerFn({ method: "GET" })
@@ -13,12 +12,20 @@ const fetchPost = createServerFn({ method: "GET" })
     const sb = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PUBLISHABLE_KEY!)
     const { data: post } = await sb
       .from("blogs")
-      .select("title,slug,excerpt,content,featured_image,featured_image_alt,author,category,published_at,updated_at,reading_time,meta_title,meta_description,focus_keyword")
+      .select("id,title,slug,excerpt,content,featured_image,featured_image_alt,author,category,published_at,updated_at,reading_time,meta_title,meta_description,focus_keyword")
       .eq("slug", data.slug)
       .eq("status", "published")
       .maybeSingle()
     if (!post) throw notFound()
-    return post
+    const { data: related } = await sb
+      .from("blogs")
+      .select("id,title,slug,excerpt,featured_image,featured_image_alt,category,published_at,reading_time")
+      .eq("status", "published")
+      .neq("id", post.id)
+      .eq("category", post.category || "")
+      .order("published_at", { ascending: false })
+      .limit(3)
+    return { post, related: related || [] }
   })
 
 const BASE_URL = "https://subhashree-ui.lovable.app"
