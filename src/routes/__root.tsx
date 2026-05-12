@@ -9,6 +9,7 @@ import {
 import type { ReactNode } from "react";
 import { FloatingButtons } from "@/components/floating-buttons";
 import { CustomCursor } from "@/components/custom-cursor";
+import ScrollToTop from "@/components/scroll-to-top";
 import appCss from "@/styles.css?url";
 
 export const Route = createRootRoute({
@@ -89,6 +90,7 @@ function RootDocument({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-sans antialiased">
+        <ScrollToTop />
         {children}
         <ClientOnly fallback={null}>
           <FloatingButtons />
