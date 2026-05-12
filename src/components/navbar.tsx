@@ -232,28 +232,32 @@ export function Navbar() {
                         <p className="text-sm text-gray-500 mt-1">Free first consultation — no obligation</p>
 
                         <div className="mt-4">
-                          {[
-                            { icon: <Hospital className="w-5 h-5" />, title: "Visit In-Clinic", bg: COLORS.pinkSoft },
-                          ].map((opt) => (
-                            <button key={opt.title} className="w-full text-left p-3 rounded-xl hover:scale-[1.02] transition-transform" style={{ background: opt.bg }}>
-                              <div style={{ color: COLORS.magenta }}>{opt.icon}</div>
-                              <div className="font-semibold text-sm mt-2" style={{ color: COLORS.plum }}>{opt.title}</div>
-                              <div className="inline-block mt-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-700">Available Today</div>
-                            </button>
-                          ))}
+                          <button
+                            type="button"
+                            onClick={() => { setBookOpen(false); navigate({ to: "/contact" }) }}
+                            className="w-full text-left p-3 rounded-xl hover:scale-[1.02] transition-transform"
+                            style={{ background: COLORS.pinkSoft }}
+                          >
+                            <div style={{ color: COLORS.magenta }}><Hospital className="w-5 h-5" /></div>
+                            <div className="font-semibold text-sm mt-2" style={{ color: COLORS.plum }}>Visit In-Clinic</div>
+                            <div className="inline-block mt-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-700">Available Today</div>
+                          </button>
                         </div>
 
-                        <div className="mt-4 space-y-2">
-                          <input type="text" placeholder="Your Name" className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none transition-colors" style={{ borderColor: undefined }} onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
-                          <input type="tel" placeholder="Phone Number" className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
-                        </div>
+                        <form onSubmit={submitBooking}>
+                          <div className="mt-4 space-y-2">
+                            <input type="text" required placeholder="Your Name" value={bookForm.name} onChange={e => setBookForm({ ...bookForm, name: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none transition-colors" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                            <input type="tel" required placeholder="Phone Number" value={bookForm.phone} onChange={e => setBookForm({ ...bookForm, phone: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                          </div>
 
-                        <button
-                          className="w-full mt-4 py-3 text-white font-bold text-sm transition-transform hover:scale-[1.02]"
-                          style={{ background: `linear-gradient(90deg, ${COLORS.magenta}, ${COLORS.blue})`, borderRadius: 50 }}
-                        >
-                          Confirm Appointment →
-                        </button>
+                          <button
+                            type="submit"
+                            className="w-full mt-4 py-3 text-white font-bold text-sm transition-transform hover:scale-[1.02]"
+                            style={{ background: `linear-gradient(90deg, ${COLORS.magenta}, ${COLORS.blue})`, borderRadius: 50 }}
+                          >
+                            Confirm Appointment →
+                          </button>
+                        </form>
                       </motion.div>
                     )}
                   </AnimatePresence>,
