@@ -119,26 +119,28 @@ function DoctorCard({
           <div className="mt-auto space-y-2">
             <div className="flex gap-2">
               <Button
+                asChild
                 size="sm"
                 className="flex-1 bg-rose hover:bg-rose-dark text-white rounded-full text-xs"
               >
-                Consult Now
+                <Link to="/contact">Consult Now</Link>
               </Button>
               <Button
                 size="sm"
                 variant="outline"
+                onClick={() => window.dispatchEvent(new CustomEvent("open-call-popover"))}
                 className="flex-1 rounded-full text-xs border-plum/20"
               >
                 Call Back
               </Button>
             </div>
-            <a
-              href="#"
+            <Link
+              to="/team"
               className="inline-flex items-center gap-1 text-sm text-rose font-medium hover:gap-2 transition-all"
             >
               View Profile
               <ArrowRight className="w-4 h-4" />
-            </a>
+            </Link>
           </div>
         </div>
       </div>
