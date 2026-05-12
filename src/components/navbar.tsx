@@ -264,7 +264,7 @@ export function Navbar() {
                   Call Us
                 </button>
                 <AnimatePresence>
-                  {callOpen && (
+                  {callOpen && typeof document !== "undefined" && createPortal(
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -304,7 +304,8 @@ export function Navbar() {
                           </div>
                         ))}
                       </div>
-                    </motion.div>
+                    </motion.div>,
+                    document.body
                   )}
                 </AnimatePresence>
               </div>
