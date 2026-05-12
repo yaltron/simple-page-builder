@@ -1,7 +1,8 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Calendar, MessageCircle, X } from "lucide-react"
+import { Calendar } from "lucide-react"
+import { Link } from "@tanstack/react-router"
 
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
