@@ -2,8 +2,10 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Play } from "lucide-react"
+import { Link } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
 import { Magnetic } from "@/components/magnetic"
+import { VideoModal } from "@/components/video-modal"
 const slides = [
   "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=90&fit=crop",
   "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=90&fit=crop",
