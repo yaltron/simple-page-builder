@@ -1,7 +1,9 @@
+import { useEffect, useState } from "react"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { motion } from "framer-motion"
 import { Calendar, Stethoscope, HeartHandshake, FlaskConical, Briefcase } from "lucide-react"
 import { PageLayout, PageCTABanner, Section, SectionHeading, BRAND } from "@/components/page-layout"
+import { supabase } from "@/integrations/supabase/client"
 
 export const Route = createFileRoute("/team")({
   head: () => ({
@@ -15,15 +17,6 @@ export const Route = createFileRoute("/team")({
   component: TeamPage,
 })
 
-const doctors = [
-  { name: "Dr. Subhashree Sharma", specialty: "Reproductive Endocrinologist", qual: "MD, DGO, Fellowship in IVF", years: "20+ Years", img: "https://placehold.co/600x700/FFE4EF/C2185B?text=Dr.+Subhashree" },
-  { name: "Dr. Ramesh Adhikari", specialty: "IVF Specialist & Andrologist", qual: "MD, MRCOG (UK)", years: "15+ Years", img: "https://placehold.co/600x700/EAF7FD/C2185B?text=Dr.+Ramesh" },
-  { name: "Dr. Anita Bhattarai", specialty: "Gynaecologist & Laparoscopic Surgeon", qual: "MS, FMAS", years: "12+ Years", img: "https://placehold.co/600x700/FFF1F7/C2185B?text=Dr.+Anita" },
-  { name: "Dr. Pranab Karki", specialty: "Embryologist", qual: "PhD, Clinical Embryology", years: "10+ Years", img: "https://placehold.co/600x700/FFE4EF/C2185B?text=Dr.+Pranab" },
-  { name: "Dr. Sunita Rai", specialty: "Reproductive Medicine", qual: "MD, DNB", years: "8+ Years", img: "https://placehold.co/600x700/EAF7FD/C2185B?text=Dr.+Sunita" },
-  { name: "Dr. Bishal Thapa", specialty: "Fertility Counsellor & MD", qual: "MD, Fellowship Reproductive Med.", years: "9+ Years", img: "https://placehold.co/600x700/FFF1F7/C2185B?text=Dr.+Bishal" },
-]
-
 const support = [
   { icon: Stethoscope, title: "Nurses", desc: "Dedicated fertility nurses guiding you at every visit." },
   { icon: HeartHandshake, title: "Counsellors", desc: "Emotional support specialists for couples and individuals." },
@@ -32,6 +25,11 @@ const support = [
 ]
 
 function TeamPage() {
+  const [doctors, setDoctors] = useState<any[]>([])
+  useEffect(() => {
+    supabase.from("doctors").select("*").eq("status", "published").order("display_order").then(({ data }) => setDoctors(data || []))
+  }, [])
+
   return (
     <PageLayout title="Our Team" breadcrumb="Our Team">
       <Section bg="white">
@@ -39,7 +37,7 @@ function TeamPage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {doctors.map((d, i) => (
             <motion.div
-              key={d.name}
+              key={d.id}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -52,14 +50,14 @@ function TeamPage() {
                 border: "1px solid rgba(230,0,126,0.12)",
               }}
             >
-              <div className="aspect-[4/5] overflow-hidden">
-                <img src={d.img} alt={d.name} className="w-full h-full object-cover" />
+              <div className="aspect-[4/5] overflow-hidden bg-gray-100">
+                {d.image && <img src={d.image} alt={d.name} className="w-full h-full object-cover" />}
               </div>
               <div className="p-6">
                 <h3 className="font-serif text-xl font-bold mb-1" style={{ color: BRAND.heading }}>{d.name}</h3>
-                <p className="text-sm font-semibold mb-2" style={{ color: BRAND.pink }}>{d.specialty}</p>
-                <p className="text-sm mb-1" style={{ color: BRAND.navLink }}>{d.qual}</p>
-                <p className="text-xs font-semibold mb-4" style={{ color: BRAND.plum }}>{d.years} of experience</p>
+                {d.title && <p className="text-sm font-semibold mb-2" style={{ color: BRAND.pink }}>{d.title}</p>}
+                {d.qualifications && <p className="text-sm mb-1" style={{ color: BRAND.navLink }}>{d.qualifications}</p>}
+                {d.experience_years ? <p className="text-xs font-semibold mb-4" style={{ color: BRAND.plum }}>{d.experience_years}+ Years of experience</p> : <div className="mb-4" />}
                 <Link to="/contact" className="w-full py-2.5 text-white text-sm font-bold rounded-full inline-flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]" style={{ background: `linear-gradient(90deg, ${BRAND.pink}, ${BRAND.pinkDark})` }}>
                   <Calendar className="w-4 h-4" /> Book Consultation
                 </Link>
