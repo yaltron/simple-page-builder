@@ -130,7 +130,13 @@ function ContactPage() {
           <div className="text-center">
             <MapPin className="w-16 h-16 mx-auto mb-4" style={{ color: BRAND.pink }} />
             <div className="font-serif text-2xl font-bold mb-2" style={{ color: BRAND.heading }}>Find Us in Kathmandu</div>
-            <a className="inline-flex items-center gap-2 mt-2 font-semibold cursor-pointer" style={{ color: BRAND.pink }}>
+            <a
+              href="https://maps.google.com/?q=Kathmandu,Nepal"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 mt-2 font-semibold cursor-pointer"
+              style={{ color: BRAND.pink }}
+            >
               View on Google Maps <ExternalLink className="w-4 h-4" />
             </a>
           </div>
