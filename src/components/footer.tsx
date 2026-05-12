@@ -179,7 +179,7 @@ export function Footer() {
           <div>
             <ColumnHeading>Contact Us</ColumnHeading>
             <ul>
-              {contactItems.map(({ Icon, label, value, href }) => (
+              {contactItems.map(({ Icon, label, value, href, external }) => (
                 <li
                   key={label}
                   style={{
@@ -210,6 +210,8 @@ export function Footer() {
                     {href ? (
                       <a
                         href={href}
+                        target={external ? "_blank" : undefined}
+                        rel={external ? "noopener noreferrer" : undefined}
                         style={{ color: "#7A2050", fontSize: 13 }}
                         onMouseEnter={(e) => (e.currentTarget.style.color = "#E6007E")}
                         onMouseLeave={(e) => (e.currentTarget.style.color = "#7A2050")}
