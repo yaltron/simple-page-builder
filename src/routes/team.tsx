@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, Link } from "@tanstack/react-router"
 import { motion } from "framer-motion"
 import { Calendar, Stethoscope, HeartHandshake, FlaskConical, Briefcase } from "lucide-react"
 import { PageLayout, PageCTABanner, Section, SectionHeading, BRAND } from "@/components/page-layout"
@@ -60,9 +60,9 @@ function TeamPage() {
                 <p className="text-sm font-semibold mb-2" style={{ color: BRAND.pink }}>{d.specialty}</p>
                 <p className="text-sm mb-1" style={{ color: BRAND.navLink }}>{d.qual}</p>
                 <p className="text-xs font-semibold mb-4" style={{ color: BRAND.plum }}>{d.years} of experience</p>
-                <button className="w-full py-2.5 text-white text-sm font-bold rounded-full inline-flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]" style={{ background: `linear-gradient(90deg, ${BRAND.pink}, ${BRAND.pinkDark})` }}>
+                <Link to="/contact" className="w-full py-2.5 text-white text-sm font-bold rounded-full inline-flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]" style={{ background: `linear-gradient(90deg, ${BRAND.pink}, ${BRAND.pinkDark})` }}>
                   <Calendar className="w-4 h-4" /> Book Consultation
-                </button>
+                </Link>
               </div>
             </motion.div>
           ))}

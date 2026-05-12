@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, Link } from "@tanstack/react-router"
 import { motion, AnimatePresence } from "framer-motion"
 import { Heart, Microscope, Snowflake, Dna, Users, Stethoscope, Activity, Pill, ArrowRight, ChevronDown, Clock, TrendingUp } from "lucide-react"
 import { PageLayout, PageCTABanner, Section, SectionHeading, BRAND } from "@/components/page-layout"
@@ -90,9 +90,9 @@ function ServicesPage() {
                             <Clock className="w-3 h-3" /> {s.duration}
                           </span>
                         </div>
-                        <button className="inline-flex items-center gap-1 text-sm font-bold text-white px-4 py-2 rounded-full" style={{ background: BRAND.pink }}>
+                        <Link to="/contact" className="inline-flex items-center gap-1 text-sm font-bold text-white px-4 py-2 rounded-full" style={{ background: BRAND.pink }}>
                           Book for this Service <ArrowRight className="w-4 h-4" />
-                        </button>
+                        </Link>
                       </div>
                     </motion.div>
                   )}
