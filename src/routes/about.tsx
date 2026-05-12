@@ -1,9 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { motion } from "framer-motion"
-import { Target, Eye, Check, Award, HeartHandshake, Sparkles, ShieldCheck } from "lucide-react"
+import * as Icons from "lucide-react"
+import { Target, Eye, Award, HeartHandshake, Sparkles, ShieldCheck } from "lucide-react"
 import { PageLayout, PageCTABanner, Section, SectionHeading, BRAND } from "@/components/page-layout"
 import whoClinic from "@/assets/who-clinic.jpg"
 import whoTeam from "@/assets/who-team.jpg"
+import { useAboutSection } from "@/lib/use-cms-content"
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -24,13 +26,53 @@ const whyChoose = [
   { icon: Award, label: "Affordable Care" },
 ]
 
-const values = [
-  { icon: HeartHandshake, title: "Compassion", desc: "Every patient is treated with empathy, dignity and unwavering support." },
-  { icon: ShieldCheck, title: "Excellence", desc: "World-class technology and protocols, refined over more than a decade." },
-  { icon: Sparkles, title: "Hope", desc: "We believe in the dream of every family — and work tirelessly to honour it." },
-]
+const DEFAULT_STORY = {
+  paragraph_1:
+    "Founded over 12 years ago, Subhashree IVF & Fertility Centre has grown into Nepal's most trusted name in reproductive medicine. From our first clinic to today's full-service centre of excellence, our mission has remained the same — bringing happiness into your life.",
+  paragraph_2:
+    "With more than 5,000 successful treatments and a dedicated team of specialists, embryologists and counsellors, we have built a reputation founded on outcomes, transparency and compassionate care for every couple who walks through our doors.",
+  images: [
+    { url: whoClinic, alt: "Our clinic" },
+    { url: whoTeam, alt: "Our team" },
+  ] as { url: string; alt: string }[],
+}
+
+const DEFAULT_MV = {
+  mission_title: "Our Mission",
+  mission_text:
+    "To empower every couple on their path to parenthood through advanced fertility care, transparent guidance and compassionate emotional support — at a cost accessible to all.",
+  vision_title: "Our Vision",
+  vision_text:
+    "To be South Asia's most trusted fertility centre, recognised for medical excellence, ethical practice and the joy we bring to families.",
+}
+
+const DEFAULT_VALUES = {
+  items: [
+    { icon: "HeartHandshake", title: "Compassion", description: "Every patient is treated with empathy, dignity and unwavering support." },
+    { icon: "ShieldCheck", title: "Excellence", description: "World-class technology and protocols, refined over more than a decade." },
+    { icon: "Sparkles", title: "Hope", description: "We believe in the dream of every family — and work tirelessly to honour it." },
+  ],
+}
+
+function IconByName({ name, className, style }: { name: string; className?: string; style?: React.CSSProperties }) {
+  const Cmp = (Icons as any)[name] || Sparkles
+  return <Cmp className={className} style={style} />
+}
+
+function resolveImage(url: string) {
+  // Old seed used /src/assets/* paths — fall back to bundled imports
+  if (url?.includes("who-clinic")) return whoClinic
+  if (url?.includes("who-team")) return whoTeam
+  return url
+}
 
 function AboutPage() {
+  const story = useAboutSection("story_images", DEFAULT_STORY)
+  const mv = useAboutSection("mission_vision", DEFAULT_MV)
+  const valuesRow = useAboutSection("values", DEFAULT_VALUES)
+  const images = (story.images && story.images.length ? story.images : DEFAULT_STORY.images).slice(0, 3)
+  const values = valuesRow.items && valuesRow.items.length ? valuesRow.items : DEFAULT_VALUES.items
+
   return (
     <PageLayout title="About Us" breadcrumb="About Us">
       {/* Section 1 — Our Story */}
@@ -43,12 +85,8 @@ function AboutPage() {
             transition={{ duration: 0.6 }}
           >
             <SectionHeading align="left">Our Story</SectionHeading>
-            <p style={{ color: BRAND.navLink, lineHeight: 1.8, marginBottom: 16 }}>
-              Founded over 12 years ago, Subhashree IVF & Fertility Centre has grown into Nepal's most trusted name in reproductive medicine. From our first clinic to today's full-service centre of excellence, our mission has remained the same — bringing happiness into your life.
-            </p>
-            <p style={{ color: BRAND.navLink, lineHeight: 1.8 }}>
-              With more than 5,000 successful treatments and a dedicated team of specialists, embryologists and counsellors, we have built a reputation founded on outcomes, transparency and compassionate care for every couple who walks through our doors.
-            </p>
+            <p style={{ color: BRAND.navLink, lineHeight: 1.8, marginBottom: 16 }}>{story.paragraph_1}</p>
+            <p style={{ color: BRAND.navLink, lineHeight: 1.8 }}>{story.paragraph_2}</p>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, x: 30 }}
@@ -58,14 +96,23 @@ function AboutPage() {
             className="grid grid-cols-2 gap-4"
           >
             <div className="space-y-4">
-              <div className="rounded-2xl overflow-hidden h-56 shadow-lg">
-                <img src={whoClinic} alt="Our clinic" className="w-full h-full object-cover" />
-              </div>
+              {images[0] && (
+                <div className="rounded-2xl overflow-hidden h-56 shadow-lg">
+                  <img src={resolveImage(images[0].url)} alt={images[0].alt} className="w-full h-full object-cover" />
+                </div>
+              )}
+              {images[2] && (
+                <div className="rounded-2xl overflow-hidden h-56 shadow-lg">
+                  <img src={resolveImage(images[2].url)} alt={images[2].alt} className="w-full h-full object-cover" />
+                </div>
+              )}
             </div>
             <div className="pt-10">
-              <div className="rounded-2xl overflow-hidden h-72 shadow-lg">
-                <img src={whoTeam} alt="Our team" className="w-full h-full object-cover" />
-              </div>
+              {images[1] && (
+                <div className="rounded-2xl overflow-hidden h-72 shadow-lg">
+                  <img src={resolveImage(images[1].url)} alt={images[1].alt} className="w-full h-full object-cover" />
+                </div>
+              )}
             </div>
           </motion.div>
         </div>
@@ -76,8 +123,8 @@ function AboutPage() {
         <SectionHeading>Our Mission & Vision</SectionHeading>
         <div className="grid md:grid-cols-2 gap-6">
           {[
-            { icon: Target, title: "Our Mission", bg: BRAND.pinkSoft, text: "To empower every couple on their path to parenthood through advanced fertility care, transparent guidance and compassionate emotional support — at a cost accessible to all." },
-            { icon: Eye, title: "Our Vision", bg: BRAND.blueSoft, text: "To be South Asia's most trusted fertility centre, recognised for medical excellence, ethical practice and the joy we bring to families." },
+            { Icon: Target, title: mv.mission_title, bg: BRAND.pinkSoft, text: mv.mission_text },
+            { Icon: Eye, title: mv.vision_title, bg: BRAND.blueSoft, text: mv.vision_text },
           ].map((c) => (
             <motion.div
               key={c.title}
@@ -89,7 +136,7 @@ function AboutPage() {
               style={{ background: c.bg, border: "1px solid rgba(230,0,126,0.12)" }}
             >
               <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center mb-5">
-                <c.icon className="w-7 h-7" style={{ color: BRAND.pink }} />
+                <c.Icon className="w-7 h-7" style={{ color: BRAND.pink }} />
               </div>
               <h3 className="font-serif text-2xl font-bold mb-3" style={{ color: BRAND.heading }}>{c.title}</h3>
               <p style={{ color: BRAND.navLink, lineHeight: 1.7 }}>{c.text}</p>
@@ -125,9 +172,9 @@ function AboutPage() {
       <Section bg="white">
         <SectionHeading>Our Values</SectionHeading>
         <div className="grid md:grid-cols-3 gap-6">
-          {values.map((v, i) => (
+          {values.map((v: any, i: number) => (
             <motion.div
-              key={v.title}
+              key={v.title + i}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -136,10 +183,10 @@ function AboutPage() {
               style={{ background: i % 2 === 0 ? BRAND.pinkSoft : BRAND.blueSoft, border: "1px solid rgba(230,0,126,0.12)" }}
             >
               <div className="w-16 h-16 rounded-full mx-auto mb-5 flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${BRAND.pink}, ${BRAND.pinkDark})` }}>
-                <v.icon className="w-8 h-8 text-white" />
+                <IconByName name={v.icon || "Sparkles"} className="w-8 h-8 text-white" />
               </div>
               <h3 className="font-serif text-xl font-bold mb-2" style={{ color: BRAND.heading }}>{v.title}</h3>
-              <p style={{ color: BRAND.navLink, lineHeight: 1.7 }}>{v.desc}</p>
+              <p style={{ color: BRAND.navLink, lineHeight: 1.7 }}>{v.description || v.desc}</p>
             </motion.div>
           ))}
         </div>

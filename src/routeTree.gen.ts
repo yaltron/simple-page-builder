@@ -25,6 +25,7 @@ import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminTestimonialsIndexRouteImport } from './routes/admin.testimonials.index'
 import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
 import { Route as AdminPopupIndexRouteImport } from './routes/admin.popup.index'
+import { Route as AdminHomepageIndexRouteImport } from './routes/admin.homepage.index'
 import { Route as AdminGalleryIndexRouteImport } from './routes/admin.gallery.index'
 import { Route as AdminFaqsIndexRouteImport } from './routes/admin.faqs.index'
 import { Route as AdminDoctorsIndexRouteImport } from './routes/admin.doctors.index'
@@ -112,6 +113,11 @@ const AdminPopupIndexRoute = AdminPopupIndexRouteImport.update({
   path: '/admin/popup/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminHomepageIndexRoute = AdminHomepageIndexRouteImport.update({
+  id: '/admin/homepage/',
+  path: '/admin/homepage/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminGalleryIndexRoute = AdminGalleryIndexRouteImport.update({
   id: '/admin/gallery/',
   path: '/admin/gallery/',
@@ -163,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/admin/doctors/': typeof AdminDoctorsIndexRoute
   '/admin/faqs/': typeof AdminFaqsIndexRoute
   '/admin/gallery/': typeof AdminGalleryIndexRoute
+  '/admin/homepage/': typeof AdminHomepageIndexRoute
   '/admin/popup/': typeof AdminPopupIndexRoute
   '/admin/services/': typeof AdminServicesIndexRoute
   '/admin/testimonials/': typeof AdminTestimonialsIndexRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/admin/doctors': typeof AdminDoctorsIndexRoute
   '/admin/faqs': typeof AdminFaqsIndexRoute
   '/admin/gallery': typeof AdminGalleryIndexRoute
+  '/admin/homepage': typeof AdminHomepageIndexRoute
   '/admin/popup': typeof AdminPopupIndexRoute
   '/admin/services': typeof AdminServicesIndexRoute
   '/admin/testimonials': typeof AdminTestimonialsIndexRoute
@@ -212,6 +220,7 @@ export interface FileRoutesById {
   '/admin/doctors/': typeof AdminDoctorsIndexRoute
   '/admin/faqs/': typeof AdminFaqsIndexRoute
   '/admin/gallery/': typeof AdminGalleryIndexRoute
+  '/admin/homepage/': typeof AdminHomepageIndexRoute
   '/admin/popup/': typeof AdminPopupIndexRoute
   '/admin/services/': typeof AdminServicesIndexRoute
   '/admin/testimonials/': typeof AdminTestimonialsIndexRoute
@@ -238,6 +247,7 @@ export interface FileRouteTypes {
     | '/admin/doctors/'
     | '/admin/faqs/'
     | '/admin/gallery/'
+    | '/admin/homepage/'
     | '/admin/popup/'
     | '/admin/services/'
     | '/admin/testimonials/'
@@ -262,6 +272,7 @@ export interface FileRouteTypes {
     | '/admin/doctors'
     | '/admin/faqs'
     | '/admin/gallery'
+    | '/admin/homepage'
     | '/admin/popup'
     | '/admin/services'
     | '/admin/testimonials'
@@ -286,6 +297,7 @@ export interface FileRouteTypes {
     | '/admin/doctors/'
     | '/admin/faqs/'
     | '/admin/gallery/'
+    | '/admin/homepage/'
     | '/admin/popup/'
     | '/admin/services/'
     | '/admin/testimonials/'
@@ -310,6 +322,7 @@ export interface RootRouteChildren {
   AdminDoctorsIndexRoute: typeof AdminDoctorsIndexRoute
   AdminFaqsIndexRoute: typeof AdminFaqsIndexRoute
   AdminGalleryIndexRoute: typeof AdminGalleryIndexRoute
+  AdminHomepageIndexRoute: typeof AdminHomepageIndexRoute
   AdminPopupIndexRoute: typeof AdminPopupIndexRoute
   AdminServicesIndexRoute: typeof AdminServicesIndexRoute
   AdminTestimonialsIndexRoute: typeof AdminTestimonialsIndexRoute
@@ -429,6 +442,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPopupIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/homepage/': {
+      id: '/admin/homepage/'
+      path: '/admin/homepage'
+      fullPath: '/admin/homepage/'
+      preLoaderRoute: typeof AdminHomepageIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/gallery/': {
       id: '/admin/gallery/'
       path: '/admin/gallery'
@@ -503,6 +523,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminDoctorsIndexRoute: AdminDoctorsIndexRoute,
   AdminFaqsIndexRoute: AdminFaqsIndexRoute,
   AdminGalleryIndexRoute: AdminGalleryIndexRoute,
+  AdminHomepageIndexRoute: AdminHomepageIndexRoute,
   AdminPopupIndexRoute: AdminPopupIndexRoute,
   AdminServicesIndexRoute: AdminServicesIndexRoute,
   AdminTestimonialsIndexRoute: AdminTestimonialsIndexRoute,
