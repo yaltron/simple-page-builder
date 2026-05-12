@@ -46,24 +46,7 @@ const headingStyle: React.CSSProperties = {
 }
 
 function ColumnHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <h4 style={headingStyle}>
-      {children}
-      <span
-        style={{
-          content: "''",
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          width: 32,
-          height: 2.5,
-          background: "linear-gradient(90deg, #E6007E, #1BA0DC)",
-          borderRadius: 2,
-          display: "block",
-        }}
-      />
-    </h4>
-  )
+  return <h4 style={headingStyle}>{children}</h4>
 }
 
 const linkStyle: React.CSSProperties = {
@@ -90,7 +73,7 @@ export function Footer() {
         style={{
           background: "#FFF1F7",
           borderTop: "2.5px solid transparent",
-          borderImage: "linear-gradient(90deg, #E6007E, #1BA0DC) 1",
+          borderImage: "linear-gradient(90deg, #E6007E 0%, #9B26AF 50%, #6A0DAD 100%) 1",
           padding: "60px 8%",
         }}
       >
