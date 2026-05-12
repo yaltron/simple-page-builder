@@ -26,6 +26,7 @@ import { Route as AdminTestimonialsIndexRouteImport } from './routes/admin.testi
 import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
 import { Route as AdminPopupIndexRouteImport } from './routes/admin.popup.index'
 import { Route as AdminGalleryIndexRouteImport } from './routes/admin.gallery.index'
+import { Route as AdminFaqsIndexRouteImport } from './routes/admin.faqs.index'
 import { Route as AdminDoctorsIndexRouteImport } from './routes/admin.doctors.index'
 import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
 import { Route as AdminAppointmentsIndexRouteImport } from './routes/admin.appointments.index'
@@ -116,6 +117,11 @@ const AdminGalleryIndexRoute = AdminGalleryIndexRouteImport.update({
   path: '/admin/gallery/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminFaqsIndexRoute = AdminFaqsIndexRouteImport.update({
+  id: '/admin/faqs/',
+  path: '/admin/faqs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminDoctorsIndexRoute = AdminDoctorsIndexRouteImport.update({
   id: '/admin/doctors/',
   path: '/admin/doctors/',
@@ -155,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/admin/appointments/': typeof AdminAppointmentsIndexRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/doctors/': typeof AdminDoctorsIndexRoute
+  '/admin/faqs/': typeof AdminFaqsIndexRoute
   '/admin/gallery/': typeof AdminGalleryIndexRoute
   '/admin/popup/': typeof AdminPopupIndexRoute
   '/admin/services/': typeof AdminServicesIndexRoute
@@ -178,6 +185,7 @@ export interface FileRoutesByTo {
   '/admin/appointments': typeof AdminAppointmentsIndexRoute
   '/admin/blog': typeof AdminBlogIndexRoute
   '/admin/doctors': typeof AdminDoctorsIndexRoute
+  '/admin/faqs': typeof AdminFaqsIndexRoute
   '/admin/gallery': typeof AdminGalleryIndexRoute
   '/admin/popup': typeof AdminPopupIndexRoute
   '/admin/services': typeof AdminServicesIndexRoute
@@ -202,6 +210,7 @@ export interface FileRoutesById {
   '/admin/appointments/': typeof AdminAppointmentsIndexRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/doctors/': typeof AdminDoctorsIndexRoute
+  '/admin/faqs/': typeof AdminFaqsIndexRoute
   '/admin/gallery/': typeof AdminGalleryIndexRoute
   '/admin/popup/': typeof AdminPopupIndexRoute
   '/admin/services/': typeof AdminServicesIndexRoute
@@ -227,6 +236,7 @@ export interface FileRouteTypes {
     | '/admin/appointments/'
     | '/admin/blog/'
     | '/admin/doctors/'
+    | '/admin/faqs/'
     | '/admin/gallery/'
     | '/admin/popup/'
     | '/admin/services/'
@@ -250,6 +260,7 @@ export interface FileRouteTypes {
     | '/admin/appointments'
     | '/admin/blog'
     | '/admin/doctors'
+    | '/admin/faqs'
     | '/admin/gallery'
     | '/admin/popup'
     | '/admin/services'
@@ -273,6 +284,7 @@ export interface FileRouteTypes {
     | '/admin/appointments/'
     | '/admin/blog/'
     | '/admin/doctors/'
+    | '/admin/faqs/'
     | '/admin/gallery/'
     | '/admin/popup/'
     | '/admin/services/'
@@ -296,6 +308,7 @@ export interface RootRouteChildren {
   AdminAppointmentsIndexRoute: typeof AdminAppointmentsIndexRoute
   AdminBlogIndexRoute: typeof AdminBlogIndexRoute
   AdminDoctorsIndexRoute: typeof AdminDoctorsIndexRoute
+  AdminFaqsIndexRoute: typeof AdminFaqsIndexRoute
   AdminGalleryIndexRoute: typeof AdminGalleryIndexRoute
   AdminPopupIndexRoute: typeof AdminPopupIndexRoute
   AdminServicesIndexRoute: typeof AdminServicesIndexRoute
@@ -423,6 +436,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminGalleryIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/faqs/': {
+      id: '/admin/faqs/'
+      path: '/admin/faqs'
+      fullPath: '/admin/faqs/'
+      preLoaderRoute: typeof AdminFaqsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/doctors/': {
       id: '/admin/doctors/'
       path: '/admin/doctors'
@@ -481,6 +501,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminAppointmentsIndexRoute: AdminAppointmentsIndexRoute,
   AdminBlogIndexRoute: AdminBlogIndexRoute,
   AdminDoctorsIndexRoute: AdminDoctorsIndexRoute,
+  AdminFaqsIndexRoute: AdminFaqsIndexRoute,
   AdminGalleryIndexRoute: AdminGalleryIndexRoute,
   AdminPopupIndexRoute: AdminPopupIndexRoute,
   AdminServicesIndexRoute: AdminServicesIndexRoute,
