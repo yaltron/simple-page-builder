@@ -65,14 +65,17 @@ export function Hero() {
             >
               <Magnetic>
                 <Button
+                  asChild
                   size="lg"
                   className="bg-gradient-to-r from-rose to-rose-dark hover:from-rose-dark hover:to-rose text-white rounded-full px-8 text-base"
                 >
-                  Book Free Consultation
+                  <Link to="/contact">Book Free Consultation</Link>
                 </Button>
               </Magnetic>
               <Magnetic>
                 <Button
+                  type="button"
+                  onClick={() => setVideoOpen(true)}
                   size="lg"
                   variant="outline"
                   className="rounded-full px-8 text-base border-plum/20 text-plum hover:bg-plum/5"
