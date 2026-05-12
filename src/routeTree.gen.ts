@@ -21,6 +21,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminTestimonialsIndexRouteImport } from './routes/admin.testimonials.index'
+import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
+import { Route as AdminGalleryIndexRouteImport } from './routes/admin.gallery.index'
+import { Route as AdminDoctorsIndexRouteImport } from './routes/admin.doctors.index'
 import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
 import { Route as AdminBlogIdRouteImport } from './routes/admin.blog.$id'
 
@@ -84,6 +88,26 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminTestimonialsIndexRoute = AdminTestimonialsIndexRouteImport.update({
+  id: '/admin/testimonials/',
+  path: '/admin/testimonials/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminServicesIndexRoute = AdminServicesIndexRouteImport.update({
+  id: '/admin/services/',
+  path: '/admin/services/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminGalleryIndexRoute = AdminGalleryIndexRouteImport.update({
+  id: '/admin/gallery/',
+  path: '/admin/gallery/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDoctorsIndexRoute = AdminDoctorsIndexRouteImport.update({
+  id: '/admin/doctors/',
+  path: '/admin/doctors/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminBlogIndexRoute = AdminBlogIndexRouteImport.update({
   id: '/admin/blog/',
   path: '/admin/blog/',
@@ -110,6 +134,10 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
+  '/admin/doctors/': typeof AdminDoctorsIndexRoute
+  '/admin/gallery/': typeof AdminGalleryIndexRoute
+  '/admin/services/': typeof AdminServicesIndexRoute
+  '/admin/testimonials/': typeof AdminTestimonialsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -126,6 +154,10 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
   '/admin/blog': typeof AdminBlogIndexRoute
+  '/admin/doctors': typeof AdminDoctorsIndexRoute
+  '/admin/gallery': typeof AdminGalleryIndexRoute
+  '/admin/services': typeof AdminServicesIndexRoute
+  '/admin/testimonials': typeof AdminTestimonialsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -143,6 +175,10 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
+  '/admin/doctors/': typeof AdminDoctorsIndexRoute
+  '/admin/gallery/': typeof AdminGalleryIndexRoute
+  '/admin/services/': typeof AdminServicesIndexRoute
+  '/admin/testimonials/': typeof AdminTestimonialsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -161,6 +197,10 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/admin/blog/$id'
     | '/admin/blog/'
+    | '/admin/doctors/'
+    | '/admin/gallery/'
+    | '/admin/services/'
+    | '/admin/testimonials/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -177,6 +217,10 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin/blog/$id'
     | '/admin/blog'
+    | '/admin/doctors'
+    | '/admin/gallery'
+    | '/admin/services'
+    | '/admin/testimonials'
   id:
     | '__root__'
     | '/'
@@ -193,6 +237,10 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/admin/blog/$id'
     | '/admin/blog/'
+    | '/admin/doctors/'
+    | '/admin/gallery/'
+    | '/admin/services/'
+    | '/admin/testimonials/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -209,6 +257,10 @@ export interface RootRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   AdminBlogIdRoute: typeof AdminBlogIdRoute
   AdminBlogIndexRoute: typeof AdminBlogIndexRoute
+  AdminDoctorsIndexRoute: typeof AdminDoctorsIndexRoute
+  AdminGalleryIndexRoute: typeof AdminGalleryIndexRoute
+  AdminServicesIndexRoute: typeof AdminServicesIndexRoute
+  AdminTestimonialsIndexRoute: typeof AdminTestimonialsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -297,6 +349,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/testimonials/': {
+      id: '/admin/testimonials/'
+      path: '/admin/testimonials'
+      fullPath: '/admin/testimonials/'
+      preLoaderRoute: typeof AdminTestimonialsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/services/': {
+      id: '/admin/services/'
+      path: '/admin/services'
+      fullPath: '/admin/services/'
+      preLoaderRoute: typeof AdminServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/gallery/': {
+      id: '/admin/gallery/'
+      path: '/admin/gallery'
+      fullPath: '/admin/gallery/'
+      preLoaderRoute: typeof AdminGalleryIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/doctors/': {
+      id: '/admin/doctors/'
+      path: '/admin/doctors'
+      fullPath: '/admin/doctors/'
+      preLoaderRoute: typeof AdminDoctorsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/blog/': {
       id: '/admin/blog/'
       path: '/admin/blog'
@@ -338,6 +418,10 @@ const rootRouteChildren: RootRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   AdminBlogIdRoute: AdminBlogIdRoute,
   AdminBlogIndexRoute: AdminBlogIndexRoute,
+  AdminDoctorsIndexRoute: AdminDoctorsIndexRoute,
+  AdminGalleryIndexRoute: AdminGalleryIndexRoute,
+  AdminServicesIndexRoute: AdminServicesIndexRoute,
+  AdminTestimonialsIndexRoute: AdminTestimonialsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
