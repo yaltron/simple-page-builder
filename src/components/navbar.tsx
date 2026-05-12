@@ -19,9 +19,8 @@ const navLinks = [
   { name: "Services", href: "#services" },
   { name: "Our Team", href: "#team" },
   { name: "Success Stories", href: "#testimonials" },
-  { name: "Blog & News", href: "#blog" },
-  { name: "International Patient", href: "#international" },
-  { name: "Clinic", href: "#clinic" },
+  { name: "Blogs and News", href: "#blog" },
+  { name: "Gallery", href: "#gallery" },
   { name: "Contact Us", href: "#contact" },
 ]
 
