@@ -14,6 +14,7 @@ import { Route as SuccessStoriesRouteImport } from './routes/success-stories'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
@@ -23,7 +24,9 @@ import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminTestimonialsIndexRouteImport } from './routes/admin.testimonials.index'
 import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
+import { Route as AdminPopupIndexRouteImport } from './routes/admin.popup.index'
 import { Route as AdminGalleryIndexRouteImport } from './routes/admin.gallery.index'
+import { Route as AdminFaqsIndexRouteImport } from './routes/admin.faqs.index'
 import { Route as AdminDoctorsIndexRouteImport } from './routes/admin.doctors.index'
 import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
 import { Route as AdminAppointmentsIndexRouteImport } from './routes/admin.appointments.index'
@@ -52,6 +55,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const GalleryRoute = GalleryRouteImport.update({
   id: '/gallery',
   path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqsRoute = FaqsRouteImport.update({
+  id: '/faqs',
+  path: '/faqs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -99,9 +107,19 @@ const AdminServicesIndexRoute = AdminServicesIndexRouteImport.update({
   path: '/admin/services/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminPopupIndexRoute = AdminPopupIndexRouteImport.update({
+  id: '/admin/popup/',
+  path: '/admin/popup/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminGalleryIndexRoute = AdminGalleryIndexRouteImport.update({
   id: '/admin/gallery/',
   path: '/admin/gallery/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminFaqsIndexRoute = AdminFaqsIndexRouteImport.update({
+  id: '/admin/faqs/',
+  path: '/admin/faqs/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminDoctorsIndexRoute = AdminDoctorsIndexRouteImport.update({
@@ -130,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
   '/contact': typeof ContactRoute
+  '/faqs': typeof FaqsRoute
   '/gallery': typeof GalleryRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -142,7 +161,9 @@ export interface FileRoutesByFullPath {
   '/admin/appointments/': typeof AdminAppointmentsIndexRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/doctors/': typeof AdminDoctorsIndexRoute
+  '/admin/faqs/': typeof AdminFaqsIndexRoute
   '/admin/gallery/': typeof AdminGalleryIndexRoute
+  '/admin/popup/': typeof AdminPopupIndexRoute
   '/admin/services/': typeof AdminServicesIndexRoute
   '/admin/testimonials/': typeof AdminTestimonialsIndexRoute
 }
@@ -151,6 +172,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
   '/contact': typeof ContactRoute
+  '/faqs': typeof FaqsRoute
   '/gallery': typeof GalleryRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -163,7 +185,9 @@ export interface FileRoutesByTo {
   '/admin/appointments': typeof AdminAppointmentsIndexRoute
   '/admin/blog': typeof AdminBlogIndexRoute
   '/admin/doctors': typeof AdminDoctorsIndexRoute
+  '/admin/faqs': typeof AdminFaqsIndexRoute
   '/admin/gallery': typeof AdminGalleryIndexRoute
+  '/admin/popup': typeof AdminPopupIndexRoute
   '/admin/services': typeof AdminServicesIndexRoute
   '/admin/testimonials': typeof AdminTestimonialsIndexRoute
 }
@@ -173,6 +197,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
   '/contact': typeof ContactRoute
+  '/faqs': typeof FaqsRoute
   '/gallery': typeof GalleryRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -185,7 +210,9 @@ export interface FileRoutesById {
   '/admin/appointments/': typeof AdminAppointmentsIndexRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/doctors/': typeof AdminDoctorsIndexRoute
+  '/admin/faqs/': typeof AdminFaqsIndexRoute
   '/admin/gallery/': typeof AdminGalleryIndexRoute
+  '/admin/popup/': typeof AdminPopupIndexRoute
   '/admin/services/': typeof AdminServicesIndexRoute
   '/admin/testimonials/': typeof AdminTestimonialsIndexRoute
 }
@@ -196,6 +223,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/blog'
     | '/contact'
+    | '/faqs'
     | '/gallery'
     | '/services'
     | '/sitemap.xml'
@@ -208,7 +236,9 @@ export interface FileRouteTypes {
     | '/admin/appointments/'
     | '/admin/blog/'
     | '/admin/doctors/'
+    | '/admin/faqs/'
     | '/admin/gallery/'
+    | '/admin/popup/'
     | '/admin/services/'
     | '/admin/testimonials/'
   fileRoutesByTo: FileRoutesByTo
@@ -217,6 +247,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/blog'
     | '/contact'
+    | '/faqs'
     | '/gallery'
     | '/services'
     | '/sitemap.xml'
@@ -229,7 +260,9 @@ export interface FileRouteTypes {
     | '/admin/appointments'
     | '/admin/blog'
     | '/admin/doctors'
+    | '/admin/faqs'
     | '/admin/gallery'
+    | '/admin/popup'
     | '/admin/services'
     | '/admin/testimonials'
   id:
@@ -238,6 +271,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/blog'
     | '/contact'
+    | '/faqs'
     | '/gallery'
     | '/services'
     | '/sitemap.xml'
@@ -250,7 +284,9 @@ export interface FileRouteTypes {
     | '/admin/appointments/'
     | '/admin/blog/'
     | '/admin/doctors/'
+    | '/admin/faqs/'
     | '/admin/gallery/'
+    | '/admin/popup/'
     | '/admin/services/'
     | '/admin/testimonials/'
   fileRoutesById: FileRoutesById
@@ -260,6 +296,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   BlogRoute: typeof BlogRouteWithChildren
   ContactRoute: typeof ContactRoute
+  FaqsRoute: typeof FaqsRoute
   GalleryRoute: typeof GalleryRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -271,7 +308,9 @@ export interface RootRouteChildren {
   AdminAppointmentsIndexRoute: typeof AdminAppointmentsIndexRoute
   AdminBlogIndexRoute: typeof AdminBlogIndexRoute
   AdminDoctorsIndexRoute: typeof AdminDoctorsIndexRoute
+  AdminFaqsIndexRoute: typeof AdminFaqsIndexRoute
   AdminGalleryIndexRoute: typeof AdminGalleryIndexRoute
+  AdminPopupIndexRoute: typeof AdminPopupIndexRoute
   AdminServicesIndexRoute: typeof AdminServicesIndexRoute
   AdminTestimonialsIndexRoute: typeof AdminTestimonialsIndexRoute
 }
@@ -311,6 +350,13 @@ declare module '@tanstack/react-router' {
       path: '/gallery'
       fullPath: '/gallery'
       preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faqs': {
+      id: '/faqs'
+      path: '/faqs'
+      fullPath: '/faqs'
+      preLoaderRoute: typeof FaqsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -376,11 +422,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminServicesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/popup/': {
+      id: '/admin/popup/'
+      path: '/admin/popup'
+      fullPath: '/admin/popup/'
+      preLoaderRoute: typeof AdminPopupIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/gallery/': {
       id: '/admin/gallery/'
       path: '/admin/gallery'
       fullPath: '/admin/gallery/'
       preLoaderRoute: typeof AdminGalleryIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/faqs/': {
+      id: '/admin/faqs/'
+      path: '/admin/faqs'
+      fullPath: '/admin/faqs/'
+      preLoaderRoute: typeof AdminFaqsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/doctors/': {
@@ -429,6 +489,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   BlogRoute: BlogRouteWithChildren,
   ContactRoute: ContactRoute,
+  FaqsRoute: FaqsRoute,
   GalleryRoute: GalleryRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
@@ -440,7 +501,9 @@ const rootRouteChildren: RootRouteChildren = {
   AdminAppointmentsIndexRoute: AdminAppointmentsIndexRoute,
   AdminBlogIndexRoute: AdminBlogIndexRoute,
   AdminDoctorsIndexRoute: AdminDoctorsIndexRoute,
+  AdminFaqsIndexRoute: AdminFaqsIndexRoute,
   AdminGalleryIndexRoute: AdminGalleryIndexRoute,
+  AdminPopupIndexRoute: AdminPopupIndexRoute,
   AdminServicesIndexRoute: AdminServicesIndexRoute,
   AdminTestimonialsIndexRoute: AdminTestimonialsIndexRoute,
 }
