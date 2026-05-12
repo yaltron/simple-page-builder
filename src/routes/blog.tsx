@@ -1,9 +1,10 @@
-import { useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { motion } from "framer-motion"
 import { Calendar, Clock, ArrowRight, Mail } from "lucide-react"
 import { toast } from "sonner"
 import { PageLayout, Section, SectionHeading, BRAND } from "@/components/page-layout"
+import { supabase } from "@/integrations/supabase/client"
 
 export const Route = createFileRoute("/blog")({
   head: () => ({
@@ -17,126 +18,119 @@ export const Route = createFileRoute("/blog")({
   component: BlogPage,
 })
 
-const featured = {
-  title: "Understanding IVF: A Complete Guide for First-Time Patients",
-  category: "Guide",
-  date: "12 May 2026",
-  author: "Dr. Subhashree Sharma",
-  img: "https://placehold.co/1600x700/FFE4EF/C2185B?text=Featured+Article",
-}
-
-const posts = [
-  { title: "Understanding IVF: A Complete Guide", cat: "Guide", date: "12 May 2026", read: "8 min", excerpt: "Everything you need to know about the IVF process — from first consultation to embryo transfer.", img: "https://placehold.co/800x520/FFE4EF/C2185B?text=Article+1" },
-  { title: "How to Prepare for Your First Fertility Consultation", cat: "Tips", date: "06 May 2026", read: "5 min", excerpt: "Practical steps and questions to bring along to make the most of your first visit.", img: "https://placehold.co/800x520/EAF7FD/C2185B?text=Article+2" },
-  { title: "PCOS and Fertility: What You Need to Know", cat: "Health", date: "29 Apr 2026", read: "6 min", excerpt: "How polycystic ovary syndrome affects fertility — and the treatment paths that work.", img: "https://placehold.co/800x520/FFF1F7/C2185B?text=Article+3" },
-  { title: "Male Infertility: Breaking the Stigma", cat: "Awareness", date: "21 Apr 2026", read: "7 min", excerpt: "Male factor accounts for nearly half of infertility cases. Here's what to know.", img: "https://placehold.co/800x520/FFE4EF/C2185B?text=Article+4" },
-  { title: "Embryo Freezing: Preserving Your Future", cat: "Guide", date: "14 Apr 2026", read: "5 min", excerpt: "Vitrification, success rates, and who benefits most from embryo cryopreservation.", img: "https://placehold.co/800x520/EAF7FD/C2185B?text=Article+5" },
-  { title: "Nutrition Tips for IVF Success", cat: "Lifestyle", date: "07 Apr 2026", read: "4 min", excerpt: "Foods, supplements and habits that support a healthy IVF cycle.", img: "https://placehold.co/800x520/FFF1F7/C2185B?text=Article+6" },
-]
-
-const slugify = (s: string) =>
-  s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")
+const PAGE_SIZE = 6
 
 function BlogPage() {
+  const [posts, setPosts] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [cat, setCat] = useState<string>("All")
+  const [page, setPage] = useState(1)
   const [email, setEmail] = useState("")
-  const featuredSlug = slugify(featured.title)
+
+  useEffect(() => {
+    ;(async () => {
+      const { data } = await supabase
+        .from("blogs")
+        .select("id,title,slug,excerpt,featured_image,featured_image_alt,category,author,published_at,reading_time")
+        .eq("status", "published")
+        .order("published_at", { ascending: false })
+      setPosts(data || [])
+      setLoading(false)
+    })()
+  }, [])
+
+  const categories = useMemo(() => ["All", ...Array.from(new Set(posts.map((p) => p.category).filter(Boolean)))], [posts])
+  const filtered = cat === "All" ? posts : posts.filter((p) => p.category === cat)
+  const featured = filtered[0]
+  const rest = filtered.slice(1)
+  const totalPages = Math.max(1, Math.ceil(rest.length / PAGE_SIZE))
+  const pageItems = rest.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+
+  const fmtDate = (d: string | null) => d ? new Date(d).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }) : ""
+
+  const subscribe = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!email.includes("@")) return toast.error("Enter a valid email")
+    toast.success("Subscribed!"); setEmail("")
+  }
+
   return (
     <PageLayout title="Blogs and News" breadcrumb="Blogs and News">
-      {/* Featured post */}
-      <section style={{ padding: "60px 5%", background: "white" }}>
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative rounded-3xl overflow-hidden h-[420px] flex items-end"
-            style={{ backgroundImage: `url(${featured.img})`, backgroundSize: "cover", backgroundPosition: "center" }}
-          >
-            <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(230,0,126,0.75) 0%, rgba(230,0,126,0.2) 70%, transparent 100%)" }} />
-            <div className="relative p-8 lg:p-12 text-white max-w-2xl">
-              <span className="inline-block text-xs font-bold px-3 py-1 rounded-full mb-4" style={{ background: "white", color: BRAND.pink }}>{featured.category}</span>
-              <h2 className="font-serif text-3xl lg:text-5xl font-bold mb-4" style={{ lineHeight: 1.15 }}>{featured.title}</h2>
-              <div className="flex items-center gap-4 text-sm mb-6 opacity-95">
-                <span className="inline-flex items-center gap-1"><Calendar className="w-4 h-4" /> {featured.date}</span>
-                <span>·</span>
-                <span>{featured.author}</span>
+      {loading ? (
+        <Section bg="white"><div className="text-center text-muted-foreground py-12">Loading posts…</div></Section>
+      ) : posts.length === 0 ? (
+        <Section bg="white"><div className="text-center text-muted-foreground py-12">No posts published yet.</div></Section>
+      ) : (
+        <>
+          {featured && (
+            <section style={{ padding: "60px 5%", background: "white" }}>
+              <div className="max-w-7xl mx-auto">
+                <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="grid lg:grid-cols-2 gap-8 items-center rounded-2xl overflow-hidden" style={{ background: BRAND.pinkSoft }}>
+                  <div className="aspect-[16/10] overflow-hidden">
+                    <img src={featured.featured_image || `https://placehold.co/1200x750/FFE4EF/C2185B?text=Featured`} alt={featured.featured_image_alt || featured.title} className="w-full h-full object-cover" loading="eager" />
+                  </div>
+                  <div className="p-8">
+                    <span className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-3" style={{ background: BRAND.pink, color: "white" }}>{featured.category || "Featured"}</span>
+                    <h2 className="font-serif text-3xl font-bold mb-3" style={{ color: BRAND.heading }}>{featured.title}</h2>
+                    <p className="mb-4" style={{ color: BRAND.navLink }}>{featured.excerpt}</p>
+                    <div className="flex items-center gap-4 text-sm mb-5" style={{ color: BRAND.navLink }}>
+                      <span className="inline-flex items-center gap-1"><Calendar className="w-4 h-4" />{fmtDate(featured.published_at)}</span>
+                      <span className="inline-flex items-center gap-1"><Clock className="w-4 h-4" />{featured.reading_time || 5} min</span>
+                    </div>
+                    <Link to="/blog/$slug" params={{ slug: featured.slug }} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold" style={{ background: `linear-gradient(90deg, ${BRAND.pink}, ${BRAND.pinkDark})` }}>Read Article <ArrowRight className="w-4 h-4" /></Link>
+                  </div>
+                </motion.div>
               </div>
-              <Link to="/blog/$slug" params={{ slug: featuredSlug }} className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-transform hover:scale-105" style={{ background: "white", color: BRAND.pink }}>
-                Read Article <ArrowRight className="w-4 h-4" />
-              </Link>
+            </section>
+          )}
+
+          <Section bg={BRAND.pinkSoft}>
+            <div className="flex flex-wrap justify-center gap-2 mb-8">
+              {categories.map((c) => (
+                <button key={c} onClick={() => { setCat(c); setPage(1) }} className="px-4 py-1.5 rounded-full text-sm font-semibold" style={{ background: cat === c ? BRAND.pink : "white", color: cat === c ? "white" : BRAND.pink, border: `1px solid ${BRAND.pink}` }}>{c}</button>
+              ))}
             </div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* Blog grid */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {pageItems.map((p) => (
+                <motion.article key={p.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-white rounded-2xl overflow-hidden border hover:-translate-y-1 transition-transform" style={{ borderColor: "rgba(230,0,126,0.12)" }}>
+                  <div className="aspect-[16/10] overflow-hidden">
+                    <img src={p.featured_image || `https://placehold.co/800x520/FFE4EF/C2185B?text=Article`} alt={p.featured_image_alt || p.title} className="w-full h-full object-cover" loading="lazy" />
+                  </div>
+                  <div className="p-5">
+                    <span className="inline-block text-xs font-bold mb-2" style={{ color: BRAND.pink }}>{p.category}</span>
+                    <h3 className="font-serif text-lg font-bold mb-2 line-clamp-2" style={{ color: BRAND.heading }}>{p.title}</h3>
+                    <p className="text-sm mb-3 line-clamp-2" style={{ color: BRAND.navLink }}>{p.excerpt}</p>
+                    <div className="flex items-center justify-between text-xs" style={{ color: BRAND.navLink }}>
+                      <span className="inline-flex items-center gap-1"><Calendar className="w-3 h-3" />{fmtDate(p.published_at)}</span>
+                      <Link to="/blog/$slug" params={{ slug: p.slug }} className="font-bold inline-flex items-center gap-1" style={{ color: BRAND.pink }}>Read <ArrowRight className="w-3 h-3" /></Link>
+                    </div>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+
+            {totalPages > 1 && (
+              <div className="flex justify-center gap-2 mt-8">
+                {Array.from({ length: totalPages }).map((_, i) => (
+                  <button key={i} onClick={() => setPage(i + 1)} className="w-9 h-9 rounded-full text-sm font-semibold" style={{ background: page === i + 1 ? BRAND.pink : "white", color: page === i + 1 ? "white" : BRAND.pink, border: `1px solid ${BRAND.pink}` }}>{i + 1}</button>
+                ))}
+              </div>
+            )}
+          </Section>
+        </>
+      )}
+
       <Section bg="white">
-        <SectionHeading>Latest Articles</SectionHeading>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.map((p, i) => (
-            <motion.article
-              key={p.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.45, delay: (i % 3) * 0.08 }}
-              className="bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl"
-              style={{ border: `1px solid ${BRAND.border}` }}
-            >
-              <div className="aspect-[16/10] overflow-hidden">
-                <img src={p.img} alt={p.title} className="w-full h-full object-cover" />
-              </div>
-              <div className="p-6">
-                <span className="inline-block text-xs font-bold px-3 py-1 rounded-full mb-3 text-white" style={{ background: BRAND.pink }}>{p.cat}</span>
-                <h3 className="font-serif text-xl font-bold mb-2" style={{ color: BRAND.plum }}>{p.title}</h3>
-                <p className="text-sm mb-4" style={{ color: BRAND.navLink, lineHeight: 1.6 }}>{p.excerpt}</p>
-                <div className="flex items-center justify-between text-xs mb-4" style={{ color: BRAND.navLink }}>
-                  <span className="inline-flex items-center gap-1"><Calendar className="w-3 h-3" /> {p.date}</span>
-                  <span className="inline-flex items-center gap-1"><Clock className="w-3 h-3" /> {p.read}</span>
-                </div>
-                <Link to="/blog/$slug" params={{ slug: slugify(p.title) }} className="inline-flex items-center gap-1 text-sm font-bold cursor-pointer" style={{ color: BRAND.pink }}>
-                  Read More <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </motion.article>
-          ))}
-        </div>
-      </Section>
-
-      {/* Newsletter */}
-      <Section bg={BRAND.pinkSoft}>
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="w-14 h-14 mx-auto mb-5 rounded-full bg-white flex items-center justify-center">
-            <Mail className="w-7 h-7" style={{ color: BRAND.pink }} />
-          </div>
-          <SectionHeading>Stay Informed</SectionHeading>
-          <p className="mb-6" style={{ color: BRAND.navLink, marginTop: -16 }}>Fertility tips and clinic news, delivered straight to your inbox.</p>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                toast.error("Please enter a valid email address")
-                return
-              }
-              toast.success("Subscribed! Thanks for joining our newsletter.")
-              setEmail("")
-            }}
-            className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
-          >
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              className="flex-1 px-5 py-3 rounded-full outline-none bg-white"
-              style={{ border: "1.5px solid rgba(230,0,126,0.2)" }}
-              onFocus={(e) => (e.currentTarget.style.borderColor = BRAND.pink)}
-              onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(230,0,126,0.2)")}
-            />
-            <button type="submit" className="px-6 py-3 rounded-full text-white font-bold transition-transform hover:scale-105" style={{ background: `linear-gradient(90deg, ${BRAND.pink}, ${BRAND.pinkDark})` }}>
-              Subscribe
-            </button>
+        <div className="max-w-xl mx-auto text-center">
+          <SectionHeading>Stay Updated</SectionHeading>
+          <p className="mb-6" style={{ color: BRAND.navLink, marginTop: -16 }}>Get fertility tips and clinic news in your inbox.</p>
+          <form onSubmit={subscribe} className="flex gap-2">
+            <div className="flex-1 relative">
+              <Mail className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@email.com" className="w-full pl-9 pr-3 py-2.5 border rounded-full" />
+            </div>
+            <button className="px-5 py-2.5 rounded-full text-white font-bold" style={{ background: `linear-gradient(90deg, ${BRAND.pink}, ${BRAND.pinkDark})` }}>Subscribe</button>
           </form>
         </div>
       </Section>
