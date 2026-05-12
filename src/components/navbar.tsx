@@ -305,16 +305,28 @@ export function Navbar() {
 
                         <form onSubmit={submitBooking}>
                           <div className="mt-4 space-y-2">
-                            <input type="text" required placeholder="Your Name" value={bookForm.name} onChange={e => setBookForm({ ...bookForm, name: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none transition-colors" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
-                            <input type="tel" required placeholder="Phone Number" value={bookForm.phone} onChange={e => setBookForm({ ...bookForm, phone: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                            <input type="text" required placeholder="Full Name *" value={bookForm.full_name} onChange={e => setBookForm({ ...bookForm, full_name: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none transition-colors" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                            <input type="tel" required placeholder="Phone *" value={bookForm.phone} onChange={e => setBookForm({ ...bookForm, phone: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                            <input type="email" placeholder="Email (optional)" value={bookForm.email} onChange={e => setBookForm({ ...bookForm, email: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                            <input type="date" required min={getMinDate()} max={getMaxDate()} value={bookForm.preferred_date} onChange={e => setBookForm({ ...bookForm, preferred_date: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                            <select required value={bookForm.preferred_time} onChange={e => setBookForm({ ...bookForm, preferred_time: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none bg-white" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")}>
+                              <option value="">Preferred Time *</option>
+                              {TIME_OPTIONS.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+                            </select>
+                            <select required value={bookForm.service} onChange={e => setBookForm({ ...bookForm, service: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none bg-white" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")}>
+                              <option value="">Service Interested In *</option>
+                              {SERVICE_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
+                            </select>
+                            <textarea placeholder="Any specific concerns?" value={bookForm.message} onChange={e => setBookForm({ ...bookForm, message: e.target.value })} rows={2} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none resize-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
                           </div>
 
                           <button
                             type="submit"
-                            className="w-full mt-4 py-3 text-white font-bold text-sm transition-transform hover:scale-[1.02]"
+                            disabled={bookSubmitting}
+                            className="w-full mt-4 py-3 text-white font-bold text-sm transition-transform hover:scale-[1.02] disabled:opacity-60"
                             style={{ background: `linear-gradient(90deg, ${COLORS.magenta}, ${COLORS.blue})`, borderRadius: 50 }}
                           >
-                            Confirm Appointment →
+                            {bookSubmitting ? "Submitting…" : "Confirm Appointment →"}
                           </button>
                         </form>
                       </motion.div>
