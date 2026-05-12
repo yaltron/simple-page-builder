@@ -144,6 +144,7 @@ export function WhenToVisit() {
           </motion.div>
         </div>
       </div>
+      <VideoModal open={videoOpen} onClose={() => setVideoOpen(false)} />
     </section>
   )
 }
