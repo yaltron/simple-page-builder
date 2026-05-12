@@ -57,6 +57,8 @@ export function Navbar() {
   const callRef = useRef<HTMLDivElement>(null)
   const bookBtnRef = useRef<HTMLButtonElement>(null)
   const callBtnRef = useRef<HTMLButtonElement>(null)
+  const bookPanelRef = useRef<HTMLDivElement>(null)
+  const callPanelRef = useRef<HTMLDivElement>(null)
   const [bookPos, setBookPos] = useState<{ top: number; right: number }>({ top: 0, right: 0 })
   const [callPos, setCallPos] = useState<{ top: number; right: number }>({ top: 0, right: 0 })
 
@@ -99,8 +101,9 @@ export function Navbar() {
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      if (bookOpen && bookRef.current && !bookRef.current.contains(e.target as Node)) setBookOpen(false)
-      if (callOpen && callRef.current && !callRef.current.contains(e.target as Node)) setCallOpen(false)
+      const t = e.target as Node
+      if (bookOpen && bookRef.current && !bookRef.current.contains(t) && !(bookPanelRef.current && bookPanelRef.current.contains(t))) setBookOpen(false)
+      if (callOpen && callRef.current && !callRef.current.contains(t) && !(callPanelRef.current && callPanelRef.current.contains(t))) setCallOpen(false)
     }
     const onEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") { setBookOpen(false); setCallOpen(false); setIsMobileOpen(false) }
@@ -188,59 +191,62 @@ export function Navbar() {
                   Book Appointment
                   <ChevronDown className={`w-4 h-4 transition-transform ${bookOpen ? "rotate-180" : ""}`} />
                 </button>
-                <AnimatePresence>
-                  {bookOpen && typeof document !== "undefined" && createPortal(
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.25 }}
-                      className="p-5"
-                      style={{
-                        position: "fixed",
-                        top: bookPos.top,
-                        right: bookPos.right,
-                        left: "auto",
-                        width: 360,
-                        background: "#fff",
-                        borderRadius: 20,
-                        borderTop: `3px solid ${COLORS.magenta}`,
-                        boxShadow: "0 16px 60px rgba(230,0,126,0.15)",
-                        zIndex: 999999,
-                      }}
-                    >
-                      <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: COLORS.plum }} className="font-bold">
-                        Book a Consultation
-                      </h3>
-                      <p className="text-sm text-gray-500 mt-1">Free first consultation — no obligation</p>
-
-                      <div className="mt-4">
-                        {[
-                          { icon: <Hospital className="w-5 h-5" />, title: "Visit In-Clinic", bg: COLORS.pinkSoft },
-                        ].map((opt) => (
-                          <button key={opt.title} className="w-full text-left p-3 rounded-xl hover:scale-[1.02] transition-transform" style={{ background: opt.bg }}>
-                            <div style={{ color: COLORS.magenta }}>{opt.icon}</div>
-                            <div className="font-semibold text-sm mt-2" style={{ color: COLORS.plum }}>{opt.title}</div>
-                            <div className="inline-block mt-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-700">Available Today</div>
-                          </button>
-                        ))}
-                      </div>
-
-                      <div className="mt-4 space-y-2">
-                        <input type="text" placeholder="Your Name" className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none transition-colors" style={{ borderColor: undefined }} onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
-                        <input type="tel" placeholder="Phone Number" className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
-                      </div>
-
-                      <button
-                        className="w-full mt-4 py-3 text-white font-bold text-sm transition-transform hover:scale-[1.02]"
-                        style={{ background: `linear-gradient(90deg, ${COLORS.magenta}, ${COLORS.blue})`, borderRadius: 50 }}
+                {typeof document !== "undefined" && createPortal(
+                  <AnimatePresence>
+                    {bookOpen && (
+                      <motion.div
+                        ref={bookPanelRef}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.25 }}
+                        className="p-5"
+                        style={{
+                          position: "fixed",
+                          top: bookPos.top,
+                          right: bookPos.right,
+                          left: "auto",
+                          width: 360,
+                          background: "#fff",
+                          borderRadius: 20,
+                          borderTop: `3px solid ${COLORS.magenta}`,
+                          boxShadow: "0 16px 60px rgba(230,0,126,0.15)",
+                          zIndex: 999999,
+                        }}
                       >
-                        Confirm Appointment →
-                      </button>
-                    </motion.div>,
-                    document.body
-                  )}
-                </AnimatePresence>
+                        <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: COLORS.plum }} className="font-bold">
+                          Book a Consultation
+                        </h3>
+                        <p className="text-sm text-gray-500 mt-1">Free first consultation — no obligation</p>
+
+                        <div className="mt-4">
+                          {[
+                            { icon: <Hospital className="w-5 h-5" />, title: "Visit In-Clinic", bg: COLORS.pinkSoft },
+                          ].map((opt) => (
+                            <button key={opt.title} className="w-full text-left p-3 rounded-xl hover:scale-[1.02] transition-transform" style={{ background: opt.bg }}>
+                              <div style={{ color: COLORS.magenta }}>{opt.icon}</div>
+                              <div className="font-semibold text-sm mt-2" style={{ color: COLORS.plum }}>{opt.title}</div>
+                              <div className="inline-block mt-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-700">Available Today</div>
+                            </button>
+                          ))}
+                        </div>
+
+                        <div className="mt-4 space-y-2">
+                          <input type="text" placeholder="Your Name" className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none transition-colors" style={{ borderColor: undefined }} onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                          <input type="tel" placeholder="Phone Number" className="w-full px-4 py-2.5 text-sm rounded-lg border border-gray-200 outline-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
+                        </div>
+
+                        <button
+                          className="w-full mt-4 py-3 text-white font-bold text-sm transition-transform hover:scale-[1.02]"
+                          style={{ background: `linear-gradient(90deg, ${COLORS.magenta}, ${COLORS.blue})`, borderRadius: 50 }}
+                        >
+                          Confirm Appointment →
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>,
+                  document.body
+                )}
               </div>
 
               {/* Call */}
@@ -263,51 +269,54 @@ export function Navbar() {
                   <Phone className="w-4 h-4" />
                   Call Us
                 </button>
-                <AnimatePresence>
-                  {callOpen && typeof document !== "undefined" && createPortal(
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.25 }}
-                      className="p-4"
-                      style={{
-                        position: "fixed",
-                        top: callPos.top,
-                        right: callPos.right,
-                        left: "auto",
-                        width: 270,
-                        background: "#fff",
-                        borderRadius: 16,
-                        borderTop: `3px solid ${COLORS.plum}`,
-                        boxShadow: "0 16px 60px rgba(45,10,30,0.15)",
-                        zIndex: 999999,
-                      }}
-                    >
-                      <div className="space-y-2">
-                        {phones.map((p, i) => (
-                          <div key={p.label} className="flex items-center justify-between gap-2">
-                            <div>
-                              <div className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: COLORS.navLink }}>{p.label}</div>
-                              <div className="text-sm font-semibold" style={{ color: COLORS.plum }}>{p.number}</div>
+                {typeof document !== "undefined" && createPortal(
+                  <AnimatePresence>
+                    {callOpen && (
+                      <motion.div
+                        ref={callPanelRef}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.25 }}
+                        className="p-4"
+                        style={{
+                          position: "fixed",
+                          top: callPos.top,
+                          right: callPos.right,
+                          left: "auto",
+                          width: 270,
+                          background: "#fff",
+                          borderRadius: 16,
+                          borderTop: `3px solid ${COLORS.plum}`,
+                          boxShadow: "0 16px 60px rgba(45,10,30,0.15)",
+                          zIndex: 999999,
+                        }}
+                      >
+                        <div className="space-y-2">
+                          {phones.map((p, i) => (
+                            <div key={p.label} className="flex items-center justify-between gap-2">
+                              <div>
+                                <div className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: COLORS.navLink }}>{p.label}</div>
+                                <div className="text-sm font-semibold" style={{ color: COLORS.plum }}>{p.number}</div>
+                              </div>
+                              <button
+                                onClick={() => copy(p.number, i)}
+                                className="p-2 rounded-lg transition-colors"
+                                style={{ background: copiedIdx === i ? COLORS.magenta : COLORS.pinkSoft, color: copiedIdx === i ? "#fff" : COLORS.plum }}
+                                onMouseEnter={e => { if (copiedIdx !== i) { (e.currentTarget as HTMLButtonElement).style.background = COLORS.magenta; (e.currentTarget as HTMLButtonElement).style.color = "#fff" } }}
+                                onMouseLeave={e => { if (copiedIdx !== i) { (e.currentTarget as HTMLButtonElement).style.background = COLORS.pinkSoft; (e.currentTarget as HTMLButtonElement).style.color = COLORS.plum } }}
+                                aria-label={`Copy ${p.label}`}
+                              >
+                                {copiedIdx === i ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                              </button>
                             </div>
-                            <button
-                              onClick={() => copy(p.number, i)}
-                              className="p-2 rounded-lg transition-colors"
-                              style={{ background: copiedIdx === i ? COLORS.magenta : COLORS.pinkSoft, color: copiedIdx === i ? "#fff" : COLORS.plum }}
-                              onMouseEnter={e => { if (copiedIdx !== i) { (e.currentTarget as HTMLButtonElement).style.background = COLORS.magenta; (e.currentTarget as HTMLButtonElement).style.color = "#fff" } }}
-                              onMouseLeave={e => { if (copiedIdx !== i) { (e.currentTarget as HTMLButtonElement).style.background = COLORS.pinkSoft; (e.currentTarget as HTMLButtonElement).style.color = COLORS.plum } }}
-                              aria-label={`Copy ${p.label}`}
-                            >
-                              {copiedIdx === i ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    </motion.div>,
-                    document.body
-                  )}
-                </AnimatePresence>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>,
+                  document.body
+                )}
               </div>
             </div>
 
