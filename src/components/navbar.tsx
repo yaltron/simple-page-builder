@@ -347,11 +347,11 @@ export function Navbar() {
           <div className="h-full flex items-center" style={{ width: "100%", paddingLeft: "5%", paddingRight: "5%" }}>
             <div className="flex items-center w-full" style={{ justifyContent: "space-evenly" }}>
               {navLinks.map((link) => {
-                const isActive = activeSection === link.href.replace("#", "")
+                const isActive = location.pathname === link.to
                 return (
-                  <a
+                  <Link
                     key={link.name}
-                    href={link.href}
+                    to={link.to}
                     className="relative px-3 py-1 group"
                     style={{
                       color: isActive ? COLORS.magenta : COLORS.navLink,
@@ -370,7 +370,7 @@ export function Navbar() {
                         transform: isActive ? "scaleX(1)" : "scaleX(0)",
                       }}
                     />
-                  </a>
+                  </Link>
                 )
               })}
             </div>
@@ -418,23 +418,26 @@ export function Navbar() {
 
               <nav className="flex-1 overflow-y-auto px-2 py-2">
                 {navLinks.map((link, i) => (
-                  <motion.a
+                  <motion.div
                     key={link.name}
-                    href={link.href}
-                    onClick={() => setIsMobileOpen(false)}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.04 }}
-                    className="flex items-center px-4 font-semibold border-b"
-                    style={{
-                      height: 52,
-                      color: COLORS.navLink,
-                      borderColor: COLORS.pinkSoft,
-                      fontSize: 15,
-                    }}
                   >
-                    {link.name}
-                  </motion.a>
+                    <Link
+                      to={link.to}
+                      onClick={() => setIsMobileOpen(false)}
+                      className="flex items-center px-4 font-semibold border-b"
+                      style={{
+                        height: 52,
+                        color: COLORS.navLink,
+                        borderColor: COLORS.pinkSoft,
+                        fontSize: 15,
+                      }}
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
                 ))}
               </nav>
 
