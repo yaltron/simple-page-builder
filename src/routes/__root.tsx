@@ -70,20 +70,7 @@ export const Route = createRootRoute({
     ],
   }),
   shellComponent: RootDocument,
-  notFoundComponent: () => (
-    <div className="min-h-screen flex items-center justify-center bg-cream p-6">
-      <div className="max-w-md text-center space-y-4">
-        <h1 className="font-serif text-5xl font-bold text-rose">404</h1>
-        <p className="text-plum text-lg">Page not found</p>
-        <Link
-          to="/"
-          className="inline-block bg-rose hover:bg-rose-dark text-white rounded-full px-6 py-2 transition-colors"
-        >
-          Back home
-        </Link>
-      </div>
-    </div>
-  ),
+  notFoundComponent: () => <NotFoundPage />,
 });
 
 function RootDocument({ children }: { children: ReactNode }) {
