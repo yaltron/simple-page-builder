@@ -90,6 +90,7 @@ function RootDocument({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-sans antialiased">
+        <ScrollToTop />
         {children}
         <ClientOnly fallback={null}>
           <FloatingButtons />
