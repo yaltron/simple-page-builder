@@ -11,6 +11,9 @@ import { CustomCursor } from "@/components/custom-cursor";
 import ScrollToTop from "@/components/scroll-to-top";
 import { PopupBanner } from "@/components/popup-banner";
 import { NotFoundPage } from "@/components/not-found-page";
+import { AnnouncementBar } from "@/components/announcement-bar";
+import { CookieConsent } from "@/components/cookie-consent";
+import { AnalyticsScripts } from "@/components/analytics-scripts";
 import { Toaster } from "sonner";
 import appCss from "@/styles.css?url";
 
@@ -80,12 +83,17 @@ function RootDocument({ children }: { children: ReactNode }) {
       </head>
       <body className="font-sans antialiased">
         <ScrollToTop />
+        <ClientOnly fallback={null}>
+          <AnnouncementBar />
+        </ClientOnly>
         {children}
         <Toaster position="top-center" richColors closeButton />
         <ClientOnly fallback={null}>
           <FloatingButtons />
           <CustomCursor />
           <PopupBanner />
+          <CookieConsent />
+          <AnalyticsScripts />
         </ClientOnly>
         <Scripts />
       </body>

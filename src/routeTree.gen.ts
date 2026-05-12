@@ -23,6 +23,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminTestimonialsIndexRouteImport } from './routes/admin.testimonials.index'
+import { Route as AdminSettingsIndexRouteImport } from './routes/admin.settings.index'
 import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
 import { Route as AdminPopupIndexRouteImport } from './routes/admin.popup.index'
 import { Route as AdminHomepageIndexRouteImport } from './routes/admin.homepage.index'
@@ -103,6 +104,11 @@ const AdminTestimonialsIndexRoute = AdminTestimonialsIndexRouteImport.update({
   path: '/admin/testimonials/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSettingsIndexRoute = AdminSettingsIndexRouteImport.update({
+  id: '/admin/settings/',
+  path: '/admin/settings/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminServicesIndexRoute = AdminServicesIndexRouteImport.update({
   id: '/admin/services/',
   path: '/admin/services/',
@@ -172,6 +178,7 @@ export interface FileRoutesByFullPath {
   '/admin/homepage/': typeof AdminHomepageIndexRoute
   '/admin/popup/': typeof AdminPopupIndexRoute
   '/admin/services/': typeof AdminServicesIndexRoute
+  '/admin/settings/': typeof AdminSettingsIndexRoute
   '/admin/testimonials/': typeof AdminTestimonialsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -197,6 +204,7 @@ export interface FileRoutesByTo {
   '/admin/homepage': typeof AdminHomepageIndexRoute
   '/admin/popup': typeof AdminPopupIndexRoute
   '/admin/services': typeof AdminServicesIndexRoute
+  '/admin/settings': typeof AdminSettingsIndexRoute
   '/admin/testimonials': typeof AdminTestimonialsIndexRoute
 }
 export interface FileRoutesById {
@@ -223,6 +231,7 @@ export interface FileRoutesById {
   '/admin/homepage/': typeof AdminHomepageIndexRoute
   '/admin/popup/': typeof AdminPopupIndexRoute
   '/admin/services/': typeof AdminServicesIndexRoute
+  '/admin/settings/': typeof AdminSettingsIndexRoute
   '/admin/testimonials/': typeof AdminTestimonialsIndexRoute
 }
 export interface FileRouteTypes {
@@ -250,6 +259,7 @@ export interface FileRouteTypes {
     | '/admin/homepage/'
     | '/admin/popup/'
     | '/admin/services/'
+    | '/admin/settings/'
     | '/admin/testimonials/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -275,6 +285,7 @@ export interface FileRouteTypes {
     | '/admin/homepage'
     | '/admin/popup'
     | '/admin/services'
+    | '/admin/settings'
     | '/admin/testimonials'
   id:
     | '__root__'
@@ -300,6 +311,7 @@ export interface FileRouteTypes {
     | '/admin/homepage/'
     | '/admin/popup/'
     | '/admin/services/'
+    | '/admin/settings/'
     | '/admin/testimonials/'
   fileRoutesById: FileRoutesById
 }
@@ -325,6 +337,7 @@ export interface RootRouteChildren {
   AdminHomepageIndexRoute: typeof AdminHomepageIndexRoute
   AdminPopupIndexRoute: typeof AdminPopupIndexRoute
   AdminServicesIndexRoute: typeof AdminServicesIndexRoute
+  AdminSettingsIndexRoute: typeof AdminSettingsIndexRoute
   AdminTestimonialsIndexRoute: typeof AdminTestimonialsIndexRoute
 }
 
@@ -428,6 +441,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminTestimonialsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/settings/': {
+      id: '/admin/settings/'
+      path: '/admin/settings'
+      fullPath: '/admin/settings/'
+      preLoaderRoute: typeof AdminSettingsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/services/': {
       id: '/admin/services/'
       path: '/admin/services'
@@ -526,6 +546,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminHomepageIndexRoute: AdminHomepageIndexRoute,
   AdminPopupIndexRoute: AdminPopupIndexRoute,
   AdminServicesIndexRoute: AdminServicesIndexRoute,
+  AdminSettingsIndexRoute: AdminSettingsIndexRoute,
   AdminTestimonialsIndexRoute: AdminTestimonialsIndexRoute,
 }
 export const routeTree = rootRouteImport
