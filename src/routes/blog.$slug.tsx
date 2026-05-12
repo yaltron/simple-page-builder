@@ -33,7 +33,7 @@ const BASE_URL = "https://subhashree-ui.lovable.app"
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ params }) => fetchPost({ data: { slug: params.slug } }),
   head: ({ loaderData }) => {
-    const p: any = loaderData
+    const p: any = (loaderData as any)?.post
     if (!p) return { meta: [] }
     const title = p.meta_title || `${p.title} — Subhashree IVF`
     const desc = p.meta_description || p.excerpt || "Read the full article on Subhashree IVF."
