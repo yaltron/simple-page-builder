@@ -17,12 +17,28 @@ const navItems = [
 export function AdminShell({ title, breadcrumb, children }: { title: string; breadcrumb?: string; children: ReactNode }) {
   const navigate = useNavigate()
   const pathname = useRouterState({ select: (s) => s.location.pathname })
+  const [newCount, setNewCount] = useState<number>(0)
+
+  useEffect(() => {
+    let mounted = true
+    const load = async () => {
+      const { count } = await supabase.from("appointments").select("id", { count: "exact", head: true }).eq("status", "new")
+      if (mounted) setNewCount(count || 0)
+    }
+    load()
+    const ch = supabase.channel("appointments-badge")
+      .on("postgres_changes", { event: "*", schema: "public", table: "appointments" }, load)
+      .subscribe()
+    return () => { mounted = false; supabase.removeChannel(ch) }
+  }, [])
 
   const logout = async () => {
     await supabase.auth.signOut()
     toast.success("Logged out")
     navigate({ to: "/admin/login" })
   }
+
+  const badgeFor = (key?: string) => key === "appointments" && newCount > 0 ? newCount : null
 
   return (
     <div className="min-h-screen flex" style={{ background: "#f8f9fa" }}>
@@ -34,6 +50,7 @@ export function AdminShell({ title, breadcrumb, children }: { title: string; bre
         <nav className="flex-1 p-3 space-y-1">
           {navItems.map((it) => {
             const active = it.to === "/admin" ? pathname === "/admin" : pathname.startsWith(it.to)
+            const badge = badgeFor((it as any).badgeKey)
             return (
               <Link
                 key={it.to}
@@ -42,7 +59,12 @@ export function AdminShell({ title, breadcrumb, children }: { title: string; bre
                 style={{ background: active ? "#E6007E" : "transparent", color: "white" }}
               >
                 <it.icon className="w-4 h-4" />
-                {it.label}
+                <span className="flex-1">{it.label}</span>
+                {badge !== null && (
+                  <span className="ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: "#E6007E", color: "white", minWidth: 18, textAlign: "center" }}>
+                    {badge}
+                  </span>
+                )}
               </Link>
             )
           })}
