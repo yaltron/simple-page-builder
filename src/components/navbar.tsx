@@ -4,7 +4,34 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Phone, Menu, X, Calendar, ChevronDown, Copy, Check, Hospital } from "lucide-react"
 import { Link, useLocation, useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
+import { supabase } from "@/integrations/supabase/client"
 import logo from "@/assets/logo.png"
+
+const SERVICE_OPTIONS = [
+  "IVF Treatment",
+  "ICSI Procedure",
+  "Embryo Freezing",
+  "Genetic Testing (PGT)",
+  "Donor Egg Programme",
+  "Infertility Diagnosis",
+  "General Consultation",
+  "Other",
+] as const
+
+const TIME_OPTIONS = [
+  { value: "Morning 8-11am", label: "Morning (8am - 11am)" },
+  { value: "Afternoon 11am-2pm", label: "Afternoon (11am - 2pm)" },
+  { value: "Evening 2-5pm", label: "Evening (2pm - 5pm)" },
+] as const
+
+function getMinDate() {
+  const d = new Date(); d.setDate(d.getDate() + 1)
+  return d.toISOString().split("T")[0]
+}
+function getMaxDate() {
+  const d = new Date(); d.setMonth(d.getMonth() + 3)
+  return d.toISOString().split("T")[0]
+}
 
 const COLORS = {
   magenta: "#E6007E",
