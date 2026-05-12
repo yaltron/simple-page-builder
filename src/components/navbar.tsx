@@ -27,9 +27,9 @@ const navLinks = [
 ] as const
 
 const phones = [
-  { label: "Reception", number: "+977-01-1234567" },
-  { label: "Emergency", number: "+977-9800-123456" },
-  { label: "WhatsApp", number: "+977-9800-654321" },
+  { label: "Reception", number: "+977 9861141699" },
+  { label: "Emergency", number: "+977 9861141699" },
+  { label: "WhatsApp", number: "+977 9861141699" },
 ]
 
 function LotusIcon({ className }: { className?: string }) {
