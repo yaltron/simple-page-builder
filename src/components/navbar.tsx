@@ -468,14 +468,16 @@ export function Navbar() {
               </nav>
 
               <div className="p-4 space-y-3 border-t" style={{ borderColor: COLORS.pinkSoft }}>
-                <button
+                <Link
+                  to="/contact"
+                  onClick={() => setIsMobileOpen(false)}
                   className="w-full py-3 text-white font-bold flex items-center justify-center gap-2"
                   style={{ background: COLORS.magenta, borderRadius: 50 }}
                 >
                   📅 Book Appointment
-                </button>
+                </Link>
                 <a
-                  href="tel:+9779800123456"
+                  href="tel:+9779861141699"
                   className="w-full py-3 font-bold flex items-center justify-center gap-2 border-2"
                   style={{ borderColor: COLORS.plum, color: COLORS.plum, borderRadius: 50 }}
                 >
