@@ -90,8 +90,19 @@ export const Route = createFileRoute("/blog/$slug")({
 })
 
 function BlogPostPage() {
-  const p = Route.useLoaderData() as any
+  const data = Route.useLoaderData() as any
+  const p = data.post
+  const related: any[] = data.related || []
   const fmtDate = p.published_at ? new Date(p.published_at).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }) : ""
+  const url = `${BASE_URL}/blog/${p.slug}`
+  const shareTitle = encodeURIComponent(p.title)
+  const shareUrl = encodeURIComponent(url)
+
+  const copyLink = async () => {
+    try { await navigator.clipboard.writeText(url); toast.success("Link copied!") } catch { toast.error("Could not copy") }
+  }
+
+  const shareBtn = "w-9 h-9 rounded-full inline-flex items-center justify-center transition-transform hover:scale-110"
 
   return (
     <PageLayout title={p.title} breadcrumb="Blog">
@@ -113,9 +124,41 @@ function BlogPostPage() {
               {p.author && <span>by {p.author}</span>}
             </div>
             <article className="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-[color:var(--heading)] [--heading:#2D0A1E] prose-a:text-[#E6007E] prose-img:rounded-xl" dangerouslySetInnerHTML={{ __html: p.content || "" }} />
+
+            <div className="mt-10 pt-6 border-t flex items-center gap-3 flex-wrap" style={{ borderColor: BRAND.border }}>
+              <span className="text-sm font-bold" style={{ color: BRAND.heading }}>Share:</span>
+              <a href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`} target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" className={shareBtn} style={{ background: "#1877F2", color: "white" }}><Facebook className="w-4 h-4" /></a>
+              <a href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`} target="_blank" rel="noopener noreferrer" aria-label="Share on Twitter" className={shareBtn} style={{ background: "#0F1419", color: "white" }}><Twitter className="w-4 h-4" /></a>
+              <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`} target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" className={shareBtn} style={{ background: "#0A66C2", color: "white" }}><Linkedin className="w-4 h-4" /></a>
+              <a href={`https://api.whatsapp.com/send?text=${shareTitle}%20${shareUrl}`} target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp" className={shareBtn} style={{ background: "#25D366", color: "white" }}><MessageCircle className="w-4 h-4" /></a>
+              <button onClick={copyLink} aria-label="Copy link" className={shareBtn} style={{ background: BRAND.pinkSoft, color: BRAND.pink }}><Link2 className="w-4 h-4" /></button>
+            </div>
           </motion.div>
         </div>
       </Section>
+
+      {related.length > 0 && (
+        <Section bg={BRAND.pinkSoft}>
+          <div className="max-w-6xl mx-auto">
+            <h2 className="font-serif text-2xl md:text-3xl font-bold mb-6" style={{ color: BRAND.heading }}>Related Articles</h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {related.map((r) => (
+                <Link key={r.id} to="/blog/$slug" params={{ slug: r.slug }} className="bg-white rounded-2xl overflow-hidden border hover:-translate-y-1 transition-transform" style={{ borderColor: "rgba(230,0,126,0.12)" }}>
+                  <div className="aspect-[16/10] overflow-hidden">
+                    <img src={r.featured_image || `https://placehold.co/800x520/FFE4EF/C2185B?text=Article`} alt={r.featured_image_alt || r.title} className="w-full h-full object-cover" loading="lazy" />
+                  </div>
+                  <div className="p-5">
+                    {r.category && <span className="inline-block text-xs font-bold mb-2" style={{ color: BRAND.pink }}>{r.category}</span>}
+                    <h3 className="font-serif text-lg font-bold mb-2 line-clamp-2" style={{ color: BRAND.heading }}>{r.title}</h3>
+                    {r.excerpt && <p className="text-sm line-clamp-2" style={{ color: BRAND.navLink }}>{r.excerpt}</p>}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </Section>
+      )}
+
       <PageCTABanner />
     </PageLayout>
   )
