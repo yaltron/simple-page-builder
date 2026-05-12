@@ -81,7 +81,12 @@ export function Navbar() {
   const [callOpen, setCallOpen] = useState(false)
   const [logoFailed, setLogoFailed] = useState(false)
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
-  const [bookForm, setBookForm] = useState({ name: "", phone: "" })
+  const [bookForm, setBookForm] = useState({
+    full_name: "", phone: "", email: "",
+    preferred_date: "", preferred_time: "",
+    service: "", message: "",
+  })
+  const [bookSubmitting, setBookSubmitting] = useState(false)
 
   const bookRef = useRef<HTMLDivElement>(null)
   const callRef = useRef<HTMLDivElement>(null)
