@@ -10,6 +10,7 @@ import type { ReactNode } from "react";
 import { FloatingButtons } from "@/components/floating-buttons";
 import { CustomCursor } from "@/components/custom-cursor";
 import ScrollToTop from "@/components/scroll-to-top";
+import { PopupBanner } from "@/components/popup-banner";
 import { Toaster } from "sonner";
 import appCss from "@/styles.css?url";
 
