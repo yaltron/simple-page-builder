@@ -73,6 +73,19 @@ export const Route = createRootRoute({
   }),
   shellComponent: RootDocument,
   notFoundComponent: () => <NotFoundPage />,
+  errorComponent: ({ error }: { error: Error }) => (
+    <div className="min-h-screen flex items-center justify-center p-6" style={{ background: "#FFF1F7" }}>
+      <div className="max-w-md text-center space-y-3">
+        <h1 className="font-serif text-2xl font-bold" style={{ color: "#C2185B" }}>
+          Something went wrong
+        </h1>
+        <p className="text-sm" style={{ color: "#7A2050" }}>{error?.message || "Unexpected error"}</p>
+        <a href="/" className="inline-block mt-2 px-5 py-2 rounded-full text-white font-bold" style={{ background: "#E6007E" }}>
+          Go home
+        </a>
+      </div>
+    </div>
+  ),
 });
 
 function RootDocument({ children }: { children: ReactNode }) {

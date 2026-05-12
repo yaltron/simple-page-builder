@@ -18,28 +18,45 @@ export const Route = createFileRoute("/admin/settings/")({
 const KEYS = ["announcement_bar", "analytics", "cookie_consent", "patient_portal"] as const
 type Key = typeof KEYS[number]
 
+const DEFAULTS: Record<Key, any> = {
+  announcement_bar: { is_active: false, message: "", link_text: "", link_url: "", background_color: "#E6007E", text_color: "#FFFFFF" },
+  analytics: { ga4_id: "", tawk_property_id: "", tawk_widget_id: "" },
+  cookie_consent: { is_active: false, message: "", policy_url: "" },
+  patient_portal: { is_active: false, title: "", description: "", cta_text: "Notify Me" },
+}
+
 function AdminSettingsPage() {
   const { loading, isAdmin } = useAdminAuth()
-  const [data, setData] = useState<Record<Key, any>>({} as any)
+  const [data, setData] = useState<Record<Key, any>>(() => ({ ...DEFAULTS }))
   const [saving, setSaving] = useState<Key | null>(null)
 
   useEffect(() => {
     if (!isAdmin) return
     ;(async () => {
-      const { data: rows } = await supabase.from("site_settings").select("key,value").in("key", KEYS as any)
-      const d: any = {}
-      for (const r of rows || []) d[r.key] = r.value
-      setData(d)
+      try {
+        const { data: rows } = await supabase.from("site_settings").select("key,value").in("key", KEYS as any)
+        const merged: any = { ...DEFAULTS }
+        for (const r of rows || []) {
+          const v = r?.value
+          if (v && typeof v === "object" && !Array.isArray(v)) {
+            merged[r.key] = { ...DEFAULTS[r.key as Key], ...(v as any) }
+          }
+        }
+        setData(merged)
+      } catch (e: any) {
+        toast.error(e?.message || "Failed to load settings")
+      }
     })()
   }, [isAdmin])
 
   if (loading || !isAdmin) return <AdminLoading />
 
-  const update = (key: Key, patch: any) => setData((p) => ({ ...p, [key]: { ...(p[key] || {}), ...patch } }))
+  const update = (key: Key, patch: any) => setData((p) => ({ ...p, [key]: { ...(p[key] || DEFAULTS[key]), ...patch } }))
 
   const save = async (key: Key) => {
     setSaving(key)
-    const { error } = await supabase.from("site_settings").update({ value: data[key] || {} }).eq("key", key)
+    const value = { ...DEFAULTS[key], ...(data[key] || {}) }
+    const { error } = await supabase.from("site_settings").upsert({ key, value }, { onConflict: "key" })
     setSaving(null)
     if (error) toast.error(error.message); else toast.success("Saved")
   }
