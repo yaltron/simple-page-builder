@@ -1,6 +1,7 @@
 import { useRef, useState } from "react"
 import { motion, useInView } from "framer-motion"
 import { ArrowRight } from "lucide-react"
+import { Link } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
 import doctor1 from "@/assets/doctor-1.jpg"
 import doctor2 from "@/assets/doctor-2.jpg"
