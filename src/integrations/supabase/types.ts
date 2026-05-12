@@ -176,6 +176,39 @@ export type Database = {
         }
         Relationships: []
       }
+      faqs: {
+        Row: {
+          answer: string
+          category: string
+          created_at: string
+          id: string
+          is_active: boolean
+          order_index: number
+          question: string
+          updated_at: string
+        }
+        Insert: {
+          answer: string
+          category?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          order_index?: number
+          question: string
+          updated_at?: string
+        }
+        Update: {
+          answer?: string
+          category?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          order_index?: number
+          question?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       gallery_items: {
         Row: {
           caption: string | null
@@ -215,6 +248,63 @@ export type Database = {
           title?: string | null
           updated_at?: string
           url?: string
+        }
+        Relationships: []
+      }
+      popup_banners: {
+        Row: {
+          background_color: string | null
+          button_text: string | null
+          button_url: string | null
+          created_at: string
+          description: string | null
+          end_date: string | null
+          id: string
+          image_alt: string | null
+          image_url: string | null
+          is_active: boolean
+          show_after_seconds: number
+          show_on_pages: string[]
+          show_once_per_session: boolean
+          start_date: string | null
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          background_color?: string | null
+          button_text?: string | null
+          button_url?: string | null
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          image_alt?: string | null
+          image_url?: string | null
+          is_active?: boolean
+          show_after_seconds?: number
+          show_on_pages?: string[]
+          show_once_per_session?: boolean
+          start_date?: string | null
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          background_color?: string | null
+          button_text?: string | null
+          button_url?: string | null
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          image_alt?: string | null
+          image_url?: string | null
+          is_active?: boolean
+          show_after_seconds?: number
+          show_on_pages?: string[]
+          show_once_per_session?: boolean
+          start_date?: string | null
+          title?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
