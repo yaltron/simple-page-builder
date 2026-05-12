@@ -3,13 +3,13 @@ import { Facebook, Instagram, Youtube, MapPin, Phone, Mail, Clock } from "lucide
 import logo from "@/assets/logo.png"
 
 const quickLinks = [
-  { name: "About Us", href: "#about" },
-  { name: "Services", href: "#services" },
-  { name: "Our Team", href: "#team" },
-  { name: "Success Stories", href: "#testimonials" },
-  { name: "Blog", href: "#blog" },
-  { name: "Contact", href: "#contact" },
-]
+  { name: "About Us", to: "/about" },
+  { name: "Services", to: "/services" },
+  { name: "Our Team", to: "/team" },
+  { name: "Success Stories", to: "/success-stories" },
+  { name: "Blog", to: "/blog" },
+  { name: "Contact", to: "/contact" },
+] as const
 
 const services = [
   "IVF Treatment",
@@ -29,10 +29,10 @@ function TikTokIcon({ className }: { className?: string }) {
 }
 
 const socialLinks = [
-  { Icon: Facebook, href: "#", label: "Facebook" },
-  { Icon: Instagram, href: "#", label: "Instagram" },
-  { Icon: Youtube, href: "#", label: "YouTube" },
-  { Icon: TikTokIcon, href: "#", label: "TikTok" },
+  { Icon: Facebook, href: "https://facebook.com", label: "Facebook" },
+  { Icon: Instagram, href: "https://instagram.com", label: "Instagram" },
+  { Icon: Youtube, href: "https://youtube.com", label: "YouTube" },
+  { Icon: TikTokIcon, href: "https://tiktok.com", label: "TikTok" },
 ]
 
 const headingStyle: React.CSSProperties = {
