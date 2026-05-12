@@ -101,6 +101,8 @@ export function Hero() {
       </div>
 
     </section>
+    <VideoModal open={videoOpen} onClose={() => setVideoOpen(false)} title="Our Story" />
+    </>
   )
 }
 
