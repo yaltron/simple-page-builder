@@ -59,11 +59,11 @@ const linkStyle: React.CSSProperties = {
 }
 
 const contactItems = [
-  { Icon: MapPin, label: "Address", value: "Kathmandu, Nepal", href: undefined },
-  { Icon: Phone, label: "Phone", value: "+977 9861141699", href: "tel:+9779861141699" },
-  { Icon: Mail, label: "Email", value: "Shubhashreeivf@gmail.com", href: "mailto:Shubhashreeivf@gmail.com" },
-  { Icon: Clock, label: "Hours", value: "Sun–Fri: 8:00 AM – 6:00 PM", href: undefined },
-]
+  { Icon: MapPin, label: "Address", value: "Kathmandu, Nepal", href: "https://maps.google.com/?q=Kathmandu,Nepal", external: true },
+  { Icon: Phone, label: "Phone", value: "+977 9861141699", href: "tel:+9779861141699", external: false },
+  { Icon: Mail, label: "Email", value: "Shubhashreeivf@gmail.com", href: "mailto:Shubhashreeivf@gmail.com", external: false },
+  { Icon: Clock, label: "Hours", value: "Sun–Fri: 8:00 AM – 6:00 PM", href: undefined, external: false },
+] as const
 
 export function Footer() {
   return (
