@@ -311,10 +311,10 @@ export function Navbar() {
                         <div className="space-y-2">
                           {phones.map((p, i) => (
                             <div key={p.label} className="flex items-center justify-between gap-2">
-                              <div>
+                              <a href={`tel:${p.number.replace(/[^+\d]/g, "")}`} className="block">
                                 <div className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: COLORS.navLink }}>{p.label}</div>
                                 <div className="text-sm font-semibold" style={{ color: COLORS.plum }}>{p.number}</div>
-                              </div>
+                              </a>
                               <button
                                 onClick={() => copy(p.number, i)}
                                 className="p-2 rounded-lg transition-colors"
