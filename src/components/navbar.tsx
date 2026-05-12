@@ -47,12 +47,14 @@ function LotusIcon({ className }: { className?: string }) {
 
 export function Navbar() {
   const location = useLocation()
+  const navigate = useNavigate()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [bookOpen, setBookOpen] = useState(false)
   const [callOpen, setCallOpen] = useState(false)
   const [logoFailed, setLogoFailed] = useState(false)
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
+  const [bookForm, setBookForm] = useState({ name: "", phone: "" })
 
   const bookRef = useRef<HTMLDivElement>(null)
   const callRef = useRef<HTMLDivElement>(null)
