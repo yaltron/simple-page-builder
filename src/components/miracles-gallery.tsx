@@ -44,7 +44,9 @@ function useCountUp(target: number, duration: number, start: boolean) {
 export function MiraclesGallery() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
-  const count = useCountUp(5000, 2, isInView)
+  const m = useHomepageSection("miracles", DEFAULT_MIRACLES)
+  const count = useCountUp(Number(m.count) || 0, 2, isInView)
+  const isExternal = m.cta_url?.startsWith("http")
 
   return (
     <section
@@ -70,25 +72,30 @@ export function MiraclesGallery() {
             className="space-y-6 max-w-xl"
           >
             <div className="font-serif text-6xl lg:text-7xl font-bold text-rose">
-              {count.toLocaleString()}+
+              {count.toLocaleString()}{m.count_suffix || ""}
             </div>
             <h2 className="font-serif text-3xl lg:text-4xl font-bold text-plum">
-              Miracles & Counting
+              {m.heading}
             </h2>
             <p className="text-plum/70 leading-relaxed">
-              Every baby born at Shubhashree IVF is a miracle we celebrate.
-              These are the faces of hope, the smiles of joy, and the
-              beginning of beautiful family stories.
+              {m.description}
             </p>
             <Button
               asChild
               size="lg"
               className="bg-rose hover:bg-rose-dark text-white rounded-full px-8"
             >
-              <Link to="/success-stories">
-                Your Miracle Awaits
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
+              {isExternal ? (
+                <a href={m.cta_url}>
+                  {m.cta_text}
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </a>
+              ) : (
+                <Link to={m.cta_url || "/success-stories"}>
+                  {m.cta_text}
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              )}
             </Button>
           </motion.div>
 
