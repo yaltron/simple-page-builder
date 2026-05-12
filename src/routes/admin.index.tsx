@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { createFileRoute, Link } from "@tanstack/react-router"
-import { FileText, CheckCircle2, Clock, Image as ImgIcon } from "lucide-react"
+import { FileText, CheckCircle2, Clock, Image as ImgIcon, CalendarCheck, CalendarDays, CalendarRange } from "lucide-react"
 import { AdminShell, AdminLoading } from "@/components/admin/admin-shell"
 import { useAdminAuth } from "@/lib/use-admin-auth"
 import { supabase } from "@/integrations/supabase/client"
@@ -12,7 +12,9 @@ export const Route = createFileRoute("/admin/")({
 function AdminDashboardPage() {
   const { loading, isAdmin } = useAdminAuth()
   const [stats, setStats] = useState({ total: 0, published: 0, drafts: 0 })
+  const [appts, setAppts] = useState({ newCount: 0, today: 0, week: 0 })
   const [recent, setRecent] = useState<any[]>([])
+  const [recentAppts, setRecentAppts] = useState<any[]>([])
 
   useEffect(() => {
     if (!isAdmin) return
@@ -25,6 +27,18 @@ function AdminDashboardPage() {
         drafts: list.filter((b) => b.status === "draft").length,
       })
       setRecent(list.slice(0, 5))
+
+      const today = new Date(); today.setHours(0,0,0,0)
+      const todayStr = today.toISOString().slice(0,10)
+      const weekAgo = new Date(today); weekAgo.setDate(weekAgo.getDate() - 7)
+      const [{ count: newCount }, { count: todayCount }, { count: weekCount }, { data: latestAppts }] = await Promise.all([
+        supabase.from("appointments").select("id", { count: "exact", head: true }).eq("status", "new"),
+        supabase.from("appointments").select("id", { count: "exact", head: true }).eq("preferred_date", todayStr),
+        supabase.from("appointments").select("id", { count: "exact", head: true }).gte("created_at", weekAgo.toISOString()),
+        supabase.from("appointments").select("id,full_name,phone,preferred_date,preferred_time,status,created_at").order("created_at", { ascending: false }).limit(5),
+      ])
+      setAppts({ newCount: newCount || 0, today: todayCount || 0, week: weekCount || 0 })
+      setRecentAppts(latestAppts || [])
     })()
   }, [isAdmin])
 
