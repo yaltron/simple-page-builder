@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react"
 import { createPortal } from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { Phone, Menu, X, Calendar, ChevronDown, Copy, Check, Hospital, Video } from "lucide-react"
-import { Link } from "@tanstack/react-router"
+import { Link, useLocation } from "@tanstack/react-router"
 import logo from "@/assets/logo.png"
 
 const COLORS = {
@@ -16,14 +16,14 @@ const COLORS = {
 }
 
 const navLinks = [
-  { name: "About Us", href: "#about" },
-  { name: "Services", href: "#services" },
-  { name: "Our Team", href: "#team" },
-  { name: "Success Stories", href: "#testimonials" },
-  { name: "Blogs and News", href: "#blog" },
-  { name: "Gallery", href: "#gallery" },
-  { name: "Contact Us", href: "#contact" },
-]
+  { name: "About Us", to: "/about" },
+  { name: "Services", to: "/services" },
+  { name: "Our Team", to: "/team" },
+  { name: "Success Stories", to: "/success-stories" },
+  { name: "Blogs and News", to: "/blog" },
+  { name: "Gallery", to: "/gallery" },
+  { name: "Contact Us", to: "/contact" },
+] as const
 
 const phones = [
   { label: "Reception", number: "+977-01-1234567" },
