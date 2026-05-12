@@ -159,11 +159,36 @@ export function Navbar() {
     setTimeout(() => setCopiedIdx(null), 1500)
   }
 
-  const submitBooking = (e: React.FormEvent) => {
+  const submitBooking = async (e: React.FormEvent) => {
     e.preventDefault()
-    toast.success("Thank you! We will contact you shortly.")
-    setBookForm({ name: "", phone: "" })
-    setBookOpen(false)
+    if (bookSubmitting) return
+    // Disallow Sundays
+    if (bookForm.preferred_date) {
+      const d = new Date(bookForm.preferred_date + "T00:00:00")
+      if (d.getDay() === 0) {
+        toast.error("Clinic is closed on Sundays. Please pick another date.")
+        return
+      }
+    }
+    setBookSubmitting(true)
+    const { error } = await supabase.from("appointments").insert({
+      full_name: bookForm.full_name.trim(),
+      phone: bookForm.phone.trim(),
+      email: bookForm.email.trim() || null,
+      preferred_date: bookForm.preferred_date,
+      preferred_time: bookForm.preferred_time,
+      service: bookForm.service || null,
+      consultation_type: "In-Clinic",
+      message: bookForm.message.trim() || null,
+    })
+    setBookSubmitting(false)
+    if (error) {
+      toast.error("Could not submit. Please try again.")
+      return
+    }
+    toast.success("Appointment requested! We will confirm via phone within 24 hours.")
+    setBookForm({ full_name: "", phone: "", email: "", preferred_date: "", preferred_time: "", service: "", message: "" })
+    setTimeout(() => setBookOpen(false), 2000)
   }
 
   const row1Height = isScrolled ? 54 : 68
