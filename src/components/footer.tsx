@@ -129,8 +129,8 @@ export function Footer() {
             <ul>
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.to}
                     style={linkStyle}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = "#E6007E"
@@ -142,7 +142,7 @@ export function Footer() {
                     }}
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -154,8 +154,8 @@ export function Footer() {
             <ul>
               {services.map((service) => (
                 <li key={service}>
-                  <a
-                    href="#services"
+                  <Link
+                    to="/services"
                     style={linkStyle}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = "#E6007E"
@@ -167,7 +167,7 @@ export function Footer() {
                     }}
                   >
                     {service}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
