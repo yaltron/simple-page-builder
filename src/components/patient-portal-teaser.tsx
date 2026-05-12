@@ -2,21 +2,28 @@ import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { Lock } from "lucide-react"
 import { toast } from "sonner"
-import { supabase } from "@/integrations/supabase/client"
 import { Section, BRAND } from "@/components/page-layout"
+import { fetchSettings } from "@/lib/site-settings"
 
-type Cfg = { is_active?: boolean; title?: string; description?: string; cta_text?: string }
+type Cfg = { is_active: boolean; title: string; description: string; cta_text: string }
+const DEFAULTS: Cfg = {
+  is_active: false,
+  title: "Patient Portal — Coming Soon",
+  description: "Access your reports, appointments and treatment journey securely online.",
+  cta_text: "Notify Me",
+}
 
 export function PatientPortalTeaser() {
   const [cfg, setCfg] = useState<Cfg | null>(null)
   const [email, setEmail] = useState("")
 
   useEffect(() => {
-    ;(async () => {
-      const { data } = await supabase.from("site_settings").select("value").eq("key", "patient_portal").maybeSingle()
-      const v = (data?.value || {}) as Cfg
+    let cancelled = false
+    fetchSettings<Cfg>("patient_portal", DEFAULTS).then((v) => {
+      if (cancelled) return
       if (v.is_active) setCfg(v)
-    })()
+    }).catch(() => {})
+    return () => { cancelled = true }
   }, [])
 
   if (!cfg) return null

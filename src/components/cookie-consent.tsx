@@ -1,24 +1,28 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { supabase } from "@/integrations/supabase/client"
+import { fetchSettings } from "@/lib/site-settings"
 
-type Cfg = { is_active?: boolean; message?: string; policy_url?: string }
+type Cfg = { is_active: boolean; message: string; policy_url: string }
+const DEFAULTS: Cfg = { is_active: false, message: "", policy_url: "" }
 
 export function CookieConsent() {
   const [cfg, setCfg] = useState<Cfg | null>(null)
   const [show, setShow] = useState(false)
 
   useEffect(() => {
-    if (localStorage.getItem("cookie_consent") === "accepted") return
-    ;(async () => {
-      const { data } = await supabase.from("site_settings").select("value").eq("key", "cookie_consent").maybeSingle()
-      const v = (data?.value || {}) as Cfg
-      if (v.is_active) { setCfg(v); setShow(true) }
-    })()
+    try {
+      if (typeof localStorage !== "undefined" && localStorage.getItem("cookie_consent") === "accepted") return
+    } catch { return }
+    let cancelled = false
+    fetchSettings<Cfg>("cookie_consent", DEFAULTS).then((v) => {
+      if (cancelled) return
+      if (v.is_active && v.message) { setCfg(v); setShow(true) }
+    }).catch(() => {})
+    return () => { cancelled = true }
   }, [])
 
   const accept = () => {
-    localStorage.setItem("cookie_consent", "accepted")
+    try { localStorage.setItem("cookie_consent", "accepted") } catch {}
     setShow(false)
   }
 

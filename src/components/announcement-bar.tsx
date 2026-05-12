@@ -1,14 +1,23 @@
 import { useEffect, useState } from "react"
 import { X } from "lucide-react"
-import { supabase } from "@/integrations/supabase/client"
+import { fetchSettings } from "@/lib/site-settings"
 
 type Cfg = {
-  is_active?: boolean
-  message?: string
-  link_text?: string
-  link_url?: string
-  background_color?: string
-  text_color?: string
+  is_active: boolean
+  message: string
+  link_text: string
+  link_url: string
+  background_color: string
+  text_color: string
+}
+
+const DEFAULTS: Cfg = {
+  is_active: false,
+  message: "",
+  link_text: "",
+  link_url: "",
+  background_color: "#E6007E",
+  text_color: "#FFFFFF",
 }
 
 export function AnnouncementBar() {
@@ -16,17 +25,22 @@ export function AnnouncementBar() {
   const [dismissed, setDismissed] = useState(false)
 
   useEffect(() => {
-    if (sessionStorage.getItem("ann_bar_dismissed") === "1") setDismissed(true)
-    ;(async () => {
-      const { data } = await supabase.from("site_settings").select("value").eq("key", "announcement_bar").maybeSingle()
-      if (data?.value) setCfg(data.value as Cfg)
-    })()
+    try {
+      if (typeof sessionStorage !== "undefined" && sessionStorage.getItem("ann_bar_dismissed") === "1") {
+        setDismissed(true)
+      }
+    } catch {}
+    let cancelled = false
+    fetchSettings<Cfg>("announcement_bar", DEFAULTS)
+      .then((v) => { if (!cancelled) setCfg(v) })
+      .catch(() => { if (!cancelled) setCfg(DEFAULTS) })
+    return () => { cancelled = true }
   }, [])
 
-  if (!cfg?.is_active || dismissed || !cfg.message) return null
+  if (!cfg || !cfg.is_active || dismissed || !cfg.message) return null
 
   const dismiss = () => {
-    sessionStorage.setItem("ann_bar_dismissed", "1")
+    try { sessionStorage.setItem("ann_bar_dismissed", "1") } catch {}
     setDismissed(true)
   }
 
