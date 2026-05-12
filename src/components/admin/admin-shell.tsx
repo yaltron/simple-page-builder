@@ -1,6 +1,5 @@
-import { ReactNode } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router"
-import { useEffect, useState } from "react"
 import { LayoutDashboard, FileText, LogOut, Hospital, Stethoscope, UserRound, Image as ImageIcon, MessageSquareQuote, CalendarCheck } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
