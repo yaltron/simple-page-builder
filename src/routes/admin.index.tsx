@@ -45,6 +45,9 @@ function AdminDashboardPage() {
   if (loading || !isAdmin) return <AdminLoading />
 
   const cards = [
+    { label: "New Appointments", value: appts.newCount, icon: CalendarCheck, accent: true },
+    { label: "Today's Appointments", value: appts.today, icon: CalendarDays, accent: true },
+    { label: "This Week", value: appts.week, icon: CalendarRange, accent: true },
     { label: "Total Posts", value: stats.total, icon: FileText },
     { label: "Published", value: stats.published, icon: CheckCircle2 },
     { label: "Drafts", value: stats.drafts, icon: Clock },
