@@ -1,10 +1,12 @@
 
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { Check, Play } from "lucide-react"
+import { Link } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
 import { FloatingDecoField } from "@/components/floating-deco"
+import { VideoModal } from "@/components/video-modal"
 import visitCare from "@/assets/visit-care.jpg"
 import visitConsult from "@/assets/hero-consultation.jpg"
 import visitHope from "@/assets/visit-hope.jpg"
