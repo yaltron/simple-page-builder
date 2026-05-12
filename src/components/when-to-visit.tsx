@@ -24,6 +24,7 @@ const reasons = [
 export function WhenToVisit() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const [videoOpen, setVideoOpen] = useState(false)
 
   return (
     <section ref={ref} className="pt-20 lg:pt-32 pb-10 overflow-hidden relative">
