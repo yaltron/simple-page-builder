@@ -6,15 +6,14 @@ export function CTABanner() {
   return (
     <section
       id="contact"
-      className="py-20 lg:py-24 relative overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #E6007E 0%, #B5005F 100%)" }}
+      className="py-20 lg:py-24 bg-gradient-to-br from-rose-light/40 via-cream to-gold-light/40 relative overflow-hidden"
     >
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="space-y-6">
-          <h2 className="font-serif text-3xl lg:text-5xl font-bold text-white text-balance">
+          <h2 className="font-serif text-3xl lg:text-5xl font-bold text-foreground text-balance">
             Ready to Start Your Journey to Parenthood?
           </h2>
-          <p className="text-white/90 text-lg max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Take the first step towards building your family. Our compassionate team
             is here to guide you through every step of your fertility journey.
           </p>
