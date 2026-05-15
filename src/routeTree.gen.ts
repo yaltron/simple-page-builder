@@ -16,6 +16,7 @@ import { Route as ServicesRouteImport } from './routes/services'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CareersRouteImport } from './routes/careers'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -29,6 +30,7 @@ import { Route as AdminHomepageIndexRouteImport } from './routes/admin.homepage.
 import { Route as AdminGalleryIndexRouteImport } from './routes/admin.gallery.index'
 import { Route as AdminFaqsIndexRouteImport } from './routes/admin.faqs.index'
 import { Route as AdminDoctorsIndexRouteImport } from './routes/admin.doctors.index'
+import { Route as AdminCareersIndexRouteImport } from './routes/admin.careers.index'
 import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
 import { Route as AdminAppointmentsIndexRouteImport } from './routes/admin.appointments.index'
 import { Route as AdminBlogIdRouteImport } from './routes/admin.blog.$id'
@@ -66,6 +68,11 @@ const FaqsRoute = FaqsRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogRoute = BlogRouteImport.update({
@@ -133,6 +140,11 @@ const AdminDoctorsIndexRoute = AdminDoctorsIndexRouteImport.update({
   path: '/admin/doctors/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCareersIndexRoute = AdminCareersIndexRouteImport.update({
+  id: '/admin/careers/',
+  path: '/admin/careers/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminBlogIndexRoute = AdminBlogIndexRouteImport.update({
   id: '/admin/blog/',
   path: '/admin/blog/',
@@ -153,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
+  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/gallery': typeof GalleryRoute
@@ -166,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/admin/blog/$id': typeof AdminBlogIdRoute
   '/admin/appointments/': typeof AdminAppointmentsIndexRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
+  '/admin/careers/': typeof AdminCareersIndexRoute
   '/admin/doctors/': typeof AdminDoctorsIndexRoute
   '/admin/faqs/': typeof AdminFaqsIndexRoute
   '/admin/gallery/': typeof AdminGalleryIndexRoute
@@ -178,6 +192,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
+  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/gallery': typeof GalleryRoute
@@ -191,6 +206,7 @@ export interface FileRoutesByTo {
   '/admin/blog/$id': typeof AdminBlogIdRoute
   '/admin/appointments': typeof AdminAppointmentsIndexRoute
   '/admin/blog': typeof AdminBlogIndexRoute
+  '/admin/careers': typeof AdminCareersIndexRoute
   '/admin/doctors': typeof AdminDoctorsIndexRoute
   '/admin/faqs': typeof AdminFaqsIndexRoute
   '/admin/gallery': typeof AdminGalleryIndexRoute
@@ -204,6 +220,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
+  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/gallery': typeof GalleryRoute
@@ -217,6 +234,7 @@ export interface FileRoutesById {
   '/admin/blog/$id': typeof AdminBlogIdRoute
   '/admin/appointments/': typeof AdminAppointmentsIndexRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
+  '/admin/careers/': typeof AdminCareersIndexRoute
   '/admin/doctors/': typeof AdminDoctorsIndexRoute
   '/admin/faqs/': typeof AdminFaqsIndexRoute
   '/admin/gallery/': typeof AdminGalleryIndexRoute
@@ -231,6 +249,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/blog'
+    | '/careers'
     | '/contact'
     | '/faqs'
     | '/gallery'
@@ -244,6 +263,7 @@ export interface FileRouteTypes {
     | '/admin/blog/$id'
     | '/admin/appointments/'
     | '/admin/blog/'
+    | '/admin/careers/'
     | '/admin/doctors/'
     | '/admin/faqs/'
     | '/admin/gallery/'
@@ -256,6 +276,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/blog'
+    | '/careers'
     | '/contact'
     | '/faqs'
     | '/gallery'
@@ -269,6 +290,7 @@ export interface FileRouteTypes {
     | '/admin/blog/$id'
     | '/admin/appointments'
     | '/admin/blog'
+    | '/admin/careers'
     | '/admin/doctors'
     | '/admin/faqs'
     | '/admin/gallery'
@@ -281,6 +303,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/blog'
+    | '/careers'
     | '/contact'
     | '/faqs'
     | '/gallery'
@@ -294,6 +317,7 @@ export interface FileRouteTypes {
     | '/admin/blog/$id'
     | '/admin/appointments/'
     | '/admin/blog/'
+    | '/admin/careers/'
     | '/admin/doctors/'
     | '/admin/faqs/'
     | '/admin/gallery/'
@@ -307,6 +331,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   BlogRoute: typeof BlogRouteWithChildren
+  CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
   FaqsRoute: typeof FaqsRoute
   GalleryRoute: typeof GalleryRoute
@@ -319,6 +344,7 @@ export interface RootRouteChildren {
   AdminBlogIdRoute: typeof AdminBlogIdRoute
   AdminAppointmentsIndexRoute: typeof AdminAppointmentsIndexRoute
   AdminBlogIndexRoute: typeof AdminBlogIndexRoute
+  AdminCareersIndexRoute: typeof AdminCareersIndexRoute
   AdminDoctorsIndexRoute: typeof AdminDoctorsIndexRoute
   AdminFaqsIndexRoute: typeof AdminFaqsIndexRoute
   AdminGalleryIndexRoute: typeof AdminGalleryIndexRoute
@@ -377,6 +403,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog': {
@@ -470,6 +503,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDoctorsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/careers/': {
+      id: '/admin/careers/'
+      path: '/admin/careers'
+      fullPath: '/admin/careers/'
+      preLoaderRoute: typeof AdminCareersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/blog/': {
       id: '/admin/blog/'
       path: '/admin/blog'
@@ -508,6 +548,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   BlogRoute: BlogRouteWithChildren,
+  CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
   FaqsRoute: FaqsRoute,
   GalleryRoute: GalleryRoute,
@@ -520,6 +561,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminBlogIdRoute: AdminBlogIdRoute,
   AdminAppointmentsIndexRoute: AdminAppointmentsIndexRoute,
   AdminBlogIndexRoute: AdminBlogIndexRoute,
+  AdminCareersIndexRoute: AdminCareersIndexRoute,
   AdminDoctorsIndexRoute: AdminDoctorsIndexRoute,
   AdminFaqsIndexRoute: AdminFaqsIndexRoute,
   AdminGalleryIndexRoute: AdminGalleryIndexRoute,
