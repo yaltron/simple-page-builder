@@ -9,6 +9,7 @@ const quickLinks = [
   { name: "Success Stories", to: "/success-stories" },
   { name: "Blog", to: "/blog" },
   { name: "FAQs", to: "/faqs" },
+  { name: "Careers", to: "/careers" },
   { name: "Contact", to: "/contact" },
 ] as const
 
@@ -39,7 +40,7 @@ const socialLinks = [
 const headingStyle: React.CSSProperties = {
   fontWeight: 700,
   fontSize: 15,
-  color: "#2D0A1E",
+  color: "#8B0F50",
   position: "relative",
   paddingBottom: 10,
   marginBottom: 20,
@@ -73,8 +74,6 @@ export function Footer() {
       <div
         style={{
           background: "#FFF1F7",
-          borderTop: "2.5px solid transparent",
-          borderImage: "linear-gradient(90deg, #E6007E 0%, #9B26AF 50%, #6A0DAD 100%) 1",
           padding: "60px 8%",
         }}
       >
@@ -85,7 +84,7 @@ export function Footer() {
               <img
                 src={logo}
                 alt="Shubhashree IVF Clinic Pvt. Ltd."
-                style={{ width: 160, height: "auto" }}
+                style={{ width: 200, height: "auto" }}
               />
             </Link>
             <p style={{ color: "#7A2050", fontSize: 14, lineHeight: 1.7 }}>
@@ -207,7 +206,7 @@ export function Footer() {
                     <Icon size={13} />
                   </span>
                   <div>
-                    <div style={{ fontWeight: 700, color: "#2D0A1E", fontSize: 13 }}>{label}</div>
+                    <div style={{ fontWeight: 700, color: "#8B0F50", fontSize: 13 }}>{label}</div>
                     {href ? (
                       <a
                         href={href}

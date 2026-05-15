@@ -11,7 +11,7 @@ export const Route = createFileRoute("/admin/homepage/")({
   component: AdminHomepagePage,
 })
 
-type Tab = "hero" | "miracles" | "about"
+type Tab = "hero" | "about"
 
 function AdminHomepagePage() {
   const { loading, isAdmin } = useAdminAuth()
@@ -24,7 +24,6 @@ function AdminHomepagePage() {
       <div className="flex gap-1 mb-5 border-b">
         {[
           { k: "hero", l: "Hero" },
-          { k: "miracles", l: "Miracles" },
           { k: "about", l: "About" },
         ].map((t) => (
           <button
@@ -42,7 +41,6 @@ function AdminHomepagePage() {
       </div>
 
       {tab === "hero" && <HeroEditor />}
-      {tab === "miracles" && <MiraclesEditor />}
       {tab === "about" && <AboutEditor />}
     </AdminShell>
   )

@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react"
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router"
-import { LayoutDashboard, FileText, LogOut, Hospital, Stethoscope, UserRound, Image as ImageIcon, MessageSquareQuote, CalendarCheck, HelpCircle, Megaphone, Home } from "lucide-react"
+import { LayoutDashboard, FileText, LogOut, Hospital, Stethoscope, UserRound, Image as ImageIcon, MessageSquareQuote, CalendarCheck, HelpCircle, Megaphone, Home, Briefcase } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
 
@@ -15,6 +15,7 @@ const navItems = [
   { to: "/admin/gallery", label: "Gallery", icon: ImageIcon },
   { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
   { to: "/admin/popup", label: "Popup Banners", icon: Megaphone },
+  { to: "/admin/careers", label: "Careers", icon: Briefcase },
 ]
 
 export function AdminShell({ title, breadcrumb, children }: { title: string; breadcrumb?: string; children: ReactNode }) {

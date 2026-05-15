@@ -105,7 +105,7 @@ export function PageCTABanner({
             className="px-7 py-3 rounded-full font-bold transition-transform hover:scale-105"
             style={{ background: "white", color: BRAND.pink }}
           >
-            Book Free Consultation
+            Book Consultation
           </Link>
           <a
             href="tel:+9779861141699"

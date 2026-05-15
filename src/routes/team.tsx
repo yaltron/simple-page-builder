@@ -34,7 +34,7 @@ function TeamPage() {
     <PageLayout title="Our Team" breadcrumb="Our Team">
       <Section bg="white">
         <SectionHeading>Meet Our Specialists</SectionHeading>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {doctors.map((d, i) => (
             <motion.div
               key={d.id}
@@ -53,13 +53,13 @@ function TeamPage() {
               <div className="aspect-[4/5] overflow-hidden bg-gray-100">
                 {d.image && <img src={d.image} alt={d.name} className="w-full h-full object-cover" />}
               </div>
-              <div className="p-6">
-                <h3 className="font-serif text-xl font-bold mb-1" style={{ color: BRAND.heading }}>{d.name}</h3>
-                {d.title && <p className="text-sm font-semibold mb-2" style={{ color: BRAND.pink }}>{d.title}</p>}
-                {d.qualifications && <p className="text-sm mb-1" style={{ color: BRAND.navLink }}>{d.qualifications}</p>}
-                {d.experience_years ? <p className="text-xs font-semibold mb-4" style={{ color: BRAND.plum }}>{d.experience_years}+ Years of experience</p> : <div className="mb-4" />}
-                <Link to="/contact" className="w-full py-2.5 text-white text-sm font-bold rounded-full inline-flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]" style={{ background: `linear-gradient(90deg, ${BRAND.pink}, ${BRAND.pinkDark})` }}>
-                  <Calendar className="w-4 h-4" /> Book Consultation
+              <div className="p-4">
+                <h3 className="font-serif text-base font-bold mb-1" style={{ color: BRAND.heading }}>{d.name}</h3>
+                {d.title && <p className="text-xs font-semibold mb-1" style={{ color: BRAND.pink }}>{d.title}</p>}
+                {d.qualifications && <p className="text-xs mb-1" style={{ color: BRAND.navLink }}>{d.qualifications}</p>}
+                {d.experience_years ? <p className="text-[11px] font-semibold mb-3" style={{ color: BRAND.plum }}>{d.experience_years}+ Years</p> : <div className="mb-3" />}
+                <Link to="/contact" className="w-full py-2 text-white text-xs font-bold rounded-full inline-flex items-center justify-center gap-1.5 transition-transform hover:scale-[1.02]" style={{ background: `linear-gradient(90deg, ${BRAND.pink}, ${BRAND.pinkDark})` }}>
+                  <Calendar className="w-3.5 h-3.5" /> Book
                 </Link>
               </div>
             </motion.div>
