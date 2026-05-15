@@ -152,6 +152,104 @@ export type Database = {
         }
         Relationships: []
       }
+      career_applications: {
+        Row: {
+          career_id: string | null
+          cover_letter: string | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          phone: string
+          portfolio_url: string | null
+          position: string
+          resume_url: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          career_id?: string | null
+          cover_letter?: string | null
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          phone: string
+          portfolio_url?: string | null
+          position: string
+          resume_url?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          career_id?: string | null
+          cover_letter?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string
+          portfolio_url?: string | null
+          position?: string
+          resume_url?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "career_applications_career_id_fkey"
+            columns: ["career_id"]
+            isOneToOne: false
+            referencedRelation: "career_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      career_listings: {
+        Row: {
+          created_at: string
+          deadline: string | null
+          department: string | null
+          description: string | null
+          experience: string | null
+          id: string
+          is_active: boolean
+          location: string | null
+          requirements: string | null
+          title: string
+          type: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deadline?: string | null
+          department?: string | null
+          description?: string | null
+          experience?: string | null
+          id?: string
+          is_active?: boolean
+          location?: string | null
+          requirements?: string | null
+          title: string
+          type?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deadline?: string | null
+          department?: string | null
+          description?: string | null
+          experience?: string | null
+          id?: string
+          is_active?: boolean
+          location?: string | null
+          requirements?: string | null
+          title?: string
+          type?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       doctors: {
         Row: {
           bio: string | null
@@ -243,6 +341,7 @@ export type Database = {
           title: string | null
           updated_at: string
           url: string
+          video_url: string | null
         }
         Insert: {
           caption?: string | null
@@ -256,6 +355,7 @@ export type Database = {
           title?: string | null
           updated_at?: string
           url: string
+          video_url?: string | null
         }
         Update: {
           caption?: string | null
@@ -269,6 +369,7 @@ export type Database = {
           title?: string | null
           updated_at?: string
           url?: string
+          video_url?: string | null
         }
         Relationships: []
       }

@@ -1,111 +1,77 @@
-## Overview
+# Plan — 22 changes
 
-This is a large scope. I'll deliver it in **4 sequential chunks** so each one stays reviewable and we don't ship 5,000 lines in one untested blob. After each chunk you confirm it works, then I move to the next.
+I'll apply each change exactly as specified, touching only the files listed.
 
-All existing design, fonts, colors, navbar, footer, and Supabase setup stay untouched.
+## Quick fixes (frontend only)
 
----
+1. **Service field optional** — `src/components/navbar.tsx`: remove `required` from the Service select in the appointment dropdown.
+2. **Genetic Testing card color** — `src/components/services.tsx`: replace per-index gradient cycling with a fixed map so the "Genetic Testing (PGT)" card uses `linear-gradient(135deg, #FFF1F7 0%, #fcd4e8 100%)` (same as Embryo Freezing).
+3. **Doctors heading** — `src/components/doctors-carousel.tsx` and `src/routes/team.tsx`: update heading text to "Experienced IVF Specialists Providing Compassionate Fertility Care".
+4. **Remove Miracles section** — delete `src/components/miracles-gallery.tsx` and remove its import/usage from `src/routes/index.tsx`. Also remove the Miracles tab from `src/routes/admin.homepage.index.tsx` (per "delete the component"). Hook in `use-cms-content.ts` left in place (harmless).
+5. **Remove stats from Success Stories** — `src/routes/success-stories.tsx`: delete the 5,000+ Happy Families stats block.
+6. **Team page 4 cols** — `src/routes/team.tsx`: grid `repeat(4, 1fr)`, photo 180px, padding 16px, name 16px, specialty 12px.
+7. **Clickable How It Works steps** — `src/components/process-steps.tsx`: wrap each step in `<Link>` with mapped routes, add hover "Visit page →" link in #E6007E with opacity 0→1.
+8. **Logo sizes** — navbar logo width 180px, footer logo width 200px.
+9. **Call Us button color** — `src/components/navbar.tsx`: bg #E6007E, hover #C4006A.
+10. **Confirm Appointment button** — `src/components/navbar.tsx`: bg #B5005F, hover #8C0049.
+11. **Footer heading color** — `src/components/footer.tsx`: change `headingStyle.color` to `#8B0F50`.
 
-## CHUNK A — Popup Banners + FAQs (Parts 2 & 4)
+14+15. **Hero/CTA buttons** — `src/components/hero.tsx` and `src/components/cta-banner.tsx`: strip motion entrance animations on the four buttons (replace `motion.div` wrapper with plain div / drop initial+animate); add `transition-transform duration-[250ms] hover:scale-[1.03] hover:shadow-lg`. Rename "Book Free Consultation" → "Book Consultation" everywhere it appears.
+16. **Remove gradient lines** — `src/components/navbar.tsx` (bottom border of row 2) and `src/components/footer.tsx` (top border-image): remove `borderImage` + border declarations.
+17. **Quote text** — `src/components/who-we-are.tsx`: replace italic quote text.
+18. **Hide WhatsApp on /admin** — `src/components/floating-buttons.tsx`: read `useLocation().pathname`, return null if it starts with `/admin`.
+20. **Unified CTA banner bg** — `src/components/cta-banner.tsx` and `src/components/page-layout.tsx` (PageCTABanner): replace background with `linear-gradient(135deg, #E6007E 0%, #B5005F 100%)`. Remove the rose/cream/gold gradient + MorphingBlobs (or recolor blobs to white-low-opacity to keep depth — confirm if you want them gone).
+21. **Remove "We'll respond within 24 hours"** — `src/routes/contact.tsx` (will be removed via Change 22 anyway, but safe in interim).
+22. **Contact page redesign** — `src/routes/contact.tsx`: Do NOT remove the current "Get In Touch" section layout or design on the contact page. Keep the contact page EXACTLY as it is — same layout, same left/right split, same right side cards, same map, same CTA banner, everything. ONLY replace the form fields on the LEFT side with the Book Appointment form fields from the navbar dropdown. Replace current form fields with: - Full Name (required) - Phone (required) - Email (optional) - Preferred Date (date picker, min: tomorrow, max: 3 months ahead, Sundays disabled) - Preferred Time (select dropdown: Morning 8am-11am | Afternoon 11am-2pm | Evening 2pm-5pm) - Service Interested In (optional select: IVF Treatment | ICSI Procedure | Embryo Freezing | Genetic Testing (PGT) | Donor Egg Programme | Infertility Diagnosis | General Consultation | Other) - Message (textarea, optional) Submit button: Text: "Confirm" Background: #B5005F Hover: #8C0049 Full width, pill shape, white text On submit: Insert into appointments table Show success message: "Thank you! Your appointment request has been received. We will confirm via phone within 24 hours." Clear the form Keep everything else on the contact page exactly as it currently is: - Same section heading style - Same left panel layout and width - Same right side contact info cards - Same map section - Same CTA banner - Same page hero banner - Same background colors - Same spacing and padding Do not change any other page or any other part of the contact page.
 
-Two self-contained features that reuse existing patterns (TipTap + admin shell + storage).
+## CMS / data changes
 
-### Database
-- `popup_banners` table — exactly the schema you specified. Validation trigger ensures only one row has `is_active = true` (toggling activates it and deactivates others atomically). End-date auto-deactivation handled at read time on the frontend (cheap and reliable).
-- `faqs` table — id, question, answer (HTML from TipTap), category, order_index, is_active, timestamps.
-- RLS: public SELECT for active rows; admin full access.
-- Reuse existing `site-media` storage bucket for popup images.
+12. **FAQ categories** — add Gynecology, Fertility, Radiology to:
+  - `src/routes/faqs.tsx` filter pills list
+  - `src/routes/admin.faqs.index.tsx` category dropdown
+   No DB change needed (category is free text).
+13. **Gallery photo/video** — migration: add `media_type text default 'photo'`, `video_url text` to `gallery_items` (already has `thumbnail`).
+  - `src/routes/admin.gallery.index.tsx`: add Media Type toggle, Video URL field, thumbnail upload when video.
+  - `src/routes/gallery.tsx`: render thumbnail with centered white play button overlay for videos; clicking opens modal with embedded YouTube/Vimeo iframe or HTML5 `<video>` (reuse `video-modal.tsx` pattern, extend to accept mp4).
 
-### Frontend
-- `<PopupBanner />` mounted in root layout. Reads active banner, checks `show_on_pages` against current path, respects `show_after_seconds`, sessionStorage de-dupe, framer-motion spring animation matching your spec, closes on ✕/overlay/Escape.
-- `/faqs` route — category pill filter, accordion list (existing FAQ component animation reused), JSON-LD FAQPage schema in `head()`, full SEO meta. Footer Quick Links gets an "FAQs" entry.
+## Change 6 — Careers system (largest piece)
 
-### Admin
-- `/admin/popup` — list + create/edit form (image upload, page multiselect, dates, color picker, show-after seconds, once-per-session toggle), live preview button, active badge. Toggling active deactivates others.
-- `/admin/faqs` — list with drag-to-reorder (dnd-kit), inline status toggle, bulk-select delete. Edit form uses the existing TipTap editor with a stripped toolbar (Bold, Italic, Lists, Link only).
-- Both added to admin sidebar.
+**Migration** (`supabase/migrations/...careers.sql`):
 
----
+- Create `career_listings` and `career_applications` tables with the columns specified.
+- Enable RLS:
+  - `career_listings`: public SELECT where `is_active = true`; admin all CRUD.
+  - `career_applications`: anyone INSERT; admin SELECT/UPDATE/DELETE.
+- Validation trigger for `career_applications.status` ∈ allowed set.
+- Create private storage bucket `resumes`. Policies: anon INSERT into `resumes` (size/type checked client-side); admin SELECT.
+- Add `updated_at` trigger reusing `touch_updated_at`.
 
-## CHUNK B — Homepage + About dynamic content (Parts 3 & 5)
+**Frontend route** `src/routes/careers.tsx`:
 
-### Database
-- `homepage_content` table — `(section text unique, content jsonb)`. Sections: `hero`, `miracles`. Same shape used for `about_content` (`story_images`, `mission_vision`, `values`).
-- Seed both tables with the current hardcoded copy/images so the site looks identical immediately after migration.
+- PageLayout with hero "Join Our Team" + breadcrumb.
+- Section 1: 3 "Why Work With Us" cards on `#FFF1F7`.
+- Section 2: fetch active listings (server fn) → cards with chips, Apply Now button. Empty state shows general application CTA.
+- Section 3: Application modal (Dialog) with form, drag-and-drop resume upload (5 MB cap, pdf/doc/docx) → upload to `resumes` bucket with random path → insert row.
+- Standard CTA banner at bottom.
 
-### Frontend
-- `Hero` reads from `homepage_content.hero` (headline, subheadline, CTA primary text+url, CTA secondary text, story video URL+thumbnail+alt). Existing markup/animation untouched.
-- New `<StoryVideoModal />` — centered lightbox, dark overlay, 16:9 iframe, autoplay, ✕/overlay/Escape close. Supports YouTube and Vimeo URLs (auto-converts to embed form).
-- `MiraclesGallery` reads number/heading/description/CTA from `homepage_content.miracles`.
-- About page collage, mission/vision, values — read from `about_content`.
+**Footer link** — add Careers between Blog and Contact in `quickLinks`.
 
-### Admin
-- New `/admin/homepage` route with tabs: **Hero** | **Miracles** | **About**.
-  - Hero tab: text inputs + image uploads + live preview pane on the right.
-  - Miracles tab: 4 fields.
-  - About tab: 3 image uploads with alt text and reorder, mission/vision text fields, repeating values list (icon name from lucide + title + description).
-- Sidebar gets a "Homepage" group containing this single page (the spec lists sub-items like "Services / Doctors / Testimonials" under Homepage, but those already have their own admin pages — I'll keep them as siblings rather than duplicate them, and add a note in the sidebar grouping them visually).
+**Admin** `src/routes/admin.careers.index.tsx`:
 
----
+- Tabs: Listings | Applications.
+- Listings: table + editor dialog (TipTap for description/requirements, date picker for deadline, active toggle).
+- Applications: filterable table, inline status dropdown with color badges, View Resume (signed URL via server fn since bucket is private), mailto link, side panel with full details. Realtime subscribe to `career_applications` for new-application badge.
 
-## CHUNK C — Sidebar reorg + Dashboard widgets + small Part 7 wins (Features 5, 6, 7, 10)
+**Sidebar** — add "💼 Careers" item to `src/components/admin/admin-shell.tsx`.
 
-### Sidebar
-- Reorder per your spec, group homepage-related entries visually under a "Homepage" label, add icons for Popup Banners and FAQs (already added in Chunk A).
+## Order of operations
 
-### Dashboard (`/admin`)
-- Add three appointment cards: **🔴 X new** (link to `/admin/appointments?filter=new`), **Today's appointments**, **This week's appointments**.
+1. Run careers + gallery migration (one combined migration).
+2. Apply all frontend file edits in parallel.
+3. Create new files: `src/routes/careers.tsx`, `src/routes/admin.careers.index.tsx`.
+4. Verify build.
 
-### Quick frontend wins
-- **Custom 404** (Feature 10) — shared navbar+footer, sad lotus SVG, two CTAs. Wired into `__root` notFoundComponent.
-- **Blog category page** `/blog/category/$category` (Feature 5) — reuses blog grid card.
-- **Related posts** on each blog post (Feature 6) — 3 posts matching category or tags, "You might also like" heading, same card style.
-- **Social share buttons** (Feature 7) — Facebook, X, WhatsApp, LinkedIn, Copy Link below each post. WhatsApp prominent.
+## Open questions
 
----
-
-## CHUNK D — Site-wide extras (Features 1, 2, 8, 9 + Patient Portal teaser)
-
-### Database
-- `announcement_bar` table per spec.
-- Add seed rows to `site_settings` for keys: `tawkto_id`, `ga4_id`, `cookie_consent_enabled`, `success_calculator_enabled`. All empty/false by default — admin enables in Settings UI.
-
-### Frontend
-- **Announcement bar** above navbar (Feature 2) — sessionStorage dismiss, configurable text/link/bg from CMS.
-- **Tawk.to** auto-injection (Feature 1) — only if `tawkto_id` is set.
-- **Google Analytics 4** auto-injection + event tracking on Book/Call/WhatsApp clicks (Feature 9) — only if `ga4_id` is set.
-- **Cookie consent banner** (Feature 8) — slide-up bottom, Accept/Reject/Manage, localStorage. GA4 respects consent.
-- **Patient Portal teaser** on Contact page + `/patient-portal` "Coming Soon" page with email signup (stored in a new `patient_portal_signups` table).
-
-### Admin
-- New `/admin/settings` page — toggles for Tawk.to ID, GA4 ID, cookie banner, success calculator, plus announcement bar editor (text/link/bg/active toggle).
-
----
-
-## Out of scope for this round (recommend skipping or doing later)
-
-- **Feature 3 — Success Rate Calculator**: this needs real medical input on the formula/ranges. I'd rather not invent fertility statistics. Suggest doing this in a follow-up once you provide the rate brackets, or skip it.
-
-If you want it included anyway, I'll build the UI with placeholder ranges and a strong "estimate only" disclaimer — say the word.
-
----
-
-## Technical notes
-
-- All new tables get RLS: public SELECT on active/published rows only, admin full access. Validation via triggers (no CHECK constraints — keeps mutability).
-- Storage: reuse existing public `site-media` bucket for popup, hero, about, announcement images.
-- TipTap reused with a `simple` toolbar variant for FAQs (no images/headings/etc).
-- Drag-reorder uses `@dnd-kit/core` + `@dnd-kit/sortable` (small, already commonly used).
-- YouTube/Vimeo URL parser handles `watch?v=`, `youtu.be/`, `vimeo.com/ID` forms.
-- All new admin routes follow the existing `admin.<name>.index.tsx` flat naming.
-
----
-
-## Suggested order
-
-1. Approve this plan → I build **Chunk A** (Popup + FAQs).
-2. You verify in preview → I build **Chunk B** (Homepage + About dynamic).
-3. You verify → **Chunk C** (sidebar/dashboard + 404/categories/related/share).
-4. You verify → **Chunk D** (announcement bar + Tawk + GA4 + cookies + patient portal).
-
-If you'd rather collapse chunks, say which to merge. If you want Feature 3 in scope, confirm whether placeholder ranges are OK.
+- **Change 20**: should the morphing rose/gold blobs in the CTA banner be removed entirely, or kept as soft white blobs over the new pink gradient? I'll default to removing them for a clean solid gradient unless you say otherwise.
+- **Change 4**: confirm removing the Miracles tab from the admin homepage editor is OK (since the component is deleted). I'll remove it.

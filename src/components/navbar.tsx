@@ -197,7 +197,7 @@ export function Navbar() {
   const Logo = (
     <Link to="/" className="flex items-center gap-2" style={{ transform: `scale(${logoScale})`, transformOrigin: "left center", transition: "transform 0.35s ease" }}>
       {!logoFailed ? (
-        <img src={logo} alt="Subhashree IVF" style={{ width: 160, height: "auto" }} onError={() => setLogoFailed(true)} />
+        <img src={logo} alt="Subhashree IVF" style={{ width: 180, height: "auto" }} onError={() => setLogoFailed(true)} />
       ) : (
         <span className="flex items-center gap-2" style={{ color: COLORS.magenta }}>
           <LotusIcon className="w-8 h-8" />
@@ -313,8 +313,8 @@ export function Navbar() {
                               <option value="">Preferred Time *</option>
                               {TIME_OPTIONS.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
                             </select>
-                            <select required value={bookForm.service} onChange={e => setBookForm({ ...bookForm, service: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none bg-white" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")}>
-                              <option value="">Service Interested In *</option>
+                            <select value={bookForm.service} onChange={e => setBookForm({ ...bookForm, service: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none bg-white" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")}>
+                              <option value="">Service Interested In (optional)</option>
                               {SERVICE_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
                             </select>
                             <textarea placeholder="Any specific concerns?" value={bookForm.message} onChange={e => setBookForm({ ...bookForm, message: e.target.value })} rows={2} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none resize-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
@@ -324,7 +324,9 @@ export function Navbar() {
                             type="submit"
                             disabled={bookSubmitting}
                             className="w-full mt-4 py-3 text-white font-bold text-sm transition-transform hover:scale-[1.02] disabled:opacity-60"
-                            style={{ background: `linear-gradient(90deg, ${COLORS.magenta}, ${COLORS.blue})`, borderRadius: 50 }}
+                            style={{ background: "#B5005F", borderRadius: 50 }}
+                            onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.background = "#8C0049")}
+                            onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.background = "#B5005F")}
                           >
                             {bookSubmitting ? "Submitting…" : "Confirm Appointment →"}
                           </button>
@@ -349,9 +351,9 @@ export function Navbar() {
                     })
                   }}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-colors"
-                  style={{ background: "#B5005F" }}
-                  onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.background = "#8C0049")}
-                  onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.background = "#B5005F")}
+                  style={{ background: COLORS.magenta }}
+                  onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.background = COLORS.magentaDark)}
+                  onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.background = COLORS.magenta)}
                 >
                   <Phone className="w-4 h-4" />
                   Call Us
@@ -472,18 +474,8 @@ export function Navbar() {
               })}
             </div>
           </div>
-          {/* Gradient bottom border */}
-          <div
-            className="absolute bottom-0 left-0 right-0"
-            style={{ height: 2.5, background: "linear-gradient(90deg, #E6007E 0%, #9B26AF 50%, #6A0DAD 100%)" }}
-          />
         </div>
 
-        {/* Mobile gradient line under row 1 */}
-        <div
-          className="md:hidden"
-          style={{ height: 2.5, background: "linear-gradient(90deg, #E6007E 0%, #9B26AF 50%, #6A0DAD 100%)" }}
-        />
       </motion.header>
 
       {/* Mobile drawer */}
