@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { createFileRoute } from "@tanstack/react-router"
-import { motion, useInView } from "framer-motion"
+import { motion } from "framer-motion"
 import { Star, Quote, Play } from "lucide-react"
 import { PageLayout, PageCTABanner, Section, SectionHeading, BRAND } from "@/components/page-layout"
 import { VideoModal } from "@/components/video-modal"
@@ -18,29 +18,6 @@ export const Route = createFileRoute("/success-stories")({
   component: StoriesPage,
 })
 
-const stats = [
-  { value: 5000, suffix: "+", label: "Happy Families" },
-  { value: 75, suffix: "%", label: "Success Rate" },
-  { value: 12, suffix: "+", label: "Years of Care" },
-]
-
-function Counter({ value, suffix }: { value: number; suffix: string }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-50px" })
-  const [n, setN] = useState(0)
-  useEffect(() => {
-    if (!inView) return
-    const dur = 1800, step = 30
-    let cur = 0
-    const id = setInterval(() => {
-      cur += value / (dur / step)
-      if (cur >= value) { setN(value); clearInterval(id) } else setN(Math.floor(cur))
-    }, step)
-    return () => clearInterval(id)
-  }, [inView, value])
-  return <span ref={ref}>{n.toLocaleString()}{suffix}</span>
-}
-
 function StoriesPage() {
   const [items, setItems] = useState<any[]>([])
   const [video, setVideo] = useState<string | null>(null)
@@ -54,17 +31,6 @@ function StoriesPage() {
 
   return (
     <PageLayout title="Success Stories" breadcrumb="Success Stories">
-      <section style={{ padding: "60px 5%", background: `linear-gradient(135deg, ${BRAND.pink} 0%, ${BRAND.pinkDark} 100%)`, color: "white" }}>
-        <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8 text-center">
-          {stats.map((s) => (
-            <div key={s.label}>
-              <div className="font-serif text-5xl lg:text-6xl font-bold"><Counter value={s.value} suffix={s.suffix} /></div>
-              <div className="mt-2 text-lg opacity-90">{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <Section bg="white">
         <SectionHeading>Real Families, Real Joy</SectionHeading>
         {stories.length === 0 ? (

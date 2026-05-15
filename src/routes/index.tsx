@@ -8,7 +8,6 @@ import { WhenToVisit } from "@/components/when-to-visit";
 
 import { DoctorsCarousel } from "@/components/doctors-carousel";
 
-import { MiraclesGallery } from "@/components/miracles-gallery";
 import { WhyUs } from "@/components/why-us";
 import { StoriesTestimonials } from "@/components/stories-testimonials";
 import { useReveal } from "@/hooks/use-reveal";
@@ -33,7 +32,6 @@ function HomePage() {
         <WhenToVisit />
         
         <DoctorsCarousel />
-        <MiraclesGallery />
         <WhyUs />
         <StoriesTestimonials />
         <FAQ />

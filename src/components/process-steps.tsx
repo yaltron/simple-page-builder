@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ClipboardList, UserCheck, CalendarCheck, CheckCircle2, type LucideIcon } from "lucide-react"
+import { Link } from "@tanstack/react-router"
 
 type Step = {
   icon: LucideIcon
   number: string
   title: string
   description: string
+  to: "/services" | "/team" | "/contact"
 }
 
 const steps: Step[] = [
@@ -15,36 +17,37 @@ const steps: Step[] = [
     number: "01",
     title: "Select Your Service",
     description: "Choose the type of consultation you need based on your concerns and goals.",
+    to: "/services",
   },
   {
     icon: UserCheck,
     number: "02",
     title: "Pick Your Specialist",
     description: "Browse experts and select the doctor that suits your preferences.",
+    to: "/team",
   },
   {
     icon: CalendarCheck,
     number: "03",
     title: "Choose Date & Time",
     description: "Pick available slots and book a time that works best for your schedule.",
+    to: "/contact",
   },
   {
     icon: CheckCircle2,
     number: "04",
     title: "Confirm & Attend",
     description: "Complete the booking & join your appointment with a heart of confidence.",
+    to: "/contact",
   },
 ]
 
-// Vertical offsets (px) for each step on desktop — matches SVG y positions
 const STEP_OFFSETS_LG = [0, 120, 30, 120]
-
-// When each step's highlight fires (seconds after section enters)
 const STEP_DELAYS = [0, 0.8, 1.6, 2.4]
 
 export function ProcessSteps() {
   const sectionRef = useRef<HTMLDivElement | null>(null)
-  const [runId, setRunId] = useState(0) // bump to replay animations
+  const [runId, setRunId] = useState(0)
   const [active, setActive] = useState(false)
   const [isLg, setIsLg] = useState(false)
 
@@ -84,7 +87,6 @@ export function ProcessSteps() {
         </h2>
 
         <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-14 gap-x-6">
-
           {steps.map((step, i) => {
             const Icon = step.icon
             const lgOffset = STEP_OFFSETS_LG[i]
@@ -98,14 +100,12 @@ export function ProcessSteps() {
                 className="group relative z-10 flex flex-col items-center overflow-visible"
                 style={{ ["--lg-offset" as never]: `${lgOffset}px` }}
               >
-                <div
-                  className="flex flex-col items-center w-full min-h-[320px] relative overflow-visible"
-                  style={{
-                    transform: isLg ? `translateY(${lgOffset}px)` : undefined,
-                  }}
+                <Link
+                  to={step.to}
+                  className="flex flex-col items-center w-full min-h-[320px] relative overflow-visible cursor-pointer"
+                  style={{ transform: isLg ? `translateY(${lgOffset}px)` : undefined }}
                 >
                   <div className="relative mb-5">
-                    {/* Pulse glow ring on arrival */}
                     <AnimatePresence>
                       {active && (
                         <motion.span
@@ -119,25 +119,19 @@ export function ProcessSteps() {
                       )}
                     </AnimatePresence>
 
-                    <div
-                      className="step-circle h-28 w-28 rounded-full gradient-brand grid place-items-center text-white"
-                    >
+                    <div className="step-circle h-28 w-28 rounded-full gradient-brand grid place-items-center text-white">
                       <span className="step-icon inline-flex transition-transform duration-[400ms] ease-out group-hover:scale-[1.15] group-hover:-rotate-[8deg]">
                         <Icon className="h-11 w-11" strokeWidth={1.8} />
                       </span>
                     </div>
 
-                    {/* Number badge with flash on arrival */}
                     <motion.span
                       key={`badge-${runId}-${i}`}
                       className="step-badge absolute -top-1 -right-1 h-9 w-9 rounded-full border-2 border-brand-pink grid place-items-center font-extrabold text-xs shadow-md"
                       initial={{ backgroundColor: "#ffffff", color: "#E6007E" }}
                       animate={
                         active
-                          ? {
-                              backgroundColor: ["#ffffff", "#E6007E", "#ffffff"],
-                              color: ["#E6007E", "#ffffff", "#E6007E"],
-                            }
+                          ? { backgroundColor: ["#ffffff", "#E6007E", "#ffffff"], color: ["#E6007E", "#ffffff", "#E6007E"] }
                           : { backgroundColor: "#ffffff", color: "#E6007E" }
                       }
                       transition={{ duration: 0.4, delay, ease: "easeOut" }}
@@ -150,11 +144,7 @@ export function ProcessSteps() {
                     key={`title-${runId}-${i}`}
                     className="step-title font-bold text-lg mb-2 transition-colors duration-300"
                     initial={{ color: "#1A1535" }}
-                    animate={
-                      active
-                        ? { color: ["#1A1535", "#E6007E", "#1A1535"] }
-                        : { color: "#1A1535" }
-                    }
+                    animate={active ? { color: ["#1A1535", "#E6007E", "#1A1535"] } : { color: "#1A1535" }}
                     transition={{ duration: 0.5, delay, ease: "easeOut" }}
                   >
                     {step.title}
@@ -162,7 +152,10 @@ export function ProcessSteps() {
                   <p className="text-sm text-muted-foreground max-w-[220px] mx-auto">
                     {step.description}
                   </p>
-                </div>
+                  <span className="mt-3 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#E6007E" }}>
+                    Visit page →
+                  </span>
+                </Link>
               </motion.div>
             )
           })}

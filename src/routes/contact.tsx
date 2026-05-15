@@ -1,9 +1,10 @@
 import { useState } from "react"
 import { createFileRoute } from "@tanstack/react-router"
 import { motion } from "framer-motion"
-import { MapPin, Phone, Mail, Clock, ArrowRight, ExternalLink } from "lucide-react"
+import { MapPin, Phone, Mail, Clock, ExternalLink } from "lucide-react"
 import { toast } from "sonner"
-import { PageLayout, PageCTABanner, Section, BRAND } from "@/components/page-layout"
+import { PageLayout, Section, BRAND } from "@/components/page-layout"
+import { supabase } from "@/integrations/supabase/client"
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -16,6 +17,32 @@ export const Route = createFileRoute("/contact")({
   }),
   component: ContactPage,
 })
+
+const SERVICE_OPTIONS = [
+  "IVF Treatment",
+  "ICSI Procedure",
+  "Embryo Freezing",
+  "Genetic Testing (PGT)",
+  "Donor Egg Programme",
+  "Infertility Diagnosis",
+  "General Consultation",
+  "Other",
+]
+
+const TIME_OPTIONS = [
+  { value: "Morning 8-11am", label: "Morning (8am - 11am)" },
+  { value: "Afternoon 11am-2pm", label: "Afternoon (11am - 2pm)" },
+  { value: "Evening 2-5pm", label: "Evening (2pm - 5pm)" },
+]
+
+function getMinDate() {
+  const d = new Date(); d.setDate(d.getDate() + 1)
+  return d.toISOString().split("T")[0]
+}
+function getMaxDate() {
+  const d = new Date(); d.setMonth(d.getMonth() + 3)
+  return d.toISOString().split("T")[0]
+}
 
 const info = [
   { icon: MapPin, label: "Address", value: "Kathmandu, Nepal" },
@@ -36,69 +63,106 @@ const inputStyle: React.CSSProperties = {
 }
 
 function ContactPage() {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" })
-  const [errors, setErrors] = useState<Record<string, boolean>>({})
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    const errs: Record<string, boolean> = {}
-    ;(["name", "email", "phone", "message"] as const).forEach(k => { if (!form[k].trim()) errs[k] = true })
-    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errs.email = true
-    setErrors(errs)
-    if (Object.keys(errs).length) return
-    toast.success("Message sent! We'll be in touch soon.")
-    setForm({ name: "", email: "", phone: "", service: "", message: "" })
-  }
-
-  const fieldStyle = (k: string): React.CSSProperties => ({
-    ...inputStyle,
-    borderColor: errors[k] ? "#dc2626" : "rgba(230,0,126,0.2)",
+  const [form, setForm] = useState({
+    full_name: "", phone: "", email: "",
+    preferred_date: "", preferred_time: "",
+    consultation_type: "In-Clinic",
+    service: "", message: "",
   })
+  const [submitting, setSubmitting] = useState(false)
+  const [success, setSuccess] = useState(false)
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (submitting) return
+    if (!form.full_name.trim() || !form.phone.trim() || !form.preferred_date || !form.preferred_time) {
+      toast.error("Please fill all required fields")
+      return
+    }
+    if (form.preferred_date) {
+      const d = new Date(form.preferred_date + "T00:00:00")
+      if (d.getDay() === 0) {
+        toast.error("Clinic is closed on Sundays. Please pick another date.")
+        return
+      }
+    }
+    setSubmitting(true)
+    const { error } = await supabase.from("appointments").insert({
+      full_name: form.full_name.trim(),
+      phone: form.phone.trim(),
+      email: form.email.trim() || null,
+      preferred_date: form.preferred_date,
+      preferred_time: form.preferred_time,
+      consultation_type: form.consultation_type,
+      service: form.service || null,
+      message: form.message.trim() || null,
+    })
+    setSubmitting(false)
+    if (error) {
+      toast.error("Could not submit. Please try again.")
+      return
+    }
+    setSuccess(true)
+    setForm({ full_name: "", phone: "", email: "", preferred_date: "", preferred_time: "", consultation_type: "In-Clinic", service: "", message: "" })
+  }
 
   return (
     <PageLayout title="Contact Us" breadcrumb="Contact Us">
       <Section bg="white">
-        <div className="grid lg:grid-cols-2 gap-10">
-          {/* Form */}
+        <div className="grid lg:grid-cols-[55fr_45fr] gap-10">
+          {/* Booking form */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="font-serif text-3xl lg:text-4xl font-bold mb-2" style={{ color: BRAND.heading }}>Get In Touch</h2>
-            <p className="mb-6" style={{ color: BRAND.navLink }}>We'll respond within 24 hours.</p>
-            <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-              <div>
-                <input style={fieldStyle("name")} placeholder="Your Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-                {errors.name && <p style={{ color: "#dc2626", fontSize: 12, marginTop: 4 }}>Name is required</p>}
+            <h2 className="font-serif text-3xl lg:text-4xl font-bold mb-2" style={{ color: BRAND.heading }}>Book an Appointment</h2>
+            <p className="mb-6" style={{ color: BRAND.navLink }}>Free first consultation — we will confirm by phone within 24 hours.</p>
+
+            {success ? (
+              <div className="rounded-2xl p-8 text-center" style={{ background: BRAND.pinkSoft, border: `1px solid ${BRAND.border}` }}>
+                <div className="font-serif text-2xl font-bold mb-3" style={{ color: BRAND.heading }}>Thank you!</div>
+                <p style={{ color: BRAND.navLink }}>
+                  Your appointment request has been received. We will confirm via phone within 24 hours.
+                </p>
+                <button onClick={() => setSuccess(false)} className="mt-5 px-6 py-2 rounded-full text-white font-semibold" style={{ background: "#B5005F" }}>
+                  Book Another
+                </button>
               </div>
-              <div>
-                <input type="email" style={fieldStyle("email")} placeholder="Email Address" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-                {errors.email && <p style={{ color: "#dc2626", fontSize: 12, marginTop: 4 }}>Valid email is required</p>}
-              </div>
-              <div>
-                <input type="tel" style={fieldStyle("phone")} placeholder="Phone Number" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
-                {errors.phone && <p style={{ color: "#dc2626", fontSize: 12, marginTop: 4 }}>Phone is required</p>}
-              </div>
-              <select style={inputStyle} value={form.service} onChange={(e) => setForm({ ...form, service: e.target.value })}>
-                <option value="">Select a Service</option>
-                <option>IVF Treatment</option>
-                <option>ICSI Procedure</option>
-                <option>Embryo Freezing</option>
-                <option>Genetic Testing (PGT)</option>
-                <option>Donor Egg Programme</option>
-                <option>Infertility Diagnosis</option>
-                <option>Other</option>
-              </select>
-              <div>
-                <textarea rows={5} style={fieldStyle("message")} placeholder="Your Message" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
-                {errors.message && <p style={{ color: "#dc2626", fontSize: 12, marginTop: 4 }}>Message is required</p>}
-              </div>
-              <button type="submit" className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-full text-white font-bold transition-transform hover:scale-[1.02]" style={{ background: `linear-gradient(90deg, ${BRAND.pink}, ${BRAND.pinkDark})` }}>
-                Send Message <ArrowRight className="w-4 h-4" />
-              </button>
-            </form>
+            ) : (
+              <form onSubmit={submit} className="space-y-3" noValidate>
+                <input style={inputStyle} placeholder="Full Name *" required value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })} />
+                <input type="tel" style={inputStyle} placeholder="Phone *" required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+                <input type="email" style={inputStyle} placeholder="Email (optional)" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+                <div className="grid sm:grid-cols-2 gap-3">
+                  <input type="date" style={inputStyle} required min={getMinDate()} max={getMaxDate()} value={form.preferred_date} onChange={(e) => setForm({ ...form, preferred_date: e.target.value })} />
+                  <select style={inputStyle} required value={form.preferred_time} onChange={(e) => setForm({ ...form, preferred_time: e.target.value })}>
+                    <option value="">Preferred Time *</option>
+                    {TIME_OPTIONS.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+                  </select>
+                </div>
+                <select style={inputStyle} value={form.consultation_type} onChange={(e) => setForm({ ...form, consultation_type: e.target.value })}>
+                  <option value="In-Clinic">In-Clinic Consultation</option>
+                  <option value="Video Call">Video Call</option>
+                </select>
+                <select style={inputStyle} value={form.service} onChange={(e) => setForm({ ...form, service: e.target.value })}>
+                  <option value="">Service Interested In (optional)</option>
+                  {SERVICE_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
+                <textarea rows={4} style={inputStyle} placeholder="Your Message (optional)" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full py-3 rounded-full text-white font-bold transition-colors disabled:opacity-60"
+                  style={{ background: "#B5005F" }}
+                  onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.background = "#8C0049")}
+                  onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.background = "#B5005F")}
+                >
+                  {submitting ? "Submitting…" : "Confirm"}
+                </button>
+              </form>
+            )}
           </motion.div>
 
           {/* Info cards */}
@@ -124,7 +188,6 @@ function ContactPage() {
         </div>
       </Section>
 
-      {/* Map */}
       <Section bg="white">
         <div className="rounded-2xl overflow-hidden relative" style={{ height: 420, border: "1px solid rgba(230,0,126,0.15)" }}>
           <iframe
@@ -148,8 +211,6 @@ function ContactPage() {
           </a>
         </div>
       </Section>
-
-      <PageCTABanner secondary="Prefer to call? +977 9861141699" />
     </PageLayout>
   )
 }

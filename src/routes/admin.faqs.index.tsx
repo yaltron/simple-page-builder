@@ -14,7 +14,7 @@ export const Route = createFileRoute("/admin/faqs/")({
   component: AdminFAQsPage,
 })
 
-const CATEGORIES = ["General", "IVF", "ICSI", "Costs", "Preparation", "After Treatment"]
+const CATEGORIES = ["General", "IVF", "ICSI", "Costs", "Preparation", "After Treatment", "Gynecology", "Fertility", "Radiology"]
 
 type F = {
   id?: string
