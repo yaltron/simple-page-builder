@@ -474,18 +474,8 @@ export function Navbar() {
               })}
             </div>
           </div>
-          {/* Gradient bottom border */}
-          <div
-            className="absolute bottom-0 left-0 right-0"
-            style={{ height: 2.5, background: "linear-gradient(90deg, #E6007E 0%, #9B26AF 50%, #6A0DAD 100%)" }}
-          />
         </div>
 
-        {/* Mobile gradient line under row 1 */}
-        <div
-          className="md:hidden"
-          style={{ height: 2.5, background: "linear-gradient(90deg, #E6007E 0%, #9B26AF 50%, #6A0DAD 100%)" }}
-        />
       </motion.header>
 
       {/* Mobile drawer */}
