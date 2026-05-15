@@ -313,8 +313,8 @@ export function Navbar() {
                               <option value="">Preferred Time *</option>
                               {TIME_OPTIONS.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
                             </select>
-                            <select required value={bookForm.service} onChange={e => setBookForm({ ...bookForm, service: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none bg-white" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")}>
-                              <option value="">Service Interested In *</option>
+                            <select value={bookForm.service} onChange={e => setBookForm({ ...bookForm, service: e.target.value })} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none bg-white" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")}>
+                              <option value="">Service Interested In (optional)</option>
                               {SERVICE_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
                             </select>
                             <textarea placeholder="Any specific concerns?" value={bookForm.message} onChange={e => setBookForm({ ...bookForm, message: e.target.value })} rows={2} className="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 outline-none resize-none" onFocus={e => (e.currentTarget.style.borderColor = COLORS.magenta)} onBlur={e => (e.currentTarget.style.borderColor = "#e5e7eb")} />
