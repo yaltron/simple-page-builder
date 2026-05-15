@@ -324,7 +324,9 @@ export function Navbar() {
                             type="submit"
                             disabled={bookSubmitting}
                             className="w-full mt-4 py-3 text-white font-bold text-sm transition-transform hover:scale-[1.02] disabled:opacity-60"
-                            style={{ background: `linear-gradient(90deg, ${COLORS.magenta}, ${COLORS.blue})`, borderRadius: 50 }}
+                            style={{ background: "#B5005F", borderRadius: 50 }}
+                            onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.background = "#8C0049")}
+                            onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.background = "#B5005F")}
                           >
                             {bookSubmitting ? "Submitting…" : "Confirm Appointment →"}
                           </button>
