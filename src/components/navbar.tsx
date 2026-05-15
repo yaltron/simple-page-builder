@@ -351,9 +351,9 @@ export function Navbar() {
                     })
                   }}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-colors"
-                  style={{ background: "#B5005F" }}
-                  onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.background = "#8C0049")}
-                  onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.background = "#B5005F")}
+                  style={{ background: COLORS.magenta }}
+                  onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.background = COLORS.magentaDark)}
+                  onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.background = COLORS.magenta)}
                 >
                   <Phone className="w-4 h-4" />
                   Call Us
