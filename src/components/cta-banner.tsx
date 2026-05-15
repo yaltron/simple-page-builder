@@ -22,7 +22,7 @@ export function CTABanner() {
             <Button
               asChild
               size="lg"
-              className="bg-white text-[#B5005F] hover:bg-white/90 rounded-full px-8 text-base font-bold transition-transform hover:scale-105"
+              className="bg-rose hover:bg-rose-dark text-white rounded-full px-8 text-base font-bold transition-transform hover:scale-105"
             >
               <Link to="/contact">Book Consultation</Link>
             </Button>
@@ -30,7 +30,7 @@ export function CTABanner() {
               asChild
               size="lg"
               variant="outline"
-              className="rounded-full px-8 text-base border-2 border-white text-white bg-transparent hover:bg-white/10 transition-transform hover:scale-105"
+              className="rounded-full px-8 text-base border-2 border-rose text-rose bg-transparent hover:bg-rose/10 transition-transform hover:scale-105"
             >
               <a href="tel:+9779861141699">
                 <Phone className="w-4 h-4 mr-2" />
