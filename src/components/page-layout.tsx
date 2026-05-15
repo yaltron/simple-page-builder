@@ -75,8 +75,9 @@ export function PageCTABanner({
     <section
       style={{
         padding: "60px 8%",
-        background: `linear-gradient(135deg, ${BRAND.pink} 0%, ${BRAND.pinkDark} 100%)`,
-        color: "white",
+        background:
+          "linear-gradient(135deg, rgba(248,187,217,0.4) 0%, #FFFAF7 50%, rgba(255,248,225,0.4) 100%)",
+        color: BRAND.plum,
         textAlign: "center",
       }}
     >
@@ -92,30 +93,32 @@ export function PageCTABanner({
             fontSize: "clamp(28px, 4vw, 42px)",
             fontWeight: 700,
             marginBottom: 14,
+            color: BRAND.heading,
           }}
         >
           {title}
         </h2>
-        <p style={{ opacity: 0.92, maxWidth: 620, margin: "0 auto 28px", fontSize: 16 }}>
+        <p style={{ opacity: 0.85, maxWidth: 620, margin: "0 auto 28px", fontSize: 16, color: BRAND.plum }}>
           {subtitle}
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <Link
             to="/contact"
             className="px-7 py-3 rounded-full font-bold transition-transform hover:scale-105"
-            style={{ background: "white", color: BRAND.pink }}
+            style={{ background: BRAND.pink, color: "white" }}
           >
             Book Consultation
           </Link>
           <a
             href="tel:+9779861141699"
-            className="px-7 py-3 rounded-full font-bold border-2 border-white text-white transition-colors hover:bg-white/10 inline-flex items-center gap-2"
+            className="px-7 py-3 rounded-full font-bold border-2 transition-colors inline-flex items-center gap-2"
+            style={{ borderColor: BRAND.pink, color: BRAND.pink }}
           >
             <Phone className="w-4 h-4" /> Call: +977 9861141699
           </a>
         </div>
         {secondary && (
-          <p style={{ marginTop: 18, opacity: 0.88, fontSize: 14 }}>{secondary}</p>
+          <p style={{ marginTop: 18, opacity: 0.78, fontSize: 14, color: BRAND.plum }}>{secondary}</p>
         )}
       </motion.div>
     </section>
