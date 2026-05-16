@@ -75,8 +75,8 @@ export function WhoWeAre() {
                 color: "transparent",
               }}
             >
-              &ldquo;Every couple is unique, and so is their journey to parenthood. 
-              At Shubhashree IVF, we transform hope into life.&rdquo;
+              &ldquo;The trust you have shown in us over the years is our greatest 
+              inspiration to turn hope into reality.&rdquo;
             </blockquote>
 
             {/* Asymmetric image grid */}
