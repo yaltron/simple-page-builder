@@ -77,40 +77,31 @@ export function Hero() {
                 {hero.subheadline}
               </motion.p>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="flex flex-wrap gap-4"
-              >
-                <Magnetic>
-                  <Button
-                    asChild
-                    size="lg"
-                    className="bg-gradient-to-r from-rose to-rose-dark hover:from-rose-dark hover:to-rose text-white rounded-full px-8 text-base"
-                  >
-                    {isExternal ? (
-                      <a href={hero.cta_primary_url}>{hero.cta_primary_text}</a>
-                    ) : (
-                      <Link to={hero.cta_primary_url || "/contact"}>{hero.cta_primary_text}</Link>
-                    )}
-                  </Button>
-                </Magnetic>
+              <div className="flex flex-wrap gap-4">
+                <Button
+                  asChild
+                  size="lg"
+                  className="text-white rounded-full px-8 text-base bg-[#E6007E] hover:bg-[#C4006A] transition-colors duration-[250ms] ease-[ease]"
+                >
+                  {isExternal ? (
+                    <a href={hero.cta_primary_url}>{hero.cta_primary_text}</a>
+                  ) : (
+                    <Link to={hero.cta_primary_url || "/contact"}>{hero.cta_primary_text}</Link>
+                  )}
+                </Button>
                 {hero.cta_secondary_text && (
-                  <Magnetic>
-                    <Button
-                      type="button"
-                      onClick={() => setVideoOpen(true)}
-                      size="lg"
-                      variant="outline"
-                      className="rounded-full px-8 text-base border-plum/20 text-plum hover:bg-plum/5"
-                    >
-                      <Play className="w-4 h-4 mr-2 fill-current" />
-                      {hero.cta_secondary_text}
-                    </Button>
-                  </Magnetic>
+                  <Button
+                    type="button"
+                    onClick={() => setVideoOpen(true)}
+                    size="lg"
+                    variant="outline"
+                    className="rounded-full px-8 text-base border-plum/20 text-plum hover:bg-white/15 hover:border-plum/40 transition-[background,border-color] duration-[250ms] ease-[ease]"
+                  >
+                    <Play className="w-4 h-4 mr-2 fill-current" />
+                    {hero.cta_secondary_text}
+                  </Button>
                 )}
-              </motion.div>
+              </div>
             </div>
 
             <motion.div
