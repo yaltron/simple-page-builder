@@ -1,133 +1,160 @@
 import { motion, useScroll, useTransform } from "framer-motion"
-import { useRef, useState, useEffect } from "react"
-import { ArrowRight, Sparkles, Heart, Users, Award, Play } from "lucide-react"
+import { useRef, useState } from "react"
+import { ArrowRight, Sparkles, Heart } from "lucide-react"
 import { Link } from "@tanstack/react-router"
 import { MorphingBlob } from "@/components/morphing-blob"
 import { useHomepageSection } from "@/lib/use-cms-content"
-import whoClinic from "@/assets/who-clinic.jpg"
-import whoLab from "@/assets/who-lab.jpg"
-import whoTeam from "@/assets/who-team.jpg"
+import miracle1 from "@/assets/miracle-1.jpg"
+import miracle2 from "@/assets/miracle-2.jpg"
+import miracle3 from "@/assets/miracle-3.jpg"
+import miracle4 from "@/assets/miracle-4.jpg"
+import miracle5 from "@/assets/miracle-5.jpg"
+import miracle6 from "@/assets/miracle-6.jpg"
+import testimonial1 from "@/assets/testimonial-1.jpg"
+import testimonial2 from "@/assets/testimonial-2.jpg"
+import testimonial3 from "@/assets/testimonial-3.jpg"
+import testimonialFamily from "@/assets/testimonial-family.jpg"
+import heroFamily from "@/assets/hero-family.jpg"
 
 const DEFAULTS = {
-  heading: "Inside Shubhashree IVF",
+  heading: "Moments That Matter",
   heading_color: "#E6007E",
-  quote: "Every heartbeat begins with hope.",
-  paragraph_1: "Care beyond treatment.",
-  paragraph_2: "Science guided by compassion.",
-  images: [
-    { url: "", alt: "Our modern clinic" },
-    { url: "", alt: "Advanced laboratory" },
-    { url: "", alt: "Our caring team" },
-  ],
-  video_url: "",
+  quote: "Where hope quietly becomes reality.",
+  paragraph_1: "Stories of care, courage, and new beginnings — captured from journeys to parenthood.",
+  paragraph_2: "",
+  images: [] as { url: string; alt: string }[],
 }
 
-const FEATURED_VIDEO =
-  "https://cdn.coverr.co/videos/coverr-a-doctor-talking-to-a-patient-1583/1080p.mp4"
+type Card = {
+  src: string
+  alt: string
+  // Position as percentage of canvas
+  top: string
+  left: string
+  // Size in pixels (desktop)
+  w: number
+  h: number
+  rotate: number
+  z: number
+  // Parallax intensity
+  depth: number
+  delay: number
+}
 
-const stats = [
-  { icon: Heart, value: 5000, suffix: "+", label: "Happy Families" },
-  { icon: Users, value: 12, suffix: "+", label: "Years of Care" },
-  { icon: Award, value: 70, suffix: "%", label: "Success Rate" },
+// Center hero is rendered separately. These float around it in an
+// intentional, asymmetric editorial composition (not random masonry).
+const CARDS: Card[] = [
+  // Left column
+  { src: miracle1, alt: "Newborn moment", top: "4%",  left: "2%",  w: 170, h: 220, rotate: -4, z: 2, depth: 30, delay: 0.05 },
+  { src: testimonial1, alt: "Mother and baby", top: "38%", left: "0%",  w: 200, h: 200, rotate: 3,  z: 3, depth: 50, delay: 0.12 },
+  { src: miracle4, alt: "Family smile", top: "72%", left: "5%",  w: 180, h: 230, rotate: -2, z: 2, depth: 40, delay: 0.18 },
+
+  // Inner-left
+  { src: testimonial2, alt: "Happy parents", top: "16%", left: "18%", w: 150, h: 150, rotate: 5,  z: 4, depth: 70, delay: 0.22 },
+  { src: miracle2, alt: "First hold",  top: "58%", left: "20%", w: 160, h: 200, rotate: -3, z: 3, depth: 60, delay: 0.28 },
+
+  // Inner-right
+  { src: miracle5, alt: "Joyful family", top: "12%", left: "70%", w: 160, h: 200, rotate: -5, z: 4, depth: 65, delay: 0.24 },
+  { src: testimonial3, alt: "Doctor and patient", top: "56%", left: "72%", w: 170, h: 170, rotate: 4,  z: 3, depth: 55, delay: 0.3 },
+
+  // Right column
+  { src: testimonialFamily, alt: "Family together", top: "6%",  left: "86%", w: 180, h: 220, rotate: 3,  z: 2, depth: 35, delay: 0.1 },
+  { src: miracle3, alt: "Tiny hand",    top: "40%", left: "90%", w: 170, h: 170, rotate: -2, z: 3, depth: 45, delay: 0.16 },
+  { src: miracle6, alt: "Baby joy",     top: "74%", left: "85%", w: 180, h: 230, rotate: 2,  z: 2, depth: 38, delay: 0.2 },
 ]
 
-function useCountUp(target: number, inView: boolean, duration = 1600) {
-  const [n, setN] = useState(0)
-  useEffect(() => {
-    if (!inView) return
-    let raf = 0
-    const start = performance.now()
-    const tick = (t: number) => {
-      const p = Math.min(1, (t - start) / duration)
-      const eased = 1 - Math.pow(1 - p, 3)
-      setN(Math.round(target * eased))
-      if (p < 1) raf = requestAnimationFrame(tick)
-    }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [inView, target, duration])
-  return n
-}
+const FALLBACKS = [
+  heroFamily, miracle1, testimonial1, miracle4, testimonial2, miracle2,
+  miracle5, testimonial3, testimonialFamily, miracle3, miracle6,
+]
 
-const fade = (delay = 0, y = 40) => ({
-  initial: { opacity: 0, y },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] as const },
-})
-
-function TiltCard({
-  children,
-  className,
-  intensity = 8,
-  ...rest
+function FloatingCard({
+  card,
+  scrollY,
+  src,
 }: {
-  children: React.ReactNode
-  className?: string
-  intensity?: number
-  [key: string]: any
+  card: Card
+  scrollY: ReturnType<typeof useScroll>["scrollYProgress"]
+  src: string
 }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [t, setT] = useState({ rx: 0, ry: 0 })
+  const y = useTransform(scrollY, [0, 1], [card.depth, -card.depth])
+
   return (
     <motion.div
-      ref={ref}
-      onMouseMove={(e) => {
-        const r = ref.current!.getBoundingClientRect()
-        const x = (e.clientX - r.left) / r.width - 0.5
-        const y = (e.clientY - r.top) / r.height - 0.5
-        setT({ rx: -y * intensity, ry: x * intensity })
-      }}
-      onMouseLeave={() => setT({ rx: 0, ry: 0 })}
+      className="absolute hidden md:block"
       style={{
-        transform: `perspective(1000px) rotateX(${t.rx}deg) rotateY(${t.ry}deg)`,
-        transformStyle: "preserve-3d",
-        transition: "transform 0.4s cubic-bezier(0.22,1,0.36,1)",
+        top: card.top,
+        left: card.left,
+        width: card.w,
+        height: card.h,
+        zIndex: card.z,
+        y,
       }}
-      className={className}
-      {...rest}
+      initial={{ opacity: 0, y: 40, scale: 0.9, rotate: card.rotate }}
+      whileInView={{ opacity: 1, scale: 1, rotate: card.rotate }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.9, delay: card.delay, ease: [0.22, 1, 0.36, 1] }}
     >
-      {children}
+      <motion.div
+        animate={{ y: [0, -10, 0] }}
+        transition={{
+          duration: 6 + (card.delay * 10),
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: card.delay,
+        }}
+        whileHover={{ scale: 1.06, rotate: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
+        className="relative w-full h-full group cursor-pointer"
+        style={{ willChange: "transform" }}
+      >
+        {/* Soft glow */}
+        <div
+          aria-hidden
+          className="absolute -inset-3 rounded-[28px] blur-2xl opacity-60 group-hover:opacity-90 transition-opacity duration-500"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(230,0,126,0.25), rgba(167,139,250,0.18) 50%, transparent 75%)",
+          }}
+        />
+        <div
+          className="relative w-full h-full rounded-[24px] overflow-hidden border border-white/70"
+          style={{
+            boxShadow:
+              "0 20px 50px -20px rgba(230,0,126,0.30), 0 8px 24px -10px rgba(167,139,250,0.25), inset 0 1px 0 rgba(255,255,255,0.6)",
+          }}
+        >
+          <img
+            src={src}
+            alt={card.alt}
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        </div>
+      </motion.div>
     </motion.div>
   )
 }
 
 export function WhoWeAre() {
   const ref = useRef<HTMLElement>(null)
-  const [statsInView, setStatsInView] = useState(false)
-  const [videoHover, setVideoHover] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
-
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   })
-  const parallaxY1 = useTransform(scrollYProgress, [0, 1], [40, -40])
-  const parallaxY2 = useTransform(scrollYProgress, [0, 1], [-30, 50])
 
   const cms = useHomepageSection("who_we_are", DEFAULTS)
-  const img1 = cms.images?.[0]?.url || whoClinic
-  const img2 = cms.images?.[1]?.url || whoLab
-  const img3 = cms.images?.[2]?.url || whoTeam
-  const alt1 = cms.images?.[0]?.alt || "Our modern clinic"
-  const alt2 = cms.images?.[1]?.alt || "Advanced embryology lab"
-  const alt3 = cms.images?.[2]?.alt || "Our caring team"
-  const videoSrc = cms.video_url || FEATURED_VIDEO
+  const cmsImgs = cms.images || []
+  const heroSrc = cmsImgs[0]?.url || heroFamily
+  const heroAlt = cmsImgs[0]?.alt || "A moment of hope"
 
-  useEffect(() => {
-    const v = videoRef.current
-    if (!v) return
-    if (videoHover) v.play().catch(() => {})
-    else {
-      v.pause()
-      v.currentTime = 0
-    }
-  }, [videoHover])
+  const getSrc = (i: number) => cmsImgs[i + 1]?.url || FALLBACKS[i] || CARDS[i].src
 
-  const families = useCountUp(stats[0].value, statsInView)
-  const years = useCountUp(stats[1].value, statsInView)
-  const success = useCountUp(stats[2].value, statsInView)
-  const counts = [families, years, success]
+  // Subtle hero parallax
+  const heroY = useTransform(scrollYProgress, [0, 1], [-20, 20])
+  const heroScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.02, 1, 1.02])
+
+  const [hovered, setHovered] = useState(false)
 
   return (
     <section
@@ -136,346 +163,221 @@ export function WhoWeAre() {
       className="relative py-24 lg:py-36 overflow-hidden"
       style={{
         background:
-          "linear-gradient(180deg, #fff 0%, #fff7fb 12%, #fdf4ff 50%, #fff5ee 88%, #fff 100%)",
+          "linear-gradient(180deg, #fff 0%, #fff7fb 10%, #fdf4ff 50%, #fff5ee 90%, #fff 100%)",
       }}
     >
-      {/* Top blur fade separator */}
-      <div
-        aria-hidden
-        className="absolute top-0 inset-x-0 h-32 pointer-events-none"
-        style={{
-          background: "linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,0))",
-        }}
-      />
+      {/* Fades */}
+      <div aria-hidden className="absolute top-0 inset-x-0 h-32 pointer-events-none"
+        style={{ background: "linear-gradient(180deg, rgba(255,255,255,1), rgba(255,255,255,0))" }} />
+      <div aria-hidden className="absolute bottom-0 inset-x-0 h-32 pointer-events-none"
+        style={{ background: "linear-gradient(0deg, rgba(255,255,255,1), rgba(255,255,255,0))" }} />
 
-      {/* Floating decorative blobs */}
+      {/* Ambient blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <MorphingBlob color="#E6007E" size={620} opacity={0.09} duration={30} driftX={-40} driftY={30} style={{ top: "-180px", right: "-200px" }} />
-        <MorphingBlob color="#A78BFA" size={540} opacity={0.11} duration={36} delay={-12} driftX={50} driftY={-40} style={{ bottom: "-180px", left: "-160px" }} />
-        <MorphingBlob color="#FDBA74" size={420} opacity={0.08} duration={42} delay={-20} driftX={-30} driftY={50} style={{ top: "40%", left: "55%" }} />
-        <MorphingBlob color="#F9A8D4" size={360} opacity={0.07} duration={38} delay={-8} driftX={40} driftY={-30} style={{ top: "10%", left: "20%" }} />
+        <MorphingBlob color="#E6007E" size={620} opacity={0.08} duration={32} driftX={-40} driftY={30} style={{ top: "-180px", right: "-200px" }} />
+        <MorphingBlob color="#A78BFA" size={540} opacity={0.10} duration={38} delay={-12} driftX={50} driftY={-40} style={{ bottom: "-180px", left: "-160px" }} />
+        <MorphingBlob color="#FDBA74" size={420} opacity={0.07} duration={42} delay={-20} driftX={-30} driftY={50} style={{ top: "45%", left: "50%" }} />
       </div>
 
       {/* Floating particles */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        {[...Array(10)].map((_, i) => (
+        {Array.from({ length: 14 }).map((_, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full"
             style={{
-              width: 4 + (i % 3) * 2,
-              height: 4 + (i % 3) * 2,
-              background: i % 2 ? "rgba(230,0,126,0.4)" : "rgba(167,139,250,0.4)",
-              boxShadow: i % 2 ? "0 0 12px rgba(230,0,126,0.5)" : "0 0 12px rgba(167,139,250,0.5)",
-              top: `${8 + i * 9}%`,
-              left: `${5 + i * 9.5}%`,
+              width: 3 + (i % 3) * 2,
+              height: 3 + (i % 3) * 2,
+              background: i % 2 ? "rgba(230,0,126,0.45)" : "rgba(167,139,250,0.45)",
+              boxShadow: i % 2 ? "0 0 12px rgba(230,0,126,0.55)" : "0 0 12px rgba(167,139,250,0.55)",
+              top: `${5 + i * 6.5}%`,
+              left: `${4 + ((i * 11) % 92)}%`,
             }}
             animate={{
-              y: [0, -30, 0],
-              opacity: [0.2, 0.7, 0.2],
+              y: [0, -40, 0],
+              opacity: [0.15, 0.7, 0.15],
             }}
-            transition={{ duration: 5 + (i % 4), repeat: Infinity, delay: i * 0.3 }}
+            transition={{ duration: 6 + (i % 5), repeat: Infinity, delay: i * 0.35, ease: "easeInOut" }}
           />
         ))}
       </div>
 
       <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-10 relative">
-        {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14 lg:mb-20">
-          <motion.div {...fade(0)} className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-pink-100 mb-5 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5" style={{ color: cms.heading_color }} />
-              <span className="text-[11px] font-semibold tracking-[0.2em] uppercase" style={{ color: cms.heading_color }}>
-                Inside Our World
-              </span>
-            </div>
-            <h2
-              className="font-serif text-[2.5rem] lg:text-[4rem] leading-[1.05] font-bold tracking-tight"
-              style={{
-                backgroundImage: "linear-gradient(135deg, #E6007E 0%, #C2006A 40%, #A78BFA 100%)",
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              {cms.heading}
-            </h2>
+        {/* Header — minimal */}
+        <div className="text-center max-w-2xl mx-auto mb-14 lg:mb-20 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-pink-100 mb-6 shadow-sm"
+          >
+            <Sparkles className="w-3.5 h-3.5" style={{ color: cms.heading_color }} />
+            <span className="text-[11px] font-semibold tracking-[0.2em] uppercase" style={{ color: cms.heading_color }}>
+              Our Story Wall
+            </span>
           </motion.div>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="font-serif text-[2.5rem] lg:text-[4rem] leading-[1.05] font-bold tracking-tight"
+            style={{
+              backgroundImage: "linear-gradient(135deg, #E6007E 0%, #C2006A 40%, #A78BFA 100%)",
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            {cms.heading}
+          </motion.h2>
           <motion.p
-            {...fade(0.15)}
-            className="font-serif italic text-lg lg:text-2xl text-muted-foreground leading-snug max-w-md lg:text-right"
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-5 font-serif italic text-lg lg:text-xl text-muted-foreground leading-snug"
           >
             &ldquo;{cms.quote}&rdquo;
           </motion.p>
         </div>
 
-        {/* Editorial layered grid */}
-        <div className="grid grid-cols-12 gap-4 lg:gap-6 relative">
-          {/* HERO — Featured video card (large, cinematic) */}
+        {/* Floating collage canvas */}
+        <div className="relative w-full mx-auto" style={{ height: "clamp(720px, 78vw, 880px)" }}>
+          {/* Decorative center halo */}
+          <div
+            aria-hidden
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl pointer-events-none"
+            style={{
+              width: "min(620px, 60%)",
+              height: "min(620px, 60%)",
+              background:
+                "radial-gradient(circle, rgba(230,0,126,0.18), rgba(167,139,250,0.12) 45%, transparent 70%)",
+            }}
+          />
+
+          {/* HERO center card */}
           <motion.div
-            {...fade(0.05, 60)}
-            style={{ y: parallaxY1 }}
-            className="col-span-12 lg:col-span-8 relative"
+            initial={{ opacity: 0, scale: 0.92, y: 30 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            onHoverStart={() => setHovered(true)}
+            onHoverEnd={() => setHovered(false)}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
+            style={{
+              width: "min(440px, 78%)",
+              height: "clamp(420px, 52vw, 560px)",
+            }}
           >
-            <TiltCard
-              intensity={5}
-              className="relative rounded-[32px] overflow-hidden group cursor-pointer h-[460px] lg:h-[600px]"
-              onMouseEnter={() => setVideoHover(true)}
-              onMouseLeave={() => setVideoHover(false)}
-            >
+            <motion.div style={{ y: heroY, scale: heroScale }} className="relative w-full h-full">
+              {/* Glow */}
               <div
-                className="absolute inset-0 rounded-[32px] pointer-events-none"
+                aria-hidden
+                className="absolute -inset-6 rounded-[40px] blur-3xl"
+                style={{
+                  background:
+                    "radial-gradient(circle, rgba(230,0,126,0.35), rgba(167,139,250,0.22) 50%, transparent 75%)",
+                  opacity: hovered ? 1 : 0.75,
+                  transition: "opacity 600ms ease",
+                }}
+              />
+              <div
+                className="relative w-full h-full rounded-[32px] overflow-hidden border border-white/70 group"
                 style={{
                   boxShadow:
-                    "0 30px 80px -30px rgba(230,0,126,0.45), 0 10px 40px -10px rgba(167,139,250,0.3), inset 0 1px 0 rgba(255,255,255,0.4)",
-                }}
-              />
-              <img
-                src={img1}
-                alt={alt1}
-                loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
-              />
-              <video
-                ref={videoRef}
-                src={videoSrc}
-                muted
-                loop
-                playsInline
-                preload="none"
-                className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
-                style={{ opacity: videoHover ? 1 : 0 }}
-              />
-              {/* Cinematic overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-black/20" />
-              <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%)" }} />
-
-              {/* Play button — glassmorphism */}
-              <div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500"
-                style={{
-                  opacity: videoHover ? 0 : 1,
-                  transform: `translate(-50%, -50%) scale(${videoHover ? 0.6 : 1})`,
+                    "0 40px 90px -30px rgba(230,0,126,0.45), 0 20px 50px -15px rgba(167,139,250,0.35), inset 0 1px 0 rgba(255,255,255,0.6)",
                 }}
               >
-                <div className="relative">
-                  <div className="absolute inset-0 rounded-full animate-ping" style={{ background: "rgba(255,255,255,0.3)" }} />
+                <img
+                  src={heroSrc}
+                  alt={heroAlt}
+                  loading="eager"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1400ms] group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
+                {/* Glass caption */}
+                <div className="absolute bottom-5 left-5 right-5">
                   <div
-                    className="relative w-20 h-20 rounded-full flex items-center justify-center border border-white/40"
+                    className="rounded-2xl px-5 py-4 border border-white/30"
                     style={{
-                      background: "rgba(255,255,255,0.18)",
-                      WebkitBackdropFilter: "blur(16px)",
-                      backdropFilter: "blur(16px)",
-                      boxShadow: "0 20px 50px -10px rgba(0,0,0,0.4)",
+                      background: "rgba(255,255,255,0.16)",
+                      WebkitBackdropFilter: "blur(14px)",
+                      backdropFilter: "blur(14px)",
                     }}
                   >
-                    <Play className="w-7 h-7 text-white fill-white ml-1" />
+                    <div className="flex items-center gap-2 text-white/90 text-[10px] uppercase tracking-[0.3em] mb-1">
+                      <Heart className="w-3 h-3 fill-white" />
+                      A new beginning
+                    </div>
+                    <div className="font-serif text-white text-xl lg:text-2xl leading-snug">
+                      Every journey holds hope.
+                    </div>
                   </div>
                 </div>
               </div>
-
-              {/* Bottom caption */}
-              <div className="absolute bottom-7 left-7 right-7 text-white flex items-end justify-between gap-4">
-                <div>
-                  <div className="text-[10px] uppercase tracking-[0.3em] opacity-80 mb-2">Featured film</div>
-                  <div className="font-serif text-2xl lg:text-4xl font-semibold leading-tight">A space designed for hope</div>
-                </div>
-                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border border-white/30" style={{ background: "rgba(255,255,255,0.12)", WebkitBackdropFilter: "blur(10px)", backdropFilter: "blur(10px)" }}>
-                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />
-                  Live tour
-                </div>
-              </div>
-            </TiltCard>
+            </motion.div>
           </motion.div>
 
-          {/* TALL — Portrait lab */}
-          <motion.div
-            {...fade(0.12, 60)}
-            style={{ y: parallaxY2 }}
-            className="col-span-6 lg:col-span-4 relative"
-          >
-            <TiltCard
-              intensity={6}
-              className="relative rounded-[32px] overflow-hidden group cursor-pointer h-[460px] lg:h-[600px]"
-            >
-              <div
-                className="absolute inset-0 rounded-[32px] pointer-events-none z-10"
-                style={{ boxShadow: "0 25px 70px -25px rgba(167,139,250,0.5), inset 0 1px 0 rgba(255,255,255,0.4)" }}
-              />
-              <img src={img2} alt={alt2} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-purple-950/75 via-purple-900/15 to-transparent" />
-              <div className="absolute top-6 left-6 right-6 flex justify-between items-start text-white">
-                <div className="px-3 py-1 rounded-full text-[10px] uppercase tracking-[0.25em] font-semibold border border-white/30" style={{ background: "rgba(255,255,255,0.15)", WebkitBackdropFilter: "blur(10px)", backdropFilter: "blur(10px)" }}>
-                  Embryology
-                </div>
-              </div>
-              <div className="absolute bottom-7 left-7 right-7 text-white">
-                <div className="font-serif text-2xl lg:text-3xl font-semibold leading-tight">Where life begins</div>
-                <div className="text-xs opacity-80 mt-2 tracking-wide">ISO-certified laboratory</div>
-              </div>
-            </TiltCard>
-          </motion.div>
+          {/* Floating cards (desktop) */}
+          {CARDS.map((c, i) => (
+            <FloatingCard key={i} card={c} scrollY={scrollYProgress} src={getSrc(i)} />
+          ))}
 
-          {/* QUOTE — Glass card */}
-          <motion.div
-            {...fade(0.18, 50)}
-            className="col-span-12 sm:col-span-6 lg:col-span-4 relative"
-          >
-            <div
-              className="relative rounded-[32px] p-7 lg:p-9 h-full min-h-[260px] overflow-hidden flex flex-col justify-between"
-              style={{
-                background: "linear-gradient(135deg, rgba(255,255,255,0.85), rgba(253,244,255,0.7))",
-                WebkitBackdropFilter: "blur(20px)",
-                backdropFilter: "blur(20px)",
-                border: "1px solid rgba(230,0,126,0.15)",
-                boxShadow: "0 20px 60px -25px rgba(230,0,126,0.3), inset 0 1px 0 rgba(255,255,255,0.6)",
-              }}
-            >
-              <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full blur-2xl" style={{ background: "radial-gradient(circle, rgba(230,0,126,0.25), transparent 70%)" }} />
-              <div className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full blur-2xl" style={{ background: "radial-gradient(circle, rgba(167,139,250,0.2), transparent 70%)" }} />
-              <Heart className="w-7 h-7 relative" style={{ color: "#E6007E" }} />
-              <p className="font-serif text-xl lg:text-2xl italic leading-snug text-plum relative">
-                &ldquo;{cms.paragraph_1}&rdquo;
-              </p>
-              <div className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground relative">— Our promise</div>
-            </div>
-          </motion.div>
-
-          {/* STATS — Premium gradient */}
-          <motion.div
-            {...fade(0.22, 50)}
-            onViewportEnter={() => setStatsInView(true)}
-            className="col-span-12 sm:col-span-6 lg:col-span-4 relative"
-          >
-            <div
-              className="relative rounded-[32px] p-7 lg:p-9 h-full min-h-[260px] overflow-hidden"
-              style={{
-                background: "linear-gradient(140deg, #E6007E 0%, #C2006A 50%, #A78BFA 100%)",
-                boxShadow: "0 25px 70px -20px rgba(230,0,126,0.5), inset 0 1px 0 rgba(255,255,255,0.25)",
-              }}
-            >
-              <div className="absolute inset-0 opacity-30" style={{ background: "radial-gradient(circle at 20% 20%, white, transparent 55%)" }} />
-              <div className="absolute -bottom-20 -right-20 w-60 h-60 rounded-full blur-2xl" style={{ background: "radial-gradient(circle, rgba(255,255,255,0.3), transparent 70%)" }} />
-              <div className="relative h-full flex flex-col justify-between text-white gap-6">
-                <div className="text-[10px] uppercase tracking-[0.3em] opacity-90">By the numbers</div>
-                <div className="space-y-3">
-                  {stats.map((s, i) => (
-                    <div key={s.label} className="flex items-baseline gap-3">
-                      <s.icon className="w-4 h-4 opacity-85" />
-                      <span className="font-serif text-2xl lg:text-3xl font-bold tracking-tight tabular-nums">
-                        {counts[i].toLocaleString()}{s.suffix}
-                      </span>
-                      <span className="text-[11px] opacity-90 tracking-wide">{s.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* CTA / Closing */}
-          <motion.div
-            {...fade(0.28, 50)}
-            className="col-span-12 lg:col-span-4 relative"
-          >
-            <div
-              className="relative rounded-[32px] p-7 lg:p-9 h-full min-h-[260px] overflow-hidden flex flex-col justify-between"
-              style={{
-                background: "linear-gradient(135deg, #fff5f9 0%, #fef3ec 100%)",
-                border: "1px solid rgba(230,0,126,0.15)",
-                boxShadow: "0 20px 60px -25px rgba(167,139,250,0.35), inset 0 1px 0 rgba(255,255,255,0.7)",
-              }}
-            >
-              <div className="absolute -bottom-16 -right-16 w-56 h-56 rounded-full blur-2xl" style={{ background: "radial-gradient(circle, rgba(167,139,250,0.3), transparent 70%)" }} />
-              <div className="relative">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 border border-pink-100 mb-4 shadow-sm">
-                  <Sparkles className="w-3 h-3" style={{ color: "#E6007E" }} />
-                  <span className="text-[10px] uppercase tracking-[0.3em] font-semibold" style={{ color: "#E6007E" }}>Why us</span>
-                </div>
-                <p className="font-serif text-2xl lg:text-3xl leading-snug text-plum font-medium">
-                  {cms.paragraph_2}
-                </p>
-              </div>
-              <div className="relative flex items-center justify-between mt-6 gap-3">
-                <div className="flex -space-x-2.5">
-                  {[img3, img1, img2].map((src, i) => (
-                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white overflow-hidden shadow-md">
-                      <img src={src} alt="" className="w-full h-full object-cover" />
-                    </div>
-                  ))}
-                </div>
-                <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }}>
-                  <Link
-                    to="/about"
-                    className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-white text-sm font-semibold group"
-                    style={{
-                      background: "linear-gradient(135deg, #E6007E, #C2006A)",
-                      boxShadow: "0 10px 30px -10px rgba(230,0,126,0.6)",
-                    }}
-                  >
-                    Discover More
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-                  </Link>
+          {/* Mobile elegant stack */}
+          <div className="md:hidden absolute inset-0 flex flex-col items-center justify-start pt-[60%] gap-5 px-2">
+            {[0, 1, 2, 3].map((i) => {
+              const c = CARDS[i]
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30, rotate: i % 2 ? -2 : 2 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  className="w-[78%] aspect-[4/5] rounded-[24px] overflow-hidden border border-white/70"
+                  style={{
+                    transform: `rotate(${i % 2 ? -2 : 2}deg)`,
+                    boxShadow: "0 20px 50px -20px rgba(230,0,126,0.30)",
+                    marginLeft: i % 2 ? "-15%" : "15%",
+                  }}
+                >
+                  <img src={getSrc(i)} alt={c.alt} loading="lazy" className="w-full h-full object-cover" />
                 </motion.div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Ultra-wide cinematic team strip */}
-          <motion.div
-            {...fade(0.32, 60)}
-            className="col-span-12 lg:col-span-8 relative"
-          >
-            <TiltCard
-              intensity={3}
-              className="relative rounded-[32px] overflow-hidden group cursor-pointer h-[280px] lg:h-[340px]"
-            >
-              <div className="absolute inset-0 rounded-[32px] pointer-events-none z-10" style={{ boxShadow: "0 25px 70px -25px rgba(230,0,126,0.4), inset 0 1px 0 rgba(255,255,255,0.4)" }} />
-              <img src={img3} alt={alt3} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-r from-pink-950/60 via-transparent to-purple-950/40" />
-              <div className="absolute inset-0 flex items-center px-8 lg:px-14">
-                <div className="text-white max-w-md">
-                  <div className="inline-block px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[10px] font-bold uppercase tracking-[0.25em] mb-4" style={{ color: "#E6007E" }}>
-                    Our Specialists
-                  </div>
-                  <div className="font-serif text-3xl lg:text-5xl font-semibold leading-tight">Compassion in every step</div>
-                  <div className="mt-3 text-sm opacity-90 italic font-serif">Science guided by warmth.</div>
-                </div>
-              </div>
-            </TiltCard>
-          </motion.div>
-
-          {/* Floating overlap card — happy moment */}
-          <motion.div
-            {...fade(0.38, 60)}
-            style={{ y: parallaxY1 }}
-            className="col-span-12 lg:col-span-4 relative lg:-mt-16 z-10"
-          >
-            <TiltCard
-              intensity={7}
-              className="relative rounded-[32px] overflow-hidden group cursor-pointer h-[280px] lg:h-[400px]"
-            >
-              <div className="absolute inset-0 rounded-[32px] pointer-events-none z-10" style={{ boxShadow: "0 30px 80px -25px rgba(230,0,126,0.45), inset 0 1px 0 rgba(255,255,255,0.4)" }} />
-              <img src={img1} alt="Happy moment" loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-rose-950/70 via-rose-900/10 to-transparent" />
-              <div className="absolute top-5 right-5 w-11 h-11 rounded-full flex items-center justify-center border border-white/40" style={{ background: "rgba(255,255,255,0.18)", WebkitBackdropFilter: "blur(12px)", backdropFilter: "blur(12px)" }}>
-                <Heart className="w-4 h-4 text-white fill-white" />
-              </div>
-              <div className="absolute bottom-6 left-6 right-6 text-white">
-                <div className="text-[10px] uppercase tracking-[0.3em] opacity-85 mb-1">A new chapter</div>
-                <div className="font-serif text-xl lg:text-2xl font-semibold leading-tight">Helping families grow</div>
-              </div>
-            </TiltCard>
-          </motion.div>
+              )
+            })}
+          </div>
         </div>
-      </div>
 
-      {/* Bottom blur fade separator */}
-      <div
-        aria-hidden
-        className="absolute bottom-0 inset-x-0 h-32 pointer-events-none"
-        style={{ background: "linear-gradient(0deg, rgba(255,255,255,1), rgba(255,255,255,0))" }}
-      />
+        {/* Bottom subtext + CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-14 lg:mt-20 text-center max-w-xl mx-auto relative z-10"
+        >
+          {cms.paragraph_1 && (
+            <p className="text-base lg:text-lg text-muted-foreground leading-relaxed mb-7">
+              {cms.paragraph_1}
+            </p>
+          )}
+          <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }} className="inline-block">
+            <Link
+              to="/success-stories"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-white text-sm font-semibold group"
+              style={{
+                background: "linear-gradient(135deg, #E6007E, #C2006A)",
+                boxShadow: "0 14px 36px -10px rgba(230,0,126,0.55)",
+              }}
+            >
+              Explore Stories
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </motion.div>
+        </motion.div>
+      </div>
     </section>
   )
 }
