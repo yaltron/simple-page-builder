@@ -310,8 +310,8 @@ export function WhoWeAre() {
     <section
       id="about"
       ref={ref}
-      className="relative overflow-hidden"
-      style={{ background: BG_MAP[cms.background_style] || BG_MAP.soft, paddingTop: py, paddingBottom: py }}
+      className="relative overflow-hidden py-12 sm:py-16 md:py-20"
+      style={{ background: BG_MAP[cms.background_style] || BG_MAP.soft, ['--section-py' as never]: `${py}px` }}
     >
       {!isDark && (
         <>
@@ -328,14 +328,14 @@ export function WhoWeAre() {
       </div>
 
       <div className="max-w-[1180px] mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="text-center max-w-2xl mx-auto mb-4 lg:mb-6 relative z-10">
+        <div className="text-center max-w-2xl mx-auto mb-6 md:mb-8 relative z-10">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="font-serif text-[2rem] lg:text-[3rem] leading-[1.05] font-bold tracking-tight"
-            style={headingStyle}
+            className="font-serif font-bold tracking-tight leading-[1.1]"
+            style={{ ...headingStyle, fontSize: "clamp(1.75rem, 5vw, 3rem)" }}
           >
             {cms.heading}
           </motion.h2>
@@ -345,15 +345,16 @@ export function WhoWeAre() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-3 font-serif italic text-base lg:text-lg leading-snug"
-              style={{ color: cms.subtitle_color || (isDark ? "rgba(255,255,255,0.75)" : undefined) }}
+              className="mt-3 font-serif italic leading-snug"
+              style={{ color: cms.subtitle_color || (isDark ? "rgba(255,255,255,0.75)" : undefined), fontSize: "clamp(0.95rem, 2vw, 1.125rem)" }}
             >
               &ldquo;{cms.subtitle}&rdquo;
             </motion.p>
           )}
         </div>
 
-        <div className="relative w-full mx-auto" style={{ height: "clamp(480px, 44vw, 540px)" }}>
+        {/* DESKTOP — Floating cluster */}
+        <div className="relative w-full mx-auto hidden md:block" style={{ height: "clamp(480px, 44vw, 540px)" }}>
           <div
             aria-hidden
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl pointer-events-none"
