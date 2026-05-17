@@ -82,7 +82,8 @@ function AdminGalleryPage() {
                 style={{ background: "rgba(0,0,0,0.55)" }}
               >
                 <button
-                  onClick={() => setEditing(it)}
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); e.preventDefault(); setEditing(it); }}
                   className="inline-flex items-center gap-1.5 rounded-lg font-bold transition-colors"
                   style={{ background: "white", color: "#2D0A1E", padding: "8px 14px", fontSize: 13 }}
                   onMouseEnter={(e) => (e.currentTarget.style.background = "#FFF1F7")}
@@ -91,7 +92,8 @@ function AdminGalleryPage() {
                   <Pencil className="w-3.5 h-3.5" /> Edit
                 </button>
                 <button
-                  onClick={() => remove(it.id, it.url, it.media_type)}
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); e.preventDefault(); remove(it.id, it.url, it.media_type); }}
                   className="inline-flex items-center gap-1.5 rounded-lg font-bold transition-colors text-white"
                   style={{ background: "#E6007E", padding: "8px 14px", fontSize: 13 }}
                   onMouseEnter={(e) => (e.currentTarget.style.background = "#C4006A")}
