@@ -246,9 +246,6 @@ export function Footer() {
         <p style={{ fontSize: 13, color: "#7A2050", margin: 0 }}>
           © {new Date().getFullYear()} Subhashree IVF Clinic Pvt. Ltd. All rights reserved.
         </p>
-        <p style={{ fontSize: 13, color: "#7A2050", margin: 0 }}>
-          Made with <span style={{ color: "#E6007E" }}>❤</span> in Nepal
-        </p>
       </div>
     </footer>
   )
