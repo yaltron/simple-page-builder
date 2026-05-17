@@ -41,10 +41,36 @@ function FollowUpDateTime({
     borderRadius: 10,
     padding: "8px 12px",
     fontSize: 14,
+    color: "#2D0A1E",
+    background: "white",
     outline: "none",
   }
-  const focus = (e: React.FocusEvent<HTMLInputElement>) => (e.currentTarget.style.borderColor = "#E6007E")
-  const blur = (e: React.FocusEvent<HTMLInputElement>) => (e.currentTarget.style.borderColor = "rgba(230,0,126,0.3)")
+  const selectStyle: React.CSSProperties = {
+    ...inputStyle,
+    appearance: "none",
+    WebkitAppearance: "none",
+    MozAppearance: "none",
+    cursor: "pointer",
+    backgroundImage:
+      "url(\"data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3e%3cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23E6007E' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e\")",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "right 12px center",
+    paddingRight: 32,
+  }
+  const focus = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => (e.currentTarget.style.borderColor = "#E6007E")
+  const blur = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => (e.currentTarget.style.borderColor = "rgba(230,0,126,0.3)")
+
+  // Build 48 half-hour options: 12:00 AM .. 11:30 PM
+  const timeOptions: { value: string; label: string }[] = []
+  for (let h = 0; h < 24; h++) {
+    for (const m of [0, 30]) {
+      const value = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`
+      const period = h < 12 ? "AM" : "PM"
+      const hour12 = h % 12 === 0 ? 12 : h % 12
+      const label = `${hour12}:${String(m).padStart(2, "0")} ${period}`
+      timeOptions.push({ value, label })
+    }
+  }
 
   const commit = (nd: string, nt: string) => {
     if (!nd || !nt) {
@@ -57,7 +83,7 @@ function FollowUpDateTime({
 
   return (
     <div style={{ marginTop: compact ? 8 : 12 }}>
-      <div style={{ fontSize: 13, fontWeight: 700, color: "#2D0A1E", marginBottom: 8 }}>
+      <div style={{ fontSize: 13, fontWeight: 700, color: "#2D0A1E", marginBottom: 6 }}>
         Follow Up Date &amp; Time
       </div>
       <div style={{ display: "flex", gap: 12 }}>
@@ -71,16 +97,19 @@ function FollowUpDateTime({
           onBlur={blur}
           aria-label="Follow Up Date"
         />
-        <input
-          type="time"
-          step={900}
+        <select
           value={time}
           onChange={e => { setTime(e.target.value); commit(date, e.target.value) }}
-          style={inputStyle}
+          style={selectStyle}
           onFocus={focus}
           onBlur={blur}
           aria-label="Follow Up Time"
-        />
+        >
+          <option value="" disabled>Select time...</option>
+          {timeOptions.map(o => (
+            <option key={o.value} value={o.value}>{o.label}</option>
+          ))}
+        </select>
       </div>
       {error && <div style={{ color: "#C2185B", fontSize: 12, marginTop: 6 }}>{error}</div>}
     </div>
