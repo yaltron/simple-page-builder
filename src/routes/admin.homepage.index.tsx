@@ -826,8 +826,8 @@ function SectionsEditor() {
           {when.data.images.map((img, i) => (
             <div key={i} className="border rounded-lg p-3 space-y-2">
               <div className="text-xs font-semibold text-muted-foreground">Image {i + 1}{i === 3 ? " (fallback if no video URL)" : ""}</div>
-              <ImageUpload value={img.url} onChange={(url) => updateImg(when, i, { url: url || "" })} folder="homepage" />
-              <input value={img.alt} onChange={(e) => updateImg(when, i, { alt: e.target.value })} placeholder="Alt text" className="w-full px-2 py-1.5 border rounded text-sm" />
+              <ImageUpload value={img.url} onChange={(url) => updateWhenImg( i, { url: url || "" })} folder="homepage" />
+              <input value={img.alt} onChange={(e) => updateWhenImg( i, { alt: e.target.value })} placeholder="Alt text" className="w-full px-2 py-1.5 border rounded text-sm" />
             </div>
           ))}
         </div>
