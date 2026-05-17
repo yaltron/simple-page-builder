@@ -120,6 +120,7 @@ export function TiptapEditor({ value, onChange }: Props) {
           <input ref={fileRef} type="file" accept="image/*" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) onUpload(f); e.target.value = "" }} />
           <Btn title="Table" onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}><TableIcon className="w-4 h-4" /></Btn>
           <Btn title="Divider" onClick={() => editor.chain().focus().setHorizontalRule().run()}><Minus className="w-4 h-4" /></Btn>
+          <Btn title="Import HTML" onClick={() => { setImportHtml(""); setImportOpen(true) }}><FileCode className="w-4 h-4" /></Btn>
           <span className="w-px h-5 bg-gray-200 mx-1" />
           <Btn title="Undo" onClick={() => editor.chain().focus().undo().run()}><Undo className="w-4 h-4" /></Btn>
           <Btn title="Redo" onClick={() => editor.chain().focus().redo().run()}><Redo className="w-4 h-4" /></Btn>
