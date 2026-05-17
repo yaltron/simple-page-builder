@@ -356,17 +356,17 @@ export function WhoWeAre() {
             </p>
           )}
           <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }} className="inline-block">
-            <Link
-              to="/success-stories"
+            <a
+              href={cms.cta_link}
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-white text-sm font-semibold group"
               style={{
                 background: "linear-gradient(135deg, #E6007E, #C2006A)",
                 boxShadow: "0 14px 36px -10px rgba(230,0,126,0.55)",
               }}
             >
-              Explore Stories
+              {cms.cta_text}
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
+            </a>
           </motion.div>
         </motion.div>
       </div>
