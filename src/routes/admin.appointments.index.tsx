@@ -110,10 +110,18 @@ function AdminAppointmentsPage() {
 
   const updateStatus = async (id: string, status: Appt["status"]) => {
     setBusy(true)
-    const { error } = await supabase.from("appointments").update({ status }).eq("id", id)
+    const patch: any = { status }
+    if (status !== "follow_up") patch.follow_up_at = null
+    const { error } = await supabase.from("appointments").update(patch).eq("id", id)
     setBusy(false)
     if (error) { toast.error("Update failed"); return }
     toast.success("Status updated")
+  }
+
+  const updateFollowUpAt = async (id: string, follow_up_at: string | null) => {
+    const { error } = await supabase.from("appointments").update({ follow_up_at }).eq("id", id)
+    if (error) { toast.error("Save failed"); return }
+    toast.success("Follow-up time saved")
   }
 
   const updateNotes = async (id: string, admin_notes: string) => {
