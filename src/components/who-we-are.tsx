@@ -19,16 +19,19 @@ import heroFamily from "@/assets/hero-family.jpg"
 // Types
 // ─────────────────────────────────────────────────────────
 export type GalleryCardType = "image" | "video" | "testimonial" | "quote"
-export type GalleryCardSize = "hero" | "medium" | "small" | "portrait" | "landscape"
-export type GalleryCardPosition =
-  | "top-left"
-  | "center-left"
-  | "center"
-  | "right-top"
-  | "floating-right"
-  | "bottom-left"
-  | "bottom-right"
-  | "auto"
+
+export type SlotKey =
+  | "center_hero"
+  | "left_card_1"
+  | "left_card_2"
+  | "right_card_1"
+  | "right_card_2"
+  | "far_left_floating_1"
+  | "far_left_floating_2"
+  | "far_left_floating_3"
+  | "far_right_floating_1"
+  | "far_right_floating_2"
+  | "far_right_floating_3"
 
 export type GalleryItem = {
   enabled?: boolean
@@ -39,18 +42,13 @@ export type GalleryItem = {
   caption?: string
   overlay_kicker?: string
   overlay_text?: string
-  size?: GalleryCardSize
-  position?: GalleryCardPosition
   glow_color?: string
   overlay_opacity?: number // 0-100
-  // video
   autoplay?: boolean
   muted?: boolean
   loop?: boolean
-  // quote / testimonial
   quote?: string
   author?: string
-  // rotation (-8..8)
   rotate?: number
 }
 
@@ -64,34 +62,62 @@ export type StorytellingGalleryCMS = {
   gradient_from: string
   gradient_to: string
   glow_color: string
-  glow_intensity: number // 0-100
+  glow_intensity: number
   background_style: "soft" | "cream" | "white" | "dark"
   cta_text: string
   cta_url: string
-  section_spacing: number // px
-  card_radius: number // px
+  section_spacing: number
+  card_radius: number
   floating_enabled: boolean
-  animation_speed: number // 0.5..2 — lower is faster
+  animation_speed: number
   hover_style: "lift" | "tilt" | "zoom" | "none"
-  items: GalleryItem[]
+  slots: Partial<Record<SlotKey, GalleryItem>>
 }
 
 // ─────────────────────────────────────────────────────────
-// Defaults — ship a beautiful section even with no CMS data
+// Slot configuration — fixed layout positions
 // ─────────────────────────────────────────────────────────
-const DEFAULT_ITEMS: GalleryItem[] = [
-  { type: "image", url: heroFamily,        alt: "A moment of hope",      size: "hero",      position: "center",         overlay_kicker: "A new beginning", overlay_text: "Every journey holds hope.", glow_color: "#E6007E", overlay_opacity: 55 },
-  { type: "image", url: miracle1,          alt: "Newborn moment",        size: "portrait",  position: "top-left",       glow_color: "#E6007E", rotate: -4 },
-  { type: "image", url: testimonial1,      alt: "Mother and baby",       size: "small",     position: "center-left",    glow_color: "#A78BFA", rotate: 3 },
-  { type: "image", url: miracle4,          alt: "Family smile",          size: "portrait",  position: "bottom-left",    glow_color: "#E6007E", rotate: -2 },
-  { type: "image", url: miracle5,          alt: "Joyful family",         size: "medium",    position: "right-top",      glow_color: "#A78BFA", rotate: -5 },
-  { type: "image", url: testimonial3,      alt: "Doctor and patient",    size: "small",     position: "floating-right", glow_color: "#FDBA74", rotate: 4 },
-  { type: "image", url: miracle6,          alt: "Baby joy",              size: "portrait",  position: "bottom-right",   glow_color: "#E6007E", rotate: 2 },
-  { type: "image", url: testimonialFamily, alt: "Family together",       size: "small",     position: "auto",           glow_color: "#A78BFA", rotate: 3 },
-  { type: "image", url: miracle3,          alt: "Tiny hand",             size: "small",     position: "auto",           glow_color: "#FDBA74", rotate: -2 },
-  { type: "image", url: testimonial2,      alt: "Happy parents",         size: "small",     position: "auto",           glow_color: "#E6007E", rotate: 5 },
-  { type: "image", url: miracle2,          alt: "First hold",            size: "portrait",  position: "auto",           glow_color: "#A78BFA", rotate: -3 },
+type SlotConfig = {
+  key: SlotKey
+  label: string
+  top: string
+  left: string
+  width: number
+  height: number
+  defaultGlow: string
+  defaultRotate: number
+}
+
+export const SLOT_CONFIG: SlotConfig[] = [
+  { key: "center_hero",          label: "Center Hero Image",   top: "50%", left: "50%", width: 290, height: 360, defaultGlow: "#E6007E", defaultRotate: 0 },
+  { key: "left_card_1",          label: "Left Card 1",         top: "10%", left: "20%", width: 110, height: 140, defaultGlow: "#E6007E", defaultRotate: -4 },
+  { key: "left_card_2",          label: "Left Card 2",         top: "68%", left: "22%", width: 110, height: 140, defaultGlow: "#A78BFA", defaultRotate: 3 },
+  { key: "right_card_1",         label: "Right Card 1",        top: "12%", left: "70%", width: 120, height: 100, defaultGlow: "#A78BFA", defaultRotate: -3 },
+  { key: "right_card_2",         label: "Right Card 2",        top: "68%", left: "72%", width: 110, height: 140, defaultGlow: "#E6007E", defaultRotate: 4 },
+  { key: "far_left_floating_1",  label: "Far Left Floating 1", top: "4%",  left: "3%",  width: 94,  height: 94,  defaultGlow: "#FDBA74", defaultRotate: -5 },
+  { key: "far_left_floating_2",  label: "Far Left Floating 2", top: "44%", left: "1%",  width: 94,  height: 94,  defaultGlow: "#A78BFA", defaultRotate: 5 },
+  { key: "far_left_floating_3",  label: "Far Left Floating 3", top: "84%", left: "5%",  width: 94,  height: 94,  defaultGlow: "#E6007E", defaultRotate: -3 },
+  { key: "far_right_floating_1", label: "Far Right Floating 1", top: "6%",  left: "88%", width: 94,  height: 94,  defaultGlow: "#A78BFA", defaultRotate: 4 },
+  { key: "far_right_floating_2", label: "Far Right Floating 2", top: "46%", left: "92%", width: 94,  height: 94,  defaultGlow: "#FDBA74", defaultRotate: -4 },
+  { key: "far_right_floating_3", label: "Far Right Floating 3", top: "84%", left: "88%", width: 94,  height: 94,  defaultGlow: "#E6007E", defaultRotate: 3 },
 ]
+
+// ─────────────────────────────────────────────────────────
+// Defaults — populate slots with sample content
+// ─────────────────────────────────────────────────────────
+const DEFAULT_SLOTS: Record<SlotKey, GalleryItem> = {
+  center_hero:          { type: "image", url: heroFamily,        alt: "A moment of hope",   overlay_kicker: "A new beginning", overlay_text: "Every journey holds hope.", overlay_opacity: 0 },
+  left_card_1:          { type: "image", url: miracle1,          alt: "Newborn moment" },
+  left_card_2:          { type: "image", url: miracle4,          alt: "Family smile" },
+  right_card_1:         { type: "image", url: miracle5,          alt: "Joyful family" },
+  right_card_2:         { type: "image", url: miracle6,          alt: "Baby joy" },
+  far_left_floating_1:  { type: "image", url: testimonial1,      alt: "Mother and baby" },
+  far_left_floating_2:  { type: "image", url: testimonial2,      alt: "Happy parents" },
+  far_left_floating_3:  { type: "image", url: miracle3,          alt: "Tiny hand" },
+  far_right_floating_1: { type: "image", url: testimonial3,      alt: "Doctor and patient" },
+  far_right_floating_2: { type: "image", url: testimonialFamily, alt: "Family together" },
+  far_right_floating_3: { type: "image", url: miracle2,          alt: "First hold" },
+}
 
 const DEFAULTS: StorytellingGalleryCMS = {
   enabled: true,
@@ -112,135 +138,14 @@ const DEFAULTS: StorytellingGalleryCMS = {
   floating_enabled: true,
   animation_speed: 1,
   hover_style: "lift",
-  items: DEFAULT_ITEMS,
+  slots: DEFAULT_SLOTS,
 }
-
-// ─────────────────────────────────────────────────────────
-// Mapping helpers
-// ─────────────────────────────────────────────────────────
-const SIZE_MAP: Record<GalleryCardSize, { w: number; h: number }> = {
-  hero:      { w: 290, h: 360 },
-  medium:    { w: 116, h: 140 },
-  small:     { w: 94,  h: 94 },
-  portrait:  { w: 100, h: 130 },
-  landscape: { w: 140, h: 100 },
-}
-
-const POSITION_MAP: Record<Exclude<GalleryCardPosition, "auto">, { top: string; left: string }> = {
-  "top-left":       { top: "8%",  left: "8%" },
-  "center-left":    { top: "42%", left: "6%" },
-  "bottom-left":    { top: "70%", left: "10%" },
-  "right-top":      { top: "10%", left: "82%" },
-  "floating-right": { top: "44%", left: "85%" },
-  "bottom-right":   { top: "72%", left: "81%" },
-  "center":         { top: "50%", left: "50%" },
-}
-
-const AUTO_SLOTS: { top: string; left: string }[] = [
-  { top: "18%", left: "24%" },
-  { top: "62%", left: "26%" },
-  { top: "16%", left: "67%" },
-  { top: "60%", left: "68%" },
-  { top: "30%", left: "14%" },
-  { top: "80%", left: "60%" },
-]
 
 const BG_MAP: Record<StorytellingGalleryCMS["background_style"], string> = {
   soft:  "linear-gradient(180deg, #fff 0%, #fff7fb 10%, #fdf4ff 50%, #fff5ee 90%, #fff 100%)",
   cream: "linear-gradient(180deg, #fff 0%, #fffaf3 20%, #fef3e7 60%, #fff 100%)",
   white: "#ffffff",
   dark:  "linear-gradient(180deg, #0f0a14 0%, #1a1020 50%, #0f0a14 100%)",
-}
-
-// ─────────────────────────────────────────────────────────
-// Single floating card
-// ─────────────────────────────────────────────────────────
-function FloatingCard({
-  item,
-  index,
-  scrollY,
-  cms,
-}: {
-  item: GalleryItem
-  index: number
-  scrollY: ReturnType<typeof useScroll>["scrollYProgress"]
-  cms: StorytellingGalleryCMS
-}) {
-  const isHero = item.size === "hero" || item.position === "center"
-  if (isHero) return null // hero is rendered separately
-
-  const size = SIZE_MAP[item.size && item.size !== "hero" ? item.size : "medium"]
-  let pos: { top: string; left: string }
-  if (!item.position || item.position === "auto") {
-    pos = AUTO_SLOTS[index % AUTO_SLOTS.length]
-  } else {
-    pos = POSITION_MAP[item.position]
-  }
-
-  const depth = 24 + (index % 4) * 6
-  const delay = 0.05 + (index % 7) * 0.04
-  const rotate = item.rotate ?? (index % 2 === 0 ? -3 : 3)
-  const glow = item.glow_color || cms.glow_color || "#E6007E"
-  const overlayOpacity = (item.overlay_opacity ?? 0) / 100
-  const radius = cms.card_radius
-  const speedMult = Math.max(0.4, cms.animation_speed || 1)
-
-  const y = useTransform(scrollY, [0, 1], [depth, -depth])
-
-  const hoverProps =
-    cms.hover_style === "none"
-      ? {}
-      : cms.hover_style === "tilt"
-      ? { rotate: 0 }
-      : cms.hover_style === "zoom"
-      ? { scale: 1.06 }
-      : { scale: 1.04, y: -4 }
-
-  return (
-    <motion.div
-      className="absolute hidden md:block"
-      style={{ top: pos.top, left: pos.left, width: size.w, height: size.h, zIndex: 2 + (index % 3), y }}
-      initial={{ opacity: 0, y: 40, scale: 0.9, rotate }}
-      whileInView={{ opacity: 1, scale: 1, rotate }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.9 * speedMult, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <motion.div
-        animate={cms.floating_enabled ? { y: [0, -6, 0] } : undefined}
-        transition={{ duration: (8 + (index % 4)) * speedMult, repeat: Infinity, ease: "easeInOut", delay }}
-        whileHover={{ ...hoverProps, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
-        className="relative w-full h-full group cursor-pointer"
-        style={{ willChange: "transform" }}
-      >
-        {/* Glow */}
-        <div
-          aria-hidden
-          className="absolute -inset-3 blur-2xl opacity-60 group-hover:opacity-90 transition-opacity duration-500"
-          style={{
-            borderRadius: radius + 8,
-            background: `radial-gradient(circle, ${glow}55, ${glow}22 55%, transparent 78%)`,
-          }}
-        />
-        <div
-          className="relative w-full h-full overflow-hidden border border-white/70"
-          style={{
-            borderRadius: radius,
-            boxShadow: `0 20px 50px -20px ${glow}55, 0 8px 24px -10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.6)`,
-          }}
-        >
-          <CardMedia item={item} />
-          {overlayOpacity > 0 && (
-            <div className="absolute inset-0" style={{ background: `rgba(0,0,0,${overlayOpacity})` }} />
-          )}
-          {(item.caption || item.overlay_text) && (
-            <div className="absolute bottom-2 left-2 right-2 text-white text-[11px] font-medium drop-shadow">
-              {item.overlay_text || item.caption}
-            </div>
-          )}
-        </div>
-      </motion.div>
-    </motion.div>
-  )
 }
 
 // ─────────────────────────────────────────────────────────
@@ -291,6 +196,84 @@ function CardMedia({ item }: { item: GalleryItem }) {
 }
 
 // ─────────────────────────────────────────────────────────
+// Floating slot card
+// ─────────────────────────────────────────────────────────
+function SlotCard({
+  config,
+  item,
+  index,
+  scrollY,
+  cms,
+}: {
+  config: SlotConfig
+  item: GalleryItem
+  index: number
+  scrollY: ReturnType<typeof useScroll>["scrollYProgress"]
+  cms: StorytellingGalleryCMS
+}) {
+  const depth = 18 + (index % 4) * 5
+  const delay = 0.05 + (index % 7) * 0.04
+  const rotate = item.rotate ?? config.defaultRotate
+  const glow = item.glow_color || config.defaultGlow || cms.glow_color
+  const overlayOpacity = (item.overlay_opacity ?? 0) / 100
+  const radius = cms.card_radius
+  const speedMult = Math.max(0.4, cms.animation_speed || 1)
+
+  const y = useTransform(scrollY, [0, 1], [depth, -depth])
+
+  const hoverProps =
+    cms.hover_style === "none" ? {} :
+    cms.hover_style === "tilt" ? { rotate: 0 } :
+    cms.hover_style === "zoom" ? { scale: 1.06 } :
+    { scale: 1.04, y: -4 }
+
+  return (
+    <motion.div
+      className="absolute hidden md:block -translate-x-1/2 -translate-y-1/2"
+      style={{ top: config.top, left: config.left, width: config.width, height: config.height, zIndex: 2 + (index % 3), y }}
+      initial={{ opacity: 0, y: 40, scale: 0.9, rotate }}
+      whileInView={{ opacity: 1, scale: 1, rotate }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.9 * speedMult, delay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <motion.div
+        animate={cms.floating_enabled ? { y: [0, -6, 0] } : undefined}
+        transition={{ duration: (8 + (index % 4)) * speedMult, repeat: Infinity, ease: "easeInOut", delay }}
+        whileHover={{ ...hoverProps, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
+        className="relative w-full h-full group cursor-pointer"
+        style={{ willChange: "transform" }}
+      >
+        <div
+          aria-hidden
+          className="absolute -inset-3 blur-2xl opacity-60 group-hover:opacity-90 transition-opacity duration-500"
+          style={{
+            borderRadius: radius + 8,
+            background: `radial-gradient(circle, ${glow}55, ${glow}22 55%, transparent 78%)`,
+          }}
+        />
+        <div
+          className="relative w-full h-full overflow-hidden border border-white/70"
+          style={{
+            borderRadius: radius,
+            boxShadow: `0 20px 50px -20px ${glow}55, 0 8px 24px -10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.6)`,
+          }}
+        >
+          <CardMedia item={item} />
+          {overlayOpacity > 0 && (
+            <div className="absolute inset-0" style={{ background: `rgba(0,0,0,${overlayOpacity})` }} />
+          )}
+          {(item.caption || item.overlay_text) && (
+            <div className="absolute bottom-2 left-2 right-2 text-white text-[11px] font-medium drop-shadow">
+              {item.overlay_text || item.caption}
+            </div>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────
 // Main section
 // ─────────────────────────────────────────────────────────
 export function WhoWeAre() {
@@ -300,11 +283,11 @@ export function WhoWeAre() {
 
   if (cms.enabled === false) return null
 
-  const items = (cms.items && cms.items.length > 0 ? cms.items : DEFAULT_ITEMS).filter((i) => i.enabled !== false)
-  const hero = items.find((i) => i.size === "hero" || i.position === "center") || items[0]
-  const others = items.filter((i) => i !== hero)
+  const slots = cms.slots || {}
+  const heroCfg = SLOT_CONFIG[0]
+  const hero = slots[heroCfg.key] ?? DEFAULT_SLOTS.center_hero
+  const others = SLOT_CONFIG.slice(1)
 
-  // Heading style
   const headingStyle: CSSProperties = cms.gradient_enabled
     ? {
         backgroundImage: `linear-gradient(135deg, ${cms.gradient_from} 0%, ${cms.gradient_to} 100%)`,
@@ -319,7 +302,7 @@ export function WhoWeAre() {
   const [hovered, setHovered] = useState(false)
 
   const py = cms.section_spacing || 80
-  const heroGlow = cms.glow_color || "#E6007E"
+  const heroGlow = hero.glow_color || cms.glow_color || "#E6007E"
   const glowAlpha = Math.min(100, Math.max(0, cms.glow_intensity ?? 60)) / 100
   const isDark = cms.background_style === "dark"
 
@@ -330,7 +313,6 @@ export function WhoWeAre() {
       className="relative overflow-hidden"
       style={{ background: BG_MAP[cms.background_style] || BG_MAP.soft, paddingTop: py, paddingBottom: py }}
     >
-      {/* Top/bottom fades */}
       {!isDark && (
         <>
           <div aria-hidden className="absolute top-0 inset-x-0 h-32 pointer-events-none"
@@ -340,14 +322,12 @@ export function WhoWeAre() {
         </>
       )}
 
-      {/* Ambient blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <MorphingBlob color={cms.gradient_from} size={620} opacity={0.08} duration={32} driftX={-40} driftY={30} style={{ top: "-180px", right: "-200px" }} />
         <MorphingBlob color={cms.gradient_to}   size={540} opacity={0.10} duration={38} delay={-12} driftX={50} driftY={-40} style={{ bottom: "-180px", left: "-160px" }} />
       </div>
 
       <div className="max-w-[1180px] mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-4 lg:mb-6 relative z-10">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -373,9 +353,7 @@ export function WhoWeAre() {
           )}
         </div>
 
-        {/* Floating collage canvas */}
         <div className="relative w-full mx-auto" style={{ height: "clamp(480px, 44vw, 540px)" }}>
-          {/* Center halo */}
           <div
             aria-hidden
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl pointer-events-none"
@@ -386,8 +364,8 @@ export function WhoWeAre() {
             }}
           />
 
-          {/* HERO center card */}
-          {hero && (
+          {/* HERO center */}
+          {hero && hero.enabled !== false && (
             <motion.div
               initial={{ opacity: 0, scale: 0.92, y: 30 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -443,35 +421,41 @@ export function WhoWeAre() {
             </motion.div>
           )}
 
-          {/* Floating cards (desktop) */}
-          {others.map((item, i) => (
-            <FloatingCard key={i} item={item} index={i} scrollY={scrollYProgress} cms={cms} />
-          ))}
+          {/* Floating slot cards */}
+          {others.map((cfg, i) => {
+            const item = slots[cfg.key]
+            if (!item || item.enabled === false) return null
+            if (!item.url && item.type !== "quote" && item.type !== "testimonial") return null
+            return <SlotCard key={cfg.key} config={cfg} item={item} index={i} scrollY={scrollYProgress} cms={cms} />
+          })}
 
           {/* Mobile stack */}
           <div className="md:hidden absolute inset-0 flex flex-col items-center justify-start pt-[60%] gap-5 px-2">
-            {others.slice(0, 4).map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30, rotate: i % 2 ? -2 : 2 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="w-[78%] aspect-[4/5] overflow-hidden border border-white/70 relative"
-                style={{
-                  borderRadius: cms.card_radius,
-                  transform: `rotate(${i % 2 ? -2 : 2}deg)`,
-                  boxShadow: `0 20px 50px -20px ${item.glow_color || heroGlow}55`,
-                  marginLeft: i % 2 ? "-15%" : "15%",
-                }}
-              >
-                <CardMedia item={item} />
-              </motion.div>
-            ))}
+            {others.slice(0, 4).map((cfg, i) => {
+              const item = slots[cfg.key]
+              if (!item || item.enabled === false || (!item.url && item.type !== "quote")) return null
+              return (
+                <motion.div
+                  key={cfg.key}
+                  initial={{ opacity: 0, y: 30, rotate: i % 2 ? -2 : 2 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                  className="w-[78%] aspect-[4/5] overflow-hidden border border-white/70 relative"
+                  style={{
+                    borderRadius: cms.card_radius,
+                    transform: `rotate(${i % 2 ? -2 : 2}deg)`,
+                    boxShadow: `0 20px 50px -20px ${item.glow_color || heroGlow}55`,
+                    marginLeft: i % 2 ? "-15%" : "15%",
+                  }}
+                >
+                  <CardMedia item={item} />
+                </motion.div>
+              )
+            })}
           </div>
         </div>
 
-        {/* CTA */}
         {cms.cta_text && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
