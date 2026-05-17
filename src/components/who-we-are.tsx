@@ -378,8 +378,6 @@ export function WhoWeAre() {
           </motion.div>
         </motion.div>
       </div>
-      {/* Suppress unused warnings */}
-      <div className="hidden">{whoClinic} {whoTeam} {heroConsultation}</div>
     </section>
   )
 }
