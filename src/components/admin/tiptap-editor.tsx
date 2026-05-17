@@ -135,6 +135,32 @@ export function TiptapEditor({ value, onChange }: Props) {
         </div>
         <EditorContent editor={editor} className="prose prose-sm max-w-none p-4 min-h-[400px] focus:outline-none [&_*:focus]:outline-none" />
       </div>
+      <Dialog open={importOpen} onOpenChange={setImportOpen}>
+        <DialogContent className="sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Import HTML Content</DialogTitle>
+          </DialogHeader>
+          <Textarea
+            value={importHtml}
+            onChange={(e) => setImportHtml(e.target.value)}
+            placeholder="Paste raw HTML here…"
+            className="min-h-[300px] font-mono text-xs"
+          />
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={() => {
+                editor.commands.setContent(importHtml || "", { emitUpdate: true })
+                setImportOpen(false)
+              }}
+              className="px-4 py-2 rounded-md text-white font-medium"
+              style={{ background: "#E6007E" }}
+            >
+              Import & Render
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
