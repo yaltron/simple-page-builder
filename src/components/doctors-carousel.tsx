@@ -165,7 +165,7 @@ export function DoctorsCarousel() {
           className="text-center max-w-3xl mx-auto mb-12 space-y-4"
         >
           <h2 className="font-serif text-3xl lg:text-4xl font-bold" style={{ color: "#C2185B" }}>
-            World-Class Doctors, Dedicated to Your Care
+            Experienced IVF Specialists Providing Compassionate Fertility Care
           </h2>
         </motion.div>
       </div>

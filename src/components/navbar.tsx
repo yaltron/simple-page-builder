@@ -195,9 +195,9 @@ export function Navbar() {
   const logoScale = isScrolled ? 0.88 : 1
 
   const Logo = (
-    <Link to="/" className="flex items-center gap-2" style={{ transform: `scale(${logoScale})`, transformOrigin: "left center", transition: "transform 0.35s ease" }}>
+    <Link to="/" className="flex items-center gap-2" style={{ transform: `scale(${logoScale})`, transformOrigin: "left center", transition: "transform 0.35s ease", alignItems: "center" }}>
       {!logoFailed ? (
-        <img src={logo} alt="Subhashree IVF" style={{ width: 180, height: "auto" }} onError={() => setLogoFailed(true)} />
+        <img src={logo} alt="Subhashree IVF" style={{ width: 180, height: "auto", display: "block", objectFit: "contain" }} onError={() => setLogoFailed(true)} />
       ) : (
         <span className="flex items-center gap-2" style={{ color: COLORS.magenta }}>
           <LotusIcon className="w-8 h-8" />
@@ -231,6 +231,8 @@ export function Navbar() {
         <div
           style={{
             height: row1Height,
+            paddingTop: 8,
+            paddingBottom: 8,
             transition: "height 0.35s ease",
           }}
         >
