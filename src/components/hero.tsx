@@ -117,11 +117,11 @@ export function Hero() {
                 {hero.subheadline}
               </motion.p>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-3 sm:gap-4">
                 <Button
                   asChild
                   size="lg"
-                  className="bg-gradient-to-r from-rose to-rose-dark hover:from-rose-dark hover:to-rose text-white rounded-full px-8 text-base"
+                  className="bg-gradient-to-r from-rose to-rose-dark hover:from-rose-dark hover:to-rose text-white rounded-full px-6 sm:px-8 text-sm sm:text-base"
                 >
                   {isExternal ? (
                     <a href={hero.cta_primary_url}>{hero.cta_primary_text}</a>
@@ -135,7 +135,7 @@ export function Hero() {
                     onClick={() => setVideoOpen(true)}
                     size="lg"
                     variant="outline"
-                    className="rounded-full px-8 text-base border-plum/20 text-plum hover:bg-white/15 hover:border-plum/40 transition-[background,border-color] duration-[250ms] ease-[ease]"
+                    className="rounded-full px-6 sm:px-8 text-sm sm:text-base border-plum/20 text-plum hover:bg-white/15 hover:border-plum/40 transition-[background,border-color] duration-[250ms] ease-[ease]"
                   >
                     <Play className="w-4 h-4 mr-2 fill-current" />
                     {hero.cta_secondary_text}
