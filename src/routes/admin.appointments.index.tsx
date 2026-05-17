@@ -21,17 +21,32 @@ type Appt = {
   consultation_type: string
   message: string | null
   admin_notes: string | null
-  status: "new" | "confirmed" | "cancelled" | "completed"
+  status: "new" | "confirmed" | "cancelled" | "completed" | "follow_up"
+  follow_up_at: string | null
   created_at: string
   updated_at: string
 }
 
-const STATUS_OPTIONS = ["new", "confirmed", "completed", "cancelled"] as const
+const STATUS_OPTIONS = ["new", "confirmed", "follow_up", "completed", "cancelled"] as const
+const STATUS_LABELS: Record<string, string> = {
+  new: "New",
+  confirmed: "Confirmed",
+  follow_up: "Follow Up",
+  completed: "Completed",
+  cancelled: "Cancelled",
+}
 const STATUS_COLORS: Record<string, { bg: string; fg: string }> = {
-  new: { bg: "#FFE4EF", fg: "#C2185B" },
-  confirmed: { bg: "#DBEAFE", fg: "#1E40AF" },
-  completed: { bg: "#D1FADF", fg: "#027A48" },
+  new: { bg: "#DBEAFE", fg: "#1E40AF" },
+  confirmed: { bg: "#D1FADF", fg: "#027A48" },
+  follow_up: { bg: "#F59E0B", fg: "#FFFFFF" },
+  completed: { bg: "#E6007E", fg: "#FFFFFF" },
   cancelled: { bg: "#FEE2E2", fg: "#991B1B" },
+}
+
+function formatFollowUp(iso: string | null) {
+  if (!iso) return ""
+  const d = new Date(iso)
+  return d.toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true })
 }
 
 function AdminAppointmentsPage() {
