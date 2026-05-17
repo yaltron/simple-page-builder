@@ -1,4 +1,91 @@
 import { useEffect, useMemo, useState } from "react"
+
+function splitIso(iso: string | null): { date: string; time: string } {
+  if (!iso) return { date: "", time: "" }
+  const d = new Date(iso)
+  const pad = (n: number) => String(n).padStart(2, "0")
+  return {
+    date: `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`,
+    time: `${pad(d.getHours())}:${pad(d.getMinutes())}`,
+  }
+}
+function combineToIso(date: string, time: string): string | null {
+  if (!date || !time) return null
+  const d = new Date(`${date}T${time}`)
+  if (isNaN(d.getTime())) return null
+  return d.toISOString()
+}
+
+function FollowUpDateTime({
+  value,
+  onSave,
+  compact = false,
+}: {
+  value: string | null
+  onSave: (iso: string | null) => void
+  compact?: boolean
+}) {
+  const initial = splitIso(value)
+  const [date, setDate] = useState(initial.date)
+  const [time, setTime] = useState(initial.time)
+  const [error, setError] = useState("")
+  useEffect(() => {
+    const s = splitIso(value)
+    setDate(s.date); setTime(s.time); setError("")
+  }, [value])
+
+  const today = new Date().toISOString().split("T")[0]
+  const inputStyle: React.CSSProperties = {
+    width: "50%",
+    border: "1.5px solid rgba(230,0,126,0.3)",
+    borderRadius: 10,
+    padding: "8px 12px",
+    fontSize: 14,
+    outline: "none",
+  }
+  const focus = (e: React.FocusEvent<HTMLInputElement>) => (e.currentTarget.style.borderColor = "#E6007E")
+  const blur = (e: React.FocusEvent<HTMLInputElement>) => (e.currentTarget.style.borderColor = "rgba(230,0,126,0.3)")
+
+  const commit = (nd: string, nt: string) => {
+    if (!nd || !nt) {
+      setError("Please select both date and time for follow up")
+      return
+    }
+    setError("")
+    onSave(combineToIso(nd, nt))
+  }
+
+  return (
+    <div style={{ marginTop: compact ? 8 : 12 }}>
+      <div style={{ fontSize: 13, fontWeight: 700, color: "#2D0A1E", marginBottom: 8 }}>
+        Follow Up Date &amp; Time
+      </div>
+      <div style={{ display: "flex", gap: 12 }}>
+        <input
+          type="date"
+          min={today}
+          value={date}
+          onChange={e => { setDate(e.target.value); commit(e.target.value, time) }}
+          style={inputStyle}
+          onFocus={focus}
+          onBlur={blur}
+          aria-label="Follow Up Date"
+        />
+        <input
+          type="time"
+          step={900}
+          value={time}
+          onChange={e => { setTime(e.target.value); commit(date, e.target.value) }}
+          style={inputStyle}
+          onFocus={focus}
+          onBlur={blur}
+          aria-label="Follow Up Time"
+        />
+      </div>
+      {error && <div style={{ color: "#C2185B", fontSize: 12, marginTop: 6 }}>{error}</div>}
+    </div>
+  )
+}
 import { createFileRoute } from "@tanstack/react-router"
 import { Calendar, CheckCircle2, Clock, Inbox, Search, Download, X, Phone, MessageCircle, Trash2 } from "lucide-react"
 import { AdminShell, AdminLoading } from "@/components/admin/admin-shell"
