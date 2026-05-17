@@ -427,6 +427,7 @@ const WHO_DEFAULTS = {
 const WHEN_DEFAULTS = {
   heading: "Signs You Should See a Fertility Specialist",
   heading_color: "#C2185B",
+  video_url: "",
   images: [
     { url: "", alt: "" },
     { url: "", alt: "" },
@@ -543,10 +544,23 @@ function SectionsEditor() {
         <Field label="Heading color">
           <ColorPicker value={when.data.heading_color} onChange={(c) => when.setData({ ...when.data, heading_color: c })} />
         </Field>
+        <div>
+          <div className="text-xs font-semibold text-muted-foreground mb-1">Video URL</div>
+          <input
+            value={when.data.video_url || ""}
+            onChange={(e) => when.setData({ ...when.data, video_url: e.target.value })}
+            placeholder="Paste YouTube or Vimeo URL here..."
+            className="w-full"
+            style={{ border: "1.5px solid rgba(230,0,126,0.2)", borderRadius: 12, padding: "11px 14px", outline: "none" }}
+            onFocus={(e) => (e.currentTarget.style.borderColor = "#E6007E")}
+            onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(230,0,126,0.2)")}
+          />
+          <div style={{ fontSize: 12, color: "#b06090", marginTop: 4 }}>Supports YouTube and Vimeo links</div>
+        </div>
         <div className="grid md:grid-cols-4 gap-3">
           {when.data.images.map((img, i) => (
             <div key={i} className="border rounded-lg p-3 space-y-2">
-              <div className="text-xs font-semibold text-muted-foreground">Image {i + 1}{i === 3 ? " (video thumb)" : ""}</div>
+              <div className="text-xs font-semibold text-muted-foreground">Image {i + 1}{i === 3 ? " (fallback if no video URL)" : ""}</div>
               <ImageUpload value={img.url} onChange={(url) => updateImg(when, i, { url: url || "" })} folder="homepage" />
               <input value={img.alt} onChange={(e) => updateImg(when, i, { alt: e.target.value })} placeholder="Alt text" className="w-full px-2 py-1.5 border rounded text-sm" />
             </div>
