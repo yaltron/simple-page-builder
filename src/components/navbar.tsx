@@ -555,7 +555,7 @@ export function Navbar() {
 
       {/* Spacer to offset fixed navbar height */}
       <div style={{ height: isScrolled ? 128 : 142 }} className="hidden md:block" />
-      <div style={{ height: 70 }} className="md:hidden" />
+      <div className="md:hidden h-[64px]" />
     </>
   )
 }
