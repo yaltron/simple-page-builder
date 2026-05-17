@@ -202,7 +202,7 @@ export function WhoWeAre() {
         ))}
       </div>
 
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="max-w-[1180px] mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header — minimal */}
         <div className="text-center max-w-2xl mx-auto mb-10 lg:mb-14 relative z-10">
           <motion.div
