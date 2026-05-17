@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { Save, Plus, Trash2, ArrowUp, ArrowDown, ExternalLink } from "lucide-react"
 import { AdminShell, AdminLoading } from "@/components/admin/admin-shell"
 import { ImageUpload } from "@/components/admin/image-upload"
+import { ColorPicker } from "@/components/admin/color-picker"
 import { useAdminAuth } from "@/lib/use-admin-auth"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
@@ -11,7 +12,7 @@ export const Route = createFileRoute("/admin/homepage/")({
   component: AdminHomepagePage,
 })
 
-type Tab = "hero" | "about"
+type Tab = "hero" | "sections" | "about"
 
 function AdminHomepagePage() {
   const { loading, isAdmin } = useAdminAuth()
