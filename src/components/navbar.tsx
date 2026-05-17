@@ -197,7 +197,7 @@ export function Navbar() {
   const Logo = (
     <Link to="/" className="flex items-center gap-2" style={{ transform: `scale(${logoScale})`, transformOrigin: "left center", transition: "transform 0.35s ease", alignItems: "center" }}>
       {!logoFailed ? (
-        <img src={logo} alt="Subhashree IVF" style={{ width: 180, height: "auto", display: "block", objectFit: "contain" }} onError={() => setLogoFailed(true)} />
+        <img src={logo} alt="Subhashree IVF" style={{ width: 180, height: "auto", display: "block", objectFit: "contain", marginTop: 0, paddingTop: 0 }} onError={() => setLogoFailed(true)} />
       ) : (
         <span className="flex items-center gap-2" style={{ color: COLORS.magenta }}>
           <LotusIcon className="w-8 h-8" />
@@ -230,10 +230,10 @@ export function Navbar() {
         {/* ROW 1 */}
         <div
           style={{
-            height: row1Height,
-            paddingTop: 8,
-            paddingBottom: 8,
-            transition: "height 0.35s ease",
+            minHeight: 72,
+            paddingTop: 10,
+            paddingBottom: 10,
+            transition: "min-height 0.35s ease",
           }}
         >
           <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">

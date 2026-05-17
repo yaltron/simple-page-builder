@@ -21,17 +21,32 @@ type Appt = {
   consultation_type: string
   message: string | null
   admin_notes: string | null
-  status: "new" | "confirmed" | "cancelled" | "completed"
+  status: "new" | "confirmed" | "cancelled" | "completed" | "follow_up"
+  follow_up_at: string | null
   created_at: string
   updated_at: string
 }
 
-const STATUS_OPTIONS = ["new", "confirmed", "completed", "cancelled"] as const
+const STATUS_OPTIONS = ["new", "confirmed", "follow_up", "completed", "cancelled"] as const
+const STATUS_LABELS: Record<string, string> = {
+  new: "New",
+  confirmed: "Confirmed",
+  follow_up: "Follow Up",
+  completed: "Completed",
+  cancelled: "Cancelled",
+}
 const STATUS_COLORS: Record<string, { bg: string; fg: string }> = {
-  new: { bg: "#FFE4EF", fg: "#C2185B" },
-  confirmed: { bg: "#DBEAFE", fg: "#1E40AF" },
-  completed: { bg: "#D1FADF", fg: "#027A48" },
+  new: { bg: "#DBEAFE", fg: "#1E40AF" },
+  confirmed: { bg: "#D1FADF", fg: "#027A48" },
+  follow_up: { bg: "#F59E0B", fg: "#FFFFFF" },
+  completed: { bg: "#E6007E", fg: "#FFFFFF" },
   cancelled: { bg: "#FEE2E2", fg: "#991B1B" },
+}
+
+function formatFollowUp(iso: string | null) {
+  if (!iso) return ""
+  const d = new Date(iso)
+  return d.toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: true })
 }
 
 function AdminAppointmentsPage() {
@@ -95,10 +110,18 @@ function AdminAppointmentsPage() {
 
   const updateStatus = async (id: string, status: Appt["status"]) => {
     setBusy(true)
-    const { error } = await supabase.from("appointments").update({ status }).eq("id", id)
+    const patch: any = { status }
+    if (status !== "follow_up") patch.follow_up_at = null
+    const { error } = await supabase.from("appointments").update(patch).eq("id", id)
     setBusy(false)
     if (error) { toast.error("Update failed"); return }
     toast.success("Status updated")
+  }
+
+  const updateFollowUpAt = async (id: string, follow_up_at: string | null) => {
+    const { error } = await supabase.from("appointments").update({ follow_up_at }).eq("id", id)
+    if (error) { toast.error("Save failed"); return }
+    toast.success("Follow-up time saved")
   }
 
   const updateNotes = async (id: string, admin_notes: string) => {
@@ -164,7 +187,7 @@ function AdminAppointmentsPage() {
         <div className="p-4 border-b flex flex-wrap items-center gap-3">
           <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="px-3 py-2 text-sm rounded-lg border bg-white">
             <option value="all">All Statuses</option>
-            {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
+            {STATUS_OPTIONS.map(s => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
           </select>
           <input type="date" value={from} onChange={e => setFrom(e.target.value)} className="px-3 py-2 text-sm rounded-lg border" placeholder="From" />
           <input type="date" value={to} onChange={e => setTo(e.target.value)} className="px-3 py-2 text-sm rounded-lg border" placeholder="To" />
@@ -187,13 +210,14 @@ function AdminAppointmentsPage() {
                 <th className="px-4 py-3">Date</th>
                 <th className="px-4 py-3">Time</th>
                 <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">Follow Up</th>
                 <th className="px-4 py-3">Received</th>
                 <th className="px-4 py-3"></th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 && (
-                <tr><td colSpan={8} className="px-5 py-10 text-center text-muted-foreground">No appointments found.</td></tr>
+                <tr><td colSpan={9} className="px-5 py-10 text-center text-muted-foreground">No appointments found.</td></tr>
               )}
               {filtered.map(it => (
                 <tr key={it.id} className="border-t hover:bg-gray-50 cursor-pointer" onClick={() => setSelected(it)}
@@ -211,9 +235,24 @@ function AdminAppointmentsPage() {
                       className="text-xs px-2 py-1 rounded-full border-0 font-semibold"
                       style={{ background: STATUS_COLORS[it.status].bg, color: STATUS_COLORS[it.status].fg }}
                     >
-                      {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
+                      {STATUS_OPTIONS.map(s => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
                     </select>
+                    {it.status === "follow_up" && (
+                      <div className="mt-2">
+                        <div className="text-[10px] uppercase text-muted-foreground mb-1">Follow Up Date &amp; Time</div>
+                        <input
+                          type="datetime-local"
+                          min={new Date().toISOString().slice(0, 16)}
+                          value={it.follow_up_at ? new Date(it.follow_up_at).toISOString().slice(0, 16) : ""}
+                          onChange={e => updateFollowUpAt(it.id, e.target.value ? new Date(e.target.value).toISOString() : null)}
+                          style={{ border: "1.5px solid rgba(230,0,126,0.3)", borderRadius: 10, padding: "8px 12px", fontSize: 14, outline: "none" }}
+                          onFocus={e => (e.currentTarget.style.borderColor = "#E6007E")}
+                          onBlur={e => (e.currentTarget.style.borderColor = "rgba(230,0,126,0.3)")}
+                        />
+                      </div>
+                    )}
                   </td>
+                  <td className="px-4 py-3 text-xs">{it.follow_up_at ? formatFollowUp(it.follow_up_at) : "—"}</td>
                   <td className="px-4 py-3 text-xs text-muted-foreground">{new Date(it.created_at).toLocaleDateString()}</td>
                   <td className="px-4 py-3 text-right" onClick={e => e.stopPropagation()}>
                     <button onClick={() => remove(it.id)} className="text-red-500 hover:text-red-700 p-1"><Trash2 className="w-4 h-4" /></button>
@@ -225,15 +264,16 @@ function AdminAppointmentsPage() {
         </div>
       </div>
 
-      {selected && <DetailPanel appt={selected} onClose={() => setSelected(null)} onUpdateStatus={updateStatus} onSaveNotes={updateNotes} onDelete={remove} />}
+      {selected && <DetailPanel appt={selected} onClose={() => setSelected(null)} onUpdateStatus={updateStatus} onUpdateFollowUp={updateFollowUpAt} onSaveNotes={updateNotes} onDelete={remove} />}
     </AdminShell>
   )
 }
 
-function DetailPanel({ appt, onClose, onUpdateStatus, onSaveNotes, onDelete }: {
+function DetailPanel({ appt, onClose, onUpdateStatus, onUpdateFollowUp, onSaveNotes, onDelete }: {
   appt: Appt
   onClose: () => void
   onUpdateStatus: (id: string, s: Appt["status"]) => void
+  onUpdateFollowUp: (id: string, v: string | null) => void
   onSaveNotes: (id: string, n: string) => void
   onDelete: (id: string) => void
 }) {
@@ -267,8 +307,22 @@ function DetailPanel({ appt, onClose, onUpdateStatus, onSaveNotes, onDelete }: {
           <div>
             <div className="text-xs uppercase text-muted-foreground mb-1">Status</div>
             <select value={appt.status} onChange={e => onUpdateStatus(appt.id, e.target.value as Appt["status"])} className="w-full px-3 py-2 text-sm rounded-lg border bg-white">
-              {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
+              {STATUS_OPTIONS.map(s => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
             </select>
+            {appt.status === "follow_up" && (
+              <div className="mt-3">
+                <div className="text-xs uppercase text-muted-foreground mb-1">Follow Up Date &amp; Time</div>
+                <input
+                  type="datetime-local"
+                  min={new Date().toISOString().slice(0, 16)}
+                  value={appt.follow_up_at ? new Date(appt.follow_up_at).toISOString().slice(0, 16) : ""}
+                  onChange={e => onUpdateFollowUp(appt.id, e.target.value ? new Date(e.target.value).toISOString() : null)}
+                  style={{ width: "100%", border: "1.5px solid rgba(230,0,126,0.3)", borderRadius: 10, padding: "8px 12px", fontSize: 14, outline: "none" }}
+                  onFocus={e => (e.currentTarget.style.borderColor = "#E6007E")}
+                  onBlur={e => (e.currentTarget.style.borderColor = "rgba(230,0,126,0.3)")}
+                />
+              </div>
+            )}
           </div>
 
           <div>
