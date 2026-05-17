@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { Save, Plus, Trash2, ArrowUp, ArrowDown, ExternalLink } from "lucide-react"
 import { AdminShell, AdminLoading } from "@/components/admin/admin-shell"
 import { ImageUpload } from "@/components/admin/image-upload"
+import { ColorPicker } from "@/components/admin/color-picker"
 import { useAdminAuth } from "@/lib/use-admin-auth"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
@@ -11,7 +12,7 @@ export const Route = createFileRoute("/admin/homepage/")({
   component: AdminHomepagePage,
 })
 
-type Tab = "hero" | "about"
+type Tab = "hero" | "sections" | "about"
 
 function AdminHomepagePage() {
   const { loading, isAdmin } = useAdminAuth()
@@ -24,6 +25,7 @@ function AdminHomepagePage() {
       <div className="flex gap-1 mb-5 border-b">
         {[
           { k: "hero", l: "Hero" },
+          { k: "sections", l: "Section Content" },
           { k: "about", l: "About" },
         ].map((t) => (
           <button
@@ -41,6 +43,7 @@ function AdminHomepagePage() {
       </div>
 
       {tab === "hero" && <HeroEditor />}
+      {tab === "sections" && <SectionsEditor />}
       {tab === "about" && <AboutEditor />}
     </AdminShell>
   )
@@ -402,6 +405,216 @@ function AboutEditor() {
           </button>
         </div>
       </div>
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────
+// SECTION CONTENT (Process, Services, Doctors, CTA, Who We Are, When To Visit)
+// ─────────────────────────────────────────────────────────
+const WHO_DEFAULTS = {
+  heading: "Turning Hope Into Happiness",
+  heading_color: "#E6007E",
+  quote: "",
+  paragraph_1: "",
+  paragraph_2: "",
+  images: [
+    { url: "", alt: "" },
+    { url: "", alt: "" },
+    { url: "", alt: "" },
+  ],
+}
+const WHEN_DEFAULTS = {
+  heading: "Signs You Should See a Fertility Specialist",
+  heading_color: "#C2185B",
+  images: [
+    { url: "", alt: "" },
+    { url: "", alt: "" },
+    { url: "", alt: "" },
+    { url: "", alt: "" },
+  ],
+}
+const PROCESS_DEFAULTS = {
+  heading: "A Simple Guide to Your",
+  heading_highlight: "Fertility Journey",
+  heading_color: "#E6007E",
+}
+const SERVICES_HEADING_DEFAULTS = {
+  heading: "Comprehensive Fertility Care, Tailored for You",
+  heading_color: "#C2185B",
+}
+const DOCTORS_HEADING_DEFAULTS = {
+  heading: "Experienced IVF Specialists Providing Compassionate Fertility Care",
+  heading_color: "#C2185B",
+}
+const CTA_DEFAULTS = {
+  heading: "Ready to Start Your Journey to Parenthood?",
+  heading_color: "#1A1535",
+  subtext:
+    "Take the first step towards building your family. Our compassionate team is here to guide you through every step of your fertility journey.",
+  primary_text: "Book Consultation",
+  primary_url: "/contact",
+  secondary_text: "Call: +977 9861141699",
+  secondary_url: "tel:+9779861141699",
+}
+
+function SectionCard({
+  title,
+  onSave,
+  saving,
+  children,
+}: {
+  title: string
+  onSave: () => void
+  saving: boolean
+  children: React.ReactNode
+}) {
+  return (
+    <div className="bg-white rounded-xl border p-5 space-y-4">
+      <h3 className="font-bold">{title}</h3>
+      {children}
+      <div className="flex justify-end">
+        <button
+          onClick={onSave}
+          disabled={saving}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold disabled:opacity-50"
+          style={{ background: "#E6007E" }}
+        >
+          <Save className="w-4 h-4" /> {saving ? "Saving…" : "Save Section"}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function SectionsEditor() {
+  const who = useSection("homepage_content", "who_we_are", WHO_DEFAULTS)
+  const when = useSection("homepage_content", "when_to_visit", WHEN_DEFAULTS)
+  const process = useSection("homepage_content", "process", PROCESS_DEFAULTS)
+  const services = useSection("homepage_content", "services_heading", SERVICES_HEADING_DEFAULTS)
+  const doctors = useSection("homepage_content", "doctors_heading", DOCTORS_HEADING_DEFAULTS)
+  const cta = useSection("homepage_content", "cta_banner", CTA_DEFAULTS)
+
+  const updateImg = (
+    s: ReturnType<typeof useSection<typeof WHO_DEFAULTS>> | ReturnType<typeof useSection<typeof WHEN_DEFAULTS>>,
+    i: number,
+    patch: Partial<{ url: string; alt: string }>,
+  ) => {
+    const next = [...s.data.images]
+    next[i] = { ...next[i], ...patch }
+    s.setData({ ...s.data, images: next } as any)
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Who We Are */}
+      <SectionCard title="Who We Are" onSave={who.save} saving={who.saving}>
+        <Field label="Heading">
+          <input value={who.data.heading} onChange={(e) => who.setData({ ...who.data, heading: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+        </Field>
+        <Field label="Heading color">
+          <ColorPicker value={who.data.heading_color} onChange={(c) => who.setData({ ...who.data, heading_color: c })} />
+        </Field>
+        <Field label="Quote">
+          <textarea rows={2} value={who.data.quote} onChange={(e) => who.setData({ ...who.data, quote: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+        </Field>
+        <Field label="Paragraph 1">
+          <textarea rows={3} value={who.data.paragraph_1} onChange={(e) => who.setData({ ...who.data, paragraph_1: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+        </Field>
+        <Field label="Paragraph 2">
+          <textarea rows={3} value={who.data.paragraph_2} onChange={(e) => who.setData({ ...who.data, paragraph_2: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+        </Field>
+        <div className="grid md:grid-cols-3 gap-3">
+          {who.data.images.map((img, i) => (
+            <div key={i} className="border rounded-lg p-3 space-y-2">
+              <div className="text-xs font-semibold text-muted-foreground">Image {i + 1}</div>
+              <ImageUpload value={img.url} onChange={(url) => updateImg(who, i, { url: url || "" })} folder="homepage" />
+              <input value={img.alt} onChange={(e) => updateImg(who, i, { alt: e.target.value })} placeholder="Alt text" className="w-full px-2 py-1.5 border rounded text-sm" />
+            </div>
+          ))}
+        </div>
+      </SectionCard>
+
+      {/* When To Visit */}
+      <SectionCard title="When To Visit" onSave={when.save} saving={when.saving}>
+        <Field label="Heading">
+          <input value={when.data.heading} onChange={(e) => when.setData({ ...when.data, heading: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+        </Field>
+        <Field label="Heading color">
+          <ColorPicker value={when.data.heading_color} onChange={(c) => when.setData({ ...when.data, heading_color: c })} />
+        </Field>
+        <div className="grid md:grid-cols-4 gap-3">
+          {when.data.images.map((img, i) => (
+            <div key={i} className="border rounded-lg p-3 space-y-2">
+              <div className="text-xs font-semibold text-muted-foreground">Image {i + 1}{i === 3 ? " (video thumb)" : ""}</div>
+              <ImageUpload value={img.url} onChange={(url) => updateImg(when, i, { url: url || "" })} folder="homepage" />
+              <input value={img.alt} onChange={(e) => updateImg(when, i, { alt: e.target.value })} placeholder="Alt text" className="w-full px-2 py-1.5 border rounded text-sm" />
+            </div>
+          ))}
+        </div>
+      </SectionCard>
+
+      {/* Process */}
+      <SectionCard title="Process Steps Heading" onSave={process.save} saving={process.saving}>
+        <div className="grid md:grid-cols-2 gap-3">
+          <Field label="Heading">
+            <input value={process.data.heading} onChange={(e) => process.setData({ ...process.data, heading: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+          </Field>
+          <Field label="Highlight word(s)" hint="Shown in accent color.">
+            <input value={process.data.heading_highlight} onChange={(e) => process.setData({ ...process.data, heading_highlight: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+          </Field>
+        </div>
+        <Field label="Highlight color">
+          <ColorPicker value={process.data.heading_color} onChange={(c) => process.setData({ ...process.data, heading_color: c })} />
+        </Field>
+      </SectionCard>
+
+      {/* Services */}
+      <SectionCard title="Services Heading" onSave={services.save} saving={services.saving}>
+        <Field label="Heading">
+          <input value={services.data.heading} onChange={(e) => services.setData({ ...services.data, heading: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+        </Field>
+        <Field label="Heading color">
+          <ColorPicker value={services.data.heading_color} onChange={(c) => services.setData({ ...services.data, heading_color: c })} />
+        </Field>
+      </SectionCard>
+
+      {/* Doctors */}
+      <SectionCard title="Doctors Section Heading" onSave={doctors.save} saving={doctors.saving}>
+        <Field label="Heading">
+          <input value={doctors.data.heading} onChange={(e) => doctors.setData({ ...doctors.data, heading: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+        </Field>
+        <Field label="Heading color">
+          <ColorPicker value={doctors.data.heading_color} onChange={(c) => doctors.setData({ ...doctors.data, heading_color: c })} />
+        </Field>
+      </SectionCard>
+
+      {/* CTA Banner */}
+      <SectionCard title="CTA Banner" onSave={cta.save} saving={cta.saving}>
+        <Field label="Heading">
+          <input value={cta.data.heading} onChange={(e) => cta.setData({ ...cta.data, heading: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+        </Field>
+        <Field label="Heading color">
+          <ColorPicker value={cta.data.heading_color} onChange={(c) => cta.setData({ ...cta.data, heading_color: c })} />
+        </Field>
+        <Field label="Subtext">
+          <textarea rows={3} value={cta.data.subtext} onChange={(e) => cta.setData({ ...cta.data, subtext: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+        </Field>
+        <div className="grid md:grid-cols-2 gap-3">
+          <Field label="Primary button text">
+            <input value={cta.data.primary_text} onChange={(e) => cta.setData({ ...cta.data, primary_text: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+          </Field>
+          <Field label="Primary button URL" hint="Internal path like /contact, or full https:// / tel: URL.">
+            <input value={cta.data.primary_url} onChange={(e) => cta.setData({ ...cta.data, primary_url: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+          </Field>
+          <Field label="Secondary button text">
+            <input value={cta.data.secondary_text} onChange={(e) => cta.setData({ ...cta.data, secondary_text: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+          </Field>
+          <Field label="Secondary button URL">
+            <input value={cta.data.secondary_url} onChange={(e) => cta.setData({ ...cta.data, secondary_url: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+          </Field>
+        </div>
+      </SectionCard>
     </div>
   )
 }

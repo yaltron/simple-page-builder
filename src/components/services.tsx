@@ -3,15 +3,21 @@ import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
 import { Link } from "@tanstack/react-router"
-import { 
-  Heart, 
-  Microscope, 
-  Snowflake, 
-  Dna, 
-  Users, 
+import {
+  Heart,
+  Microscope,
+  Snowflake,
+  Dna,
+  Users,
   Stethoscope,
-  ArrowRight 
+  ArrowRight
 } from "lucide-react"
+import { useHomepageSection } from "@/lib/use-cms-content"
+
+const SERVICES_HEADING_DEFAULTS = {
+  heading: "Comprehensive Fertility Care, Tailored for You",
+  heading_color: "#C2185B",
+}
 
 const cardGradients = [
   "linear-gradient(135deg, #FFF1F7 0%, #fcd4e8 100%)",
@@ -58,6 +64,7 @@ const services = [
 export function Services() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const cms = useHomepageSection("services_heading", SERVICES_HEADING_DEFAULTS)
 
   return (
     <section id="services" ref={ref} style={{ background: "linear-gradient(135deg, #EAF7FD, #FFF1F7)", paddingTop: 50, paddingBottom: 50 }}>
@@ -73,13 +80,13 @@ export function Services() {
           <h2
             className="text-3xl lg:text-4xl mt-4"
             style={{
-              color: "#C2185B",
+              color: cms.heading_color,
               fontFamily: "'Playfair Display', serif",
               fontWeight: 700,
               fontStyle: "normal",
             }}
           >
-            Comprehensive Fertility Care, Tailored for You
+            {cms.heading}
           </h2>
         </motion.div>
 

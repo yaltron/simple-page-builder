@@ -3,12 +3,18 @@ import { motion, useInView } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { Link } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
+import { useHomepageSection } from "@/lib/use-cms-content"
 import doctor1 from "@/assets/doctor-1.jpg"
 import doctor2 from "@/assets/doctor-2.jpg"
 import doctor3 from "@/assets/doctor-3.jpg"
 import doctor4 from "@/assets/doctor-4.jpg"
 import doctor5 from "@/assets/doctor-5.jpg"
 import doctor6 from "@/assets/doctor-6.jpg"
+
+const DOCTORS_HEADING_DEFAULTS = {
+  heading: "Experienced IVF Specialists Providing Compassionate Fertility Care",
+  heading_color: "#C2185B",
+}
 
 const doctors = [
   {
@@ -152,6 +158,7 @@ export function DoctorsCarousel() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [paused, setPaused] = useState(false)
+  const cms = useHomepageSection("doctors_heading", DOCTORS_HEADING_DEFAULTS)
 
   const loop = [...doctors, ...doctors]
 
@@ -164,8 +171,8 @@ export function DoctorsCarousel() {
           transition={{ duration: 0.5 }}
           className="text-center max-w-3xl mx-auto mb-12 space-y-4"
         >
-          <h2 className="font-serif text-3xl lg:text-4xl font-bold" style={{ color: "#C2185B" }}>
-            Experienced IVF Specialists Providing Compassionate Fertility Care
+          <h2 className="font-serif text-3xl lg:text-4xl font-bold" style={{ color: cms.heading_color }}>
+            {cms.heading}
           </h2>
         </motion.div>
       </div>

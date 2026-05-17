@@ -2,6 +2,13 @@ import { useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ClipboardList, UserCheck, CalendarCheck, CheckCircle2, type LucideIcon } from "lucide-react"
 import { Link } from "@tanstack/react-router"
+import { useHomepageSection } from "@/lib/use-cms-content"
+
+const PROCESS_DEFAULTS = {
+  heading: "A Simple Guide to Your",
+  heading_highlight: "Fertility Journey",
+  heading_color: "#E6007E",
+}
 
 type Step = {
   icon: LucideIcon
@@ -46,6 +53,7 @@ const STEP_OFFSETS_LG = [0, 120, 30, 120]
 const STEP_DELAYS = [0, 0.8, 1.6, 2.4]
 
 export function ProcessSteps() {
+  const cms = useHomepageSection("process", PROCESS_DEFAULTS)
   const sectionRef = useRef<HTMLDivElement | null>(null)
   const [runId, setRunId] = useState(0)
   const [active, setActive] = useState(false)
@@ -83,7 +91,7 @@ export function ProcessSteps() {
     <section id="process" className="pt-20 pb-[80px] bg-pink-soft/40 overflow-visible">
       <div ref={sectionRef} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-3xl sm:text-4xl font-extrabold mb-16">
-          A Simple Guide to Your <span className="text-brand-pink">Fertility Journey</span>
+          {cms.heading} <span style={{ color: cms.heading_color }}>{cms.heading_highlight}</span>
         </h2>
 
         <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-14 gap-x-6">
