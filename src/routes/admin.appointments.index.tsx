@@ -269,10 +269,11 @@ function AdminAppointmentsPage() {
   )
 }
 
-function DetailPanel({ appt, onClose, onUpdateStatus, onSaveNotes, onDelete }: {
+function DetailPanel({ appt, onClose, onUpdateStatus, onUpdateFollowUp, onSaveNotes, onDelete }: {
   appt: Appt
   onClose: () => void
   onUpdateStatus: (id: string, s: Appt["status"]) => void
+  onUpdateFollowUp: (id: string, v: string | null) => void
   onSaveNotes: (id: string, n: string) => void
   onDelete: (id: string) => void
 }) {
@@ -306,8 +307,22 @@ function DetailPanel({ appt, onClose, onUpdateStatus, onSaveNotes, onDelete }: {
           <div>
             <div className="text-xs uppercase text-muted-foreground mb-1">Status</div>
             <select value={appt.status} onChange={e => onUpdateStatus(appt.id, e.target.value as Appt["status"])} className="w-full px-3 py-2 text-sm rounded-lg border bg-white">
-              {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
+              {STATUS_OPTIONS.map(s => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
             </select>
+            {appt.status === "follow_up" && (
+              <div className="mt-3">
+                <div className="text-xs uppercase text-muted-foreground mb-1">Follow Up Date &amp; Time</div>
+                <input
+                  type="datetime-local"
+                  min={new Date().toISOString().slice(0, 16)}
+                  value={appt.follow_up_at ? new Date(appt.follow_up_at).toISOString().slice(0, 16) : ""}
+                  onChange={e => onUpdateFollowUp(appt.id, e.target.value ? new Date(e.target.value).toISOString() : null)}
+                  style={{ width: "100%", border: "1.5px solid rgba(230,0,126,0.3)", borderRadius: 10, padding: "8px 12px", fontSize: 14, outline: "none" }}
+                  onFocus={e => (e.currentTarget.style.borderColor = "#E6007E")}
+                  onBlur={e => (e.currentTarget.style.borderColor = "rgba(230,0,126,0.3)")}
+                />
+              </div>
+            )}
           </div>
 
           <div>
