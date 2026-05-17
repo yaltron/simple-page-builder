@@ -110,10 +110,10 @@ export function ProcessSteps() {
               >
                 <Link
                   to={step.to}
-                  className="flex flex-col items-center w-full min-h-[320px] relative overflow-visible cursor-pointer"
+                  className="flex flex-col items-center w-full lg:min-h-[320px] relative overflow-visible cursor-pointer"
                   style={{ transform: isLg ? `translateY(${lgOffset}px)` : undefined }}
                 >
-                  <div className="relative mb-5">
+                  <div className="relative mb-4 sm:mb-5">
                     <AnimatePresence>
                       {active && (
                         <motion.span
@@ -127,9 +127,9 @@ export function ProcessSteps() {
                       )}
                     </AnimatePresence>
 
-                    <div className="step-circle h-28 w-28 rounded-full gradient-brand grid place-items-center text-white">
+                    <div className="step-circle h-20 w-20 sm:h-24 sm:w-24 lg:h-28 lg:w-28 rounded-full gradient-brand grid place-items-center text-white">
                       <span className="step-icon inline-flex transition-transform duration-[400ms] ease-out group-hover:scale-[1.15] group-hover:-rotate-[8deg]">
-                        <Icon className="h-11 w-11" strokeWidth={1.8} />
+                        <Icon className="h-8 w-8 sm:h-10 sm:w-10 lg:h-11 lg:w-11" strokeWidth={1.8} />
                       </span>
                     </div>
 
