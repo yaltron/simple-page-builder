@@ -1,17 +1,15 @@
-## Issue
+## Why the gap won't go away
 
-The fixed navbar is built as two stacked rows (Row 1: logo + CTAs, Row 2: nav links). Each row sets its **own** translucent pink background + `backdrop-filter: blur(16px)` independently. When the page scrolls and content passes behind the navbar, each row blurs the pixels behind it separately, producing a visible horizontal seam between the two rows — the "cut in the middle" you're seeing.
+The remaining "top gap" above the logo is not navbar padding. The logo asset (`src/assets/logo.png`, 800×800) has roughly 30% transparent space baked in at the top and another 33% at the bottom. The visible artwork only occupies the middle ~37% of the image, so no matter how small navbar padding gets, the image reserves empty space above and below the artwork.
 
-## Fix
+## Fix (CSS-only, asset untouched)
 
-Move the background color and `backdrop-filter` from the two inner row `<div>`s up to the parent `motion.header` so the whole navbar is a single translucent blurred surface with no internal seam.
+In `src/components/navbar.tsx`, change only the logo `<img>` rendering:
 
-### Changes in `src/components/navbar.tsx`
+- Wrap the `<img>` in a fixed-size box that visually crops the transparent margins:
+  - Wrapper: `width: 180px`, `height: 44px`, `overflow: hidden`, `display: flex`, `alignItems: center`.
+  - Image: `width: 180px`, `height: auto` (≈180px tall at native ratio), `marginTop: -68px` (shifts the artwork up so the top transparent strip is clipped), `display: block`.
+- Keep navbar Row 1 at the existing `minHeight: 64`, `paddingTop: 4`, `paddingBottom: 4`.
+- Fallback (`logoFailed`) branch stays unchanged.
 
-1. **`motion.header` style** (around line 218): add `background` and `backdropFilter` that switch on `isScrolled` (same values currently used by the rows), and include them in the `transition` string.
-
-2. **Row 1 wrapper `<div>`** (around line 228): remove `background`, `backdropFilter`, `WebkitBackdropFilter`. Keep `height` and its transition.
-
-3. **Row 2 wrapper `<div>`** (around line 435): remove `background`, `backdropFilter`, `WebkitBackdropFilter`. Keep `height` / `paddingBottom`.
-
-No changes to layout, colors, link styles, buttons, spacer, mobile drawer, or anything else.
+Result: artwork sits centered in the navbar with small equal breathing room above and below, no large empty gap. No other files, components, or styles change.
