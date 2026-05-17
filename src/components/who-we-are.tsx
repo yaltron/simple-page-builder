@@ -15,9 +15,6 @@ import testimonial2 from "@/assets/testimonial-2.jpg"
 import testimonial3 from "@/assets/testimonial-3.jpg"
 import testimonialFamily from "@/assets/testimonial-family.jpg"
 import heroFamily from "@/assets/hero-family.jpg"
-import heroConsultation from "@/assets/hero-consultation.jpg"
-import whoClinic from "@/assets/who-clinic.jpg"
-import whoTeam from "@/assets/who-team.jpg"
 
 const DEFAULTS = {
   heading: "Moments That Matter",
