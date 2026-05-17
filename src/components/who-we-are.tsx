@@ -131,12 +131,7 @@ export function WhoWeAre() {
 
             <p className="text-muted-foreground leading-relaxed">{cms.paragraph_1}</p>
 
-            <p className="text-muted-foreground leading-relaxed">
-              Our team understands the emotional journey of fertility treatment. {"That's"} 
-              why we combine cutting-edge medical technology with personalized care, 
-              ensuring every patient feels supported, informed, and hopeful throughout 
-              their journey.
-            </p>
+            <p className="text-muted-foreground leading-relaxed">{cms.paragraph_2}</p>
 
             {/* Highlights */}
             <div className="space-y-3 pt-4">
