@@ -1,8 +1,9 @@
 import { ReactNode, useEffect, useState } from "react"
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router"
-import { LayoutDashboard, FileText, LogOut, Hospital, Stethoscope, UserRound, Image as ImageIcon, MessageSquareQuote, CalendarCheck, HelpCircle, Megaphone, Home, Briefcase } from "lucide-react"
+import { LayoutDashboard, FileText, LogOut, Stethoscope, UserRound, Image as ImageIcon, MessageSquareQuote, CalendarCheck, HelpCircle, Megaphone, Home, Briefcase } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
+import logo from "@/assets/logo.png"
 
 const navItems = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard },
