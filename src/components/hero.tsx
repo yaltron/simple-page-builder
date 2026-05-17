@@ -35,7 +35,7 @@ function renderHeadline(text: string, highlight: string) {
   return (
     <>
       {before}
-      <span className="text-rose">{highlight}</span>
+      <span style={{ color: "#8B0F50" }}>{highlight}</span>
       {rest.join(highlight)}
     </>
   )
