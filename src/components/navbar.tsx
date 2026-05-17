@@ -221,17 +221,17 @@ export function Navbar() {
           transform: "translateZ(0)",
           willChange: "transform",
           boxShadow: isScrolled ? "0 4px 24px rgba(230,0,126,0.10)" : "none",
-          transition: "box-shadow 0.35s ease",
+          background: isScrolled ? "rgba(255,241,247,0.85)" : COLORS.pinkSoft,
+          backdropFilter: isScrolled ? "blur(16px)" : "none",
+          WebkitBackdropFilter: isScrolled ? "blur(16px)" : "none",
+          transition: "box-shadow 0.35s ease, background 0.35s ease",
         }}
       >
         {/* ROW 1 */}
         <div
           style={{
             height: row1Height,
-            background: isScrolled ? "rgba(255,241,247,0.85)" : COLORS.pinkSoft,
-            backdropFilter: isScrolled ? "blur(16px)" : "none",
-            WebkitBackdropFilter: isScrolled ? "blur(16px)" : "none",
-            transition: "height 0.35s ease, background 0.35s ease",
+            transition: "height 0.35s ease",
           }}
         >
           <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
@@ -437,10 +437,6 @@ export function Navbar() {
           style={{
             height: 72,
             paddingBottom: 24,
-            background: isScrolled ? "rgba(255,241,247,0.85)" : COLORS.pinkSoft,
-            backdropFilter: isScrolled ? "blur(16px)" : "none",
-            WebkitBackdropFilter: isScrolled ? "blur(16px)" : "none",
-            transition: "background 0.35s ease",
           }}
         >
           <div className="h-full flex items-center" style={{ width: "100%", paddingLeft: "5%", paddingRight: "5%" }}>

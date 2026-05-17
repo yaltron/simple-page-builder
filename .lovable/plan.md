@@ -1,16 +1,17 @@
-The button text "Book Free Consultation" is stored in the CMS (homepage_content.hero.cta_primary_text), which overrides the code default. The current solid pink (#E6007E) replaced the earlier rose gradient.
+## Issue
 
-## Changes
+The fixed navbar is built as two stacked rows (Row 1: logo + CTAs, Row 2: nav links). Each row sets its **own** translucent pink background + `backdrop-filter: blur(16px)` independently. When the page scrolls and content passes behind the navbar, each row blurs the pixels behind it separately, producing a visible horizontal seam between the two rows — the "cut in the middle" you're seeing.
 
-1. **Update CMS hero text** — run a migration to change `cta_primary_text` from "Book Free Consultation" to "Book Consultation" in the `homepage_content` table's `hero` row.
+## Fix
 
-2. **Restore previous button color** in `src/components/hero.tsx` — change the primary button className from:
-   ```
-   text-white rounded-full px-8 text-base bg-[#E6007E] hover:bg-[#C4006A] transition-colors duration-[250ms] ease-[ease]
-   ```
-   back to the previous rose gradient:
-   ```
-   bg-gradient-to-r from-rose to-rose-dark hover:from-rose-dark hover:to-rose text-white rounded-full px-8 text-base
-   ```
+Move the background color and `backdrop-filter` from the two inner row `<div>`s up to the parent `motion.header` so the whole navbar is a single translucent blurred surface with no internal seam.
 
-Nothing else changes — secondary "Watch Our Story" button, layout, animations, and hero content stay as they are.
+### Changes in `src/components/navbar.tsx`
+
+1. **`motion.header` style** (around line 218): add `background` and `backdropFilter` that switch on `isScrolled` (same values currently used by the rows), and include them in the `transition` string.
+
+2. **Row 1 wrapper `<div>`** (around line 228): remove `background`, `backdropFilter`, `WebkitBackdropFilter`. Keep `height` and its transition.
+
+3. **Row 2 wrapper `<div>`** (around line 435): remove `background`, `backdropFilter`, `WebkitBackdropFilter`. Keep `height` / `paddingBottom`.
+
+No changes to layout, colors, link styles, buttons, spacer, mobile drawer, or anything else.
