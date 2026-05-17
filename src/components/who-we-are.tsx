@@ -357,7 +357,7 @@ export function WhoWeAre() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-14 lg:mt-20 text-center max-w-xl mx-auto relative z-10"
+          className="mt-10 lg:mt-14 text-center max-w-xl mx-auto relative z-10"
         >
           {cms.paragraph_1 && (
             <p className="text-base lg:text-lg text-muted-foreground leading-relaxed mb-7">
