@@ -221,7 +221,10 @@ export function Navbar() {
           transform: "translateZ(0)",
           willChange: "transform",
           boxShadow: isScrolled ? "0 4px 24px rgba(230,0,126,0.10)" : "none",
-          transition: "box-shadow 0.35s ease",
+          background: isScrolled ? "rgba(255,241,247,0.85)" : COLORS.pinkSoft,
+          backdropFilter: isScrolled ? "blur(16px)" : "none",
+          WebkitBackdropFilter: isScrolled ? "blur(16px)" : "none",
+          transition: "box-shadow 0.35s ease, background 0.35s ease",
         }}
       >
         {/* ROW 1 */}
