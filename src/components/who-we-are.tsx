@@ -32,7 +32,13 @@ const DEFAULTS = {
 export function WhoWeAre() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
-
+  const cms = useHomepageSection("who_we_are", DEFAULTS)
+  const img1 = cms.images?.[0]?.url || whoClinic
+  const img2 = cms.images?.[1]?.url || whoLab
+  const img3 = cms.images?.[2]?.url || whoTeam
+  const alt1 = cms.images?.[0]?.alt || "Our modern clinic"
+  const alt2 = cms.images?.[1]?.alt || "Advanced laboratory"
+  const alt3 = cms.images?.[2]?.alt || "Our caring team"
   return (
     <section id="about" ref={ref} className="py-20 lg:py-32 bg-cream overflow-hidden relative">
       {/* Morphing teal blobs */}
