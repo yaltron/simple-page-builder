@@ -156,19 +156,39 @@ export function WhenToVisit() {
                 <div className="rounded-2xl overflow-hidden h-32 lg:h-40">
                   <img src={i3} alt={a3} className="w-full h-full object-cover" loading="lazy" />
                 </div>
-                {/* Video thumbnail */}
-                <button
-                  type="button"
-                  onClick={() => setVideoOpen(true)}
-                  className="rounded-2xl overflow-hidden h-48 lg:h-64 relative group cursor-pointer block w-full"
-                >
-                  <img src={i4} alt={a4} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
-                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                      <Play className="w-6 h-6 text-rose fill-rose ml-1" />
-                    </div>
+                {/* Video thumbnail — autoplay iframe if video_url is set, otherwise click-to-open thumbnail */}
+                {embed ? (
+                  <div
+                    className="rounded-2xl overflow-hidden h-48 lg:h-64"
+                    style={{ position: "relative" }}
+                  >
+                    <iframe
+                      src={
+                        embed.provider === "youtube"
+                          ? `https://www.youtube.com/embed/${embed.id}?autoplay=1&mute=1&loop=1&playlist=${embed.id}&controls=0&showinfo=0&rel=0&modestbranding=1`
+                          : `https://player.vimeo.com/video/${embed.id}?autoplay=1&muted=1&loop=1&background=1`
+                      }
+                      title={a4}
+                      frameBorder={0}
+                      allow="autoplay; encrypted-media; fullscreen"
+                      allowFullScreen
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", borderRadius: 16, border: 0 }}
+                    />
                   </div>
-                </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setVideoOpen(true)}
+                    className="rounded-2xl overflow-hidden h-48 lg:h-64 relative group cursor-pointer block w-full"
+                  >
+                    <img src={i4} alt={a4} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
+                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                      <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                        <Play className="w-6 h-6 text-rose fill-rose ml-1" />
+                      </div>
+                    </div>
+                  </button>
+                )}
               </div>
             </div>
           </motion.div>
