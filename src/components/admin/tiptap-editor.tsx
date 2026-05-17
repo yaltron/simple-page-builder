@@ -13,7 +13,7 @@ import TableHeader from "@tiptap/extension-table-header"
 import CharacterCount from "@tiptap/extension-character-count"
 import Placeholder from "@tiptap/extension-placeholder"
 import {
-  Bold, Italic, Underline as UIcon, Strikethrough, List, ListOrdered, Quote, Code,
+  Bold, Italic, Underline as UIcon, Strikethrough, List, ListOrdered, Quote, Code, Code2,
   Link as LinkIcon, Image as ImgIcon, Table as TableIcon, Minus, Undo, Redo, Heading1, Heading2, Heading3, Maximize2, Minimize2,
 } from "lucide-react"
 import { useEffect, useState, useRef } from "react"
