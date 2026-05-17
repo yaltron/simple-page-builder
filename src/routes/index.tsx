@@ -35,6 +35,7 @@ function HomePage() {
         <DoctorsCarousel />
         <WhyUs />
         <StoriesTestimonials />
+        <BlogPreview />
         <FAQ />
         <CTABanner />
         <Footer />
