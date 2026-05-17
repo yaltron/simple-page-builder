@@ -2,6 +2,13 @@ import { useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ClipboardList, UserCheck, CalendarCheck, CheckCircle2, type LucideIcon } from "lucide-react"
 import { Link } from "@tanstack/react-router"
+import { useHomepageSection } from "@/lib/use-cms-content"
+
+const PROCESS_DEFAULTS = {
+  heading: "A Simple Guide to Your",
+  heading_highlight: "Fertility Journey",
+  heading_color: "#E6007E",
+}
 
 type Step = {
   icon: LucideIcon
