@@ -244,7 +244,7 @@ export function WhoWeAre() {
         </div>
 
         {/* Floating collage canvas */}
-        <div className="relative w-full mx-auto" style={{ height: "clamp(560px, 52vw, 640px)" }}>
+        <div className="relative w-full mx-auto" style={{ height: "clamp(480px, 44vw, 540px)" }}>
           {/* Decorative center halo */}
           <div
             aria-hidden
