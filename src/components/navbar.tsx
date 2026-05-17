@@ -437,10 +437,6 @@ export function Navbar() {
           style={{
             height: 72,
             paddingBottom: 24,
-            background: isScrolled ? "rgba(255,241,247,0.85)" : COLORS.pinkSoft,
-            backdropFilter: isScrolled ? "blur(16px)" : "none",
-            WebkitBackdropFilter: isScrolled ? "blur(16px)" : "none",
-            transition: "background 0.35s ease",
           }}
         >
           <div className="h-full flex items-center" style={{ width: "100%", paddingLeft: "5%", paddingRight: "5%" }}>
