@@ -25,6 +25,7 @@ function AdminHomepagePage() {
       <div className="flex gap-1 mb-5 border-b">
         {[
           { k: "hero", l: "Hero" },
+          { k: "sections", l: "Section Content" },
           { k: "about", l: "About" },
         ].map((t) => (
           <button
@@ -42,6 +43,7 @@ function AdminHomepagePage() {
       </div>
 
       {tab === "hero" && <HeroEditor />}
+      {tab === "sections" && <SectionsEditor />}
       {tab === "about" && <AboutEditor />}
     </AdminShell>
   )
