@@ -9,17 +9,17 @@ const items = [
 
 export function WhyUs() {
   return (
-    <section className="relative py-24 overflow-hidden gradient-brand-band">
+    <section className="relative py-12 sm:py-16 lg:py-24 overflow-hidden gradient-brand-band">
       {/* Floating decorative blobs */}
       <div className="pointer-events-none absolute -top-24 -left-24 h-80 w-80 rounded-full bg-white/15 blur-3xl animate-float-slow" />
       <div className="pointer-events-none absolute -bottom-32 -right-20 h-96 w-96 rounded-full bg-white/10 blur-3xl animate-float-slower" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="reveal text-3xl sm:text-4xl font-extrabold text-white text-balance mb-14">
+        <h2 className="reveal font-extrabold text-white text-balance mb-8 sm:mb-12 lg:mb-14" style={{ fontSize: "clamp(1.625rem, 4vw, 2.25rem)" }}>
           Why Families Trust Us
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
           {items.map((it, i) => {
             const Icon = it.icon
             return (
