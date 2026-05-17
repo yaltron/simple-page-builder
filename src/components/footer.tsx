@@ -31,10 +31,10 @@ function TikTokIcon({ className }: { className?: string }) {
 }
 
 const socialLinks = [
-  { Icon: Facebook, href: "https://facebook.com", label: "Facebook" },
-  { Icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-  { Icon: Youtube, href: "https://youtube.com", label: "YouTube" },
-  { Icon: TikTokIcon, href: "https://tiktok.com", label: "TikTok" },
+  { Icon: Facebook, href: "https://www.facebook.com/shubhashreeivf/", label: "Facebook" },
+  { Icon: Instagram, href: "https://www.instagram.com/shubhashreeivf/", label: "Instagram" },
+  { Icon: Youtube, href: "https://www.youtube.com/hashtag/shubhashreeivf", label: "YouTube" },
+  { Icon: TikTokIcon, href: "https://www.tiktok.com/@shubhashreeivfclinic", label: "TikTok" },
 ]
 
 const headingStyle: React.CSSProperties = {
