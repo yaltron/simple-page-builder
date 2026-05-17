@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { motion } from "framer-motion"
 import { Calendar, Stethoscope, HeartHandshake, FlaskConical, Briefcase } from "lucide-react"
 import { PageLayout, PageCTABanner, Section, SectionHeading, BRAND } from "@/components/page-layout"
-import { supabase } from "@/integrations/supabase/client"
+import { useDoctors } from "@/lib/use-doctors"
 
 export const Route = createFileRoute("/team")({
   head: () => ({
