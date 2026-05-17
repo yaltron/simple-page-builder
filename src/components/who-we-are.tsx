@@ -96,14 +96,14 @@ function FloatingCard({
       transition={{ duration: 0.9, delay: card.delay, ease: [0.22, 1, 0.36, 1] }}
     >
       <motion.div
-        animate={{ y: [0, -10, 0] }}
+        animate={{ y: [0, -6, 0] }}
         transition={{
-          duration: 6 + (card.delay * 10),
+          duration: 9 + (card.delay * 10),
           repeat: Infinity,
           ease: "easeInOut",
           delay: card.delay,
         }}
-        whileHover={{ scale: 1.06, rotate: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
+        whileHover={{ scale: 1.04, rotate: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
         className="relative w-full h-full group cursor-pointer"
         style={{ willChange: "transform" }}
       >
