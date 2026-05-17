@@ -230,10 +230,12 @@ export function Navbar() {
         {/* ROW 1 */}
         <div
           style={{
-            height: row1Height,
-            paddingTop: 8,
-            paddingBottom: 8,
-            transition: "height 0.35s ease",
+            minHeight: 72,
+            paddingTop: 10,
+            paddingBottom: 10,
+            display: "flex",
+            alignItems: "center",
+            transition: "min-height 0.35s ease",
           }}
         >
           <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
