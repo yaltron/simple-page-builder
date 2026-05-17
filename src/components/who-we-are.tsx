@@ -1,7 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef, useState } from "react"
-import { ArrowRight, Sparkles, Heart } from "lucide-react"
-import { Link } from "@tanstack/react-router"
+import { ArrowRight, Heart } from "lucide-react"
 import { MorphingBlob } from "@/components/morphing-blob"
 import { useHomepageSection } from "@/lib/use-cms-content"
 import miracle1 from "@/assets/miracle-1.jpg"
