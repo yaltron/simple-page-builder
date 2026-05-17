@@ -483,11 +483,11 @@ export function Navbar() {
                   📅 Book Appointment
                 </Link>
                 <a
-                  href="tel:+9779861141699"
+                  href="tel:015312007"
                   className="w-full py-3 font-bold flex items-center justify-center gap-2 border-2"
                   style={{ borderColor: COLORS.plum, color: COLORS.plum, borderRadius: 50 }}
                 >
-                  📞 Call Us
+                  📞 Call 015312007
                 </a>
               </div>
             </motion.div>
