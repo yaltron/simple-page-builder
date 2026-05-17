@@ -20,14 +20,14 @@ export function CTABanner() {
   return (
     <section
       id="contact"
-      className="py-20 lg:py-24 bg-gradient-to-br from-rose-light/40 via-cream to-gold-light/40 relative overflow-hidden"
+      className="py-12 sm:py-16 lg:py-24 bg-gradient-to-br from-rose-light/40 via-cream to-gold-light/40 relative overflow-hidden"
     >
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="space-y-6">
-          <h2 className="font-serif text-3xl lg:text-5xl font-bold text-balance" style={{ color: cms.heading_color }}>
+        <div className="space-y-4 sm:space-y-6">
+          <h2 className="font-serif font-bold text-balance leading-tight" style={{ color: cms.heading_color, fontSize: "clamp(1.75rem, 4.5vw, 3rem)" }}>
             {cms.heading}
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{cms.subtext}</p>
+          <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">{cms.subtext}</p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <Button
