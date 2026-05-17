@@ -10,23 +10,33 @@ const DOCTORS_HEADING_DEFAULTS = {
   heading_color: "#C2185B",
 }
 
-const AUTOPLAY_MS = 5000
+const AUTOPLAY_MS = 3200
+
+// Premium spring — snappier, still fluid
+const SPRING = { type: "spring" as const, stiffness: 340, damping: 32, mass: 0.7 }
+const SPRING_SOFT = { type: "spring" as const, stiffness: 260, damping: 30, mass: 0.7 }
 
 export function DoctorsCarousel() {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const cms = useHomepageSection("doctors_heading", DOCTORS_HEADING_DEFAULTS)
   const { doctors } = useDoctors()
-  const [active, setActive] = useState(0)
+  const [[active, direction], setActive] = useState<[number, 1 | -1]>([0, 1])
   const [paused, setPaused] = useState(false)
   const [progress, setProgress] = useState(0)
 
   const total = doctors.length
   const go = useCallback(
-    (dir: 1 | -1) => setActive((i) => (i + dir + total) % total),
+    (dir: 1 | -1) =>
+      setActive(([i]) => [(i + dir + total) % total, dir]),
     [total],
   )
-  const goTo = (i: number) => setActive(((i % total) + total) % total)
+  const goTo = (i: number) =>
+    setActive(([prev]) => {
+      const next = ((i % total) + total) % total
+      const dir: 1 | -1 = next >= prev ? 1 : -1
+      return [next, dir]
+    })
 
   // autoplay + progress bar
   useEffect(() => {
@@ -38,7 +48,7 @@ export function DoctorsCarousel() {
       const p = Math.min(1, (t - start) / AUTOPLAY_MS)
       setProgress(p)
       if (p >= 1) {
-        setActive((i) => (i + 1) % total)
+        setActive(([i]) => [(i + 1) % total, 1])
       } else {
         raf = requestAnimationFrame(tick)
       }
@@ -64,51 +74,44 @@ export function DoctorsCarousel() {
     doctors[(active + offset + total) % total]
 
   const onDragEnd = (_: unknown, info: PanInfo) => {
-    if (info.offset.x < -60) go(1)
-    else if (info.offset.x > 60) go(-1)
+    if (info.offset.x < -50) go(1)
+    else if (info.offset.x > 50) go(-1)
   }
+
+  const pauseOn = { onMouseEnter: () => setPaused(true), onMouseLeave: () => setPaused(false) }
 
   return (
     <section
       id="team"
       ref={ref}
-      className="relative pt-10 pb-20 lg:pb-32 overflow-hidden"
+      className="relative pt-8 pb-16 lg:pb-24 overflow-hidden"
       style={{
         background:
           "radial-gradient(ellipse at top left, #FFE4F1 0%, transparent 55%), radial-gradient(ellipse at bottom right, #EDE7FF 0%, transparent 55%), linear-gradient(180deg, #FFF7FB 0%, #FFF1F7 100%)",
       }}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
     >
       {/* Animated background blobs */}
       <motion.div
         aria-hidden
-        className="absolute -top-32 -left-32 w-[480px] h-[480px] rounded-full blur-3xl opacity-40"
-        style={{ background: "radial-gradient(circle, #FFB6D5 0%, transparent 70%)" }}
+        className="absolute -top-32 -left-32 w-[480px] h-[480px] rounded-full blur-3xl opacity-40 pointer-events-none"
+        style={{ background: "radial-gradient(circle, #FFB6D5 0%, transparent 70%)", willChange: "transform" }}
         animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
         transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
         aria-hidden
-        className="absolute -bottom-40 -right-32 w-[520px] h-[520px] rounded-full blur-3xl opacity-40"
-        style={{ background: "radial-gradient(circle, #D4C5FF 0%, transparent 70%)" }}
+        className="absolute -bottom-40 -right-32 w-[520px] h-[520px] rounded-full blur-3xl opacity-40 pointer-events-none"
+        style={{ background: "radial-gradient(circle, #D4C5FF 0%, transparent 70%)", willChange: "transform" }}
         animate={{ x: [0, -50, 0], y: [0, -20, 0] }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        aria-hidden
-        className="absolute top-1/3 right-1/4 w-[280px] h-[280px] rounded-full blur-3xl opacity-30"
-        style={{ background: "radial-gradient(circle, #FFD9B8 0%, transparent 70%)" }}
-        animate={{ scale: [1, 1.2, 1] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto mb-12 space-y-3"
+          transition={{ duration: 0.4 }}
+          className="text-center max-w-3xl mx-auto mb-8 space-y-3"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/60 backdrop-blur-sm border border-rose-200/50 text-xs font-semibold tracking-wide uppercase text-rose-600">
             <Sparkles className="w-3.5 h-3.5" /> Our Specialists
@@ -121,26 +124,27 @@ export function DoctorsCarousel() {
           </h2>
         </motion.div>
 
-        <div className="grid lg:grid-cols-[1fr_1fr] gap-8 lg:gap-12 items-center">
+        <div className="grid lg:grid-cols-[1fr_1fr] gap-6 lg:gap-10 items-center">
           {/* LEFT — active card + slider */}
           <div className="relative">
             <motion.div
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.2}
+              dragElastic={0.18}
               onDragEnd={onDragEnd}
-              className="relative h-[520px] sm:h-[600px] lg:h-[650px] flex items-center justify-center select-none cursor-grab active:cursor-grabbing"
+              className="relative h-[460px] sm:h-[520px] lg:h-[560px] flex items-center justify-center select-none cursor-grab active:cursor-grabbing"
             >
               {/* Glow */}
               <motion.div
                 key={`glow-${active}`}
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 0.5, scale: 1 }}
-                transition={{ duration: 0.8 }}
-                className="absolute inset-0 m-auto w-[80%] h-[80%] rounded-[40px] blur-3xl"
+                transition={{ duration: 0.5 }}
+                className="absolute inset-0 m-auto w-[75%] h-[75%] rounded-[40px] blur-3xl pointer-events-none"
                 style={{
                   background:
                     "linear-gradient(135deg, #FF8FB8 0%, #B79CFF 50%, #FFB78A 100%)",
+                  willChange: "transform, opacity",
                 }}
               />
 
@@ -153,22 +157,34 @@ export function DoctorsCarousel() {
                     doctor={sideOrder(-1)}
                     side="left"
                     onClick={() => go(-1)}
+                    onPause={pauseOn}
                   />
                 )}
 
                 {/* Active */}
-                <AnimatePresence mode="popLayout">
+                <AnimatePresence mode="popLayout" custom={direction} initial={false}>
                   <motion.div
                     key={current.id}
-                    initial={{ opacity: 0, scale: 0.9, y: 30 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                    transition={{ type: "spring", stiffness: 180, damping: 22 }}
-                    className="relative z-10 w-[280px] sm:w-[360px] lg:w-[440px] h-[460px] sm:h-[560px] lg:h-[640px] rounded-[36px] overflow-hidden shadow-[0_30px_80px_-20px_rgba(194,24,91,0.35)] border border-white/60 group"
+                    custom={direction}
+                    initial={(d: 1 | -1) => ({
+                      opacity: 0,
+                      x: d === 1 ? 320 : -320,
+                      scale: 0.92,
+                    })}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={(d: 1 | -1) => ({
+                      opacity: 0,
+                      x: d === 1 ? -320 : 320,
+                      scale: 0.92,
+                    })}
+                    transition={SPRING}
+                    {...pauseOn}
+                    style={{ willChange: "transform, opacity" }}
+                    className="relative z-10 w-[300px] sm:w-[380px] lg:w-[400px] h-[440px] sm:h-[520px] lg:h-[550px] rounded-[32px] overflow-hidden shadow-[0_24px_70px_-22px_rgba(194,24,91,0.4)] border border-white/60 group"
                   >
                     <ParallaxImage src={current.image} alt={current.name} />
                     {/* Glass bottom label */}
-                    <div className="absolute inset-x-4 bottom-4 rounded-2xl p-4 backdrop-blur-xl bg-white/40 border border-white/60 shadow-lg">
+                    <div className="absolute inset-x-4 bottom-4 rounded-2xl p-3.5 backdrop-blur-xl bg-white/40 border border-white/60 shadow-lg">
                       <p className="font-serif text-lg font-bold text-plum truncate">
                         {current.name}
                       </p>
@@ -188,13 +204,14 @@ export function DoctorsCarousel() {
                     doctor={sideOrder(1)}
                     side="right"
                     onClick={() => go(1)}
+                    onPause={pauseOn}
                   />
                 )}
               </div>
             </motion.div>
 
             {/* Arrows */}
-            <div className="mt-6 flex items-center justify-between">
+            <div className="mt-5 flex items-center justify-between">
               <div className="flex gap-3">
                 <NavBtn label="Previous" onClick={() => go(-1)}>
                   <ArrowLeft className="w-4 h-4" />
@@ -214,7 +231,7 @@ export function DoctorsCarousel() {
                     className="group/dot p-1.5"
                   >
                     <span
-                      className={`block h-1.5 rounded-full transition-all duration-500 ${
+                      className={`block h-1.5 rounded-full transition-all duration-300 ${
                         i === active
                           ? "w-8 bg-rose-500"
                           : "w-1.5 bg-rose-300 group-hover/dot:bg-rose-400"
@@ -229,22 +246,24 @@ export function DoctorsCarousel() {
             <div className="mt-3 h-0.5 w-full bg-rose-100 rounded-full overflow-hidden">
               <motion.div
                 className="h-full bg-gradient-to-r from-rose-400 to-fuchsia-500"
-                style={{ width: `${progress * 100}%` }}
+                style={{ width: `${progress * 100}%`, willChange: "width" }}
                 transition={{ ease: "linear" }}
               />
             </div>
           </div>
 
           {/* RIGHT — details */}
-          <div className="relative">
-            <AnimatePresence mode="wait">
+          <div className="relative" {...pauseOn}>
+            <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={current.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="rounded-[32px] p-6 sm:p-8 lg:p-10 backdrop-blur-xl bg-white/55 border border-white/70 shadow-[0_20px_60px_-20px_rgba(194,24,91,0.2)]"
+                custom={direction}
+                initial={(d: 1 | -1) => ({ opacity: 0, x: d === 1 ? 40 : -40 })}
+                animate={{ opacity: 1, x: 0 }}
+                exit={(d: 1 | -1) => ({ opacity: 0, x: d === 1 ? -40 : 40 })}
+                transition={SPRING_SOFT}
+                style={{ willChange: "transform, opacity" }}
+                className="rounded-[28px] p-6 sm:p-8 lg:p-9 backdrop-blur-xl bg-white/55 border border-white/70 shadow-[0_20px_60px_-20px_rgba(194,24,91,0.2)]"
               >
                 <p className="text-xs font-bold tracking-[0.2em] uppercase text-rose-500 mb-3">
                   Meet Your Specialist
@@ -263,21 +282,21 @@ export function DoctorsCarousel() {
                   </p>
                 )}
                 {current.experience_years ? (
-                  <p className="text-sm font-semibold text-plum/80 mb-5">
+                  <p className="text-sm font-semibold text-plum/80 mb-4">
                     {current.experience_years}+ Years of Experience
                   </p>
                 ) : (
-                  <div className="mb-5" />
+                  <div className="mb-4" />
                 )}
 
                 {current.bio && (
-                  <p className="text-[15px] leading-relaxed text-plum/80 mb-6 line-clamp-5">
+                  <p className="text-[15px] leading-relaxed text-plum/80 mb-5 line-clamp-4">
                     {current.bio}
                   </p>
                 )}
 
                 {current.specialties && current.specialties.length > 0 && (
-                  <div className="mb-7">
+                  <div className="mb-6">
                     <p className="text-xs font-bold uppercase tracking-wider text-plum/60 mb-3">
                       Expertise
                     </p>
@@ -285,9 +304,9 @@ export function DoctorsCarousel() {
                       {current.specialties.slice(0, 6).map((s, i) => (
                         <motion.span
                           key={s}
-                          initial={{ opacity: 0, y: 8 }}
+                          initial={{ opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.1 + i * 0.05 }}
+                          transition={{ delay: 0.05 + i * 0.03, duration: 0.25 }}
                           className="px-3 py-1.5 text-xs font-semibold rounded-full bg-white/70 border border-rose-200/60 text-plum backdrop-blur-sm"
                         >
                           {s}
@@ -340,8 +359,8 @@ function ParallaxImage({ src, alt }: { src: string | null; alt: string }) {
       onMouseMove={(e) => {
         const r = e.currentTarget.getBoundingClientRect()
         setT({
-          x: ((e.clientX - r.left) / r.width - 0.5) * 16,
-          y: ((e.clientY - r.top) / r.height - 0.5) * 16,
+          x: ((e.clientX - r.left) / r.width - 0.5) * 14,
+          y: ((e.clientY - r.top) / r.height - 0.5) * 14,
         })
       }}
       onMouseLeave={() => setT({ x: 0, y: 0 })}
@@ -353,7 +372,8 @@ function ParallaxImage({ src, alt }: { src: string | null; alt: string }) {
           loading="lazy"
           className="absolute inset-0 w-full h-full object-cover"
           animate={{ x: t.x, y: t.y, scale: 1.06 }}
-          transition={{ type: "spring", stiffness: 80, damping: 18 }}
+          transition={{ type: "spring", stiffness: 140, damping: 20 }}
+          style={{ willChange: "transform" }}
         />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
@@ -365,10 +385,12 @@ function SideCard({
   doctor,
   side,
   onClick,
+  onPause,
 }: {
   doctor: CMSDoctor
   side: "left" | "right"
   onClick: () => void
+  onPause: { onMouseEnter: () => void; onMouseLeave: () => void }
 }) {
   const isLeft = side === "left"
   return (
@@ -376,13 +398,15 @@ function SideCard({
       layout
       onClick={onClick}
       aria-label={`Show ${doctor.name}`}
-      initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
+      initial={{ opacity: 0, x: isLeft ? -30 : 30 }}
       animate={{ opacity: 0.85, x: 0 }}
-      whileHover={{ scale: 1.05, opacity: 1 }}
-      transition={{ type: "spring", stiffness: 200, damping: 24 }}
+      whileHover={{ scale: 1.06, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 320, damping: 28 }}
+      {...onPause}
+      style={{ willChange: "transform, opacity" }}
       className={`hidden md:block absolute top-1/2 -translate-y-1/2 ${
         isLeft ? "left-0" : "right-0"
-      } w-[140px] lg:w-[170px] h-[260px] lg:h-[320px] rounded-[28px] overflow-hidden shadow-xl border border-white/60 z-0`}
+      } w-[120px] lg:w-[150px] h-[220px] lg:h-[280px] rounded-[24px] overflow-hidden shadow-xl border border-white/60 z-0`}
     >
       {doctor.image && (
         <img
