@@ -43,24 +43,25 @@ type Card = {
 
 // Center hero is rendered separately. These float around it in an
 // intentional, asymmetric editorial composition (not random masonry).
+// Sizes tuned for 100% desktop zoom inside a ~1240px container.
 const CARDS: Card[] = [
   // Left column
-  { src: miracle1, alt: "Newborn moment", top: "4%",  left: "2%",  w: 170, h: 220, rotate: -4, z: 2, depth: 30, delay: 0.05 },
-  { src: testimonial1, alt: "Mother and baby", top: "38%", left: "0%",  w: 200, h: 200, rotate: 3,  z: 3, depth: 50, delay: 0.12 },
-  { src: miracle4, alt: "Family smile", top: "72%", left: "5%",  w: 180, h: 230, rotate: -2, z: 2, depth: 40, delay: 0.18 },
+  { src: miracle1, alt: "Newborn moment", top: "6%",  left: "3%",  w: 118, h: 150, rotate: -4, z: 2, depth: 24, delay: 0.05 },
+  { src: testimonial1, alt: "Mother and baby", top: "40%", left: "1%",  w: 138, h: 138, rotate: 3,  z: 3, depth: 40, delay: 0.12 },
+  { src: miracle4, alt: "Family smile", top: "72%", left: "5%",  w: 124, h: 158, rotate: -2, z: 2, depth: 32, delay: 0.18 },
 
   // Inner-left
-  { src: testimonial2, alt: "Happy parents", top: "16%", left: "18%", w: 150, h: 150, rotate: 5,  z: 4, depth: 70, delay: 0.22 },
-  { src: miracle2, alt: "First hold",  top: "58%", left: "20%", w: 160, h: 200, rotate: -3, z: 3, depth: 60, delay: 0.28 },
+  { src: testimonial2, alt: "Happy parents", top: "16%", left: "20%", w: 104, h: 104, rotate: 5,  z: 4, depth: 56, delay: 0.22 },
+  { src: miracle2, alt: "First hold",  top: "60%", left: "22%", w: 112, h: 138, rotate: -3, z: 3, depth: 48, delay: 0.28 },
 
   // Inner-right
-  { src: miracle5, alt: "Joyful family", top: "12%", left: "70%", w: 160, h: 200, rotate: -5, z: 4, depth: 65, delay: 0.24 },
-  { src: testimonial3, alt: "Doctor and patient", top: "56%", left: "72%", w: 170, h: 170, rotate: 4,  z: 3, depth: 55, delay: 0.3 },
+  { src: miracle5, alt: "Joyful family", top: "14%", left: "70%", w: 112, h: 138, rotate: -5, z: 4, depth: 52, delay: 0.24 },
+  { src: testimonial3, alt: "Doctor and patient", top: "58%", left: "72%", w: 116, h: 116, rotate: 4,  z: 3, depth: 44, delay: 0.3 },
 
   // Right column
-  { src: testimonialFamily, alt: "Family together", top: "6%",  left: "86%", w: 180, h: 220, rotate: 3,  z: 2, depth: 35, delay: 0.1 },
-  { src: miracle3, alt: "Tiny hand",    top: "40%", left: "90%", w: 170, h: 170, rotate: -2, z: 3, depth: 45, delay: 0.16 },
-  { src: miracle6, alt: "Baby joy",     top: "74%", left: "85%", w: 180, h: 230, rotate: 2,  z: 2, depth: 38, delay: 0.2 },
+  { src: testimonialFamily, alt: "Family together", top: "8%",  left: "87%", w: 124, h: 152, rotate: 3,  z: 2, depth: 28, delay: 0.1 },
+  { src: miracle3, alt: "Tiny hand",    top: "42%", left: "90%", w: 118, h: 118, rotate: -2, z: 3, depth: 36, delay: 0.16 },
+  { src: miracle6, alt: "Baby joy",     top: "73%", left: "86%", w: 124, h: 158, rotate: 2,  z: 2, depth: 30, delay: 0.2 },
 ]
 
 const FALLBACKS = [
@@ -160,7 +161,7 @@ export function WhoWeAre() {
     <section
       id="about"
       ref={ref}
-      className="relative py-24 lg:py-36 overflow-hidden"
+      className="relative py-16 lg:py-24 overflow-hidden"
       style={{
         background:
           "linear-gradient(180deg, #fff 0%, #fff7fb 10%, #fdf4ff 50%, #fff5ee 90%, #fff 100%)",
@@ -202,15 +203,15 @@ export function WhoWeAre() {
         ))}
       </div>
 
-      <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-10 relative">
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header — minimal */}
-        <div className="text-center max-w-2xl mx-auto mb-14 lg:mb-20 relative z-10">
+        <div className="text-center max-w-2xl mx-auto mb-10 lg:mb-14 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-pink-100 mb-6 shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-pink-100 mb-5 shadow-sm"
           >
             <Sparkles className="w-3.5 h-3.5" style={{ color: cms.heading_color }} />
             <span className="text-[11px] font-semibold tracking-[0.2em] uppercase" style={{ color: cms.heading_color }}>
@@ -222,7 +223,7 @@ export function WhoWeAre() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="font-serif text-[2.5rem] lg:text-[4rem] leading-[1.05] font-bold tracking-tight"
+            className="font-serif text-[2rem] lg:text-[3rem] leading-[1.05] font-bold tracking-tight"
             style={{
               backgroundImage: "linear-gradient(135deg, #E6007E 0%, #C2006A 40%, #A78BFA 100%)",
               WebkitBackgroundClip: "text",
@@ -237,14 +238,14 @@ export function WhoWeAre() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-5 font-serif italic text-lg lg:text-xl text-muted-foreground leading-snug"
+            className="mt-4 font-serif italic text-base lg:text-lg text-muted-foreground leading-snug"
           >
             &ldquo;{cms.quote}&rdquo;
           </motion.p>
         </div>
 
         {/* Floating collage canvas */}
-        <div className="relative w-full mx-auto" style={{ height: "clamp(720px, 78vw, 880px)" }}>
+        <div className="relative w-full mx-auto" style={{ height: "clamp(560px, 52vw, 640px)" }}>
           {/* Decorative center halo */}
           <div
             aria-hidden
@@ -267,8 +268,8 @@ export function WhoWeAre() {
             onHoverEnd={() => setHovered(false)}
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
             style={{
-              width: "min(440px, 78%)",
-              height: "clamp(420px, 52vw, 560px)",
+              width: "min(340px, 70%)",
+              height: "clamp(320px, 36vw, 420px)",
             }}
           >
             <motion.div style={{ y: heroY, scale: heroScale }} className="relative w-full h-full">
@@ -356,7 +357,7 @@ export function WhoWeAre() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-14 lg:mt-20 text-center max-w-xl mx-auto relative z-10"
+          className="mt-10 lg:mt-14 text-center max-w-xl mx-auto relative z-10"
         >
           {cms.paragraph_1 && (
             <p className="text-base lg:text-lg text-muted-foreground leading-relaxed mb-7">
