@@ -93,8 +93,7 @@ function FAQsPage() {
             transition={{ duration: 0.5 }}
             className="text-center mb-10"
           >
-            <span className="text-sm font-medium uppercase tracking-wider text-rose">FAQs</span>
-            <h1 className="font-serif text-3xl lg:text-5xl font-bold text-plum mt-3">
+            <h1 className="font-serif text-3xl lg:text-5xl font-bold text-plum">
               Answers to Your Fertility Questions
             </h1>
             <p className="text-muted-foreground mt-3 max-w-xl mx-auto">
