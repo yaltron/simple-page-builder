@@ -44,7 +44,7 @@ function AdminGalleryPage() {
       ? await supabase.from("gallery_items").update(editing).eq("id", editing.id)
       : await supabase.from("gallery_items").insert(editing)
     if (error) return toast.error(error.message)
-    toast.success("Saved"); setEditing(null); load()
+    toast.success("Media updated!"); setEditing(null); load()
   }
 
   const remove = async (id: string, url?: string, mediaType?: string) => {
