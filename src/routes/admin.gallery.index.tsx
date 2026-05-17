@@ -47,11 +47,16 @@ function AdminGalleryPage() {
     toast.success("Saved"); setEditing(null); load()
   }
 
-  const remove = async (id: string) => {
-    if (!confirm("Delete this item?")) return
+  const remove = async (id: string, url?: string, mediaType?: string) => {
+    if (!confirm("Are you sure you want to delete this item? This cannot be undone.")) return
     const { error } = await supabase.from("gallery_items").delete().eq("id", id)
     if (error) return toast.error(error.message)
-    toast.success("Deleted"); load()
+    // Best-effort storage cleanup for images stored in site-media bucket
+    if (mediaType === "image" && url && url.includes("/site-media/")) {
+      const path = url.split("/site-media/")[1]?.split("?")[0]
+      if (path) await supabase.storage.from("site-media").remove([path])
+    }
+    toast.success("Item deleted."); load()
   }
 
   if (loading || !isAdmin) return <AdminLoading />
