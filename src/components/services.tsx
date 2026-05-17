@@ -64,6 +64,7 @@ const services = [
 export function Services() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const cms = useHomepageSection("services_heading", SERVICES_HEADING_DEFAULTS)
 
   return (
     <section id="services" ref={ref} style={{ background: "linear-gradient(135deg, #EAF7FD, #FFF1F7)", paddingTop: 50, paddingBottom: 50 }}>
