@@ -96,14 +96,14 @@ export function Hero() {
           </div>
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ zIndex: 1 }}>
-          <div className="grid lg:grid-cols-5 gap-12 items-center">
-            <div className="lg:col-span-3 space-y-8">
+          <div className="grid lg:grid-cols-5 gap-6 sm:gap-8 lg:gap-12 items-center">
+            <div className="lg:col-span-3 space-y-4 sm:space-y-6 lg:space-y-8">
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-balance"
-                style={{ color: "#8B0F50" }}
+                className="font-serif font-bold leading-tight text-balance"
+                style={{ color: "#8B0F50", fontSize: "clamp(1.875rem, 5.5vw, 3.75rem)" }}
               >
                 {renderHeadline(hero.headline, hero.headline_highlight)}
               </motion.h1>
@@ -112,7 +112,7 @@ export function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-lg text-muted-foreground max-w-xl leading-relaxed"
+                className="text-base sm:text-lg text-muted-foreground max-w-xl leading-relaxed"
               >
                 {hero.subheadline}
               </motion.p>
