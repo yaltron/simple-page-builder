@@ -67,23 +67,24 @@ export function Services() {
   const cms = useHomepageSection("services_heading", SERVICES_HEADING_DEFAULTS)
 
   return (
-    <section id="services" ref={ref} style={{ background: "linear-gradient(135deg, #EAF7FD, #FFF1F7)", paddingTop: 50, paddingBottom: 50 }}>
+    <section id="services" ref={ref} className="py-10 sm:py-12 md:py-14" style={{ background: "linear-gradient(135deg, #EAF7FD, #FFF1F7)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto"
-          style={{ marginBottom: 30 }}
+          className="text-center max-w-3xl mx-auto mb-8 md:mb-10"
         >
           <h2
-            className="text-3xl lg:text-4xl mt-4"
+            className="mt-2"
             style={{
               color: cms.heading_color,
               fontFamily: "'Playfair Display', serif",
               fontWeight: 700,
               fontStyle: "normal",
+              fontSize: "clamp(1.625rem, 4vw, 2.25rem)",
+              lineHeight: 1.2,
             }}
           >
             {cms.heading}
@@ -91,7 +92,7 @@ export function Services() {
         </motion.div>
 
         {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
           {services.map((service, index) => (
             <motion.div
               key={service.title}
