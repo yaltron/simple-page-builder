@@ -14,8 +14,10 @@ import CharacterCount from "@tiptap/extension-character-count"
 import Placeholder from "@tiptap/extension-placeholder"
 import {
   Bold, Italic, Underline as UIcon, Strikethrough, List, ListOrdered, Quote, Code,
-  Link as LinkIcon, Image as ImgIcon, Table as TableIcon, Minus, Undo, Redo, Heading1, Heading2, Heading3, Maximize2, Minimize2,
+  Link as LinkIcon, Image as ImgIcon, Table as TableIcon, Minus, Undo, Redo, Heading1, Heading2, Heading3, Maximize2, Minimize2, FileCode,
 } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Textarea } from "@/components/ui/textarea"
 import { useEffect, useState, useRef } from "react"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
