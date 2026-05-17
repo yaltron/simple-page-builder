@@ -76,14 +76,34 @@ function AdminGalleryPage() {
             <div className="aspect-square bg-gray-100 relative">
               <img src={it.thumbnail || it.url} alt={it.title || ""} className="w-full h-full object-cover" />
               {it.media_type === "video" && <div className="absolute inset-0 flex items-center justify-center bg-black/30"><Play className="w-8 h-8 text-white" /></div>}
+              {/* Hover action overlay */}
+              <div
+                className="absolute inset-0 flex items-center justify-center gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                style={{ background: "rgba(0,0,0,0.55)" }}
+              >
+                <button
+                  onClick={() => setEditing(it)}
+                  className="inline-flex items-center gap-1.5 rounded-lg font-bold transition-colors"
+                  style={{ background: "white", color: "#2D0A1E", padding: "8px 14px", fontSize: 13 }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = "#FFF1F7")}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = "white")}
+                >
+                  <Pencil className="w-3.5 h-3.5" /> Edit
+                </button>
+                <button
+                  onClick={() => remove(it.id, it.url, it.media_type)}
+                  className="inline-flex items-center gap-1.5 rounded-lg font-bold transition-colors text-white"
+                  style={{ background: "#E6007E", padding: "8px 14px", fontSize: 13 }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = "#C4006A")}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = "#E6007E")}
+                >
+                  <Trash2 className="w-3.5 h-3.5" /> Delete
+                </button>
+              </div>
             </div>
             <div className="p-2 text-xs">
               <div className="font-medium truncate">{it.title || "(untitled)"}</div>
               <div className="text-muted-foreground">{it.category}</div>
-            </div>
-            <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 flex gap-1">
-              <button onClick={() => setEditing(it)} className="p-1.5 bg-white rounded shadow"><Pencil className="w-3 h-3" /></button>
-              <button onClick={() => remove(it.id)} className="p-1.5 bg-white rounded shadow text-red-600"><Trash2 className="w-3 h-3" /></button>
             </div>
           </div>
         ))}
