@@ -7,6 +7,7 @@ import { Link } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
 import { FloatingDecoField } from "@/components/floating-deco"
 import { VideoModal } from "@/components/video-modal"
+import { useHomepageSection } from "@/lib/use-cms-content"
 import visitCare from "@/assets/visit-care.jpg"
 import visitConsult from "@/assets/hero-consultation.jpg"
 import visitHope from "@/assets/visit-hope.jpg"
@@ -21,10 +22,30 @@ const reasons = [
   "Cancer patients preserving fertility",
 ]
 
+const DEFAULTS = {
+  heading: "Signs You Should See a Fertility Specialist",
+  heading_color: "#C2185B",
+  images: [
+    { url: "", alt: "Compassionate care" },
+    { url: "", alt: "Consultation" },
+    { url: "", alt: "Hope for families" },
+    { url: "", alt: "Watch our video" },
+  ],
+}
+
 export function WhenToVisit() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [videoOpen, setVideoOpen] = useState(false)
+  const cms = useHomepageSection("when_to_visit", DEFAULTS)
+  const i1 = cms.images?.[0]?.url || visitCare
+  const i2 = cms.images?.[1]?.url || visitConsult
+  const i3 = cms.images?.[2]?.url || visitHope
+  const i4 = cms.images?.[3]?.url || visitVideo
+  const a1 = cms.images?.[0]?.alt || "Compassionate care"
+  const a2 = cms.images?.[1]?.alt || "Consultation"
+  const a3 = cms.images?.[2]?.alt || "Hope for families"
+  const a4 = cms.images?.[3]?.alt || "Watch our video"
 
   return (
     <section ref={ref} className="pt-20 lg:pt-32 pb-10 overflow-hidden relative">
