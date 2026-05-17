@@ -1,9 +1,7 @@
 import { defineConfig } from "vitest/config";
-import react from "@vitejs/plugin-react";
-import path from "path";
+import path from "node:path";
 
 export default defineConfig({
-  plugins: [react()],
   resolve: {
     alias: { "@": path.resolve(__dirname, "./src") },
   },
@@ -11,5 +9,7 @@ export default defineConfig({
     environment: "happy-dom",
     globals: true,
     include: ["src/**/*.test.{ts,tsx}"],
+    // Do not inherit project's vite.config (Worker/SSR plugin chain)
+    server: { deps: { inline: [] } },
   },
 });
