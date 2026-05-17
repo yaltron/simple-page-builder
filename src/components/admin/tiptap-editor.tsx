@@ -29,6 +29,8 @@ interface Props {
 
 export function TiptapEditor({ value, onChange }: Props) {
   const [fullscreen, setFullscreen] = useState(false)
+  const [importOpen, setImportOpen] = useState(false)
+  const [importHtml, setImportHtml] = useState("")
   const fileRef = useRef<HTMLInputElement>(null)
 
   const editor = useEditor({
