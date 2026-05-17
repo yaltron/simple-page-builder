@@ -102,7 +102,7 @@ export function Services() {
               className="group relative"
             >
               <div
-                className="relative rounded-2xl p-6 lg:p-8 h-full transition-all duration-300 group-hover:-translate-y-1.5"
+                className="relative rounded-2xl p-5 sm:p-6 lg:p-7 h-full transition-all duration-300 group-hover:-translate-y-1.5"
                 style={{
                   background: service.title === "Genetic Testing (PGT)"
                     ? "linear-gradient(135deg, #FFF1F7 0%, #fcd4e8 100%)"
@@ -119,15 +119,15 @@ export function Services() {
                 }}
               >
                 {/* Icon */}
-                <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center mb-6">
-                  <service.icon className="w-7 h-7" style={{ color: "#E6007E" }} />
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white flex items-center justify-center mb-4 sm:mb-5">
+                  <service.icon className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: "#E6007E" }} />
                 </div>
 
                 {/* Content */}
-                <h3 className="font-serif text-xl font-semibold mb-3" style={{ color: "#1A1535" }}>
+                <h3 className="font-serif text-lg sm:text-xl font-semibold mb-2 sm:mb-3" style={{ color: "#1A1535" }}>
                   {service.title}
                 </h3>
-                <p className="text-sm leading-relaxed mb-4" style={{ color: "#6B6B8A" }}>
+                <p className="text-sm leading-relaxed mb-3 sm:mb-4" style={{ color: "#6B6B8A" }}>
                   {service.description}
                 </p>
 
