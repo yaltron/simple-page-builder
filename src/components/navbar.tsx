@@ -238,7 +238,7 @@ export function Navbar() {
         <div
           style={{
             minHeight: 64,
-            paddingTop: 4,
+            paddingTop: 8,
             paddingBottom: 4,
             transition: "min-height 0.35s ease",
           }}
