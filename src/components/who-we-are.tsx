@@ -5,6 +5,7 @@ import { useRef } from "react"
 import { Check, ArrowRight } from "lucide-react"
 import { Link } from "@tanstack/react-router"
 import { MorphingBlob } from "@/components/morphing-blob"
+import { useHomepageSection } from "@/lib/use-cms-content"
 import whoClinic from "@/assets/who-clinic.jpg"
 import whoLab from "@/assets/who-lab.jpg"
 import whoTeam from "@/assets/who-team.jpg"
@@ -14,6 +15,19 @@ const highlights = [
   "Personalized Treatment Plans",
   "Emotional & Psychological Support",
 ]
+
+const DEFAULTS = {
+  heading: "Turning Hope Into Happiness",
+  heading_color: "#E6007E",
+  quote: "The trust you have shown in us over the years is our greatest inspiration to turn hope into reality.",
+  paragraph_1: "Shubhashree IVF & Fertility Centre is Nepal's premier fertility clinic, dedicated to helping couples achieve their dream of parenthood. With state-of-the-art facilities, world-class specialists, and a compassionate approach to care, we have helped over 5,000 families welcome their bundles of joy.",
+  paragraph_2: "Our team understands the emotional journey of fertility treatment. That's why we combine cutting-edge medical technology with personalized care, ensuring every patient feels supported, informed, and hopeful throughout their journey.",
+  images: [
+    { url: "", alt: "Our modern clinic" },
+    { url: "", alt: "Advanced laboratory" },
+    { url: "", alt: "Our caring team" },
+  ],
+}
 
 export function WhoWeAre() {
   const ref = useRef(null)
