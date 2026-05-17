@@ -95,38 +95,22 @@ export function WhoWeAre() {
                 color: "transparent",
               }}
             >
-              &ldquo;The trust you have shown in us over the years is our greatest 
-              inspiration to turn hope into reality.&rdquo;
+              &ldquo;{cms.quote}&rdquo;
             </blockquote>
 
             {/* Asymmetric image grid */}
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-4">
                 <div className="rounded-2xl overflow-hidden h-48">
-                  <img
-                    src={whoClinic}
-                    alt="Our modern clinic"
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
+                  <img src={img1} alt={alt1} className="w-full h-full object-cover" loading="lazy" />
                 </div>
                 <div className="rounded-2xl overflow-hidden h-32">
-                  <img
-                    src={whoLab}
-                    alt="Advanced laboratory"
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
+                  <img src={img2} alt={alt2} className="w-full h-full object-cover" loading="lazy" />
                 </div>
               </div>
               <div className="pt-8">
                 <div className="rounded-2xl overflow-hidden h-64">
-                  <img
-                    src={whoTeam}
-                    alt="Our caring team"
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
+                  <img src={img3} alt={alt3} className="w-full h-full object-cover" loading="lazy" />
                 </div>
               </div>
             </div>
@@ -140,18 +124,12 @@ export function WhoWeAre() {
             className="space-y-6"
           >
             <div className="space-y-4">
-              <h2 className="font-serif text-3xl lg:text-4xl font-bold" style={{ color: "#E6007E" }}>
-                Turning Hope Into Happiness
+              <h2 className="font-serif text-3xl lg:text-4xl font-bold" style={{ color: cms.heading_color }}>
+                {cms.heading}
               </h2>
             </div>
 
-            <p className="text-muted-foreground leading-relaxed">
-              Shubhashree IVF & Fertility Centre is {"Nepal's"} premier fertility clinic, 
-              dedicated to helping couples achieve their dream of parenthood. With 
-              state-of-the-art facilities, world-class specialists, and a compassionate 
-              approach to care, we have helped over 5,000 families welcome their bundles 
-              of joy.
-            </p>
+            <p className="text-muted-foreground leading-relaxed">{cms.paragraph_1}</p>
 
             <p className="text-muted-foreground leading-relaxed">
               Our team understands the emotional journey of fertility treatment. {"That's"} 
