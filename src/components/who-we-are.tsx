@@ -22,6 +22,10 @@ const DEFAULTS = {
   quote: "Where hope quietly becomes reality.",
   paragraph_1: "Stories of care, courage, and new beginnings — captured from journeys to parenthood.",
   paragraph_2: "",
+  cta_text: "Explore Stories",
+  cta_link: "/success-stories",
+  hero_overlay_kicker: "A new beginning",
+  hero_overlay_title: "Every journey holds hope.",
   images: [] as { url: string; alt: string }[],
 }
 
