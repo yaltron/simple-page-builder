@@ -81,7 +81,7 @@ export function Hero() {
                 <Button
                   asChild
                   size="lg"
-                  className="text-white rounded-full px-8 text-base bg-[#E6007E] hover:bg-[#C4006A] transition-colors duration-[250ms] ease-[ease]"
+                  className="bg-gradient-to-r from-rose to-rose-dark hover:from-rose-dark hover:to-rose text-white rounded-full px-8 text-base"
                 >
                   {isExternal ? (
                     <a href={hero.cta_primary_url}>{hero.cta_primary_text}</a>
