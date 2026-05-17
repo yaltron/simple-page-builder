@@ -5,7 +5,7 @@ import { Phone, Menu, X, Calendar, ChevronDown, Copy, Check, Hospital } from "lu
 import { Link, useLocation, useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
 import { supabase } from "@/integrations/supabase/client"
-import logo from "@/assets/logo.png"
+import logo from "@/assets/logo-trimmed.png"
 
 const SERVICE_OPTIONS = [
   "IVF Treatment",
@@ -197,14 +197,12 @@ export function Navbar() {
   const Logo = (
     <Link to="/" className="flex items-center gap-2" style={{ transform: `scale(${logoScale})`, transformOrigin: "left center", transition: "transform 0.35s ease", alignItems: "center" }}>
       {!logoFailed ? (
-        <span style={{ display: "flex", alignItems: "center", width: 180, height: 44, overflow: "hidden" }}>
-          <img
-            src={logo}
-            alt="Subhashree IVF"
-            style={{ width: 180, height: "auto", display: "block", marginTop: -68 }}
-            onError={() => setLogoFailed(true)}
-          />
-        </span>
+        <img
+          src={logo}
+          alt="Subhashree IVF"
+          style={{ height: 75, width: "auto", display: "block", objectFit: "contain" }}
+          onError={() => setLogoFailed(true)}
+        />
       ) : (
         <span className="flex items-center gap-2" style={{ color: COLORS.magenta }}>
           <LotusIcon className="w-8 h-8" />
