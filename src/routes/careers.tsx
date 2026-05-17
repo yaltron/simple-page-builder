@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { createFileRoute } from "@tanstack/react-router"
 import { motion } from "framer-motion"
 import { Briefcase, MapPin, Clock, GraduationCap, Heart, Award, Users, X } from "lucide-react"
@@ -120,7 +120,28 @@ function CareersPage() {
 function ApplyModal({ listing, onClose }: { listing: Listing; onClose: () => void }) {
   const [form, setForm] = useState({ full_name: "", email: "", phone: "", cover_letter: "", portfolio_url: "" })
   const [resume, setResume] = useState<File | null>(null)
+  const [dragOver, setDragOver] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const ACCEPTED = [".pdf", ".doc", ".docx"]
+  const validateFile = (file: File) => {
+    const name = file.name.toLowerCase()
+    if (!ACCEPTED.some(ext => name.endsWith(ext))) {
+      toast.error("Please upload PDF, DOC or DOCX only")
+      return false
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("File too large. Maximum size is 5MB")
+      return false
+    }
+    return true
+  }
+
+  const handleFiles = (files: FileList | null) => {
+    if (!files || !files[0]) return
+    if (validateFile(files[0])) setResume(files[0])
+  }
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -130,10 +151,6 @@ function ApplyModal({ listing, onClose }: { listing: Listing; onClose: () => voi
     setSubmitting(true)
     let resume_url: string | null = null
     if (resume) {
-      if (resume.size > 5 * 1024 * 1024) {
-        setSubmitting(false)
-        return toast.error("Resume must be under 5MB")
-      }
       const path = `${Date.now()}-${resume.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`
       const { error: upErr } = await supabase.storage.from("resumes").upload(path, resume)
       if (upErr) {
@@ -158,6 +175,12 @@ function ApplyModal({ listing, onClose }: { listing: Listing; onClose: () => voi
     onClose()
   }
 
+  const formatSize = (bytes: number) => {
+    if (bytes < 1024) return `${bytes} B`
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`
+  }
+
   return (
     <div className="fixed inset-0 z-[1000000] bg-black/60 flex items-center justify-center p-4" onClick={onClose}>
       <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-auto p-6" onClick={(e) => e.stopPropagation()}>
@@ -173,10 +196,62 @@ function ApplyModal({ listing, onClose }: { listing: Listing; onClose: () => voi
           <input required type="email" placeholder="Email *" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="w-full px-3 py-2.5 border rounded-lg text-sm" />
           <input required type="tel" placeholder="Phone *" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="w-full px-3 py-2.5 border rounded-lg text-sm" />
           <input placeholder="Portfolio URL (optional)" value={form.portfolio_url} onChange={(e) => setForm({ ...form, portfolio_url: e.target.value })} className="w-full px-3 py-2.5 border rounded-lg text-sm" />
+
+          {/* CV Upload */}
           <div>
-            <label className="block text-xs font-semibold mb-1" style={{ color: BRAND.navLink }}>Resume (PDF/DOC, max 5MB)</label>
-            <input type="file" accept=".pdf,.doc,.docx" onChange={(e) => setResume(e.target.files?.[0] || null)} className="w-full text-sm" />
+            <label className="block text-xs font-semibold mb-2" style={{ color: BRAND.navLink }}>CV / Resume</label>
+            {!resume ? (
+              <div
+                onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
+                onDragLeave={() => setDragOver(false)}
+                onDrop={(e) => { e.preventDefault(); setDragOver(false); handleFiles(e.dataTransfer.files) }}
+                onClick={() => fileInputRef.current?.click()}
+                className="text-center cursor-pointer transition-colors"
+                style={{
+                  border: dragOver ? "2px solid #E6007E" : "2px dashed rgba(230,0,126,0.35)",
+                  borderRadius: 16,
+                  background: dragOver ? "rgba(230,0,126,0.08)" : "#FFF1F7",
+                  padding: 32,
+                }}
+              >
+                <div style={{ fontSize: 36, color: "#E6007E", lineHeight: 1 }}>📎</div>
+                <div className="font-semibold mt-3" style={{ color: BRAND.plum }}>Drag &amp; drop your CV here</div>
+                <div className="text-xs my-2" style={{ color: BRAND.navLink }}>or</div>
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click() }}
+                  className="px-5 py-1.5 rounded-full text-sm font-semibold"
+                  style={{ border: "1.5px solid #E6007E", color: "#E6007E", background: "transparent" }}
+                >
+                  Browse Files
+                </button>
+                <div className="mt-3" style={{ fontSize: 12, color: "#b06090" }}>Accepted: PDF, DOC, DOCX • Max 5MB</div>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={(e) => handleFiles(e.target.files)}
+                  className="hidden"
+                />
+              </div>
+            ) : (
+              <div
+                className="inline-flex items-center gap-2"
+                style={{
+                  background: "white",
+                  border: "1px solid rgba(230,0,126,0.2)",
+                  borderRadius: 50,
+                  padding: "8px 16px",
+                }}
+              >
+                <span>📄</span>
+                <span className="text-sm font-medium" style={{ color: BRAND.plum }}>{resume.name}</span>
+                <span className="text-xs" style={{ color: BRAND.navLink }}>{formatSize(resume.size)}</span>
+                <button type="button" onClick={() => setResume(null)} className="ml-1 text-sm" style={{ color: "#E6007E" }} aria-label="Remove file">✕</button>
+              </div>
+            )}
           </div>
+
           <textarea rows={4} placeholder="Cover letter (optional)" value={form.cover_letter} onChange={(e) => setForm({ ...form, cover_letter: e.target.value })} className="w-full px-3 py-2.5 border rounded-lg text-sm" />
           <button type="submit" disabled={submitting} className="w-full py-3 rounded-full text-white font-bold disabled:opacity-60" style={{ background: "#B5005F" }}>
             {submitting ? "Submitting…" : "Submit Application"}
