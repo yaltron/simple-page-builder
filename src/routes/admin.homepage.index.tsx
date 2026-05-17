@@ -526,43 +526,278 @@ function SectionsEditor() {
   const doctors = useSection("homepage_content", "doctors_heading", DOCTORS_HEADING_DEFAULTS)
   const cta = useSection("homepage_content", "cta_banner", CTA_DEFAULTS)
 
-  const updateImg = (
-    s: ReturnType<typeof useSection<typeof WHO_DEFAULTS>> | ReturnType<typeof useSection<typeof WHEN_DEFAULTS>>,
-    i: number,
-    patch: Partial<{ url: string; alt: string }>,
-  ) => {
-    const next = [...s.data.images]
+  const updateWhenImg = (i: number, patch: Partial<{ url: string; alt: string }>) => {
+    const next = [...when.data.images]
     next[i] = { ...next[i], ...patch }
-    s.setData({ ...s.data, images: next } as any)
+    when.setData({ ...when.data, images: next })
+  }
+
+  // ── Storytelling Gallery item helpers ──
+  const items: GalleryItem[] = who.data.items || []
+  const setItems = (next: GalleryItem[]) => who.setData({ ...who.data, items: next })
+  const addItem = () =>
+    setItems([
+      ...items,
+      { enabled: true, type: "image", size: "medium", position: "auto", glow_color: "#E6007E", overlay_opacity: 0, url: "", alt: "" },
+    ])
+  const removeItem = (i: number) => setItems(items.filter((_, j) => j !== i))
+  const moveItem = (i: number, dir: -1 | 1) => {
+    const j = i + dir
+    if (j < 0 || j >= items.length) return
+    const next = [...items]
+    ;[next[i], next[j]] = [next[j], next[i]]
+    setItems(next)
+  }
+  const patchItem = (i: number, patch: Partial<GalleryItem>) => {
+    const next = [...items]
+    next[i] = { ...next[i], ...patch }
+    setItems(next)
   }
 
   return (
     <div className="space-y-6">
-      {/* Who We Are */}
-      <SectionCard title="Who We Are" onSave={who.save} saving={who.saving}>
-        <Field label="Heading">
-          <input value={who.data.heading} onChange={(e) => who.setData({ ...who.data, heading: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
-        </Field>
-        <Field label="Heading color">
-          <ColorPicker value={who.data.heading_color} onChange={(c) => who.setData({ ...who.data, heading_color: c })} />
-        </Field>
-        <Field label="Quote">
-          <textarea rows={2} value={who.data.quote} onChange={(e) => who.setData({ ...who.data, quote: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
-        </Field>
-        <Field label="Paragraph 1">
-          <textarea rows={3} value={who.data.paragraph_1} onChange={(e) => who.setData({ ...who.data, paragraph_1: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
-        </Field>
-        <Field label="Paragraph 2">
-          <textarea rows={3} value={who.data.paragraph_2} onChange={(e) => who.setData({ ...who.data, paragraph_2: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
-        </Field>
-        <div className="grid md:grid-cols-3 gap-3">
-          {who.data.images.map((img, i) => (
-            <div key={i} className="border rounded-lg p-3 space-y-2">
-              <div className="text-xs font-semibold text-muted-foreground">Image {i + 1}</div>
-              <ImageUpload value={img.url} onChange={(url) => updateImg(who, i, { url: url || "" })} folder="homepage" />
-              <input value={img.alt} onChange={(e) => updateImg(who, i, { alt: e.target.value })} placeholder="Alt text" className="w-full px-2 py-1.5 border rounded text-sm" />
+      {/* Storytelling Gallery — Moments That Matter */}
+      <SectionCard title="Storytelling Gallery — Moments That Matter" onSave={who.save} saving={who.saving}>
+        <div className="grid md:grid-cols-[auto_1fr_1fr] gap-3 items-end">
+          <label className="inline-flex items-center gap-2 text-sm font-medium">
+            <input type="checkbox" checked={who.data.enabled !== false}
+              onChange={(e) => who.setData({ ...who.data, enabled: e.target.checked })} />
+            Section enabled
+          </label>
+          <Field label="Main heading">
+            <input value={who.data.heading} onChange={(e) => who.setData({ ...who.data, heading: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+          </Field>
+          <Field label="Subtitle / tagline">
+            <input value={who.data.subtitle} onChange={(e) => who.setData({ ...who.data, subtitle: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+          </Field>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-3 pt-2">
+          <div className="space-y-3">
+            <label className="inline-flex items-center gap-2 text-sm font-medium">
+              <input type="checkbox" checked={who.data.gradient_enabled}
+                onChange={(e) => who.setData({ ...who.data, gradient_enabled: e.target.checked })} />
+              Use gradient on heading
+            </label>
+            {who.data.gradient_enabled ? (
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Gradient from">
+                  <ColorPicker value={who.data.gradient_from} onChange={(c) => who.setData({ ...who.data, gradient_from: c })} />
+                </Field>
+                <Field label="Gradient to">
+                  <ColorPicker value={who.data.gradient_to} onChange={(c) => who.setData({ ...who.data, gradient_to: c })} />
+                </Field>
+              </div>
+            ) : (
+              <Field label="Heading color">
+                <ColorPicker value={who.data.heading_color} onChange={(c) => who.setData({ ...who.data, heading_color: c })} />
+              </Field>
+            )}
+            <Field label="Subtitle color (optional)">
+              <ColorPicker value={who.data.subtitle_color || "#475569"} onChange={(c) => who.setData({ ...who.data, subtitle_color: c })} />
+            </Field>
+          </div>
+          <div className="space-y-3">
+            <Field label="Background glow color">
+              <ColorPicker value={who.data.glow_color} onChange={(c) => who.setData({ ...who.data, glow_color: c })} />
+            </Field>
+            <Field label={`Glow intensity (${who.data.glow_intensity}%)`}>
+              <input type="range" min={0} max={100} value={who.data.glow_intensity}
+                onChange={(e) => who.setData({ ...who.data, glow_intensity: Number(e.target.value) })}
+                className="w-full" />
+            </Field>
+            <Field label="Section background style">
+              <select value={who.data.background_style}
+                onChange={(e) => who.setData({ ...who.data, background_style: e.target.value as any })}
+                className="w-full px-3 py-2 border rounded-lg">
+                <option value="soft">Soft pink/violet</option>
+                <option value="cream">Cream</option>
+                <option value="white">White</option>
+                <option value="dark">Dark</option>
+              </select>
+            </Field>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-3 pt-2">
+          <Field label="CTA button text">
+            <input value={who.data.cta_text} onChange={(e) => who.setData({ ...who.data, cta_text: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+          </Field>
+          <Field label="CTA button URL">
+            <input value={who.data.cta_url} onChange={(e) => who.setData({ ...who.data, cta_url: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+          </Field>
+        </div>
+
+        <div className="grid md:grid-cols-4 gap-3 pt-2">
+          <Field label={`Section spacing (${who.data.section_spacing}px)`}>
+            <input type="range" min={40} max={200} value={who.data.section_spacing}
+              onChange={(e) => who.setData({ ...who.data, section_spacing: Number(e.target.value) })} className="w-full" />
+          </Field>
+          <Field label={`Card radius (${who.data.card_radius}px)`}>
+            <input type="range" min={0} max={48} value={who.data.card_radius}
+              onChange={(e) => who.setData({ ...who.data, card_radius: Number(e.target.value) })} className="w-full" />
+          </Field>
+          <Field label={`Animation speed (${who.data.animation_speed}×)`}>
+            <input type="range" min={0.5} max={2} step={0.1} value={who.data.animation_speed}
+              onChange={(e) => who.setData({ ...who.data, animation_speed: Number(e.target.value) })} className="w-full" />
+          </Field>
+          <Field label="Hover style">
+            <select value={who.data.hover_style}
+              onChange={(e) => who.setData({ ...who.data, hover_style: e.target.value as any })}
+              className="w-full px-3 py-2 border rounded-lg">
+              <option value="lift">Lift</option>
+              <option value="tilt">Tilt</option>
+              <option value="zoom">Zoom</option>
+              <option value="none">None</option>
+            </select>
+          </Field>
+        </div>
+        <label className="inline-flex items-center gap-2 text-sm font-medium pt-1">
+          <input type="checkbox" checked={who.data.floating_enabled}
+            onChange={(e) => who.setData({ ...who.data, floating_enabled: e.target.checked })} />
+          Enable floating animation
+        </label>
+
+        {/* Media cards */}
+        <div className="pt-4 border-t">
+          <div className="flex items-center mb-3">
+            <div>
+              <div className="font-semibold">Media cards</div>
+              <div className="text-xs text-muted-foreground">Add images, videos, testimonials or quote cards. Reorder with arrows.</div>
             </div>
-          ))}
+            <button onClick={addItem} className="ml-auto text-sm px-3 py-1.5 rounded-lg border inline-flex items-center gap-1" style={{ borderColor: "#E6007E", color: "#E6007E" }}>
+              <Plus className="w-4 h-4" /> Add card
+            </button>
+          </div>
+
+          <div className="space-y-3">
+            {items.length === 0 && (
+              <div className="text-xs text-muted-foreground border rounded-lg p-4 text-center">
+                No cards yet. Default sample cards will be shown on the homepage until you add some.
+              </div>
+            )}
+            {items.map((it, i) => (
+              <div key={i} className="border rounded-lg p-3 grid md:grid-cols-[28px_180px_1fr_auto] gap-3 items-start">
+                <div className="flex flex-col gap-1 pt-5">
+                  <button onClick={() => moveItem(i, -1)} className="p-1 rounded hover:bg-gray-100"><ArrowUp className="w-3 h-3" /></button>
+                  <button onClick={() => moveItem(i, 1)} className="p-1 rounded hover:bg-gray-100"><ArrowDown className="w-3 h-3" /></button>
+                </div>
+
+                <div className="space-y-2">
+                  <Field label="Type">
+                    <select value={it.type || "image"} onChange={(e) => patchItem(i, { type: e.target.value as GalleryItem["type"] })} className="w-full px-2 py-1.5 border rounded text-sm">
+                      <option value="image">Image</option>
+                      <option value="video">Video</option>
+                      <option value="testimonial">Testimonial</option>
+                      <option value="quote">Quote</option>
+                    </select>
+                  </Field>
+                  {(it.type === "image" || !it.type || it.type === "video") && (
+                    <>
+                      <div className="text-[11px] text-muted-foreground">{it.type === "video" ? "Video file URL" : "Image"}</div>
+                      <ImageUpload value={it.url} onChange={(url) => patchItem(i, { url: url || "" })} folder="storytelling" />
+                      {it.type === "video" && (
+                        <div className="space-y-1">
+                          <div className="text-[11px] text-muted-foreground">Thumbnail</div>
+                          <ImageUpload value={it.thumbnail} onChange={(url) => patchItem(i, { thumbnail: url || "" })} folder="storytelling" />
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <div className="grid grid-cols-2 gap-2">
+                    <Field label="Size">
+                      <select value={it.size || "medium"} onChange={(e) => patchItem(i, { size: e.target.value as GalleryItem["size"] })} className="w-full px-2 py-1.5 border rounded text-sm">
+                        <option value="hero">Hero (center)</option>
+                        <option value="medium">Medium</option>
+                        <option value="small">Small</option>
+                        <option value="portrait">Portrait</option>
+                        <option value="landscape">Landscape</option>
+                      </select>
+                    </Field>
+                    <Field label="Position">
+                      <select value={it.position || "auto"} onChange={(e) => patchItem(i, { position: e.target.value as GalleryItem["position"] })} className="w-full px-2 py-1.5 border rounded text-sm">
+                        <option value="auto">Auto layout</option>
+                        <option value="center">Center (hero)</option>
+                        <option value="top-left">Top left</option>
+                        <option value="center-left">Center left</option>
+                        <option value="bottom-left">Bottom left</option>
+                        <option value="right-top">Right top</option>
+                        <option value="floating-right">Floating right</option>
+                        <option value="bottom-right">Bottom right</option>
+                      </select>
+                    </Field>
+                  </div>
+
+                  {(it.type === "image" || !it.type || it.type === "video") && (
+                    <div className="grid grid-cols-2 gap-2">
+                      <Field label="Caption / alt">
+                        <input value={it.caption || it.alt || ""} onChange={(e) => patchItem(i, { caption: e.target.value, alt: e.target.value })} className="w-full px-2 py-1.5 border rounded text-sm" />
+                      </Field>
+                      <Field label="Overlay text (optional)">
+                        <input value={it.overlay_text || ""} onChange={(e) => patchItem(i, { overlay_text: e.target.value })} className="w-full px-2 py-1.5 border rounded text-sm" />
+                      </Field>
+                    </div>
+                  )}
+
+                  {(it.size === "hero" || it.position === "center") && (
+                    <Field label="Hero kicker (small uppercase label)">
+                      <input value={it.overlay_kicker || ""} onChange={(e) => patchItem(i, { overlay_kicker: e.target.value })} className="w-full px-2 py-1.5 border rounded text-sm" />
+                    </Field>
+                  )}
+
+                  {(it.type === "quote" || it.type === "testimonial") && (
+                    <div className="grid grid-cols-2 gap-2">
+                      <Field label="Quote text">
+                        <textarea rows={2} value={it.quote || ""} onChange={(e) => patchItem(i, { quote: e.target.value })} className="w-full px-2 py-1.5 border rounded text-sm" />
+                      </Field>
+                      <Field label="Author">
+                        <input value={it.author || ""} onChange={(e) => patchItem(i, { author: e.target.value })} className="w-full px-2 py-1.5 border rounded text-sm" />
+                      </Field>
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-3 gap-2">
+                    <Field label="Glow color">
+                      <ColorPicker value={it.glow_color || "#E6007E"} onChange={(c) => patchItem(i, { glow_color: c })} />
+                    </Field>
+                    <Field label={`Overlay opacity (${it.overlay_opacity || 0}%)`}>
+                      <input type="range" min={0} max={80} value={it.overlay_opacity || 0}
+                        onChange={(e) => patchItem(i, { overlay_opacity: Number(e.target.value) })} className="w-full" />
+                    </Field>
+                    <Field label={`Rotation (${it.rotate ?? 0}°)`}>
+                      <input type="range" min={-8} max={8} value={it.rotate ?? 0}
+                        onChange={(e) => patchItem(i, { rotate: Number(e.target.value) })} className="w-full" />
+                    </Field>
+                  </div>
+
+                  {it.type === "video" && (
+                    <div className="flex flex-wrap items-center gap-3 text-xs">
+                      <label className="inline-flex items-center gap-1">
+                        <input type="checkbox" checked={it.autoplay ?? true} onChange={(e) => patchItem(i, { autoplay: e.target.checked })} /> Autoplay
+                      </label>
+                      <label className="inline-flex items-center gap-1">
+                        <input type="checkbox" checked={it.muted ?? true} onChange={(e) => patchItem(i, { muted: e.target.checked })} /> Muted
+                      </label>
+                      <label className="inline-flex items-center gap-1">
+                        <input type="checkbox" checked={it.loop ?? true} onChange={(e) => patchItem(i, { loop: e.target.checked })} /> Loop
+                      </label>
+                    </div>
+                  )}
+
+                  <label className="inline-flex items-center gap-2 text-xs">
+                    <input type="checkbox" checked={it.enabled !== false}
+                      onChange={(e) => patchItem(i, { enabled: e.target.checked })} />
+                    Card enabled
+                  </label>
+                </div>
+
+                <button onClick={() => removeItem(i)} className="p-1.5 rounded hover:bg-red-50 text-red-600 mt-5"><Trash2 className="w-4 h-4" /></button>
+              </div>
+            ))}
+          </div>
         </div>
       </SectionCard>
 
