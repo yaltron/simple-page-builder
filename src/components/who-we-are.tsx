@@ -203,15 +203,15 @@ export function WhoWeAre() {
         ))}
       </div>
 
-      <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-10 relative">
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header — minimal */}
-        <div className="text-center max-w-2xl mx-auto mb-14 lg:mb-20 relative z-10">
+        <div className="text-center max-w-2xl mx-auto mb-10 lg:mb-14 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-pink-100 mb-6 shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-pink-100 mb-5 shadow-sm"
           >
             <Sparkles className="w-3.5 h-3.5" style={{ color: cms.heading_color }} />
             <span className="text-[11px] font-semibold tracking-[0.2em] uppercase" style={{ color: cms.heading_color }}>
@@ -223,7 +223,7 @@ export function WhoWeAre() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="font-serif text-[2.5rem] lg:text-[4rem] leading-[1.05] font-bold tracking-tight"
+            className="font-serif text-[2rem] lg:text-[3rem] leading-[1.05] font-bold tracking-tight"
             style={{
               backgroundImage: "linear-gradient(135deg, #E6007E 0%, #C2006A 40%, #A78BFA 100%)",
               WebkitBackgroundClip: "text",
@@ -238,7 +238,7 @@ export function WhoWeAre() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-5 font-serif italic text-lg lg:text-xl text-muted-foreground leading-snug"
+            className="mt-4 font-serif italic text-base lg:text-lg text-muted-foreground leading-snug"
           >
             &ldquo;{cms.quote}&rdquo;
           </motion.p>
