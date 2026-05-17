@@ -88,13 +88,13 @@ export function ProcessSteps() {
   }, [])
 
   return (
-    <section id="process" className="pt-20 pb-[80px] bg-pink-soft/40 overflow-visible">
+    <section id="process" className="pt-10 sm:pt-14 lg:pt-20 pb-10 sm:pb-14 lg:pb-20 bg-pink-soft/40 overflow-visible">
       <div ref={sectionRef} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-3xl sm:text-4xl font-extrabold mb-16">
+        <h2 className="font-extrabold mb-8 sm:mb-12 lg:mb-16 leading-tight" style={{ fontSize: "clamp(1.625rem, 4.2vw, 2.25rem)" }}>
           {cms.heading} <span style={{ color: cms.heading_color }}>{cms.heading_highlight}</span>
         </h2>
 
-        <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-14 gap-x-6">
+        <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 sm:gap-y-12 gap-x-4 sm:gap-x-6">
           {steps.map((step, i) => {
             const Icon = step.icon
             const lgOffset = STEP_OFFSETS_LG[i]
