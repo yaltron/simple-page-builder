@@ -557,26 +557,16 @@ function SectionsEditor() {
     when.setData({ ...when.data, images: next })
   }
 
-  // ── Storytelling Gallery item helpers ──
-  const items: GalleryItem[] = who.data.items || []
-  const setItems = (next: GalleryItem[]) => who.setData({ ...who.data, items: next })
-  const addItem = () =>
-    setItems([
-      ...items,
-      { enabled: true, type: "image", size: "medium", position: "auto", glow_color: "#E6007E", overlay_opacity: 0, url: "", alt: "" },
-    ])
-  const removeItem = (i: number) => setItems(items.filter((_, j) => j !== i))
-  const moveItem = (i: number, dir: -1 | 1) => {
-    const j = i + dir
-    if (j < 0 || j >= items.length) return
-    const next = [...items]
-    ;[next[i], next[j]] = [next[j], next[i]]
-    setItems(next)
+  // ── Storytelling Gallery slot helpers ──
+  const slots: Partial<Record<SlotKey, GalleryItem>> = who.data.slots || {}
+  const patchSlot = (key: SlotKey, patch: Partial<GalleryItem>) => {
+    const current = slots[key] || { enabled: true, type: "image" as const }
+    who.setData({ ...who.data, slots: { ...slots, [key]: { ...current, ...patch } } })
   }
-  const patchItem = (i: number, patch: Partial<GalleryItem>) => {
-    const next = [...items]
-    next[i] = { ...next[i], ...patch }
-    setItems(next)
+  const clearSlot = (key: SlotKey) => {
+    const next = { ...slots }
+    delete next[key]
+    who.setData({ ...who.data, slots: next })
   }
 
   return (
@@ -683,145 +673,113 @@ function SectionsEditor() {
           Enable floating animation
         </label>
 
-        {/* Media cards */}
+        {/* Named slots */}
         <div className="pt-4 border-t">
-          <div className="flex items-center mb-3">
-            <div>
-              <div className="font-semibold">Media cards</div>
-              <div className="text-xs text-muted-foreground">Add images, videos, testimonials or quote cards. Reorder with arrows.</div>
-            </div>
-            <button onClick={addItem} className="ml-auto text-sm px-3 py-1.5 rounded-lg border inline-flex items-center gap-1" style={{ borderColor: "#E6007E", color: "#E6007E" }}>
-              <Plus className="w-4 h-4" /> Add card
-            </button>
+          <div className="mb-3">
+            <div className="font-semibold">Gallery Slots</div>
+            <div className="text-xs text-muted-foreground">Each slot has a fixed position on the canvas. Fill the ones you want; leave others empty to hide them.</div>
           </div>
 
           <div className="space-y-3">
-            {items.length === 0 && (
-              <div className="text-xs text-muted-foreground border rounded-lg p-4 text-center">
-                No cards yet. Default sample cards will be shown on the homepage until you add some.
-              </div>
-            )}
-            {items.map((it, i) => (
-              <div key={i} className="border rounded-lg p-3 grid md:grid-cols-[28px_180px_1fr_auto] gap-3 items-start">
-                <div className="flex flex-col gap-1 pt-5">
-                  <button onClick={() => moveItem(i, -1)} className="p-1 rounded hover:bg-gray-100"><ArrowUp className="w-3 h-3" /></button>
-                  <button onClick={() => moveItem(i, 1)} className="p-1 rounded hover:bg-gray-100"><ArrowDown className="w-3 h-3" /></button>
-                </div>
-
-                <div className="space-y-2">
-                  <Field label="Type">
-                    <select value={it.type || "image"} onChange={(e) => patchItem(i, { type: e.target.value as GalleryItem["type"] })} className="w-full px-2 py-1.5 border rounded text-sm">
-                      <option value="image">Image</option>
-                      <option value="video">Video</option>
-                      <option value="testimonial">Testimonial</option>
-                      <option value="quote">Quote</option>
-                    </select>
-                  </Field>
-                  {(it.type === "image" || !it.type || it.type === "video") && (
-                    <>
-                      <div className="text-[11px] text-muted-foreground">{it.type === "video" ? "Video file URL" : "Image"}</div>
-                      <ImageUpload value={it.url} onChange={(url) => patchItem(i, { url: url || "" })} folder="storytelling" />
-                      {it.type === "video" && (
-                        <div className="space-y-1">
-                          <div className="text-[11px] text-muted-foreground">Thumbnail</div>
-                          <ImageUpload value={it.thumbnail} onChange={(url) => patchItem(i, { thumbnail: url || "" })} folder="storytelling" />
-                        </div>
-                      )}
-                    </>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <div className="grid grid-cols-2 gap-2">
-                    <Field label="Size">
-                      <select value={it.size || "medium"} onChange={(e) => patchItem(i, { size: e.target.value as GalleryItem["size"] })} className="w-full px-2 py-1.5 border rounded text-sm">
-                        <option value="hero">Hero (center)</option>
-                        <option value="medium">Medium</option>
-                        <option value="small">Small</option>
-                        <option value="portrait">Portrait</option>
-                        <option value="landscape">Landscape</option>
-                      </select>
-                    </Field>
-                    <Field label="Position">
-                      <select value={it.position || "auto"} onChange={(e) => patchItem(i, { position: e.target.value as GalleryItem["position"] })} className="w-full px-2 py-1.5 border rounded text-sm">
-                        <option value="auto">Auto layout</option>
-                        <option value="center">Center (hero)</option>
-                        <option value="top-left">Top left</option>
-                        <option value="center-left">Center left</option>
-                        <option value="bottom-left">Bottom left</option>
-                        <option value="right-top">Right top</option>
-                        <option value="floating-right">Floating right</option>
-                        <option value="bottom-right">Bottom right</option>
-                      </select>
-                    </Field>
+            {SLOT_LIST.map((slot) => {
+              const it: GalleryItem = slots[slot.key] || {}
+              return (
+                <div key={slot.key} className="border rounded-lg p-3 grid md:grid-cols-[200px_180px_1fr_auto] gap-3 items-start">
+                  <div className="pt-1">
+                    <div className="font-semibold text-sm">{slot.label}</div>
+                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{slot.key}</div>
+                    <label className="inline-flex items-center gap-2 text-xs mt-2">
+                      <input type="checkbox" checked={it.enabled !== false}
+                        onChange={(e) => patchSlot(slot.key, { enabled: e.target.checked })} />
+                      Enabled
+                    </label>
                   </div>
 
-                  {(it.type === "image" || !it.type || it.type === "video") && (
-                    <div className="grid grid-cols-2 gap-2">
-                      <Field label="Caption / alt">
-                        <input value={it.caption || it.alt || ""} onChange={(e) => patchItem(i, { caption: e.target.value, alt: e.target.value })} className="w-full px-2 py-1.5 border rounded text-sm" />
-                      </Field>
-                      <Field label="Overlay text (optional)">
-                        <input value={it.overlay_text || ""} onChange={(e) => patchItem(i, { overlay_text: e.target.value })} className="w-full px-2 py-1.5 border rounded text-sm" />
-                      </Field>
-                    </div>
-                  )}
-
-                  {(it.size === "hero" || it.position === "center") && (
-                    <Field label="Hero kicker (small uppercase label)">
-                      <input value={it.overlay_kicker || ""} onChange={(e) => patchItem(i, { overlay_kicker: e.target.value })} className="w-full px-2 py-1.5 border rounded text-sm" />
+                  <div className="space-y-2">
+                    <Field label="Type">
+                      <select value={it.type || "image"} onChange={(e) => patchSlot(slot.key, { type: e.target.value as GalleryItem["type"] })} className="w-full px-2 py-1.5 border rounded text-sm">
+                        <option value="image">Image</option>
+                        <option value="video">Video</option>
+                        <option value="testimonial">Testimonial</option>
+                        <option value="quote">Quote</option>
+                      </select>
                     </Field>
-                  )}
-
-                  {(it.type === "quote" || it.type === "testimonial") && (
-                    <div className="grid grid-cols-2 gap-2">
-                      <Field label="Quote text">
-                        <textarea rows={2} value={it.quote || ""} onChange={(e) => patchItem(i, { quote: e.target.value })} className="w-full px-2 py-1.5 border rounded text-sm" />
-                      </Field>
-                      <Field label="Author">
-                        <input value={it.author || ""} onChange={(e) => patchItem(i, { author: e.target.value })} className="w-full px-2 py-1.5 border rounded text-sm" />
-                      </Field>
-                    </div>
-                  )}
-
-                  <div className="grid grid-cols-3 gap-2">
-                    <Field label="Glow color">
-                      <ColorPicker value={it.glow_color || "#E6007E"} onChange={(c) => patchItem(i, { glow_color: c })} />
-                    </Field>
-                    <Field label={`Overlay opacity (${it.overlay_opacity || 0}%)`}>
-                      <input type="range" min={0} max={80} value={it.overlay_opacity || 0}
-                        onChange={(e) => patchItem(i, { overlay_opacity: Number(e.target.value) })} className="w-full" />
-                    </Field>
-                    <Field label={`Rotation (${it.rotate ?? 0}°)`}>
-                      <input type="range" min={-8} max={8} value={it.rotate ?? 0}
-                        onChange={(e) => patchItem(i, { rotate: Number(e.target.value) })} className="w-full" />
-                    </Field>
+                    {(it.type === "image" || !it.type || it.type === "video") && (
+                      <>
+                        <div className="text-[11px] text-muted-foreground">{it.type === "video" ? "Video file URL" : "Image"}</div>
+                        <ImageUpload value={it.url} onChange={(url) => patchSlot(slot.key, { url: url || "" })} folder="storytelling" />
+                        {it.type === "video" && (
+                          <div className="space-y-1">
+                            <div className="text-[11px] text-muted-foreground">Thumbnail</div>
+                            <ImageUpload value={it.thumbnail} onChange={(url) => patchSlot(slot.key, { thumbnail: url || "" })} folder="storytelling" />
+                          </div>
+                        )}
+                      </>
+                    )}
                   </div>
 
-                  {it.type === "video" && (
-                    <div className="flex flex-wrap items-center gap-3 text-xs">
-                      <label className="inline-flex items-center gap-1">
-                        <input type="checkbox" checked={it.autoplay ?? true} onChange={(e) => patchItem(i, { autoplay: e.target.checked })} /> Autoplay
-                      </label>
-                      <label className="inline-flex items-center gap-1">
-                        <input type="checkbox" checked={it.muted ?? true} onChange={(e) => patchItem(i, { muted: e.target.checked })} /> Muted
-                      </label>
-                      <label className="inline-flex items-center gap-1">
-                        <input type="checkbox" checked={it.loop ?? true} onChange={(e) => patchItem(i, { loop: e.target.checked })} /> Loop
-                      </label>
+                  <div className="space-y-2">
+                    {(it.type === "image" || !it.type || it.type === "video") && (
+                      <div className="grid grid-cols-2 gap-2">
+                        <Field label="Caption / alt">
+                          <input value={it.caption || it.alt || ""} onChange={(e) => patchSlot(slot.key, { caption: e.target.value, alt: e.target.value })} className="w-full px-2 py-1.5 border rounded text-sm" />
+                        </Field>
+                        <Field label="Overlay text (optional)">
+                          <input value={it.overlay_text || ""} onChange={(e) => patchSlot(slot.key, { overlay_text: e.target.value })} className="w-full px-2 py-1.5 border rounded text-sm" />
+                        </Field>
+                      </div>
+                    )}
+
+                    {slot.isHero && (
+                      <Field label="Hero kicker (small uppercase label)">
+                        <input value={it.overlay_kicker || ""} onChange={(e) => patchSlot(slot.key, { overlay_kicker: e.target.value })} className="w-full px-2 py-1.5 border rounded text-sm" />
+                      </Field>
+                    )}
+
+                    {(it.type === "quote" || it.type === "testimonial") && (
+                      <div className="grid grid-cols-2 gap-2">
+                        <Field label="Quote text">
+                          <textarea rows={2} value={it.quote || ""} onChange={(e) => patchSlot(slot.key, { quote: e.target.value })} className="w-full px-2 py-1.5 border rounded text-sm" />
+                        </Field>
+                        <Field label="Author">
+                          <input value={it.author || ""} onChange={(e) => patchSlot(slot.key, { author: e.target.value })} className="w-full px-2 py-1.5 border rounded text-sm" />
+                        </Field>
+                      </div>
+                    )}
+
+                    <div className="grid grid-cols-3 gap-2">
+                      <Field label="Glow color">
+                        <ColorPicker value={it.glow_color || "#E6007E"} onChange={(c) => patchSlot(slot.key, { glow_color: c })} />
+                      </Field>
+                      <Field label={`Overlay opacity (${it.overlay_opacity || 0}%)`}>
+                        <input type="range" min={0} max={80} value={it.overlay_opacity || 0}
+                          onChange={(e) => patchSlot(slot.key, { overlay_opacity: Number(e.target.value) })} className="w-full" />
+                      </Field>
+                      <Field label={`Rotation (${it.rotate ?? 0}°)`}>
+                        <input type="range" min={-8} max={8} value={it.rotate ?? 0}
+                          onChange={(e) => patchSlot(slot.key, { rotate: Number(e.target.value) })} className="w-full" />
+                      </Field>
                     </div>
-                  )}
 
-                  <label className="inline-flex items-center gap-2 text-xs">
-                    <input type="checkbox" checked={it.enabled !== false}
-                      onChange={(e) => patchItem(i, { enabled: e.target.checked })} />
-                    Card enabled
-                  </label>
+                    {it.type === "video" && (
+                      <div className="flex flex-wrap items-center gap-3 text-xs">
+                        <label className="inline-flex items-center gap-1">
+                          <input type="checkbox" checked={it.autoplay ?? true} onChange={(e) => patchSlot(slot.key, { autoplay: e.target.checked })} /> Autoplay
+                        </label>
+                        <label className="inline-flex items-center gap-1">
+                          <input type="checkbox" checked={it.muted ?? true} onChange={(e) => patchSlot(slot.key, { muted: e.target.checked })} /> Muted
+                        </label>
+                        <label className="inline-flex items-center gap-1">
+                          <input type="checkbox" checked={it.loop ?? true} onChange={(e) => patchSlot(slot.key, { loop: e.target.checked })} /> Loop
+                        </label>
+                      </div>
+                    )}
+                  </div>
+
+                  <button onClick={() => clearSlot(slot.key)} title="Clear slot" className="p-1.5 rounded hover:bg-red-50 text-red-600 mt-5"><Trash2 className="w-4 h-4" /></button>
                 </div>
-
-                <button onClick={() => removeItem(i)} className="p-1.5 rounded hover:bg-red-50 text-red-600 mt-5"><Trash2 className="w-4 h-4" /></button>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </SectionCard>
