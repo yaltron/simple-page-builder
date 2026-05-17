@@ -41,6 +41,7 @@ export type Database = {
           consultation_type: string
           created_at: string
           email: string | null
+          follow_up_at: string | null
           full_name: string
           id: string
           message: string | null
@@ -56,6 +57,7 @@ export type Database = {
           consultation_type?: string
           created_at?: string
           email?: string | null
+          follow_up_at?: string | null
           full_name: string
           id?: string
           message?: string | null
@@ -71,6 +73,7 @@ export type Database = {
           consultation_type?: string
           created_at?: string
           email?: string | null
+          follow_up_at?: string | null
           full_name?: string
           id?: string
           message?: string | null
