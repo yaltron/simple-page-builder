@@ -197,7 +197,7 @@ export function Navbar() {
   const Logo = (
     <Link to="/" className="flex items-center gap-2" style={{ transform: `scale(${logoScale})`, transformOrigin: "left center", transition: "transform 0.35s ease", alignItems: "center" }}>
       {!logoFailed ? (
-        <img src={logo} alt="Subhashree IVF" style={{ width: 180, height: "auto", display: "block", objectFit: "contain", marginTop: 0, paddingTop: 0 }} onError={() => setLogoFailed(true)} />
+        <img src={logo} alt="Subhashree IVF" style={{ width: 180, height: "auto", display: "block", objectFit: "contain", marginTop: 0, paddingTop: 0, marginBottom: 0, paddingBottom: 0 }} onError={() => setLogoFailed(true)} />
       ) : (
         <span className="flex items-center gap-2" style={{ color: COLORS.magenta }}>
           <LotusIcon className="w-8 h-8" />
