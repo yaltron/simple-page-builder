@@ -352,7 +352,7 @@ export function Navbar() {
                 onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.background = COLORS.magenta)}
               >
                 <Phone className="w-4 h-4" />
-                Call 015312007
+                Call Us
               </a>
             </div>
 
@@ -487,7 +487,7 @@ export function Navbar() {
                   className="w-full py-3 font-bold flex items-center justify-center gap-2 border-2"
                   style={{ borderColor: COLORS.plum, color: COLORS.plum, borderRadius: 50 }}
                 >
-                  📞 Call 015312007
+                  📞 Call Us
                 </a>
               </div>
             </motion.div>
