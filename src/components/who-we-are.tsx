@@ -87,10 +87,10 @@ const DEFAULT_ITEMS: GalleryItem[] = [
   { type: "image", url: miracle5,          alt: "Joyful family",         size: "medium",    position: "right-top",      glow_color: "#A78BFA", rotate: -5 },
   { type: "image", url: testimonial3,      alt: "Doctor and patient",    size: "small",     position: "floating-right", glow_color: "#FDBA74", rotate: 4 },
   { type: "image", url: miracle6,          alt: "Baby joy",              size: "portrait",  position: "bottom-right",   glow_color: "#E6007E", rotate: 2 },
-  { type: "image", url: testimonialFamily, alt: "Family together",       size: "auto",     position: "auto",           glow_color: "#A78BFA", rotate: 3 },
-  { type: "image", url: miracle3,          alt: "Tiny hand",             size: "auto",     position: "auto",           glow_color: "#FDBA74", rotate: -2 },
-  { type: "image", url: testimonial2,      alt: "Happy parents",         size: "auto",     position: "auto",           glow_color: "#E6007E", rotate: 5 },
-  { type: "image", url: miracle2,          alt: "First hold",            size: "auto",     position: "auto",           glow_color: "#A78BFA", rotate: -3 },
+  { type: "image", url: testimonialFamily, alt: "Family together",       size: "small",     position: "auto",           glow_color: "#A78BFA", rotate: 3 },
+  { type: "image", url: miracle3,          alt: "Tiny hand",             size: "small",     position: "auto",           glow_color: "#FDBA74", rotate: -2 },
+  { type: "image", url: testimonial2,      alt: "Happy parents",         size: "small",     position: "auto",           glow_color: "#E6007E", rotate: 5 },
+  { type: "image", url: miracle2,          alt: "First hold",            size: "portrait",  position: "auto",           glow_color: "#A78BFA", rotate: -3 },
 ]
 
 const DEFAULTS: StorytellingGalleryCMS = {
