@@ -231,10 +231,7 @@ export function Navbar() {
         <div
           style={{
             height: row1Height,
-            background: isScrolled ? "rgba(255,241,247,0.85)" : COLORS.pinkSoft,
-            backdropFilter: isScrolled ? "blur(16px)" : "none",
-            WebkitBackdropFilter: isScrolled ? "blur(16px)" : "none",
-            transition: "height 0.35s ease, background 0.35s ease",
+            transition: "height 0.35s ease",
           }}
         >
           <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
