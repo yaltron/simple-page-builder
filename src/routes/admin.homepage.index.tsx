@@ -421,8 +421,6 @@ type GalleryItem = {
   caption?: string
   overlay_kicker?: string
   overlay_text?: string
-  size?: "hero" | "medium" | "small" | "portrait" | "landscape"
-  position?: "top-left" | "center-left" | "center" | "right-top" | "floating-right" | "bottom-left" | "bottom-right" | "auto"
   glow_color?: string
   overlay_opacity?: number
   autoplay?: boolean
@@ -432,6 +430,33 @@ type GalleryItem = {
   author?: string
   rotate?: number
 }
+
+type SlotKey =
+  | "center_hero"
+  | "left_card_1"
+  | "left_card_2"
+  | "right_card_1"
+  | "right_card_2"
+  | "far_left_floating_1"
+  | "far_left_floating_2"
+  | "far_left_floating_3"
+  | "far_right_floating_1"
+  | "far_right_floating_2"
+  | "far_right_floating_3"
+
+const SLOT_LIST: { key: SlotKey; label: string; isHero?: boolean }[] = [
+  { key: "center_hero",          label: "Center Hero Image", isHero: true },
+  { key: "left_card_1",          label: "Left Card 1" },
+  { key: "left_card_2",          label: "Left Card 2" },
+  { key: "right_card_1",         label: "Right Card 1" },
+  { key: "right_card_2",         label: "Right Card 2" },
+  { key: "far_left_floating_1",  label: "Far Left Floating 1" },
+  { key: "far_left_floating_2",  label: "Far Left Floating 2" },
+  { key: "far_left_floating_3",  label: "Far Left Floating 3" },
+  { key: "far_right_floating_1", label: "Far Right Floating 1" },
+  { key: "far_right_floating_2", label: "Far Right Floating 2" },
+  { key: "far_right_floating_3", label: "Far Right Floating 3" },
+]
 
 const WHO_DEFAULTS = {
   enabled: true,
