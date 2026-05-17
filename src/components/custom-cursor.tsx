@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Premium minimal cursor — tiny pink dot + soft trailing ring.
+ * Premium minimal cursor — tiny pink dot with a soft glow.
  * Desktop only (disabled on touch / coarse pointer devices).
  */
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement | null>(null);
-  const ringRef = useRef<HTMLDivElement | null>(null);
-  const ringInnerRef = useRef<HTMLDivElement | null>(null);
+  const innerRef = useRef<HTMLDivElement | null>(null);
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
@@ -22,34 +21,19 @@ export function CustomCursor() {
   useEffect(() => {
     if (!enabled) return;
 
-    const target = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-    const ring = { x: target.x, y: target.y };
-    let raf = 0;
     let hovering = false;
     let pressed = false;
 
     const applyState = () => {
-      if (ringInnerRef.current) {
-        ringInnerRef.current.style.transform = `scale(${
-          pressed ? 0.85 : hovering ? 1.35 : 1
-        })`;
-        ringInnerRef.current.style.opacity = hovering ? "1" : "0.75";
-      }
-      if (dotRef.current) {
-        const child = dotRef.current.firstElementChild as HTMLElement | null;
-        if (child) child.style.transform = `scale(${pressed ? 0.7 : 1})`;
-      }
+      if (!innerRef.current) return;
+      const scale = pressed ? 0.85 : hovering ? 1.25 : 1;
+      innerRef.current.style.transform = `scale(${scale})`;
     };
 
     const onMove = (e: MouseEvent) => {
-      target.x = e.clientX;
-      target.y = e.clientY;
       if (dotRef.current) {
-        // Position via top/left to avoid translate rounding offsets
-        dotRef.current.style.left = `${e.clientX}px`;
-        dotRef.current.style.top = `${e.clientY}px`;
+        dotRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
       }
-
       const el = e.target as HTMLElement | null;
       const next = !!el?.closest(
         'a, button, [role="button"], input, textarea, select, label, summary, [data-cursor="hover"]'
@@ -69,20 +53,9 @@ export function CustomCursor() {
       applyState();
     };
 
-    const tick = () => {
-      ring.x += (target.x - ring.x) * 0.22;
-      ring.y += (target.y - ring.y) * 0.22;
-      if (ringRef.current) {
-        ringRef.current.style.left = `${ring.x}px`;
-        ringRef.current.style.top = `${ring.y}px`;
-      }
-      raf = requestAnimationFrame(tick);
-    };
-
     window.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("mousedown", onDown);
     window.addEventListener("mouseup", onUp);
-    raf = requestAnimationFrame(tick);
 
     document.documentElement.classList.add("has-custom-cursor");
 
@@ -90,72 +63,39 @@ export function CustomCursor() {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mousedown", onDown);
       window.removeEventListener("mouseup", onUp);
-      cancelAnimationFrame(raf);
       document.documentElement.classList.remove("has-custom-cursor");
     };
   }, [enabled]);
 
   if (!enabled) return null;
 
-  const baseWrap: React.CSSProperties = {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    pointerEvents: "none",
-    transform: "translate(-50%, -50%)",
-    willChange: "left, top",
-  };
-
   return (
-    <>
-      {/* Trailing ring */}
+    <div
+      ref={dotRef}
+      aria-hidden
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: 10,
+        height: 10,
+        pointerEvents: "none",
+        zIndex: 2147483647,
+        willChange: "transform",
+      }}
+    >
       <div
-        ref={ringRef}
-        aria-hidden
+        ref={innerRef}
         style={{
-          ...baseWrap,
-          width: 20,
-          height: 20,
-          zIndex: 2147483646,
+          width: "100%",
+          height: "100%",
+          borderRadius: "9999px",
+          background: "#E91E63",
+          boxShadow:
+            "0 0 6px rgba(233, 30, 99, 0.35), 0 0 14px rgba(233, 30, 99, 0.18)",
+          transition: "transform 180ms cubic-bezier(0.22, 1, 0.36, 1)",
         }}
-      >
-        <div
-          ref={ringInnerRef}
-          style={{
-            width: "100%",
-            height: "100%",
-            borderRadius: "9999px",
-            border: "1px solid rgba(194, 24, 91, 0.45)",
-            boxShadow: "0 0 6px rgba(194, 24, 91, 0.18)",
-            opacity: 0.75,
-            transition:
-              "transform 220ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease",
-          }}
-        />
-      </div>
-
-      {/* Precise dot */}
-      <div
-        ref={dotRef}
-        aria-hidden
-        style={{
-          ...baseWrap,
-          width: 5,
-          height: 5,
-          zIndex: 2147483647,
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            borderRadius: "9999px",
-            background: "#C2185B",
-            boxShadow: "0 0 4px rgba(194, 24, 91, 0.35)",
-            transition: "transform 160ms cubic-bezier(0.22, 1, 0.36, 1)",
-          }}
-        />
-      </div>
-    </>
+      />
+    </div>
   );
 }
