@@ -141,12 +141,19 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
-/* Always show native cursor — custom cursor disabled */
+/* Default browser cursor everywhere */
 * {
-  cursor: auto !important;
+  cursor: default;
 }
-a, button, [role="button"], input, select, textarea, label, .clickable {
-  cursor: pointer !important;
+a, button, [role="button"], select, input[type="submit"],
+input[type="button"], label[for], .clickable {
+  cursor: pointer;
+}
+input, textarea, select {
+  cursor: text;
+}
+select, [role="button"] {
+  cursor: pointer;
 }
 
 /* Doctors marquee — continuous auto-scroll, loops seamlessly because
@@ -277,4 +284,65 @@ a, button, [role="button"], input, select, textarea, label, .clickable {
   color: #C2185B;
   font-family: 'Geist Mono', monospace;
   font-size: 0.9em;
+}
+
+/* Blog content — inline code + fenced code blocks */
+.blog-content :not(pre) > code {
+  background: #FFF1F7;
+  color: #C2185B;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+}
+.blog-content .code-block-wrap {
+  margin: 24px 0;
+  border-radius: 12px;
+  border: 1px solid rgba(230,0,126,0.15);
+  overflow: hidden;
+  background: #1A0D20;
+}
+.blog-content .code-block-bar {
+  background: rgba(255,255,255,0.06);
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.blog-content .code-block-lang {
+  color: rgba(255,255,255,0.4);
+  font-size: 12px;
+  text-transform: lowercase;
+  font-family: 'Courier New', monospace;
+}
+.blog-content .code-block-copy {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.6);
+  border: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.blog-content .code-block-copy:hover {
+  background: rgba(255,255,255,0.2);
+}
+.blog-content .code-block-wrap pre {
+  background: #1A0D20;
+  color: #F8F8F2;
+  border-radius: 0;
+  padding: 24px;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0;
+}
+.blog-content .code-block-wrap pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
 }

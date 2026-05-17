@@ -25,12 +25,40 @@ const reasons = [
 const DEFAULTS = {
   heading: "Signs You Should See a Fertility Specialist",
   heading_color: "#C2185B",
+  video_url: "",
   images: [
     { url: "", alt: "Compassionate care" },
     { url: "", alt: "Consultation" },
     { url: "", alt: "Hope for families" },
     { url: "", alt: "Watch our video" },
   ],
+}
+
+function extractVideoEmbed(url: string): { provider: "youtube" | "vimeo"; id: string } | null {
+  if (!url) return null
+  try {
+    const u = new URL(url)
+    const host = u.hostname.replace(/^www\./, "")
+    if (host === "youtube.com" || host === "m.youtube.com") {
+      const id = u.searchParams.get("v")
+      if (id) return { provider: "youtube", id }
+      const m = u.pathname.match(/^\/embed\/([\w-]+)/)
+      if (m) return { provider: "youtube", id: m[1] }
+    }
+    if (host === "youtu.be") {
+      const id = u.pathname.slice(1).split("/")[0]
+      if (id) return { provider: "youtube", id }
+    }
+    if (host === "vimeo.com") {
+      const id = u.pathname.split("/").filter(Boolean).pop()
+      if (id && /^\d+$/.test(id)) return { provider: "vimeo", id }
+    }
+    if (host === "player.vimeo.com") {
+      const m = u.pathname.match(/\/video\/(\d+)/)
+      if (m) return { provider: "vimeo", id: m[1] }
+    }
+  } catch {}
+  return null
 }
 
 export function WhenToVisit() {
@@ -46,6 +74,7 @@ export function WhenToVisit() {
   const a2 = cms.images?.[1]?.alt || "Consultation"
   const a3 = cms.images?.[2]?.alt || "Hope for families"
   const a4 = cms.images?.[3]?.alt || "Watch our video"
+  const embed = extractVideoEmbed(cms.video_url || "")
 
   return (
     <section ref={ref} className="pt-20 lg:pt-32 pb-10 overflow-hidden relative">
@@ -127,19 +156,39 @@ export function WhenToVisit() {
                 <div className="rounded-2xl overflow-hidden h-32 lg:h-40">
                   <img src={i3} alt={a3} className="w-full h-full object-cover" loading="lazy" />
                 </div>
-                {/* Video thumbnail */}
-                <button
-                  type="button"
-                  onClick={() => setVideoOpen(true)}
-                  className="rounded-2xl overflow-hidden h-48 lg:h-64 relative group cursor-pointer block w-full"
-                >
-                  <img src={i4} alt={a4} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
-                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                      <Play className="w-6 h-6 text-rose fill-rose ml-1" />
-                    </div>
+                {/* Video thumbnail — autoplay iframe if video_url is set, otherwise click-to-open thumbnail */}
+                {embed ? (
+                  <div
+                    className="rounded-2xl overflow-hidden h-48 lg:h-64"
+                    style={{ position: "relative" }}
+                  >
+                    <iframe
+                      src={
+                        embed.provider === "youtube"
+                          ? `https://www.youtube.com/embed/${embed.id}?autoplay=1&mute=1&loop=1&playlist=${embed.id}&controls=0&showinfo=0&rel=0&modestbranding=1`
+                          : `https://player.vimeo.com/video/${embed.id}?autoplay=1&muted=1&loop=1&background=1`
+                      }
+                      title={a4}
+                      frameBorder={0}
+                      allow="autoplay; encrypted-media; fullscreen"
+                      allowFullScreen
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", borderRadius: 16, border: 0 }}
+                    />
                   </div>
-                </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setVideoOpen(true)}
+                    className="rounded-2xl overflow-hidden h-48 lg:h-64 relative group cursor-pointer block w-full"
+                  >
+                    <img src={i4} alt={a4} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
+                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                      <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                        <Play className="w-6 h-6 text-rose fill-rose ml-1" />
+                      </div>
+                    </div>
+                  </button>
+                )}
               </div>
             </div>
           </motion.div>

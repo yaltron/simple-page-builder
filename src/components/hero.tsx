@@ -69,6 +69,33 @@ export function Hero() {
           </div>
           <div style={{ position: "absolute", width: 120, height: 120, border: "1.5px dashed rgba(27,160,220,0.07)", borderRadius: "50%", top: "15%", right: "8%", animation: "hero-rotate-rev 25s linear infinite" }} />
           <div style={{ position: "absolute", width: 400, height: 400, background: "radial-gradient(circle, rgba(230,0,126,0.05) 0%, transparent 70%)", borderRadius: "50%", bottom: -100, left: -100, animation: "hero-blob-pulse 4s ease-in-out infinite alternate" }} />
+
+          {/* 9. Medium diamond */}
+          <div style={{ position: "absolute", width: 20, height: 20, background: "rgba(230,0,126,0.07)", top: "45%", left: "5%", transform: "rotate(45deg)", animation: "hero-square-float 11s ease-in-out infinite", animationDelay: "1.5s" }} />
+          {/* 10. Hollow square */}
+          <div style={{ position: "absolute", width: 40, height: 40, border: "1.5px solid rgba(27,160,220,0.07)", top: "10%", left: "40%", transform: "rotate(15deg)", animation: "hero-float 13s ease-in-out infinite", animationDelay: "3s" }} />
+          {/* 11. Tiny dot cluster */}
+          <div style={{ position: "absolute", top: "80%", left: "45%", display: "flex", gap: 10, animation: "hero-float 7s ease-in-out infinite", animationDelay: "0.8s" }}>
+            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(230,0,126,0.08)" }} />
+            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(230,0,126,0.08)" }} />
+            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(230,0,126,0.08)" }} />
+          </div>
+          {/* 12. Large dashed circle */}
+          <div style={{ position: "absolute", width: 220, height: 220, border: "1px dashed rgba(230,0,126,0.06)", borderRadius: "50%", top: "40%", left: -60, animation: "hero-rotate 35s linear infinite" }} />
+          {/* 13. Small triangle outline */}
+          <div style={{ position: "absolute", top: "25%", right: "28%", width: 0, height: 0, borderLeft: "10px solid transparent", borderRight: "10px solid transparent", borderBottom: "18px solid rgba(27,160,220,0.07)", animation: "hero-float 9s ease-in-out infinite", animationDelay: "2s" }} />
+          {/* 14. Horizontal line pair (// shape) */}
+          <div style={{ position: "absolute", top: "65%", right: "15%", width: 30, height: 20, animation: "hero-float 10s ease-in-out infinite", animationDelay: "1s" }}>
+            <span style={{ position: "absolute", top: 4, left: 0, width: 30, height: 2, background: "rgba(230,0,126,0.07)", transform: "rotate(60deg)", transformOrigin: "0 50%" }} />
+            <span style={{ position: "absolute", top: 4, left: 10, width: 30, height: 2, background: "rgba(230,0,126,0.07)", transform: "rotate(60deg)", transformOrigin: "0 50%" }} />
+          </div>
+          {/* 15. Soft gradient orb (right side) */}
+          <div style={{ position: "absolute", width: 280, height: 280, background: "radial-gradient(circle, rgba(27,160,220,0.05) 0%, transparent 70%)", borderRadius: "50%", top: "10%", right: -60, animation: "hero-blob-pulse 6s ease-in-out infinite alternate" }} />
+          {/* 16. Small cross */}
+          <div style={{ position: "absolute", bottom: "30%", right: "32%", width: 20, height: 20, animation: "hero-rotate 18s linear infinite" }}>
+            <span style={{ position: "absolute", top: 9, left: 0, width: 20, height: 2, background: "rgba(230,0,126,0.08)" }} />
+            <span style={{ position: "absolute", top: 0, left: 9, width: 2, height: 20, background: "rgba(230,0,126,0.08)" }} />
+          </div>
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ zIndex: 1 }}>
           <div className="grid lg:grid-cols-5 gap-12 items-center">
