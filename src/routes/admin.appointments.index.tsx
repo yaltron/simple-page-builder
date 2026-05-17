@@ -390,18 +390,10 @@ function DetailPanel({ appt, onClose, onUpdateStatus, onUpdateFollowUp, onSaveNo
               {STATUS_OPTIONS.map(s => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
             </select>
             {appt.status === "follow_up" && (
-              <div className="mt-3">
-                <div className="text-xs uppercase text-muted-foreground mb-1">Follow Up Date &amp; Time</div>
-                <input
-                  type="datetime-local"
-                  min={new Date().toISOString().slice(0, 16)}
-                  value={appt.follow_up_at ? new Date(appt.follow_up_at).toISOString().slice(0, 16) : ""}
-                  onChange={e => onUpdateFollowUp(appt.id, e.target.value ? new Date(e.target.value).toISOString() : null)}
-                  style={{ width: "100%", border: "1.5px solid rgba(230,0,126,0.3)", borderRadius: 10, padding: "8px 12px", fontSize: 14, outline: "none" }}
-                  onFocus={e => (e.currentTarget.style.borderColor = "#E6007E")}
-                  onBlur={e => (e.currentTarget.style.borderColor = "rgba(230,0,126,0.3)")}
-                />
-              </div>
+              <FollowUpDateTime
+                value={appt.follow_up_at}
+                onSave={(iso) => onUpdateFollowUp(appt.id, iso)}
+              />
             )}
           </div>
 
