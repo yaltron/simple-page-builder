@@ -84,7 +84,7 @@ export function TiptapEditor({ value, onChange }: Props) {
   }
 
   const Btn = ({ active, onClick, title, children }: { active?: boolean; onClick: () => void; title: string; children: React.ReactNode }) => (
-    <button type="button" onClick={onClick} title={title}
+    <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={onClick} title={title}
       className="p-1.5 rounded hover:bg-pink-50 transition-colors"
       style={{ background: active ? "#FFE4EF" : "transparent", color: active ? "#E6007E" : "#374151" }}>
       {children}
