@@ -48,9 +48,9 @@ export function AdminShell({ title, breadcrumb, children }: { title: string; bre
   return (
     <div className="min-h-screen flex" style={{ background: "#f8f9fa" }}>
       <aside className="w-60 flex-shrink-0 flex flex-col text-white" style={{ background: "#2D0A1E" }}>
-        <div className="p-5 flex items-center gap-2 border-b border-white/10">
-          <Hospital className="w-6 h-6 text-pink-400" />
-          <div className="font-serif font-bold">Subhashree CMS</div>
+        <div style={{ padding: "16px 16px 8px 16px", borderBottom: "1px solid rgba(255,255,255,0.08)", marginBottom: 12 }}>
+          <img src={logo} alt="Subhashree IVF" style={{ width: 140, height: "auto", objectFit: "contain", display: "block", margin: "0 auto 4px auto", filter: "brightness(1.1)" }} />
+          <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", color: "rgba(255,255,255,0.45)", textAlign: "center", paddingBottom: 8 }}>CMS Dashboard</div>
         </div>
         <nav className="flex-1 p-3 space-y-1">
           {navItems.map((it) => {
