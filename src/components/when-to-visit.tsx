@@ -77,7 +77,7 @@ export function WhenToVisit() {
   const embed = extractVideoEmbed(cms.video_url || "")
 
   return (
-    <section ref={ref} className="pt-20 lg:pt-32 pb-10 overflow-hidden relative">
+    <section ref={ref} className="pt-10 sm:pt-16 lg:pt-32 pb-8 sm:pb-10 overflow-hidden relative">
       <FloatingDecoField
         items={[
           { shape: "hollow-circle", color: "teal", size: 36, top: "10%", left: "5%", floatDuration: 8, rotateDuration: 22, delay: 0 },
@@ -88,16 +88,16 @@ export function WhenToVisit() {
         ]}
       />
       <div className="max-w-7xl mx-auto relative">
-        <div className="grid lg:grid-cols-2 min-h-[600px]">
+        <div className="grid lg:grid-cols-2 lg:min-h-[600px]">
           {/* Left side - Rose gradient */}
-          <div className="bg-gradient-to-br from-rose-light/50 via-cream to-gold-light/40 p-8 lg:p-16 flex flex-col justify-center">
+          <div className="bg-gradient-to-br from-rose-light/50 via-cream to-gold-light/40 p-6 sm:p-10 lg:p-16 flex flex-col justify-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5 }}
               className="space-y-6"
             >
-              <h2 className="font-serif text-3xl lg:text-4xl font-bold" style={{ color: cms.heading_color }}>
+              <h2 className="font-serif font-bold leading-tight" style={{ color: cms.heading_color, fontSize: "clamp(1.625rem, 4vw, 2.25rem)" }}>
                 {cms.heading}
               </h2>
 

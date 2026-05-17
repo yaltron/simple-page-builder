@@ -49,10 +49,8 @@ export function Hero() {
   return (
     <>
       <section
-        className="relative flex items-center overflow-hidden"
+        className="relative flex items-center overflow-hidden py-6 sm:py-8 md:py-10"
         style={{
-          paddingTop: 40,
-          paddingBottom: 40,
           background: "linear-gradient(to right, #FFE4EF 0%, #FFF5F9 25%, #FFFAFC 50%, #ffffff 100%)",
         }}
       >
@@ -98,14 +96,14 @@ export function Hero() {
           </div>
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ zIndex: 1 }}>
-          <div className="grid lg:grid-cols-5 gap-12 items-center">
-            <div className="lg:col-span-3 space-y-8">
+          <div className="grid lg:grid-cols-5 gap-6 sm:gap-8 lg:gap-12 items-center">
+            <div className="lg:col-span-3 space-y-4 sm:space-y-6 lg:space-y-8">
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-balance"
-                style={{ color: "#8B0F50" }}
+                className="font-serif font-bold leading-tight text-balance"
+                style={{ color: "#8B0F50", fontSize: "clamp(1.875rem, 5.5vw, 3.75rem)" }}
               >
                 {renderHeadline(hero.headline, hero.headline_highlight)}
               </motion.h1>
@@ -114,16 +112,16 @@ export function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-lg text-muted-foreground max-w-xl leading-relaxed"
+                className="text-base sm:text-lg text-muted-foreground max-w-xl leading-relaxed"
               >
                 {hero.subheadline}
               </motion.p>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-3 sm:gap-4">
                 <Button
                   asChild
                   size="lg"
-                  className="bg-gradient-to-r from-rose to-rose-dark hover:from-rose-dark hover:to-rose text-white rounded-full px-8 text-base"
+                  className="bg-gradient-to-r from-rose to-rose-dark hover:from-rose-dark hover:to-rose text-white rounded-full px-6 sm:px-8 text-sm sm:text-base"
                 >
                   {isExternal ? (
                     <a href={hero.cta_primary_url}>{hero.cta_primary_text}</a>
@@ -137,7 +135,7 @@ export function Hero() {
                     onClick={() => setVideoOpen(true)}
                     size="lg"
                     variant="outline"
-                    className="rounded-full px-8 text-base border-plum/20 text-plum hover:bg-white/15 hover:border-plum/40 transition-[background,border-color] duration-[250ms] ease-[ease]"
+                    className="rounded-full px-6 sm:px-8 text-sm sm:text-base border-plum/20 text-plum hover:bg-white/15 hover:border-plum/40 transition-[background,border-color] duration-[250ms] ease-[ease]"
                   >
                     <Play className="w-4 h-4 mr-2 fill-current" />
                     {hero.cta_secondary_text}
@@ -180,7 +178,7 @@ function HeroSlideshow({ slides }: { slides: string[] }) {
 
   return (
     <div className="relative">
-      <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl aspect-[4/5] bg-rose-light/20">
+      <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl aspect-[4/5] max-w-[320px] sm:max-w-sm md:max-w-md mx-auto lg:max-w-none bg-rose-light/20">
         <AnimatePresence>
           <motion.img
             key={index}

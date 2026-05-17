@@ -88,13 +88,13 @@ export function ProcessSteps() {
   }, [])
 
   return (
-    <section id="process" className="pt-20 pb-[80px] bg-pink-soft/40 overflow-visible">
+    <section id="process" className="pt-10 sm:pt-14 lg:pt-20 pb-10 sm:pb-14 lg:pb-20 bg-pink-soft/40 overflow-visible">
       <div ref={sectionRef} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-3xl sm:text-4xl font-extrabold mb-16">
+        <h2 className="font-extrabold mb-8 sm:mb-12 lg:mb-16 leading-tight" style={{ fontSize: "clamp(1.625rem, 4.2vw, 2.25rem)" }}>
           {cms.heading} <span style={{ color: cms.heading_color }}>{cms.heading_highlight}</span>
         </h2>
 
-        <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-14 gap-x-6">
+        <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 sm:gap-y-12 gap-x-4 sm:gap-x-6">
           {steps.map((step, i) => {
             const Icon = step.icon
             const lgOffset = STEP_OFFSETS_LG[i]
@@ -110,10 +110,10 @@ export function ProcessSteps() {
               >
                 <Link
                   to={step.to}
-                  className="flex flex-col items-center w-full min-h-[320px] relative overflow-visible cursor-pointer"
+                  className="flex flex-col items-center w-full lg:min-h-[320px] relative overflow-visible cursor-pointer"
                   style={{ transform: isLg ? `translateY(${lgOffset}px)` : undefined }}
                 >
-                  <div className="relative mb-5">
+                  <div className="relative mb-4 sm:mb-5">
                     <AnimatePresence>
                       {active && (
                         <motion.span
@@ -127,9 +127,9 @@ export function ProcessSteps() {
                       )}
                     </AnimatePresence>
 
-                    <div className="step-circle h-28 w-28 rounded-full gradient-brand grid place-items-center text-white">
+                    <div className="step-circle h-20 w-20 sm:h-24 sm:w-24 lg:h-28 lg:w-28 rounded-full gradient-brand grid place-items-center text-white">
                       <span className="step-icon inline-flex transition-transform duration-[400ms] ease-out group-hover:scale-[1.15] group-hover:-rotate-[8deg]">
-                        <Icon className="h-11 w-11" strokeWidth={1.8} />
+                        <Icon className="h-8 w-8 sm:h-10 sm:w-10 lg:h-11 lg:w-11" strokeWidth={1.8} />
                       </span>
                     </div>
 

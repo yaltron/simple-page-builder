@@ -56,9 +56,9 @@ function FAQItem({
     >
       <button
         onClick={onToggle}
-        className="w-full py-6 flex items-center justify-between text-left group"
+        className="w-full py-4 sm:py-6 flex items-center justify-between text-left group gap-3"
       >
-        <span className="font-serif text-lg font-semibold text-plum pr-8 group-hover:text-rose transition-colors">
+        <span className="font-serif text-base sm:text-lg font-semibold text-plum group-hover:text-rose transition-colors">
           {faq.question}
         </span>
         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-rose/10 flex items-center justify-center text-rose transition-colors group-hover:bg-rose group-hover:text-white">
@@ -95,7 +95,7 @@ export function FAQ() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="py-20 lg:py-32 bg-white relative overflow-hidden">
+    <section ref={ref} className="py-12 sm:py-16 lg:py-24 bg-white relative overflow-hidden">
       <FloatingDecoField
         items={[
           { shape: "hollow-circle", color: "rose", size: 38, top: "10%", left: "5%", floatDuration: 8, rotateDuration: 22, delay: 0 },
@@ -111,15 +111,15 @@ export function FAQ() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="text-center mb-8 sm:mb-12"
         >
-          <h2 className="font-serif text-3xl lg:text-4xl font-bold text-plum">
+          <h2 className="font-serif font-bold text-plum" style={{ fontSize: "clamp(1.625rem, 4vw, 2.25rem)" }}>
             Answers to Your Fertility Questions
           </h2>
         </motion.div>
 
         {/* FAQ List */}
-        <div className="bg-cream rounded-2xl px-6 lg:px-8">
+        <div className="bg-cream rounded-2xl px-4 sm:px-6 lg:px-8">
           {faqs.map((faq, index) => (
             <FAQItem
               key={index}

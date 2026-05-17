@@ -200,7 +200,7 @@ export function Navbar() {
         <img
           src={logo}
           alt="Subhashree IVF"
-          style={{ height: 75, width: "auto", display: "block", objectFit: "contain" }}
+          className="h-[52px] sm:h-[64px] md:h-[75px] w-auto object-contain block"
           onError={() => setLogoFailed(true)}
         />
       ) : (
@@ -234,14 +234,12 @@ export function Navbar() {
       >
         {/* ROW 1 */}
         <div
+          className="min-h-[58px] md:min-h-[64px] pt-1.5 md:pt-2 pb-1"
           style={{
-            minHeight: 64,
-            paddingTop: 8,
-            paddingBottom: 4,
             transition: "min-height 0.35s ease",
           }}
         >
-          <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <div className="max-w-7xl mx-auto h-full px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2">
             {Logo}
 
             {/* Desktop CTAs */}
@@ -557,7 +555,7 @@ export function Navbar() {
 
       {/* Spacer to offset fixed navbar height */}
       <div style={{ height: isScrolled ? 128 : 142 }} className="hidden md:block" />
-      <div style={{ height: 70 }} className="md:hidden" />
+      <div className="md:hidden h-[64px]" />
     </>
   )
 }

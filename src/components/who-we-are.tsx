@@ -310,8 +310,8 @@ export function WhoWeAre() {
     <section
       id="about"
       ref={ref}
-      className="relative overflow-hidden"
-      style={{ background: BG_MAP[cms.background_style] || BG_MAP.soft, paddingTop: py, paddingBottom: py }}
+      className="relative overflow-hidden py-12 sm:py-16 md:py-20"
+      style={{ background: BG_MAP[cms.background_style] || BG_MAP.soft, ['--section-py' as never]: `${py}px` }}
     >
       {!isDark && (
         <>
@@ -328,14 +328,14 @@ export function WhoWeAre() {
       </div>
 
       <div className="max-w-[1180px] mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="text-center max-w-2xl mx-auto mb-4 lg:mb-6 relative z-10">
+        <div className="text-center max-w-2xl mx-auto mb-6 md:mb-8 relative z-10">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="font-serif text-[2rem] lg:text-[3rem] leading-[1.05] font-bold tracking-tight"
-            style={headingStyle}
+            className="font-serif font-bold tracking-tight leading-[1.1]"
+            style={{ ...headingStyle, fontSize: "clamp(1.75rem, 5vw, 3rem)" }}
           >
             {cms.heading}
           </motion.h2>
@@ -345,15 +345,16 @@ export function WhoWeAre() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-3 font-serif italic text-base lg:text-lg leading-snug"
-              style={{ color: cms.subtitle_color || (isDark ? "rgba(255,255,255,0.75)" : undefined) }}
+              className="mt-3 font-serif italic leading-snug"
+              style={{ color: cms.subtitle_color || (isDark ? "rgba(255,255,255,0.75)" : undefined), fontSize: "clamp(0.95rem, 2vw, 1.125rem)" }}
             >
               &ldquo;{cms.subtitle}&rdquo;
             </motion.p>
           )}
         </div>
 
-        <div className="relative w-full mx-auto" style={{ height: "clamp(480px, 44vw, 540px)" }}>
+        {/* DESKTOP — Floating cluster */}
+        <div className="relative w-full mx-auto hidden md:block" style={{ height: "clamp(480px, 44vw, 540px)" }}>
           <div
             aria-hidden
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl pointer-events-none"
@@ -421,32 +422,65 @@ export function WhoWeAre() {
             </motion.div>
           )}
 
-          {/* Floating slot cards */}
+          {/* Floating slot cards (desktop only) */}
           {others.map((cfg, i) => {
             const item = slots[cfg.key]
             if (!item || item.enabled === false) return null
             if (!item.url && item.type !== "quote" && item.type !== "testimonial") return null
             return <SlotCard key={cfg.key} config={cfg} item={item} index={i} scrollY={scrollYProgress} cms={cms} />
           })}
+        </div>
 
-          {/* Mobile stack */}
-          <div className="md:hidden absolute inset-0 flex flex-col items-center justify-start pt-[60%] gap-5 px-2">
-            {others.slice(0, 4).map((cfg, i) => {
+        {/* MOBILE — Elegant masonry stack */}
+        <div className="md:hidden">
+          {hero && hero.enabled !== false && (
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="relative w-full aspect-[4/5] mb-3 overflow-hidden border border-white/70"
+              style={{
+                borderRadius: cms.card_radius,
+                boxShadow: `0 24px 60px -24px ${heroGlow}66`,
+              }}
+            >
+              <CardMedia item={hero} />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
+              {(hero.overlay_kicker || hero.overlay_text) && (
+                <div className="absolute bottom-3 left-3 right-3">
+                  <div className="rounded-xl px-3 py-2 border border-white/30" style={{ background: "rgba(255,255,255,0.16)", WebkitBackdropFilter: "blur(10px)", backdropFilter: "blur(10px)" }}>
+                    {hero.overlay_kicker && (
+                      <div className="flex items-center gap-1.5 text-white/90 text-[9px] uppercase tracking-[0.25em] mb-0.5">
+                        <Heart className="w-2.5 h-2.5 fill-white" />
+                        {hero.overlay_kicker}
+                      </div>
+                    )}
+                    {hero.overlay_text && (
+                      <div className="font-serif text-white text-base leading-snug">{hero.overlay_text}</div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          )}
+          <div className="grid grid-cols-2 gap-3">
+            {others.map((cfg, i) => {
               const item = slots[cfg.key]
-              if (!item || item.enabled === false || (!item.url && item.type !== "quote")) return null
+              if (!item || item.enabled === false) return null
+              if (!item.url && item.type !== "quote" && item.type !== "testimonial") return null
+              const isTall = i % 3 === 0
               return (
                 <motion.div
                   key={cfg.key}
-                  initial={{ opacity: 0, y: 30, rotate: i % 2 ? -2 : 2 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                  className="w-[78%] aspect-[4/5] overflow-hidden border border-white/70 relative"
+                  viewport={{ once: true, margin: "-30px" }}
+                  transition={{ duration: 0.55, delay: (i % 4) * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                  className={`relative overflow-hidden border border-white/70 ${isTall ? "aspect-[3/4]" : "aspect-square"}`}
                   style={{
-                    borderRadius: cms.card_radius,
-                    transform: `rotate(${i % 2 ? -2 : 2}deg)`,
-                    boxShadow: `0 20px 50px -20px ${item.glow_color || heroGlow}55`,
-                    marginLeft: i % 2 ? "-15%" : "15%",
+                    borderRadius: cms.card_radius - 4,
+                    boxShadow: `0 12px 30px -14px ${item.glow_color || cfg.defaultGlow || heroGlow}55`,
                   }}
                 >
                   <CardMedia item={item} />
