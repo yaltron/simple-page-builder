@@ -6,7 +6,7 @@ import { toast } from "sonner"
 import { PageLayout, Section, SectionHeading, BRAND } from "@/components/page-layout"
 import { supabase } from "@/integrations/supabase/client"
 
-export const Route = createFileRoute("/blog")({
+export const Route = createFileRoute("/blog/")({
   head: () => ({
     meta: [
       { title: "Blogs and News — Subhashree IVF" },
