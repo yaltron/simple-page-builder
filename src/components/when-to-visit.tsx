@@ -68,8 +68,8 @@ export function WhenToVisit() {
               transition={{ duration: 0.5 }}
               className="space-y-6"
             >
-              <h2 className="font-serif text-3xl lg:text-4xl font-bold" style={{ color: "#C2185B" }}>
-                Signs You Should See a Fertility Specialist
+              <h2 className="font-serif text-3xl lg:text-4xl font-bold" style={{ color: cms.heading_color }}>
+                {cms.heading}
               </h2>
 
               {/* Checklist */}
