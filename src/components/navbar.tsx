@@ -200,7 +200,7 @@ export function Navbar() {
         <img
           src={logo}
           alt="Subhashree IVF"
-          style={{ height: 75, width: "auto", display: "block", objectFit: "contain" }}
+          className="h-[52px] sm:h-[64px] md:h-[75px] w-auto object-contain block"
           onError={() => setLogoFailed(true)}
         />
       ) : (
