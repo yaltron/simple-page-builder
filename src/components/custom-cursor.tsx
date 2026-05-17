@@ -77,8 +77,8 @@ export function CustomCursor() {
         position: "fixed",
         top: 0,
         left: 0,
-        width: 10,
-        height: 10,
+        width: 14,
+        height: 14,
         pointerEvents: "none",
         zIndex: 2147483647,
         willChange: "transform",
@@ -90,9 +90,9 @@ export function CustomCursor() {
           width: "100%",
           height: "100%",
           borderRadius: "9999px",
-          background: "#E91E63",
+          background: "rgba(233, 30, 99, 0.7)",
           boxShadow:
-            "0 0 6px rgba(233, 30, 99, 0.35), 0 0 14px rgba(233, 30, 99, 0.18)",
+            "0 0 6px rgba(233, 30, 99, 0.22), 0 0 14px rgba(233, 30, 99, 0.12)",
           transition: "transform 180ms cubic-bezier(0.22, 1, 0.36, 1)",
         }}
       />
