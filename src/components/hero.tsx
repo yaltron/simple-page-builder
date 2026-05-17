@@ -63,7 +63,8 @@ export function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-plum leading-tight text-balance"
+                className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-balance"
+                style={{ color: "#8B0F50" }}
               >
                 {renderHeadline(hero.headline, hero.headline_highlight)}
               </motion.h1>
