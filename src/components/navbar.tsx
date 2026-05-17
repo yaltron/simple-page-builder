@@ -233,8 +233,6 @@ export function Navbar() {
             minHeight: 72,
             paddingTop: 10,
             paddingBottom: 10,
-            display: "flex",
-            alignItems: "center",
             transition: "min-height 0.35s ease",
           }}
         >
