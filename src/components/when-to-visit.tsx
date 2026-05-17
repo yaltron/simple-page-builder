@@ -88,9 +88,9 @@ export function WhenToVisit() {
         ]}
       />
       <div className="max-w-7xl mx-auto relative">
-        <div className="grid lg:grid-cols-2 min-h-[600px]">
+        <div className="grid lg:grid-cols-2 lg:min-h-[600px]">
           {/* Left side - Rose gradient */}
-          <div className="bg-gradient-to-br from-rose-light/50 via-cream to-gold-light/40 p-8 lg:p-16 flex flex-col justify-center">
+          <div className="bg-gradient-to-br from-rose-light/50 via-cream to-gold-light/40 p-6 sm:p-10 lg:p-16 flex flex-col justify-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
