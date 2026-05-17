@@ -234,14 +234,12 @@ export function Navbar() {
       >
         {/* ROW 1 */}
         <div
+          className="min-h-[58px] md:min-h-[64px] pt-1.5 md:pt-2 pb-1"
           style={{
-            minHeight: 64,
-            paddingTop: 8,
-            paddingBottom: 4,
             transition: "min-height 0.35s ease",
           }}
         >
-          <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <div className="max-w-7xl mx-auto h-full px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2">
             {Logo}
 
             {/* Desktop CTAs */}
