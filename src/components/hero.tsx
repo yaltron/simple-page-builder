@@ -49,10 +49,8 @@ export function Hero() {
   return (
     <>
       <section
-        className="relative flex items-center overflow-hidden"
+        className="relative flex items-center overflow-hidden py-6 sm:py-8 md:py-10"
         style={{
-          paddingTop: 40,
-          paddingBottom: 40,
           background: "linear-gradient(to right, #FFE4EF 0%, #FFF5F9 25%, #FFFAFC 50%, #ffffff 100%)",
         }}
       >
