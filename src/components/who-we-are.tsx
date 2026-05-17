@@ -161,7 +161,7 @@ export function WhoWeAre() {
     <section
       id="about"
       ref={ref}
-      className="relative py-24 lg:py-36 overflow-hidden"
+      className="relative py-16 lg:py-24 overflow-hidden"
       style={{
         background:
           "linear-gradient(180deg, #fff 0%, #fff7fb 10%, #fdf4ff 50%, #fff5ee 90%, #fff 100%)",
