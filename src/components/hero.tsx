@@ -56,7 +56,21 @@ export function Hero() {
           background: "linear-gradient(to right, #FFE4EF 0%, #FFF5F9 25%, #FFFAFC 50%, #ffffff 100%)",
         }}
       >
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        {/* Floating decoratives — z-0, pointer-events-none */}
+        <div aria-hidden="true" style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
+          <div style={{ position: "absolute", width: 300, height: 300, border: "1.5px solid rgba(230,0,126,0.08)", borderRadius: "50%", top: -60, left: -80, animation: "hero-rotate 30s linear infinite" }} />
+          <div style={{ position: "absolute", width: 180, height: 180, border: "1px solid rgba(230,0,126,0.06)", borderRadius: "50%", bottom: "20%", right: "10%", animation: "hero-float 8s ease-in-out infinite" }} />
+          <div style={{ position: "absolute", width: 12, height: 12, background: "rgba(230,0,126,0.10)", borderRadius: "50%", top: "30%", left: "12%", animation: "hero-float 6s ease-in-out infinite", animationDelay: "1s" }} />
+          <div style={{ position: "absolute", width: 7, height: 7, background: "rgba(27,160,220,0.09)", borderRadius: "50%", top: "60%", left: "35%", animation: "hero-float 9s ease-in-out infinite", animationDelay: "2s" }} />
+          <div style={{ position: "absolute", width: 14, height: 14, background: "rgba(230,0,126,0.07)", top: "20%", right: "35%", animation: "hero-square-float 7s ease-in-out infinite", animationDelay: "0.5s" }} />
+          <div style={{ position: "absolute", top: "75%", left: "18%", width: 18, height: 18, animation: "hero-rotate 20s linear infinite" }}>
+            <span style={{ position: "absolute", top: "50%", left: 0, right: 0, height: 2, marginTop: -1, background: "rgba(230,0,126,0.07)" }} />
+            <span style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 2, marginLeft: -1, background: "rgba(230,0,126,0.07)" }} />
+          </div>
+          <div style={{ position: "absolute", width: 120, height: 120, border: "1.5px dashed rgba(27,160,220,0.07)", borderRadius: "50%", top: "15%", right: "8%", animation: "hero-rotate-rev 25s linear infinite" }} />
+          <div style={{ position: "absolute", width: 400, height: 400, background: "radial-gradient(circle, rgba(230,0,126,0.05) 0%, transparent 70%)", borderRadius: "50%", bottom: -100, left: -100, animation: "hero-blob-pulse 4s ease-in-out infinite alternate" }} />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ zIndex: 1 }}>
           <div className="grid lg:grid-cols-5 gap-12 items-center">
             <div className="lg:col-span-3 space-y-8">
               <motion.h1
