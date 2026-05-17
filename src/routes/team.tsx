@@ -24,10 +24,7 @@ const support = [
 ]
 
 function TeamPage() {
-  const [doctors, setDoctors] = useState<any[]>([])
-  useEffect(() => {
-    supabase.from("doctors").select("*").eq("status", "published").order("display_order").then(({ data }) => setDoctors(data || []))
-  }, [])
+  const { doctors } = useDoctors()
 
   return (
     <PageLayout title="Our Team" breadcrumb="Our Team">
