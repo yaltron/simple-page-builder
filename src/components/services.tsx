@@ -3,15 +3,21 @@ import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
 import { Link } from "@tanstack/react-router"
-import { 
-  Heart, 
-  Microscope, 
-  Snowflake, 
-  Dna, 
-  Users, 
+import {
+  Heart,
+  Microscope,
+  Snowflake,
+  Dna,
+  Users,
   Stethoscope,
-  ArrowRight 
+  ArrowRight
 } from "lucide-react"
+import { useHomepageSection } from "@/lib/use-cms-content"
+
+const SERVICES_HEADING_DEFAULTS = {
+  heading: "Comprehensive Fertility Care, Tailored for You",
+  heading_color: "#C2185B",
+}
 
 const cardGradients = [
   "linear-gradient(135deg, #FFF1F7 0%, #fcd4e8 100%)",
