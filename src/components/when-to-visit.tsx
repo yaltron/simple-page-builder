@@ -25,12 +25,40 @@ const reasons = [
 const DEFAULTS = {
   heading: "Signs You Should See a Fertility Specialist",
   heading_color: "#C2185B",
+  video_url: "",
   images: [
     { url: "", alt: "Compassionate care" },
     { url: "", alt: "Consultation" },
     { url: "", alt: "Hope for families" },
     { url: "", alt: "Watch our video" },
   ],
+}
+
+function extractVideoEmbed(url: string): { provider: "youtube" | "vimeo"; id: string } | null {
+  if (!url) return null
+  try {
+    const u = new URL(url)
+    const host = u.hostname.replace(/^www\./, "")
+    if (host === "youtube.com" || host === "m.youtube.com") {
+      const id = u.searchParams.get("v")
+      if (id) return { provider: "youtube", id }
+      const m = u.pathname.match(/^\/embed\/([\w-]+)/)
+      if (m) return { provider: "youtube", id: m[1] }
+    }
+    if (host === "youtu.be") {
+      const id = u.pathname.slice(1).split("/")[0]
+      if (id) return { provider: "youtube", id }
+    }
+    if (host === "vimeo.com") {
+      const id = u.pathname.split("/").filter(Boolean).pop()
+      if (id && /^\d+$/.test(id)) return { provider: "vimeo", id }
+    }
+    if (host === "player.vimeo.com") {
+      const m = u.pathname.match(/\/video\/(\d+)/)
+      if (m) return { provider: "vimeo", id: m[1] }
+    }
+  } catch {}
+  return null
 }
 
 export function WhenToVisit() {
@@ -46,6 +74,7 @@ export function WhenToVisit() {
   const a2 = cms.images?.[1]?.alt || "Consultation"
   const a3 = cms.images?.[2]?.alt || "Hope for families"
   const a4 = cms.images?.[3]?.alt || "Watch our video"
+  const embed = extractVideoEmbed(cms.video_url || "")
 
   return (
     <section ref={ref} className="pt-20 lg:pt-32 pb-10 overflow-hidden relative">
