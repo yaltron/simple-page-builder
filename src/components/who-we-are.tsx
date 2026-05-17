@@ -422,32 +422,65 @@ export function WhoWeAre() {
             </motion.div>
           )}
 
-          {/* Floating slot cards */}
+          {/* Floating slot cards (desktop only) */}
           {others.map((cfg, i) => {
             const item = slots[cfg.key]
             if (!item || item.enabled === false) return null
             if (!item.url && item.type !== "quote" && item.type !== "testimonial") return null
             return <SlotCard key={cfg.key} config={cfg} item={item} index={i} scrollY={scrollYProgress} cms={cms} />
           })}
+        </div>
 
-          {/* Mobile stack */}
-          <div className="md:hidden absolute inset-0 flex flex-col items-center justify-start pt-[60%] gap-5 px-2">
-            {others.slice(0, 4).map((cfg, i) => {
+        {/* MOBILE — Elegant masonry stack */}
+        <div className="md:hidden">
+          {hero && hero.enabled !== false && (
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="relative w-full aspect-[4/5] mb-3 overflow-hidden border border-white/70"
+              style={{
+                borderRadius: cms.card_radius,
+                boxShadow: `0 24px 60px -24px ${heroGlow}66`,
+              }}
+            >
+              <CardMedia item={hero} />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
+              {(hero.overlay_kicker || hero.overlay_text) && (
+                <div className="absolute bottom-3 left-3 right-3">
+                  <div className="rounded-xl px-3 py-2 border border-white/30" style={{ background: "rgba(255,255,255,0.16)", WebkitBackdropFilter: "blur(10px)", backdropFilter: "blur(10px)" }}>
+                    {hero.overlay_kicker && (
+                      <div className="flex items-center gap-1.5 text-white/90 text-[9px] uppercase tracking-[0.25em] mb-0.5">
+                        <Heart className="w-2.5 h-2.5 fill-white" />
+                        {hero.overlay_kicker}
+                      </div>
+                    )}
+                    {hero.overlay_text && (
+                      <div className="font-serif text-white text-base leading-snug">{hero.overlay_text}</div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          )}
+          <div className="grid grid-cols-2 gap-3">
+            {others.map((cfg, i) => {
               const item = slots[cfg.key]
-              if (!item || item.enabled === false || (!item.url && item.type !== "quote")) return null
+              if (!item || item.enabled === false) return null
+              if (!item.url && item.type !== "quote" && item.type !== "testimonial") return null
+              const isTall = i % 3 === 0
               return (
                 <motion.div
                   key={cfg.key}
-                  initial={{ opacity: 0, y: 30, rotate: i % 2 ? -2 : 2 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                  className="w-[78%] aspect-[4/5] overflow-hidden border border-white/70 relative"
+                  viewport={{ once: true, margin: "-30px" }}
+                  transition={{ duration: 0.55, delay: (i % 4) * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                  className={`relative overflow-hidden border border-white/70 ${isTall ? "aspect-[3/4]" : "aspect-square"}`}
                   style={{
-                    borderRadius: cms.card_radius,
-                    transform: `rotate(${i % 2 ? -2 : 2}deg)`,
-                    boxShadow: `0 20px 50px -20px ${item.glow_color || heroGlow}55`,
-                    marginLeft: i % 2 ? "-15%" : "15%",
+                    borderRadius: cms.card_radius - 4,
+                    boxShadow: `0 12px 30px -14px ${item.glow_color || cfg.defaultGlow || heroGlow}55`,
                   }}
                 >
                   <CardMedia item={item} />
