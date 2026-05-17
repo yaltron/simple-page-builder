@@ -268,8 +268,8 @@ export function WhoWeAre() {
             onHoverEnd={() => setHovered(false)}
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
             style={{
-              width: "min(440px, 78%)",
-              height: "clamp(420px, 52vw, 560px)",
+              width: "min(340px, 70%)",
+              height: "clamp(320px, 36vw, 420px)",
             }}
           >
             <motion.div style={{ y: heroY, scale: heroScale }} className="relative w-full h-full">
