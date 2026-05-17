@@ -84,6 +84,7 @@ function RootDocument({ children }: { children: ReactNode }) {
         {children}
         <Toaster position="top-center" richColors closeButton />
         <ClientOnly fallback={null}>
+          <CustomCursor />
           <FloatingButtons />
           <PopupBanner />
           <AppointmentAutoPopup />
