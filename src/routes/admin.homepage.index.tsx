@@ -477,7 +477,7 @@ const WHO_DEFAULTS = {
   floating_enabled: true,
   animation_speed: 1,
   hover_style: "lift" as "lift" | "tilt" | "zoom" | "none",
-  items: [] as GalleryItem[],
+  slots: {} as Partial<Record<SlotKey, GalleryItem>>,
 }
 const WHEN_DEFAULTS = {
   heading: "Signs You Should See a Fertility Specialist",
