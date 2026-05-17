@@ -15,9 +15,6 @@ export function WhyUs() {
       <div className="pointer-events-none absolute -bottom-32 -right-20 h-96 w-96 rounded-full bg-white/10 blur-3xl animate-float-slower" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-        <p className="reveal text-white/90 uppercase tracking-wider text-xs font-semibold mb-3">
-          ✦ Why Choose Us
-        </p>
         <h2 className="reveal text-3xl sm:text-4xl font-extrabold text-white text-balance mb-14">
           Why Families Trust Us
         </h2>
@@ -28,10 +25,10 @@ export function WhyUs() {
             return (
               <div
                 key={it.title}
-                className="reveal card-hover bg-white/95 backdrop-blur rounded-2xl p-6 text-left shadow-[0_15px_40px_-20px_rgba(0,0,0,0.25)]"
+                className="reveal why-card group bg-white/95 backdrop-blur rounded-2xl p-6 text-left border border-transparent shadow-[0_15px_40px_-20px_rgba(0,0,0,0.25)]"
                 style={{ transitionDelay: `${i * 120}ms` }}
               >
-                <div className="h-14 w-14 rounded-xl gradient-brand grid place-items-center text-white mb-4 shadow-md">
+                <div className="why-card-icon h-14 w-14 rounded-xl gradient-brand grid place-items-center text-white mb-4 shadow-md">
                   <Icon className="h-7 w-7" strokeWidth={1.8} />
                 </div>
                 <h3 className="font-bold text-lg text-[#1A1535] mb-2">{it.title}</h3>

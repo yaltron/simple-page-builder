@@ -113,10 +113,7 @@ export function FAQ() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <span className="text-sm font-medium uppercase tracking-wider text-rose">
-            FAQs
-          </span>
-          <h2 className="font-serif text-3xl lg:text-4xl font-bold text-plum mt-4">
+          <h2 className="font-serif text-3xl lg:text-4xl font-bold text-plum">
             Answers to Your Fertility Questions
           </h2>
         </motion.div>

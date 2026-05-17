@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { motion } from "framer-motion"
 import { Calendar, Stethoscope, HeartHandshake, FlaskConical, Briefcase } from "lucide-react"
 import { PageLayout, PageCTABanner, Section, SectionHeading, BRAND } from "@/components/page-layout"
-import { supabase } from "@/integrations/supabase/client"
+import { useDoctors } from "@/lib/use-doctors"
 
 export const Route = createFileRoute("/team")({
   head: () => ({
@@ -25,10 +24,7 @@ const support = [
 ]
 
 function TeamPage() {
-  const [doctors, setDoctors] = useState<any[]>([])
-  useEffect(() => {
-    supabase.from("doctors").select("*").eq("status", "published").order("display_order").then(({ data }) => setDoctors(data || []))
-  }, [])
+  const { doctors } = useDoctors()
 
   return (
     <PageLayout title="Our Team" breadcrumb="Our Team">

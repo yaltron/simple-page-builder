@@ -12,6 +12,7 @@ import { WhyUs } from "@/components/why-us";
 import { StoriesTestimonials } from "@/components/stories-testimonials";
 import { useReveal } from "@/hooks/use-reveal";
 import { FAQ } from "@/components/faq";
+import { BlogPreview } from "@/components/blog-preview";
 import { CTABanner } from "@/components/cta-banner";
 import { Footer } from "@/components/footer";
 
@@ -34,6 +35,7 @@ function HomePage() {
         <DoctorsCarousel />
         <WhyUs />
         <StoriesTestimonials />
+        <BlogPreview />
         <FAQ />
         <CTABanner />
         <Footer />

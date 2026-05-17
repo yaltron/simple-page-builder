@@ -4,68 +4,18 @@ import { ArrowRight } from "lucide-react"
 import { Link } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
 import { useHomepageSection } from "@/lib/use-cms-content"
-import doctor1 from "@/assets/doctor-1.jpg"
-import doctor2 from "@/assets/doctor-2.jpg"
-import doctor3 from "@/assets/doctor-3.jpg"
-import doctor4 from "@/assets/doctor-4.jpg"
-import doctor5 from "@/assets/doctor-5.jpg"
-import doctor6 from "@/assets/doctor-6.jpg"
+import { useDoctors, type CMSDoctor } from "@/lib/use-doctors"
 
 const DOCTORS_HEADING_DEFAULTS = {
   heading: "Experienced IVF Specialists Providing Compassionate Fertility Care",
   heading_color: "#C2185B",
 }
 
-const doctors = [
-  {
-    name: "Dr. Shubhashree Devi",
-    specialty: "Chief Fertility Specialist",
-    image: doctor1,
-    bio: "20+ years pioneering IVF in Nepal. Compassionate care for every couple.",
-    specializations: ["IVF & ICSI", "Reproductive Surgery", "Fertility Counseling"],
-  },
-  {
-    name: "Dr. Anita Rana",
-    specialty: "Reproductive Endocrinologist",
-    image: doctor2,
-    bio: "Hormonal disorder expert helping restore natural fertility cycles.",
-    specializations: ["PCOS Management", "Endocrine Disorders", "Ovulation Induction"],
-  },
-  {
-    name: "Dr. Rajesh Shrestha",
-    specialty: "Senior Embryologist",
-    image: doctor3,
-    bio: "Lab director with cutting-edge embryo culture expertise.",
-    specializations: ["Embryo Culture", "Cryopreservation", "Genetic Screening"],
-  },
-  {
-    name: "Dr. Priya Poudel",
-    specialty: "Fertility Specialist",
-    image: doctor4,
-    bio: "Dedicated to personalized fertility treatment plans.",
-    specializations: ["IUI", "Egg Freezing", "Donor Programs"],
-  },
-  {
-    name: "Dr. Amit KC",
-    specialty: "Reproductive Medicine",
-    image: doctor5,
-    bio: "Specialist in male fertility and advanced reproductive techniques.",
-    specializations: ["Male Infertility", "TESA/PESA", "Andrology"],
-  },
-  {
-    name: "Dr. Sita Thapa",
-    specialty: "Fertility Specialist",
-    image: doctor6,
-    bio: "Caring approach to high-risk and complex fertility cases.",
-    specializations: ["Recurrent Loss", "High-Risk Pregnancy", "Counseling"],
-  },
-]
-
 function DoctorCard({
   doctor,
   onHoverChange,
 }: {
-  doctor: (typeof doctors)[0]
+  doctor: CMSDoctor
   onHoverChange: (hovered: boolean) => void
 }) {
   return (
@@ -77,22 +27,25 @@ function DoctorCard({
       <div className="relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
         {/* Front */}
         <div className="absolute inset-0 [backface-visibility:hidden] bg-gradient-to-b from-rose-light/30 to-cream rounded-3xl p-6">
-          <div className="rounded-2xl overflow-hidden mb-6">
-            <img
-              src={doctor.image}
-              alt={doctor.name}
-              className="w-full h-[280px] object-cover"
-              loading="lazy"
-            />
+          <div className="rounded-2xl overflow-hidden mb-6 bg-gray-100 h-[280px]">
+            {doctor.image && (
+              <img
+                src={doctor.image}
+                alt={doctor.name}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            )}
           </div>
 
           <h3 className="font-serif text-xl font-bold text-plum mb-1">
             {doctor.name}
           </h3>
-          <p className="text-sm text-rose font-medium uppercase tracking-wide mb-4">
-            {doctor.specialty}
-          </p>
-
+          {doctor.title && (
+            <p className="text-sm text-rose font-medium uppercase tracking-wide mb-4">
+              {doctor.title}
+            </p>
+          )}
         </div>
 
         {/* Back */}
@@ -100,27 +53,33 @@ function DoctorCard({
           <h3 className="font-serif text-xl font-bold text-plum mb-1">
             {doctor.name}
           </h3>
-          <p className="text-xs text-rose font-medium uppercase tracking-wide mb-3">
-            {doctor.specialty}
-          </p>
-
-          <p className="text-sm text-plum/80 mb-4 leading-relaxed">
-            {doctor.bio}
-          </p>
-
-          <div className="mb-4">
-            <p className="text-xs font-semibold text-plum uppercase tracking-wide mb-2">
-              Specializations
+          {doctor.title && (
+            <p className="text-xs text-rose font-medium uppercase tracking-wide mb-3">
+              {doctor.title}
             </p>
-            <ul className="space-y-1">
-              {doctor.specializations.map((s) => (
-                <li key={s} className="text-sm text-plum/80 flex items-start gap-2">
-                  <span className="text-rose mt-1">•</span>
-                  <span>{s}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          )}
+
+          {doctor.bio && (
+            <p className="text-sm text-plum/80 mb-4 leading-relaxed line-clamp-4">
+              {doctor.bio}
+            </p>
+          )}
+
+          {doctor.specialties && doctor.specialties.length > 0 && (
+            <div className="mb-4">
+              <p className="text-xs font-semibold text-plum uppercase tracking-wide mb-2">
+                Specializations
+              </p>
+              <ul className="space-y-1">
+                {doctor.specialties.slice(0, 4).map((s) => (
+                  <li key={s} className="text-sm text-plum/80 flex items-start gap-2">
+                    <span className="text-rose mt-1">•</span>
+                    <span>{s}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <div className="mt-auto space-y-2">
             <div className="flex gap-2">
@@ -159,6 +118,9 @@ export function DoctorsCarousel() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [paused, setPaused] = useState(false)
   const cms = useHomepageSection("doctors_heading", DOCTORS_HEADING_DEFAULTS)
+  const { doctors } = useDoctors()
+
+  if (doctors.length === 0) return null
 
   const loop = [...doctors, ...doctors]
 
@@ -192,7 +154,7 @@ export function DoctorsCarousel() {
         >
           {loop.map((doctor, i) => (
             <DoctorCard
-              key={`${doctor.name}-${i}`}
+              key={`${doctor.id}-${i}`}
               doctor={doctor}
               onHoverChange={setPaused}
             />
