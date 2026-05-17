@@ -255,9 +255,14 @@ export function DoctorsCarousel() {
               <motion.div
                 key={current.id}
                 custom={direction}
-                initial={(d: 1 | -1) => ({ opacity: 0, x: d === 1 ? 40 : -40 })}
-                animate={{ opacity: 1, x: 0 }}
-                exit={(d: 1 | -1) => ({ opacity: 0, x: d === 1 ? -40 : 40 })}
+                variants={{
+                  enter: (d: 1 | -1) => ({ opacity: 0, x: d === 1 ? 40 : -40 }),
+                  center: { opacity: 1, x: 0 },
+                  exit: (d: 1 | -1) => ({ opacity: 0, x: d === 1 ? -40 : 40 }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
                 transition={SPRING_SOFT}
                 style={{ willChange: "transform, opacity" }}
                 className="rounded-[28px] p-6 sm:p-8 lg:p-9 backdrop-blur-xl bg-white/55 border border-white/70 shadow-[0_20px_60px_-20px_rgba(194,24,91,0.2)]"
