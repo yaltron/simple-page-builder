@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 import { ArrowLeft, Calendar, Clock, Facebook, Twitter, Linkedin, Link2, MessageCircle } from "lucide-react"
 import { toast } from "sonner"
 import { PageLayout, PageCTABanner, Section, BRAND } from "@/components/page-layout"
-import { BlogContent } from "@/components/blog-content"
+
 import { createServerFn } from "@tanstack/react-start"
 
 const fetchPost = createServerFn({ method: "GET" })
@@ -124,7 +124,7 @@ function BlogPostPage() {
               {p.reading_time && <span className="inline-flex items-center gap-1"><Clock className="w-4 h-4" /> {p.reading_time} min read</span>}
               {p.author && <span>by {p.author}</span>}
             </div>
-            <BlogContent html={p.content || ""} />
+            <div className="blog-content" dangerouslySetInnerHTML={{ __html: p.content || "" }} />
 
             <div className="mt-10 pt-6 border-t flex items-center gap-3 flex-wrap" style={{ borderColor: BRAND.border }}>
               <span className="text-sm font-bold" style={{ color: BRAND.heading }}>Share:</span>
