@@ -352,7 +352,7 @@ export function Navbar() {
                 onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.background = COLORS.magenta)}
               >
                 <Phone className="w-4 h-4" />
-                Call 015312007
+                Call Us
               </a>
             </div>
 
