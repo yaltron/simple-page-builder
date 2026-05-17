@@ -56,9 +56,9 @@ function FAQItem({
     >
       <button
         onClick={onToggle}
-        className="w-full py-6 flex items-center justify-between text-left group"
+        className="w-full py-4 sm:py-6 flex items-center justify-between text-left group gap-3"
       >
-        <span className="font-serif text-lg font-semibold text-plum pr-8 group-hover:text-rose transition-colors">
+        <span className="font-serif text-base sm:text-lg font-semibold text-plum group-hover:text-rose transition-colors">
           {faq.question}
         </span>
         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-rose/10 flex items-center justify-center text-rose transition-colors group-hover:bg-rose group-hover:text-white">
