@@ -293,7 +293,7 @@ export function Navbar() {
                         <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: COLORS.plum }} className="font-bold">
                           Book a Consultation
                         </h3>
-                        <p className="text-sm text-gray-500 mt-1">Free first consultation — no obligation</p>
+                        
 
                         <div className="mt-4">
                           <button
