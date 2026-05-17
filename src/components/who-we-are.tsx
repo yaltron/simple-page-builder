@@ -267,19 +267,19 @@ export function WhoWeAre() {
             onHoverEnd={() => setHovered(false)}
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
             style={{
-              width: "min(340px, 70%)",
-              height: "clamp(320px, 36vw, 420px)",
+              width: "min(290px, 62%)",
+              height: "clamp(260px, 30vw, 360px)",
             }}
           >
             <motion.div style={{ y: heroY, scale: heroScale }} className="relative w-full h-full">
-              {/* Glow */}
+              {/* Glow — softened */}
               <div
                 aria-hidden
-                className="absolute -inset-6 rounded-[40px] blur-3xl"
+                className="absolute -inset-4 rounded-[36px] blur-3xl"
                 style={{
                   background:
-                    "radial-gradient(circle, rgba(230,0,126,0.35), rgba(167,139,250,0.22) 50%, transparent 75%)",
-                  opacity: hovered ? 1 : 0.75,
+                    "radial-gradient(circle, rgba(230,0,126,0.22), rgba(167,139,250,0.14) 55%, transparent 78%)",
+                  opacity: hovered ? 0.85 : 0.55,
                   transition: "opacity 600ms ease",
                 }}
               />
