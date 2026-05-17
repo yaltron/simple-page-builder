@@ -80,13 +80,13 @@ export function Services() {
           <h2
             className="text-3xl lg:text-4xl mt-4"
             style={{
-              color: "#C2185B",
+              color: cms.heading_color,
               fontFamily: "'Playfair Display', serif",
               fontWeight: 700,
               fontStyle: "normal",
             }}
           >
-            Comprehensive Fertility Care, Tailored for You
+            {cms.heading}
           </h2>
         </motion.div>
 
