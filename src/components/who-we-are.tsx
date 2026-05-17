@@ -301,10 +301,10 @@ export function WhoWeAre() {
                   >
                     <div className="flex items-center gap-2 text-white/90 text-[10px] uppercase tracking-[0.3em] mb-1">
                       <Heart className="w-3 h-3 fill-white" />
-                      A new beginning
+                      {cms.hero_overlay_kicker}
                     </div>
                     <div className="font-serif text-white text-xl lg:text-2xl leading-snug">
-                      Every journey holds hope.
+                      {cms.hero_overlay_title}
                     </div>
                   </div>
                 </div>
