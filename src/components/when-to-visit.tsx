@@ -97,7 +97,7 @@ export function WhenToVisit() {
               transition={{ duration: 0.5 }}
               className="space-y-6"
             >
-              <h2 className="font-serif text-3xl lg:text-4xl font-bold" style={{ color: cms.heading_color }}>
+              <h2 className="font-serif font-bold leading-tight" style={{ color: cms.heading_color, fontSize: "clamp(1.625rem, 4vw, 2.25rem)" }}>
                 {cms.heading}
               </h2>
 
