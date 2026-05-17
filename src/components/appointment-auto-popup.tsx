@@ -159,9 +159,6 @@ export function AppointmentAutoPopup() {
               <h3 style={{ fontFamily: "'Playfair Display', serif", color: "white", fontSize: 20, fontWeight: 700, margin: 0 }}>
                 Book Your Appointment
               </h3>
-              <p style={{ color: "white", opacity: 0.85, fontSize: 13, margin: "6px 0 0 0" }}>
-                Free consultation — we'll confirm within 24 hours
-              </p>
             </div>
 
             {/* Body */}

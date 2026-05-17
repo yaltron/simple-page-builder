@@ -293,7 +293,7 @@ export function Navbar() {
                         <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: COLORS.plum }} className="font-bold">
                           Book a Consultation
                         </h3>
-                        <p className="text-sm text-gray-500 mt-1">Free first consultation — no obligation</p>
+                        
 
                         <div className="mt-4">
                           <button
@@ -344,74 +344,16 @@ export function Navbar() {
               </div>
 
               {/* Call */}
-              <div className="relative" ref={callRef}>
-                <button
-                  ref={callBtnRef}
-                  onClick={() => {
-                    setBookOpen(false)
-                    setCallOpen(v => {
-                      const next = !v
-                      if (next) setCallPos(computePos(callBtnRef.current))
-                      return next
-                    })
-                  }}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-colors"
-                  style={{ background: COLORS.magenta }}
-                  onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.background = COLORS.magentaDark)}
-                  onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.background = COLORS.magenta)}
-                >
-                  <Phone className="w-4 h-4" />
-                  Call Us
-                </button>
-                {typeof document !== "undefined" && createPortal(
-                  <AnimatePresence>
-                    {callOpen && (
-                      <motion.div
-                        ref={callPanelRef}
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.25 }}
-                        className="p-4"
-                        style={{
-                          position: "fixed",
-                          top: callPos.top,
-                          right: callPos.right,
-                          left: "auto",
-                          width: 270,
-                          background: "#fff",
-                          borderRadius: 16,
-                          borderTop: `3px solid ${COLORS.plum}`,
-                          boxShadow: "0 16px 60px rgba(45,10,30,0.15)",
-                          zIndex: 999999,
-                        }}
-                      >
-                        <div className="space-y-2">
-                          {phones.map((p, i) => (
-                            <div key={p.label} className="flex items-center justify-between gap-2">
-                              <a href={`tel:${p.number.replace(/[^+\d]/g, "")}`} className="block">
-                                <div className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: COLORS.navLink }}>{p.label}</div>
-                                <div className="text-sm font-semibold" style={{ color: COLORS.plum }}>{p.number}</div>
-                              </a>
-                              <button
-                                onClick={() => copy(p.number, i)}
-                                className="p-2 rounded-lg transition-colors"
-                                style={{ background: copiedIdx === i ? COLORS.magenta : COLORS.pinkSoft, color: copiedIdx === i ? "#fff" : COLORS.plum }}
-                                onMouseEnter={e => { if (copiedIdx !== i) { (e.currentTarget as HTMLButtonElement).style.background = COLORS.magenta; (e.currentTarget as HTMLButtonElement).style.color = "#fff" } }}
-                                onMouseLeave={e => { if (copiedIdx !== i) { (e.currentTarget as HTMLButtonElement).style.background = COLORS.pinkSoft; (e.currentTarget as HTMLButtonElement).style.color = COLORS.plum } }}
-                                aria-label={`Copy ${p.label}`}
-                              >
-                                {copiedIdx === i ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>,
-                  document.body
-                )}
-              </div>
+              <a
+                href="tel:015312007"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-colors"
+                style={{ background: COLORS.magenta }}
+                onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.background = COLORS.magentaDark)}
+                onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.background = COLORS.magenta)}
+              >
+                <Phone className="w-4 h-4" />
+                Call 015312007
+              </a>
             </div>
 
             {/* Mobile hamburger */}
@@ -541,11 +483,11 @@ export function Navbar() {
                   📅 Book Appointment
                 </Link>
                 <a
-                  href="tel:+9779861141699"
+                  href="tel:015312007"
                   className="w-full py-3 font-bold flex items-center justify-center gap-2 border-2"
                   style={{ borderColor: COLORS.plum, color: COLORS.plum, borderRadius: 50 }}
                 >
-                  📞 Call Us
+                  📞 Call 015312007
                 </a>
               </div>
             </motion.div>
