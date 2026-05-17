@@ -412,17 +412,47 @@ function AboutEditor() {
 // ─────────────────────────────────────────────────────────
 // SECTION CONTENT (Process, Services, Doctors, CTA, Who We Are, When To Visit)
 // ─────────────────────────────────────────────────────────
+type GalleryItem = {
+  enabled?: boolean
+  type?: "image" | "video" | "testimonial" | "quote"
+  url?: string
+  thumbnail?: string
+  alt?: string
+  caption?: string
+  overlay_kicker?: string
+  overlay_text?: string
+  size?: "hero" | "medium" | "small" | "portrait" | "landscape"
+  position?: "top-left" | "center-left" | "center" | "right-top" | "floating-right" | "bottom-left" | "bottom-right" | "auto"
+  glow_color?: string
+  overlay_opacity?: number
+  autoplay?: boolean
+  muted?: boolean
+  loop?: boolean
+  quote?: string
+  author?: string
+  rotate?: number
+}
+
 const WHO_DEFAULTS = {
-  heading: "Turning Hope Into Happiness",
+  enabled: true,
+  heading: "Moments That Matter",
   heading_color: "#E6007E",
-  quote: "",
-  paragraph_1: "",
-  paragraph_2: "",
-  images: [
-    { url: "", alt: "" },
-    { url: "", alt: "" },
-    { url: "", alt: "" },
-  ],
+  subtitle: "Where hope quietly becomes reality.",
+  subtitle_color: "",
+  gradient_enabled: true,
+  gradient_from: "#E6007E",
+  gradient_to: "#A78BFA",
+  glow_color: "#E6007E",
+  glow_intensity: 60,
+  background_style: "soft" as "soft" | "cream" | "white" | "dark",
+  cta_text: "Explore Stories",
+  cta_url: "/success-stories",
+  section_spacing: 80,
+  card_radius: 24,
+  floating_enabled: true,
+  animation_speed: 1,
+  hover_style: "lift" as "lift" | "tilt" | "zoom" | "none",
+  items: [] as GalleryItem[],
 }
 const WHEN_DEFAULTS = {
   heading: "Signs You Should See a Fertility Specialist",
