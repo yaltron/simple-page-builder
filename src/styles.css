@@ -141,12 +141,19 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
-/* Always show native cursor — custom cursor disabled */
+/* Default browser cursor everywhere */
 * {
-  cursor: auto !important;
+  cursor: default;
 }
-a, button, [role="button"], input, select, textarea, label, .clickable {
-  cursor: pointer !important;
+a, button, [role="button"], select, input[type="submit"],
+input[type="button"], label[for], .clickable {
+  cursor: pointer;
+}
+input, textarea, select {
+  cursor: text;
+}
+select, [role="button"] {
+  cursor: pointer;
 }
 
 /* Doctors marquee — continuous auto-scroll, loops seamlessly because
