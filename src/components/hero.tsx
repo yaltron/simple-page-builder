@@ -178,7 +178,7 @@ function HeroSlideshow({ slides }: { slides: string[] }) {
 
   return (
     <div className="relative">
-      <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl aspect-[4/5] bg-rose-light/20">
+      <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl aspect-[4/5] max-w-[320px] sm:max-w-sm md:max-w-md mx-auto lg:max-w-none bg-rose-light/20">
         <AnimatePresence>
           <motion.img
             key={index}
