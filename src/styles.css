@@ -141,25 +141,11 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
-/* Hide native cursor on fine-pointer devices (custom cursor takes over) */
-@media (pointer: fine) {
-  html,
-  body,
-  a,
-  button,
-  [role="button"] {
-    cursor: none;
-  }
-}
-
-/* Navbar: keep native cursor visible (custom cursor was hiding it) */
-#navbar,
-#navbar * {
+/* Always show native cursor — custom cursor disabled */
+* {
   cursor: auto !important;
 }
-#navbar a,
-#navbar button,
-#navbar [role="button"] {
+a, button, [role="button"], input, select, textarea, label, .clickable {
   cursor: pointer !important;
 }
 

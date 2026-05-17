@@ -117,8 +117,7 @@ function ContactPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="font-serif text-3xl lg:text-4xl font-bold mb-2" style={{ color: BRAND.heading }}>Book an Appointment</h2>
-            <p className="mb-6" style={{ color: BRAND.navLink }}>Free first consultation — we will confirm by phone within 24 hours.</p>
+            <h2 className="font-serif text-3xl lg:text-4xl font-bold mb-6" style={{ color: BRAND.heading }}>Book an Appointment</h2>
 
             {success ? (
               <div className="rounded-2xl p-8 text-center" style={{ background: BRAND.pinkSoft, border: `1px solid ${BRAND.border}` }}>
@@ -145,10 +144,6 @@ function ContactPage() {
                 <select style={inputStyle} value={form.consultation_type} onChange={(e) => setForm({ ...form, consultation_type: e.target.value })}>
                   <option value="In-Clinic">In-Clinic Consultation</option>
                   <option value="Video Call">Video Call</option>
-                </select>
-                <select style={inputStyle} value={form.service} onChange={(e) => setForm({ ...form, service: e.target.value })}>
-                  <option value="">Service Interested In (optional)</option>
-                  {SERVICE_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
                 <textarea rows={4} style={inputStyle} placeholder="Your Message (optional)" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
                 <button

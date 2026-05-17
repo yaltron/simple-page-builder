@@ -18,7 +18,18 @@ export const Route = createFileRoute("/gallery")({
   component: GalleryPage,
 })
 
-const cats = ["All", "Clinic", "Team", "Patients", "Events"] as const
+const cats = ["All", "Clinic", "Team", "Patients", "Events", "Videos"] as const
+
+const getYouTubeId = (url: string): string | null => {
+  if (!url) return null
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/)
+  return match ? match[1] : null
+}
+
+const toYouTubeEmbed = (url: string): string => {
+  const id = getYouTubeId(url)
+  return id ? `https://www.youtube.com/embed/${id}?autoplay=1` : url
+}
 
 function GalleryPage() {
   const [items, setItems] = useState<any[]>([])
@@ -31,7 +42,11 @@ function GalleryPage() {
     supabase.from("gallery_items").select("*").eq("status", "published").order("display_order").then(({ data }) => setItems(data || []))
   }, [])
 
-  const filtered = useMemo(() => active === "All" ? items : items.filter((i) => i.category === active), [items, active])
+  const filtered = useMemo(() => {
+    if (active === "All") return items
+    if (active === "Videos") return items.filter((i) => i.media_type === "video")
+    return items.filter((i) => i.category === active)
+  }, [items, active])
 
   const next = () => setLightbox((i) => (i === null ? null : (i + 1) % filtered.length))
   const prev = () => setLightbox((i) => (i === null ? null : (i - 1 + filtered.length) % filtered.length))
@@ -58,25 +73,56 @@ function GalleryPage() {
         ) : (
           <div style={{ columnCount: 3, columnGap: 16 }} className="max-md:!columns-2 max-sm:!columns-1">
             <AnimatePresence mode="popLayout">
-              {filtered.map((img, i) => (
-                <motion.div
-                  key={img.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.35 }}
-                  className="mb-4 break-inside-avoid relative group cursor-pointer rounded-xl overflow-hidden"
-                  onClick={() => img.media_type === "video" ? setVideo(img.url) : setLightbox(i)}
-                >
-                  <img src={img.thumbnail || img.url} alt={img.title || ""} loading="lazy" className="w-full transition-transform duration-300 group-hover:scale-[1.03]" style={{ objectFit: "cover" }} />
-                  <div className="absolute inset-0 flex items-center justify-center transition-opacity opacity-0 group-hover:opacity-100" style={{ background: "rgba(230,0,126,0.15)" }}>
-                    <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
-                      {img.media_type === "video" ? <Play className="w-6 h-6" style={{ color: BRAND.pink }} /> : <Search className="w-6 h-6" style={{ color: BRAND.pink }} />}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+              {filtered.map((img, i) => {
+                const isVideo = img.media_type === "video"
+                return (
+                  <motion.div
+                    key={img.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.35 }}
+                    className="mb-4 break-inside-avoid relative group cursor-pointer rounded-xl overflow-hidden"
+                    onClick={() => isVideo ? setVideo(img.video_url || img.url) : setLightbox(i)}
+                  >
+                    <img src={img.thumbnail || img.url} alt={img.title || ""} loading="lazy" className="w-full transition-transform duration-300 group-hover:scale-[1.03]" style={{ objectFit: "cover" }} />
+                    {isVideo ? (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div
+                          className="rounded-full flex items-center justify-center transition-all duration-[250ms]"
+                          style={{
+                            width: 60,
+                            height: 60,
+                            background: "rgba(255,255,255,0.92)",
+                            boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
+                          }}
+                          onMouseEnter={(e) => {
+                            const el = e.currentTarget
+                            el.style.background = "#ffffff"
+                            el.style.transform = "scale(1.12)"
+                            el.style.boxShadow = "0 0 0 8px rgba(230,0,126,0.15)"
+                          }}
+                          onMouseLeave={(e) => {
+                            const el = e.currentTarget
+                            el.style.background = "rgba(255,255,255,0.92)"
+                            el.style.transform = "scale(1)"
+                            el.style.boxShadow = "0 4px 20px rgba(0,0,0,0.2)"
+                          }}
+                        >
+                          <span style={{ color: "#E6007E", fontSize: 22, lineHeight: 1, marginLeft: 3 }}>▶</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center transition-opacity opacity-0 group-hover:opacity-100" style={{ background: "rgba(230,0,126,0.15)" }}>
+                        <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
+                          <Search className="w-6 h-6" style={{ color: BRAND.pink }} />
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                )
+              })}
             </AnimatePresence>
           </div>
         )}
@@ -104,7 +150,7 @@ function GalleryPage() {
       </AnimatePresence>
 
       <VideoModal open={tourOpen} onClose={() => setTourOpen(false)} title="Virtual Clinic Tour" />
-      <VideoModal open={video !== null} onClose={() => setVideo(null)} src={video ?? undefined} title="Gallery Video" />
+      <VideoModal open={video !== null} onClose={() => setVideo(null)} src={video ? toYouTubeEmbed(video) : undefined} title="Gallery Video" />
     </PageLayout>
   )
 }

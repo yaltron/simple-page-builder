@@ -7,9 +7,9 @@ import {
 } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { FloatingButtons } from "@/components/floating-buttons";
-import { CustomCursor } from "@/components/custom-cursor";
 import ScrollToTop from "@/components/scroll-to-top";
 import { PopupBanner } from "@/components/popup-banner";
+import { AppointmentAutoPopup } from "@/components/appointment-auto-popup";
 import { NotFoundPage } from "@/components/not-found-page";
 import { Toaster } from "sonner";
 import appCss from "@/styles.css?url";
@@ -84,8 +84,8 @@ function RootDocument({ children }: { children: ReactNode }) {
         <Toaster position="top-center" richColors closeButton />
         <ClientOnly fallback={null}>
           <FloatingButtons />
-          <CustomCursor />
           <PopupBanner />
+          <AppointmentAutoPopup />
         </ClientOnly>
         <Scripts />
       </body>

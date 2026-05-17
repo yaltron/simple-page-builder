@@ -96,7 +96,9 @@ export function Services() {
               <div
                 className="relative rounded-2xl p-6 lg:p-8 h-full transition-all duration-300 group-hover:-translate-y-1.5"
                 style={{
-                  background: cardGradients[index % cardGradients.length],
+                  background: service.title === "Genetic Testing (PGT)"
+                    ? "linear-gradient(135deg, #FFF1F7 0%, #fcd4e8 100%)"
+                    : cardGradients[index % cardGradients.length],
                   border: "1px solid rgba(230, 0, 126, 0.12)",
                 }}
                 onMouseEnter={(e) => {
