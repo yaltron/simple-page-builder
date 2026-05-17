@@ -41,27 +41,26 @@ type Card = {
   delay: number
 }
 
-// Center hero is rendered separately. These float around it in an
-// intentional, asymmetric editorial composition (not random masonry).
-// Sizes tuned for 100% desktop zoom inside a ~1240px container.
+// Tight editorial collage tuned for 100% desktop zoom (~1180px container).
+// Cards are pulled closer to the hero with intentional overlap.
 const CARDS: Card[] = [
-  // Left column
-  { src: miracle1, alt: "Newborn moment", top: "6%",  left: "3%",  w: 118, h: 150, rotate: -4, z: 2, depth: 24, delay: 0.05 },
-  { src: testimonial1, alt: "Mother and baby", top: "40%", left: "1%",  w: 138, h: 138, rotate: 3,  z: 3, depth: 40, delay: 0.12 },
-  { src: miracle4, alt: "Family smile", top: "72%", left: "5%",  w: 124, h: 158, rotate: -2, z: 2, depth: 32, delay: 0.18 },
+  // Left column — closer to center
+  { src: miracle1, alt: "Newborn moment", top: "8%",  left: "8%",  w: 98,  h: 124, rotate: -4, z: 2, depth: 18, delay: 0.05 },
+  { src: testimonial1, alt: "Mother and baby", top: "42%", left: "6%",  w: 116, h: 116, rotate: 3,  z: 3, depth: 30, delay: 0.12 },
+  { src: miracle4, alt: "Family smile", top: "70%", left: "10%", w: 104, h: 132, rotate: -2, z: 2, depth: 24, delay: 0.18 },
 
-  // Inner-left
-  { src: testimonial2, alt: "Happy parents", top: "16%", left: "20%", w: 104, h: 104, rotate: 5,  z: 4, depth: 56, delay: 0.22 },
-  { src: miracle2, alt: "First hold",  top: "60%", left: "22%", w: 112, h: 138, rotate: -3, z: 3, depth: 48, delay: 0.28 },
+  // Inner-left — overlap hero edge
+  { src: testimonial2, alt: "Happy parents", top: "18%", left: "24%", w: 88,  h: 88,  rotate: 5,  z: 4, depth: 42, delay: 0.22 },
+  { src: miracle2, alt: "First hold",  top: "62%", left: "26%", w: 94,  h: 116, rotate: -3, z: 3, depth: 36, delay: 0.28 },
 
-  // Inner-right
-  { src: miracle5, alt: "Joyful family", top: "14%", left: "70%", w: 112, h: 138, rotate: -5, z: 4, depth: 52, delay: 0.24 },
-  { src: testimonial3, alt: "Doctor and patient", top: "58%", left: "72%", w: 116, h: 116, rotate: 4,  z: 3, depth: 44, delay: 0.3 },
+  // Inner-right — overlap hero edge
+  { src: miracle5, alt: "Joyful family", top: "16%", left: "67%", w: 94,  h: 116, rotate: -5, z: 4, depth: 40, delay: 0.24 },
+  { src: testimonial3, alt: "Doctor and patient", top: "60%", left: "68%", w: 98,  h: 98,  rotate: 4,  z: 3, depth: 34, delay: 0.3 },
 
-  // Right column
-  { src: testimonialFamily, alt: "Family together", top: "8%",  left: "87%", w: 124, h: 152, rotate: 3,  z: 2, depth: 28, delay: 0.1 },
-  { src: miracle3, alt: "Tiny hand",    top: "42%", left: "90%", w: 118, h: 118, rotate: -2, z: 3, depth: 36, delay: 0.16 },
-  { src: miracle6, alt: "Baby joy",     top: "73%", left: "86%", w: 124, h: 158, rotate: 2,  z: 2, depth: 30, delay: 0.2 },
+  // Right column — closer to center
+  { src: testimonialFamily, alt: "Family together", top: "10%", left: "82%", w: 104, h: 128, rotate: 3,  z: 2, depth: 22, delay: 0.1 },
+  { src: miracle3, alt: "Tiny hand",    top: "44%", left: "85%", w: 100, h: 100, rotate: -2, z: 3, depth: 28, delay: 0.16 },
+  { src: miracle6, alt: "Baby joy",     top: "72%", left: "81%", w: 104, h: 132, rotate: 2,  z: 2, depth: 22, delay: 0.2 },
 ]
 
 const FALLBACKS = [
@@ -97,14 +96,14 @@ function FloatingCard({
       transition={{ duration: 0.9, delay: card.delay, ease: [0.22, 1, 0.36, 1] }}
     >
       <motion.div
-        animate={{ y: [0, -10, 0] }}
+        animate={{ y: [0, -6, 0] }}
         transition={{
-          duration: 6 + (card.delay * 10),
+          duration: 9 + (card.delay * 10),
           repeat: Infinity,
           ease: "easeInOut",
           delay: card.delay,
         }}
-        whileHover={{ scale: 1.06, rotate: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
+        whileHover={{ scale: 1.04, rotate: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
         className="relative w-full h-full group cursor-pointer"
         style={{ willChange: "transform" }}
       >
@@ -203,7 +202,7 @@ export function WhoWeAre() {
         ))}
       </div>
 
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="max-w-[1180px] mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header — minimal */}
         <div className="text-center max-w-2xl mx-auto mb-10 lg:mb-14 relative z-10">
           <motion.div
@@ -245,7 +244,7 @@ export function WhoWeAre() {
         </div>
 
         {/* Floating collage canvas */}
-        <div className="relative w-full mx-auto" style={{ height: "clamp(560px, 52vw, 640px)" }}>
+        <div className="relative w-full mx-auto" style={{ height: "clamp(480px, 44vw, 540px)" }}>
           {/* Decorative center halo */}
           <div
             aria-hidden
@@ -268,19 +267,19 @@ export function WhoWeAre() {
             onHoverEnd={() => setHovered(false)}
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
             style={{
-              width: "min(340px, 70%)",
-              height: "clamp(320px, 36vw, 420px)",
+              width: "min(290px, 62%)",
+              height: "clamp(260px, 30vw, 360px)",
             }}
           >
             <motion.div style={{ y: heroY, scale: heroScale }} className="relative w-full h-full">
-              {/* Glow */}
+              {/* Glow — softened */}
               <div
                 aria-hidden
-                className="absolute -inset-6 rounded-[40px] blur-3xl"
+                className="absolute -inset-4 rounded-[36px] blur-3xl"
                 style={{
                   background:
-                    "radial-gradient(circle, rgba(230,0,126,0.35), rgba(167,139,250,0.22) 50%, transparent 75%)",
-                  opacity: hovered ? 1 : 0.75,
+                    "radial-gradient(circle, rgba(230,0,126,0.22), rgba(167,139,250,0.14) 55%, transparent 78%)",
+                  opacity: hovered ? 0.85 : 0.55,
                   transition: "opacity 600ms ease",
                 }}
               />
