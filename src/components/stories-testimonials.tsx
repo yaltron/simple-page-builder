@@ -29,18 +29,18 @@ export function StoriesTestimonials() {
   return (
     <section
       id="testimonials"
-      className="py-24 bg-pink-soft overflow-hidden"
+      className="py-12 sm:py-16 lg:py-24 bg-pink-soft overflow-hidden"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <h2 className="reveal text-3xl sm:text-4xl font-extrabold text-[#1A1535] text-balance">
+        <div className="text-center mb-8 lg:mb-10">
+          <h2 className="reveal font-extrabold text-[#1A1535] text-balance" style={{ fontSize: "clamp(1.625rem, 4vw, 2.25rem)" }}>
             Stories of Hope & <span className="text-brand-pink">Happiness</span>
           </h2>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-10 items-center">
+        <div className="grid lg:grid-cols-5 gap-6 sm:gap-8 lg:gap-10 items-center">
           {/* Left: image 40% */}
           <div className="lg:col-span-2">
             <div className="relative rounded-2xl overflow-hidden aspect-[4/5] shadow-[0_30px_60px_-30px_rgba(230,0,126,0.45)] bg-pink-soft">
