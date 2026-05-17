@@ -13,7 +13,7 @@ import TableHeader from "@tiptap/extension-table-header"
 import CharacterCount from "@tiptap/extension-character-count"
 import Placeholder from "@tiptap/extension-placeholder"
 import {
-  Bold, Italic, Underline as UIcon, Strikethrough, List, ListOrdered, Quote, Code,
+  Bold, Italic, Underline as UIcon, Strikethrough, List, ListOrdered, Quote, Code, Code2,
   Link as LinkIcon, Image as ImgIcon, Table as TableIcon, Minus, Undo, Redo, Heading1, Heading2, Heading3, Maximize2, Minimize2,
 } from "lucide-react"
 import { useEffect, useState, useRef } from "react"
@@ -84,7 +84,7 @@ export function TiptapEditor({ value, onChange }: Props) {
   }
 
   const Btn = ({ active, onClick, title, children }: { active?: boolean; onClick: () => void; title: string; children: React.ReactNode }) => (
-    <button type="button" onClick={onClick} title={title}
+    <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={onClick} title={title}
       className="p-1.5 rounded hover:bg-pink-50 transition-colors"
       style={{ background: active ? "#FFE4EF" : "transparent", color: active ? "#E6007E" : "#374151" }}>
       {children}
@@ -109,7 +109,8 @@ export function TiptapEditor({ value, onChange }: Props) {
           <Btn title="Bullet List" active={editor.isActive("bulletList")} onClick={() => editor.chain().focus().toggleBulletList().run()}><List className="w-4 h-4" /></Btn>
           <Btn title="Numbered List" active={editor.isActive("orderedList")} onClick={() => editor.chain().focus().toggleOrderedList().run()}><ListOrdered className="w-4 h-4" /></Btn>
           <Btn title="Quote" active={editor.isActive("blockquote")} onClick={() => editor.chain().focus().toggleBlockquote().run()}><Quote className="w-4 h-4" /></Btn>
-          <Btn title="Code Block" active={editor.isActive("codeBlock")} onClick={() => editor.chain().focus().toggleCodeBlock().run()}><Code className="w-4 h-4" /></Btn>
+          <Btn title="Inline Code" active={editor.isActive("code")} onClick={() => editor.chain().focus().toggleCode().run()}><Code className="w-4 h-4" /></Btn>
+          <Btn title="Code Block" active={editor.isActive("codeBlock")} onClick={() => editor.chain().focus().toggleCodeBlock().run()}><Code2 className="w-4 h-4" /></Btn>
           <span className="w-px h-5 bg-gray-200 mx-1" />
           <Btn title="Link" onClick={addLink}><LinkIcon className="w-4 h-4" /></Btn>
           <Btn title="Image" onClick={() => fileRef.current?.click()}><ImgIcon className="w-4 h-4" /></Btn>
