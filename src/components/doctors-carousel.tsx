@@ -158,6 +158,7 @@ export function DoctorsCarousel() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [paused, setPaused] = useState(false)
+  const cms = useHomepageSection("doctors_heading", DOCTORS_HEADING_DEFAULTS)
 
   const loop = [...doctors, ...doctors]
 
@@ -170,8 +171,8 @@ export function DoctorsCarousel() {
           transition={{ duration: 0.5 }}
           className="text-center max-w-3xl mx-auto mb-12 space-y-4"
         >
-          <h2 className="font-serif text-3xl lg:text-4xl font-bold" style={{ color: "#C2185B" }}>
-            Experienced IVF Specialists Providing Compassionate Fertility Care
+          <h2 className="font-serif text-3xl lg:text-4xl font-bold" style={{ color: cms.heading_color }}>
+            {cms.heading}
           </h2>
         </motion.div>
       </div>
