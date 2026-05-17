@@ -53,6 +53,7 @@ const STEP_OFFSETS_LG = [0, 120, 30, 120]
 const STEP_DELAYS = [0, 0.8, 1.6, 2.4]
 
 export function ProcessSteps() {
+  const cms = useHomepageSection("process", PROCESS_DEFAULTS)
   const sectionRef = useRef<HTMLDivElement | null>(null)
   const [runId, setRunId] = useState(0)
   const [active, setActive] = useState(false)
