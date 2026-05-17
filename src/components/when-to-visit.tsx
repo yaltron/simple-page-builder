@@ -77,7 +77,7 @@ export function WhenToVisit() {
   const embed = extractVideoEmbed(cms.video_url || "")
 
   return (
-    <section ref={ref} className="pt-20 lg:pt-32 pb-10 overflow-hidden relative">
+    <section ref={ref} className="pt-10 sm:pt-16 lg:pt-32 pb-8 sm:pb-10 overflow-hidden relative">
       <FloatingDecoField
         items={[
           { shape: "hollow-circle", color: "teal", size: 36, top: "10%", left: "5%", floatDuration: 8, rotateDuration: 22, delay: 0 },
