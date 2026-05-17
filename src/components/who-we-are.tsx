@@ -1,7 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef, useState } from "react"
-import { ArrowRight, Sparkles, Heart } from "lucide-react"
-import { Link } from "@tanstack/react-router"
+import { ArrowRight, Heart } from "lucide-react"
 import { MorphingBlob } from "@/components/morphing-blob"
 import { useHomepageSection } from "@/lib/use-cms-content"
 import miracle1 from "@/assets/miracle-1.jpg"
@@ -22,6 +21,10 @@ const DEFAULTS = {
   quote: "Where hope quietly becomes reality.",
   paragraph_1: "Stories of care, courage, and new beginnings — captured from journeys to parenthood.",
   paragraph_2: "",
+  cta_text: "Explore Stories",
+  cta_link: "/success-stories",
+  hero_overlay_kicker: "A new beginning",
+  hero_overlay_title: "Every journey holds hope.",
   images: [] as { url: string; alt: string }[],
 }
 
@@ -203,25 +206,13 @@ export function WhoWeAre() {
       </div>
 
       <div className="max-w-[1180px] mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Header — minimal */}
-        <div className="text-center max-w-2xl mx-auto mb-10 lg:mb-14 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-pink-100 mb-5 shadow-sm"
-          >
-            <Sparkles className="w-3.5 h-3.5" style={{ color: cms.heading_color }} />
-            <span className="text-[11px] font-semibold tracking-[0.2em] uppercase" style={{ color: cms.heading_color }}>
-              Our Story Wall
-            </span>
-          </motion.div>
+        {/* Header — minimal, tight to gallery */}
+        <div className="text-center max-w-2xl mx-auto mb-4 lg:mb-6 relative z-10">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="font-serif text-[2rem] lg:text-[3rem] leading-[1.05] font-bold tracking-tight"
             style={{
               backgroundImage: "linear-gradient(135deg, #E6007E 0%, #C2006A 40%, #A78BFA 100%)",
@@ -236,8 +227,8 @@ export function WhoWeAre() {
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-4 font-serif italic text-base lg:text-lg text-muted-foreground leading-snug"
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-3 font-serif italic text-base lg:text-lg text-muted-foreground leading-snug"
           >
             &ldquo;{cms.quote}&rdquo;
           </motion.p>
@@ -309,10 +300,10 @@ export function WhoWeAre() {
                   >
                     <div className="flex items-center gap-2 text-white/90 text-[10px] uppercase tracking-[0.3em] mb-1">
                       <Heart className="w-3 h-3 fill-white" />
-                      A new beginning
+                      {cms.hero_overlay_kicker}
                     </div>
                     <div className="font-serif text-white text-xl lg:text-2xl leading-snug">
-                      Every journey holds hope.
+                      {cms.hero_overlay_title}
                     </div>
                   </div>
                 </div>
@@ -364,17 +355,17 @@ export function WhoWeAre() {
             </p>
           )}
           <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }} className="inline-block">
-            <Link
-              to="/success-stories"
+            <a
+              href={cms.cta_link}
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-white text-sm font-semibold group"
               style={{
                 background: "linear-gradient(135deg, #E6007E, #C2006A)",
                 boxShadow: "0 14px 36px -10px rgba(230,0,126,0.55)",
               }}
             >
-              Explore Stories
+              {cms.cta_text}
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
+            </a>
           </motion.div>
         </motion.div>
       </div>
