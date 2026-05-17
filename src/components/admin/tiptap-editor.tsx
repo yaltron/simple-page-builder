@@ -14,8 +14,10 @@ import CharacterCount from "@tiptap/extension-character-count"
 import Placeholder from "@tiptap/extension-placeholder"
 import {
   Bold, Italic, Underline as UIcon, Strikethrough, List, ListOrdered, Quote, Code,
-  Link as LinkIcon, Image as ImgIcon, Table as TableIcon, Minus, Undo, Redo, Heading1, Heading2, Heading3, Maximize2, Minimize2,
+  Link as LinkIcon, Image as ImgIcon, Table as TableIcon, Minus, Undo, Redo, Heading1, Heading2, Heading3, Maximize2, Minimize2, FileCode,
 } from "lucide-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Textarea } from "@/components/ui/textarea"
 import { useEffect, useState, useRef } from "react"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
@@ -27,6 +29,8 @@ interface Props {
 
 export function TiptapEditor({ value, onChange }: Props) {
   const [fullscreen, setFullscreen] = useState(false)
+  const [importOpen, setImportOpen] = useState(false)
+  const [importHtml, setImportHtml] = useState("")
   const fileRef = useRef<HTMLInputElement>(null)
 
   const editor = useEditor({
@@ -116,6 +120,7 @@ export function TiptapEditor({ value, onChange }: Props) {
           <input ref={fileRef} type="file" accept="image/*" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) onUpload(f); e.target.value = "" }} />
           <Btn title="Table" onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}><TableIcon className="w-4 h-4" /></Btn>
           <Btn title="Divider" onClick={() => editor.chain().focus().setHorizontalRule().run()}><Minus className="w-4 h-4" /></Btn>
+          <Btn title="Import HTML" onClick={() => { setImportHtml(""); setImportOpen(true) }}><FileCode className="w-4 h-4" /></Btn>
           <span className="w-px h-5 bg-gray-200 mx-1" />
           <Btn title="Undo" onClick={() => editor.chain().focus().undo().run()}><Undo className="w-4 h-4" /></Btn>
           <Btn title="Redo" onClick={() => editor.chain().focus().redo().run()}><Redo className="w-4 h-4" /></Btn>
@@ -130,6 +135,32 @@ export function TiptapEditor({ value, onChange }: Props) {
         </div>
         <EditorContent editor={editor} className="prose prose-sm max-w-none p-4 min-h-[400px] focus:outline-none [&_*:focus]:outline-none" />
       </div>
+      <Dialog open={importOpen} onOpenChange={setImportOpen}>
+        <DialogContent className="sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Import HTML Content</DialogTitle>
+          </DialogHeader>
+          <Textarea
+            value={importHtml}
+            onChange={(e) => setImportHtml(e.target.value)}
+            placeholder="Paste raw HTML here…"
+            className="min-h-[300px] font-mono text-xs"
+          />
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={() => {
+                editor.commands.setContent(importHtml || "", { emitUpdate: true })
+                setImportOpen(false)
+              }}
+              className="px-4 py-2 rounded-md text-white font-medium"
+              style={{ background: "#E6007E" }}
+            >
+              Import & Render
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
