@@ -207,25 +207,13 @@ export function WhoWeAre() {
       </div>
 
       <div className="max-w-[1180px] mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Header — minimal */}
-        <div className="text-center max-w-2xl mx-auto mb-10 lg:mb-14 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-pink-100 mb-5 shadow-sm"
-          >
-            <Sparkles className="w-3.5 h-3.5" style={{ color: cms.heading_color }} />
-            <span className="text-[11px] font-semibold tracking-[0.2em] uppercase" style={{ color: cms.heading_color }}>
-              Our Story Wall
-            </span>
-          </motion.div>
+        {/* Header — minimal, tight to gallery */}
+        <div className="text-center max-w-2xl mx-auto mb-4 lg:mb-6 relative z-10">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="font-serif text-[2rem] lg:text-[3rem] leading-[1.05] font-bold tracking-tight"
             style={{
               backgroundImage: "linear-gradient(135deg, #E6007E 0%, #C2006A 40%, #A78BFA 100%)",
@@ -240,8 +228,8 @@ export function WhoWeAre() {
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-4 font-serif italic text-base lg:text-lg text-muted-foreground leading-snug"
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-3 font-serif italic text-base lg:text-lg text-muted-foreground leading-snug"
           >
             &ldquo;{cms.quote}&rdquo;
           </motion.p>
