@@ -166,17 +166,14 @@ export function DoctorsCarousel() {
                   <motion.div
                     key={current.id}
                     custom={direction}
-                    initial={(d: 1 | -1) => ({
-                      opacity: 0,
-                      x: d === 1 ? 320 : -320,
-                      scale: 0.92,
-                    })}
-                    animate={{ opacity: 1, x: 0, scale: 1 }}
-                    exit={(d: 1 | -1) => ({
-                      opacity: 0,
-                      x: d === 1 ? -320 : 320,
-                      scale: 0.92,
-                    })}
+                    variants={{
+                      enter: (d: 1 | -1) => ({ opacity: 0, x: d === 1 ? 320 : -320, scale: 0.92 }),
+                      center: { opacity: 1, x: 0, scale: 1 },
+                      exit: (d: 1 | -1) => ({ opacity: 0, x: d === 1 ? -320 : 320, scale: 0.92 }),
+                    }}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
                     transition={SPRING}
                     {...pauseOn}
                     style={{ willChange: "transform, opacity" }}
