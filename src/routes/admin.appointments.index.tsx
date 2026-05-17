@@ -210,13 +210,14 @@ function AdminAppointmentsPage() {
                 <th className="px-4 py-3">Date</th>
                 <th className="px-4 py-3">Time</th>
                 <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">Follow Up</th>
                 <th className="px-4 py-3">Received</th>
                 <th className="px-4 py-3"></th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 && (
-                <tr><td colSpan={8} className="px-5 py-10 text-center text-muted-foreground">No appointments found.</td></tr>
+                <tr><td colSpan={9} className="px-5 py-10 text-center text-muted-foreground">No appointments found.</td></tr>
               )}
               {filtered.map(it => (
                 <tr key={it.id} className="border-t hover:bg-gray-50 cursor-pointer" onClick={() => setSelected(it)}
@@ -234,9 +235,24 @@ function AdminAppointmentsPage() {
                       className="text-xs px-2 py-1 rounded-full border-0 font-semibold"
                       style={{ background: STATUS_COLORS[it.status].bg, color: STATUS_COLORS[it.status].fg }}
                     >
-                      {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
+                      {STATUS_OPTIONS.map(s => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
                     </select>
+                    {it.status === "follow_up" && (
+                      <div className="mt-2">
+                        <div className="text-[10px] uppercase text-muted-foreground mb-1">Follow Up Date &amp; Time</div>
+                        <input
+                          type="datetime-local"
+                          min={new Date().toISOString().slice(0, 16)}
+                          value={it.follow_up_at ? new Date(it.follow_up_at).toISOString().slice(0, 16) : ""}
+                          onChange={e => updateFollowUpAt(it.id, e.target.value ? new Date(e.target.value).toISOString() : null)}
+                          style={{ border: "1.5px solid rgba(230,0,126,0.3)", borderRadius: 10, padding: "8px 12px", fontSize: 14, outline: "none" }}
+                          onFocus={e => (e.currentTarget.style.borderColor = "#E6007E")}
+                          onBlur={e => (e.currentTarget.style.borderColor = "rgba(230,0,126,0.3)")}
+                        />
+                      </div>
+                    )}
                   </td>
+                  <td className="px-4 py-3 text-xs">{it.follow_up_at ? formatFollowUp(it.follow_up_at) : "—"}</td>
                   <td className="px-4 py-3 text-xs text-muted-foreground">{new Date(it.created_at).toLocaleDateString()}</td>
                   <td className="px-4 py-3 text-right" onClick={e => e.stopPropagation()}>
                     <button onClick={() => remove(it.id)} className="text-red-500 hover:text-red-700 p-1"><Trash2 className="w-4 h-4" /></button>
@@ -248,7 +264,7 @@ function AdminAppointmentsPage() {
         </div>
       </div>
 
-      {selected && <DetailPanel appt={selected} onClose={() => setSelected(null)} onUpdateStatus={updateStatus} onSaveNotes={updateNotes} onDelete={remove} />}
+      {selected && <DetailPanel appt={selected} onClose={() => setSelected(null)} onUpdateStatus={updateStatus} onUpdateFollowUp={updateFollowUpAt} onSaveNotes={updateNotes} onDelete={remove} />}
     </AdminShell>
   )
 }
