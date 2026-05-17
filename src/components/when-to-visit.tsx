@@ -117,30 +117,15 @@ export function WhenToVisit() {
             <div className="grid grid-cols-2 gap-4 h-full">
               <div className="space-y-4">
                 <div className="rounded-2xl overflow-hidden h-48 lg:h-64">
-                  <img
-                    src={visitCare}
-                    alt="Compassionate care"
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
+                  <img src={i1} alt={a1} className="w-full h-full object-cover" loading="lazy" />
                 </div>
                 <div className="rounded-2xl overflow-hidden h-32 lg:h-40">
-                  <img
-                    src={visitConsult}
-                    alt="Consultation"
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
+                  <img src={i2} alt={a2} className="w-full h-full object-cover" loading="lazy" />
                 </div>
               </div>
               <div className="space-y-4 pt-8">
                 <div className="rounded-2xl overflow-hidden h-32 lg:h-40">
-                  <img
-                    src={visitHope}
-                    alt="Hope for families"
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
+                  <img src={i3} alt={a3} className="w-full h-full object-cover" loading="lazy" />
                 </div>
                 {/* Video thumbnail */}
                 <button
@@ -148,12 +133,7 @@ export function WhenToVisit() {
                   onClick={() => setVideoOpen(true)}
                   className="rounded-2xl overflow-hidden h-48 lg:h-64 relative group cursor-pointer block w-full"
                 >
-                  <img
-                    src={visitVideo}
-                    alt="Watch our video"
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                  />
+                  <img src={i4} alt={a4} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
                   <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                     <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                       <Play className="w-6 h-6 text-rose fill-rose ml-1" />
