@@ -187,7 +187,7 @@ function AdminAppointmentsPage() {
         <div className="p-4 border-b flex flex-wrap items-center gap-3">
           <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="px-3 py-2 text-sm rounded-lg border bg-white">
             <option value="all">All Statuses</option>
-            {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
+            {STATUS_OPTIONS.map(s => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
           </select>
           <input type="date" value={from} onChange={e => setFrom(e.target.value)} className="px-3 py-2 text-sm rounded-lg border" placeholder="From" />
           <input type="date" value={to} onChange={e => setTo(e.target.value)} className="px-3 py-2 text-sm rounded-lg border" placeholder="To" />
