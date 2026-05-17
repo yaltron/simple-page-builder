@@ -91,7 +91,7 @@ export function ProcessSteps() {
     <section id="process" className="pt-20 pb-[80px] bg-pink-soft/40 overflow-visible">
       <div ref={sectionRef} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-3xl sm:text-4xl font-extrabold mb-16">
-          A Simple Guide to Your <span className="text-brand-pink">Fertility Journey</span>
+          {cms.heading} <span style={{ color: cms.heading_color }}>{cms.heading_highlight}</span>
         </h2>
 
         <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-14 gap-x-6">
