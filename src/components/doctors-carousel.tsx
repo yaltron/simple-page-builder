@@ -3,12 +3,18 @@ import { motion, useInView } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { Link } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
+import { useHomepageSection } from "@/lib/use-cms-content"
 import doctor1 from "@/assets/doctor-1.jpg"
 import doctor2 from "@/assets/doctor-2.jpg"
 import doctor3 from "@/assets/doctor-3.jpg"
 import doctor4 from "@/assets/doctor-4.jpg"
 import doctor5 from "@/assets/doctor-5.jpg"
 import doctor6 from "@/assets/doctor-6.jpg"
+
+const DOCTORS_HEADING_DEFAULTS = {
+  heading: "Experienced IVF Specialists Providing Compassionate Fertility Care",
+  heading_color: "#C2185B",
+}
 
 const doctors = [
   {
