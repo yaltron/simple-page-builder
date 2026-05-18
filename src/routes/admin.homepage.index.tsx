@@ -487,7 +487,6 @@ const WHEN_DEFAULTS = {
     { url: "", alt: "" },
     { url: "", alt: "" },
     { url: "", alt: "" },
-    { url: "", alt: "" },
   ],
 }
 const PROCESS_DEFAULTS = {
