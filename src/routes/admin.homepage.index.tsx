@@ -487,7 +487,6 @@ const WHEN_DEFAULTS = {
     { url: "", alt: "" },
     { url: "", alt: "" },
     { url: "", alt: "" },
-    { url: "", alt: "" },
   ],
 }
 const PROCESS_DEFAULTS = {
@@ -793,7 +792,7 @@ function SectionsEditor() {
           <ColorPicker value={when.data.heading_color} onChange={(c) => when.setData({ ...when.data, heading_color: c })} />
         </Field>
         <div>
-          <div className="text-xs font-semibold text-muted-foreground mb-1">Video URL</div>
+          <div className="text-xs font-semibold text-muted-foreground mb-1">Video URL (4th slot — autoplays in the When To Visit section)</div>
           <input
             value={when.data.video_url || ""}
             onChange={(e) => when.setData({ ...when.data, video_url: e.target.value })}
@@ -803,12 +802,12 @@ function SectionsEditor() {
             onFocus={(e) => (e.currentTarget.style.borderColor = "#E6007E")}
             onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(230,0,126,0.2)")}
           />
-          <div style={{ fontSize: 12, color: "#b06090", marginTop: 4 }}>Supports YouTube and Vimeo links</div>
+          <div style={{ fontSize: 12, color: "#b06090", marginTop: 4 }}>Supports YouTube and Vimeo links. The video autoplays muted and loops in the 4th tile on the homepage.</div>
         </div>
-        <div className="grid md:grid-cols-4 gap-3">
-          {when.data.images.map((img, i) => (
+        <div className="grid md:grid-cols-3 gap-3">
+          {when.data.images.slice(0, 3).map((img, i) => (
             <div key={i} className="border rounded-lg p-3 space-y-2">
-              <div className="text-xs font-semibold text-muted-foreground">Image {i + 1}{i === 3 ? " (fallback if no video URL)" : ""}</div>
+              <div className="text-xs font-semibold text-muted-foreground">Image {i + 1}</div>
               <ImageUpload value={img.url} onChange={(url) => updateWhenImg( i, { url: url || "" })} folder="homepage" />
               <input value={img.alt} onChange={(e) => updateWhenImg( i, { alt: e.target.value })} placeholder="Alt text" className="w-full px-2 py-1.5 border rounded text-sm" />
             </div>
