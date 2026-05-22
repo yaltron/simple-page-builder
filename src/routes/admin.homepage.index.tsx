@@ -467,6 +467,9 @@ const WHO_DEFAULTS = {
   heading_color: "#E6007E",
   subtitle: "Where hope quietly becomes reality.",
   subtitle_color: "",
+  quote_text:
+    "The trust you have shown in us over the years is our greatest inspiration to turn hope into reality.",
+  quote_style: "gradient" as "gradient" | "pink" | "plum" | "rose",
   gradient_enabled: true,
   gradient_from: "#E6007E",
   gradient_to: "#A78BFA",
@@ -571,8 +574,82 @@ function SectionsEditor() {
     who.setData({ ...who.data, slots: next })
   }
 
+  const QUOTE_STYLE_OPTIONS: { value: "gradient" | "pink" | "plum" | "rose"; label: string; preview: string }[] = [
+    { value: "gradient", label: "Pink → Blue Gradient", preview: "linear-gradient(135deg, #E6007E 0%, #C2006A 40%, #1BA0DC 100%)" },
+    { value: "pink", label: "Solid Pink", preview: "#E6007E" },
+    { value: "plum", label: "Solid Dark Plum", preview: "#2D0A1E" },
+    { value: "rose", label: "Solid Rose", preview: "#C2185B" },
+  ]
+  const saveMoments = async () => {
+    await who.save()
+    toast.success("✅ Moments section updated")
+  }
+
   return (
     <div className="space-y-6">
+      {/* Moments That Matter — Right Side Content (focused editor) */}
+      <SectionCard title="Moments That Matter — Right Side Content" onSave={saveMoments} saving={who.saving}>
+        <Field label="Section Title">
+          <input
+            value={who.data.heading}
+            onChange={(e) => who.setData({ ...who.data, heading: e.target.value })}
+            className="w-full px-3 py-2 border rounded-lg"
+          />
+        </Field>
+        <Field label="Quote Text">
+          <textarea
+            rows={3}
+            value={who.data.quote_text}
+            onChange={(e) => who.setData({ ...who.data, quote_text: e.target.value })}
+            className="w-full px-3 py-2 border rounded-lg"
+          />
+        </Field>
+        <Field label="Quote Text Style">
+          <div className="flex flex-wrap gap-2 mb-2">
+            {QUOTE_STYLE_OPTIONS.map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => who.setData({ ...who.data, quote_style: opt.value })}
+                className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg border text-xs"
+                style={{
+                  borderColor: who.data.quote_style === opt.value ? "#E6007E" : "#e5e7eb",
+                  background: who.data.quote_style === opt.value ? "#FFF1F7" : "white",
+                }}
+              >
+                <span className="inline-block w-4 h-4 rounded-full border" style={{ background: opt.preview }} />
+                {opt.label}
+              </button>
+            ))}
+          </div>
+          <select
+            value={who.data.quote_style}
+            onChange={(e) => who.setData({ ...who.data, quote_style: e.target.value as any })}
+            className="w-full px-3 py-2 border rounded-lg"
+          >
+            {QUOTE_STYLE_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
+        </Field>
+        <div className="grid md:grid-cols-2 gap-3">
+          <Field label="Button Text">
+            <input
+              value={who.data.cta_text}
+              onChange={(e) => who.setData({ ...who.data, cta_text: e.target.value })}
+              className="w-full px-3 py-2 border rounded-lg"
+            />
+          </Field>
+          <Field label="Button URL">
+            <input
+              value={who.data.cta_url}
+              onChange={(e) => who.setData({ ...who.data, cta_url: e.target.value })}
+              className="w-full px-3 py-2 border rounded-lg"
+            />
+          </Field>
+        </div>
+      </SectionCard>
+
       {/* Storytelling Gallery — Moments That Matter */}
       <SectionCard title="Storytelling Gallery — Moments That Matter" onSave={who.save} saving={who.saving}>
         <div className="grid md:grid-cols-[auto_1fr_1fr] gap-3 items-end">

@@ -53,12 +53,16 @@ export type GalleryItem = {
   rotate?: number
 }
 
+export type QuoteStyle = "gradient" | "pink" | "plum" | "rose"
+
 export type StorytellingGalleryCMS = {
   enabled: boolean
   heading: string
   heading_color: string
   subtitle: string
   subtitle_color: string
+  quote_text: string
+  quote_style: QuoteStyle
   gradient_enabled: boolean
   gradient_from: string
   gradient_to: string
@@ -74,6 +78,7 @@ export type StorytellingGalleryCMS = {
   hover_style: "lift" | "tilt" | "zoom" | "none"
   slots: Partial<Record<SlotKey, GalleryItem>>
 }
+
 
 // ─────────────────────────────────────────────────────────
 // Slot configuration — fixed layout positions
@@ -126,6 +131,9 @@ const DEFAULTS: StorytellingGalleryCMS = {
   heading_color: "#E6007E",
   subtitle: "Where hope quietly becomes reality.",
   subtitle_color: "",
+  quote_text:
+    "The trust you have shown in us over the years is our greatest inspiration to turn hope into reality.",
+  quote_style: "gradient",
   gradient_enabled: true,
   gradient_from: "#E6007E",
   gradient_to: "#A78BFA",
@@ -321,16 +329,56 @@ export function WhoWeAre() {
             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
             className={`${hasImages ? "w-full md:w-[40%]" : "w-full"} flex flex-col justify-center items-start`}
           >
-            <h2
-              className="font-serif italic font-bold"
+            <h3
+              className="font-serif italic font-bold mb-4"
               style={{
                 ...headingStyle,
                 fontSize: "clamp(1.6rem, 3vw, 2.6rem)",
                 lineHeight: 1.3,
               }}
             >
-              &ldquo;The trust you have shown in us over the years is our greatest inspiration to turn hope into reality.&rdquo;
-            </h2>
+              {cms.heading}
+            </h3>
+            <p
+              style={(() => {
+                const base: CSSProperties = {
+                  fontFamily: "'Playfair Display', serif",
+                  fontStyle: "italic",
+                  fontWeight: 400,
+                  fontSize: "17px",
+                  lineHeight: 1.75,
+                  margin: 0,
+                }
+                if (cms.quote_style === "gradient" || !cms.quote_style) {
+                  return {
+                    ...base,
+                    backgroundImage:
+                      "linear-gradient(135deg, #E6007E 0%, #C2006A 40%, #1BA0DC 100%)",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }
+                }
+                const solid =
+                  cms.quote_style === "pink"
+                    ? "#E6007E"
+                    : cms.quote_style === "plum"
+                    ? "#2D0A1E"
+                    : "#C2185B"
+                return { ...base, color: solid }
+              })()}
+            >
+              &ldquo;{cms.quote_text}&rdquo;
+            </p>
+            {cms.cta_text && (
+              <a
+                href={cms.cta_url || "#"}
+                className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-sm font-semibold transition-transform hover:scale-[1.03]"
+                style={{ background: "#E6007E" }}
+              >
+                {cms.cta_text}
+              </a>
+            )}
           </motion.div>
         </div>
       </div>
