@@ -32,11 +32,11 @@ export async function convertImageToWebp(
   canvas.height = height
   const ctx = canvas.getContext("2d")
   if (!ctx) {
-    bitmap.close?.()
+    ((bitmap as ImageBitmap).close && (bitmap as ImageBitmap).close())
     return file
   }
   ctx.drawImage(bitmap, 0, 0, width, height)
-  bitmap.close?.()
+  ((bitmap as ImageBitmap).close && (bitmap as ImageBitmap).close())
 
   const blob: Blob | null = await new Promise((resolve) =>
     canvas.toBlob(resolve, "image/webp", quality)
