@@ -36,8 +36,8 @@ function getMaxDate() {
 const COLORS = {
   magenta: "#E6007E",
   magentaDark: "#C4006A",
-  cta: "#8B0F50",
-  ctaDark: "#6E0B40",
+  cta: "#B5005F",
+  ctaDark: "#8C0049",
   blue: "#1BA0DC",
   pinkSoft: "#FFF1F7",
   blueSoft: "#EAF7FD",
