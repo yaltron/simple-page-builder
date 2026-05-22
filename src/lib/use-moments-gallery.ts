@@ -30,7 +30,7 @@ export function useMomentsGallery() {
     })()
 
     const channel = supabase
-      .channel("moments_gallery_public")
+      .channel(`moments_gallery_public_${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "moments_gallery" },
