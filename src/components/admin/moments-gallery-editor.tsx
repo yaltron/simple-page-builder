@@ -57,9 +57,12 @@ function pathFromPublicUrl(url: string): string | null {
 }
 
 async function uploadImage(file: File): Promise<string> {
-  const safe = file.name.replace(/[^a-zA-Z0-9.-]/g, "_")
+  const webp = await convertImageToWebp(file)
+  const safe = webp.name.replace(/[^a-zA-Z0-9.-]/g, "_")
   const path = `${FOLDER}/${Date.now()}-${safe}`
-  const { error } = await supabase.storage.from(BUCKET).upload(path, file, { upsert: false })
+  const { error } = await supabase.storage
+    .from(BUCKET)
+    .upload(path, webp, { upsert: false, contentType: webp.type })
   if (error) throw new Error(error.message)
   const { data } = supabase.storage.from(BUCKET).getPublicUrl(path)
   return data.publicUrl
