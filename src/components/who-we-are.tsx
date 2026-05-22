@@ -336,7 +336,7 @@ export function WhoWeAre() {
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="w-full md:w-[55%] relative"
+            className="w-full md:w-[60%] relative"
           >
             <div className="relative w-full" style={{ height: "clamp(420px, 44vw, 540px)" }}>
               <div
