@@ -325,7 +325,7 @@ export function WhoWeAre() {
               className="font-serif italic"
               style={{
                 ...headingStyle,
-                fontSize: "14px",
+                fontSize: "24px",
                 fontWeight: 300,
                 lineHeight: 1.3,
               }}
