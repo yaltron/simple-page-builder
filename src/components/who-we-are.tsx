@@ -53,12 +53,16 @@ export type GalleryItem = {
   rotate?: number
 }
 
+export type QuoteStyle = "gradient" | "pink" | "plum" | "rose"
+
 export type StorytellingGalleryCMS = {
   enabled: boolean
   heading: string
   heading_color: string
   subtitle: string
   subtitle_color: string
+  quote_text: string
+  quote_style: QuoteStyle
   gradient_enabled: boolean
   gradient_from: string
   gradient_to: string
@@ -74,6 +78,7 @@ export type StorytellingGalleryCMS = {
   hover_style: "lift" | "tilt" | "zoom" | "none"
   slots: Partial<Record<SlotKey, GalleryItem>>
 }
+
 
 // ─────────────────────────────────────────────────────────
 // Slot configuration — fixed layout positions
