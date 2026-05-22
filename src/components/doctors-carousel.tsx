@@ -84,7 +84,7 @@ export function DoctorsCarousel() {
     <section
       id="team"
       ref={ref}
-      className="relative pt-8 pb-16 lg:pb-24 overflow-hidden"
+      className="relative pt-2 lg:pt-4 pb-16 lg:pb-24 overflow-hidden"
       style={{
         background:
           "radial-gradient(ellipse at top left, #FFE4F1 0%, transparent 55%), radial-gradient(ellipse at bottom right, #EDE7FF 0%, transparent 55%), linear-gradient(180deg, #FFF7FB 0%, #FFF1F7 100%)",
@@ -239,14 +239,6 @@ export function DoctorsCarousel() {
               </div>
             </div>
 
-            {/* Progress bar */}
-            <div className="mt-3 h-0.5 w-full bg-rose-100 rounded-full overflow-hidden">
-              <motion.div
-                className="h-full bg-gradient-to-r from-rose-400 to-fuchsia-500"
-                style={{ width: `${progress * 100}%`, willChange: "width" }}
-                transition={{ ease: "linear" }}
-              />
-            </div>
           </div>
 
           {/* RIGHT — details */}

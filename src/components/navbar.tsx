@@ -36,6 +36,8 @@ function getMaxDate() {
 const COLORS = {
   magenta: "#E6007E",
   magentaDark: "#C4006A",
+  cta: "#8B0F50",
+  ctaDark: "#6E0B40",
   blue: "#1BA0DC",
   pinkSoft: "#FFF1F7",
   blueSoft: "#EAF7FD",
@@ -257,9 +259,9 @@ export function Navbar() {
                     })
                   }}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-all"
-                  style={{ background: COLORS.magenta }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = COLORS.magentaDark; (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)" }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = COLORS.magenta; (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)" }}
+                  style={{ background: COLORS.cta }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = COLORS.ctaDark; (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)" }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = COLORS.cta; (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)" }}
                 >
                   <Calendar className="w-4 h-4" />
                   Book Appointment
@@ -347,9 +349,9 @@ export function Navbar() {
               <a
                 href="tel:015312007"
                 className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-colors"
-                style={{ background: COLORS.magenta }}
-                onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.background = COLORS.magentaDark)}
-                onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.background = COLORS.magenta)}
+                style={{ background: COLORS.cta }}
+                onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.background = COLORS.ctaDark)}
+                onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.background = COLORS.cta)}
               >
                 <Phone className="w-4 h-4" />
                 Call Us
