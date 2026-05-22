@@ -35,8 +35,8 @@ const FOLDER = "moments-gallery"
 const PINK = "#E6007E"
 const PINK_SOFT = "#FFF1F7"
 const PINK_BORDER = "rgba(230,0,126,0.35)"
-const MAX_BYTES = 5 * 1024 * 1024
-const ACCEPTED = ["image/jpeg", "image/png", "image/webp"]
+const MAX_BYTES = 25 * 1024 * 1024 // 25MB source; converted to WebP before upload
+const ACCEPTED = ["image/jpeg", "image/png", "image/webp", "image/avif"]
 
 const SIZE_OPTIONS: { value: SpanClass; label: string; w: number; h: number }[] = [
   { value: "normal", label: "Normal", w: 20, h: 20 },
