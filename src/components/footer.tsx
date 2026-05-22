@@ -55,7 +55,7 @@ const linkStyle: React.CSSProperties = {
   color: "#7A2050",
   fontSize: 15,
   fontWeight: 500,
-  lineHeight: 2.2,
+  lineHeight: 1.8,
   display: "inline-block",
   transition: "color 0.2s, padding-left 0.2s",
 }
