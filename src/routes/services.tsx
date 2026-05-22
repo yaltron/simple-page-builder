@@ -5,6 +5,7 @@ import * as Icons from "lucide-react"
 import { ArrowRight, ChevronDown, Heart } from "lucide-react"
 import { PageLayout, PageCTABanner, Section, SectionHeading, BRAND } from "@/components/page-layout"
 import { ProcessSteps } from "@/components/process-steps"
+import { FertilityStages } from "@/components/fertility-stages"
 import { supabase } from "@/integrations/supabase/client"
 
 export const Route = createFileRoute("/services")({
