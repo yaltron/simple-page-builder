@@ -414,55 +414,24 @@ export function WhoWeAre() {
             </div>
           </motion.div>
 
-          {/* RIGHT 45% — Text content */}
+          {/* RIGHT 40% — Text content */}
           <motion.div
             initial={{ x: 40, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-            className="w-full md:w-[45%] flex flex-col justify-center items-start"
+            className="w-full md:w-[40%] flex flex-col justify-center items-start"
           >
             <h2
               className="font-serif italic font-bold"
               style={{
                 ...headingStyle,
-                fontSize: "clamp(1.8rem, 3vw, 2.6rem)",
+                fontSize: "clamp(1.6rem, 3vw, 2.6rem)",
                 lineHeight: 1.3,
-                marginBottom: 20,
               }}
             >
-              &ldquo;{cms.heading}&rdquo;
+              &ldquo;The trust you have shown in us over the years is our greatest inspiration to turn hope into reality.&rdquo;
             </h2>
-            {cms.subtitle && (
-              <p
-                className="font-serif italic"
-                style={{
-                  fontSize: 17,
-                  color: "#7A2050",
-                  lineHeight: 1.7,
-                  paddingLeft: 18,
-                  borderLeft: "3px solid #E6007E",
-                  marginBottom: 32,
-                }}
-              >
-                {cms.subtitle}
-              </p>
-            )}
-            {cms.cta_text && (
-              <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }} className="inline-block">
-                <a
-                  href={cms.cta_url || "#"}
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-white text-sm font-semibold group"
-                  style={{
-                    background: `linear-gradient(135deg, ${cms.gradient_from}, ${cms.gradient_to})`,
-                    boxShadow: `0 14px 36px -10px ${cms.gradient_from}8c`,
-                  }}
-                >
-                  {cms.cta_text}
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-                </a>
-              </motion.div>
-            )}
           </motion.div>
         </div>
 
