@@ -397,6 +397,39 @@ export type Database = {
         }
         Relationships: []
       }
+      moments_gallery: {
+        Row: {
+          created_at: string
+          id: string
+          image_alt: string | null
+          image_url: string
+          is_active: boolean
+          order_index: number
+          span_class: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_alt?: string | null
+          image_url: string
+          is_active?: boolean
+          order_index?: number
+          span_class?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_alt?: string | null
+          image_url?: string
+          is_active?: boolean
+          order_index?: number
+          span_class?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       popup_banners: {
         Row: {
           background_color: string | null
