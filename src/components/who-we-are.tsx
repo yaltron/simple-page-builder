@@ -327,181 +327,185 @@ export function WhoWeAre() {
         <MorphingBlob color={cms.gradient_to}   size={540} opacity={0.10} duration={38} delay={-12} driftX={50} driftY={-40} style={{ bottom: "-180px", left: "-160px" }} />
       </div>
 
-      <div className="max-w-[1180px] mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="text-center max-w-2xl mx-auto mb-6 md:mb-8 relative z-10">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="font-serif font-bold tracking-tight leading-[1.1]"
-            style={{ ...headingStyle, fontSize: "clamp(1.75rem, 5vw, 3rem)" }}
+      <div className="relative">
+        {/* DESKTOP — Two-column split layout */}
+        <div
+          className="hidden md:flex flex-row items-center justify-between"
+          style={{ minHeight: 540, padding: "70px 8%", gap: 60 }}
+        >
+          {/* LEFT 55% — Floating image collage */}
+          <motion.div
+            initial={{ x: -40, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            style={{ width: "55%", position: "relative" }}
           >
-            {cms.heading}
-          </motion.h2>
-          {cms.subtitle && (
-            <motion.p
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-3 font-serif italic leading-snug"
-              style={{ color: cms.subtitle_color || (isDark ? "rgba(255,255,255,0.75)" : undefined), fontSize: "clamp(0.95rem, 2vw, 1.125rem)" }}
-            >
-              &ldquo;{cms.subtitle}&rdquo;
-            </motion.p>
-          )}
-        </div>
+            <div className="relative w-full" style={{ height: "clamp(480px, 44vw, 540px)" }}>
+              <div
+                aria-hidden
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl pointer-events-none"
+                style={{
+                  width: "min(620px, 60%)",
+                  height: "min(620px, 60%)",
+                  background: `radial-gradient(circle, ${heroGlow}${Math.round(glowAlpha * 40).toString(16).padStart(2, "0")}, transparent 70%)`,
+                }}
+              />
 
-        {/* DESKTOP — Floating cluster */}
-        <div className="relative w-full mx-auto hidden md:block" style={{ height: "clamp(480px, 44vw, 540px)" }}>
-          <div
-            aria-hidden
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl pointer-events-none"
-            style={{
-              width: "min(620px, 60%)",
-              height: "min(620px, 60%)",
-              background: `radial-gradient(circle, ${heroGlow}${Math.round(glowAlpha * 40).toString(16).padStart(2, "0")}, transparent 70%)`,
-            }}
-          />
-
-          {/* HERO center */}
-          {hero && hero.enabled !== false && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.92, y: 30 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-              onHoverStart={() => setHovered(true)}
-              onHoverEnd={() => setHovered(false)}
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
-              style={{ width: "min(290px, 62%)", height: "clamp(260px, 30vw, 360px)" }}
-            >
-              <motion.div style={{ y: heroY, scale: heroScale }} className="relative w-full h-full">
-                <div
-                  aria-hidden
-                  className="absolute -inset-4 blur-3xl"
-                  style={{
-                    borderRadius: cms.card_radius + 12,
-                    background: `radial-gradient(circle, ${heroGlow}${Math.round(glowAlpha * 55).toString(16).padStart(2, "0")}, transparent 78%)`,
-                    opacity: hovered ? 0.9 : 0.6,
-                    transition: "opacity 600ms ease",
-                  }}
-                />
-                <div
-                  className="relative w-full h-full overflow-hidden border border-white/70 group"
-                  style={{
-                    borderRadius: cms.card_radius + 8,
-                    boxShadow: `0 40px 90px -30px ${heroGlow}73, 0 20px 50px -15px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6)`,
-                  }}
+              {/* HERO center */}
+              {hero && hero.enabled !== false && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.92, y: 30 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                  onHoverStart={() => setHovered(true)}
+                  onHoverEnd={() => setHovered(false)}
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
+                  style={{ width: "min(290px, 62%)", height: "clamp(260px, 30vw, 360px)" }}
                 >
-                  <CardMedia item={hero} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
-                  {(hero.overlay_kicker || hero.overlay_text) && (
-                    <div className="absolute bottom-5 left-5 right-5">
-                      <div
-                        className="rounded-2xl px-5 py-4 border border-white/30"
-                        style={{ background: "rgba(255,255,255,0.16)", WebkitBackdropFilter: "blur(14px)", backdropFilter: "blur(14px)" }}
-                      >
-                        {hero.overlay_kicker && (
-                          <div className="flex items-center gap-2 text-white/90 text-[10px] uppercase tracking-[0.3em] mb-1">
-                            <Heart className="w-3 h-3 fill-white" />
-                            {hero.overlay_kicker}
+                  <motion.div style={{ y: heroY, scale: heroScale }} className="relative w-full h-full">
+                    <div
+                      aria-hidden
+                      className="absolute -inset-4 blur-3xl"
+                      style={{
+                        borderRadius: cms.card_radius + 12,
+                        background: `radial-gradient(circle, ${heroGlow}${Math.round(glowAlpha * 55).toString(16).padStart(2, "0")}, transparent 78%)`,
+                        opacity: hovered ? 0.9 : 0.6,
+                        transition: "opacity 600ms ease",
+                      }}
+                    />
+                    <div
+                      className="relative w-full h-full overflow-hidden border border-white/70 group"
+                      style={{
+                        borderRadius: cms.card_radius + 8,
+                        boxShadow: `0 40px 90px -30px ${heroGlow}73, 0 20px 50px -15px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6)`,
+                      }}
+                    >
+                      <CardMedia item={hero} />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
+                      {(hero.overlay_kicker || hero.overlay_text) && (
+                        <div className="absolute bottom-5 left-5 right-5">
+                          <div
+                            className="rounded-2xl px-5 py-4 border border-white/30"
+                            style={{ background: "rgba(255,255,255,0.16)", WebkitBackdropFilter: "blur(14px)", backdropFilter: "blur(14px)" }}
+                          >
+                            {hero.overlay_kicker && (
+                              <div className="flex items-center gap-2 text-white/90 text-[10px] uppercase tracking-[0.3em] mb-1">
+                                <Heart className="w-3 h-3 fill-white" />
+                                {hero.overlay_kicker}
+                              </div>
+                            )}
+                            {hero.overlay_text && (
+                              <div className="font-serif text-white text-xl lg:text-2xl leading-snug">
+                                {hero.overlay_text}
+                              </div>
+                            )}
                           </div>
-                        )}
-                        {hero.overlay_text && (
-                          <div className="font-serif text-white text-xl lg:text-2xl leading-snug">
-                            {hero.overlay_text}
-                          </div>
-                        )}
-                      </div>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
+                  </motion.div>
+                </motion.div>
+              )}
 
-          {/* Floating slot cards (desktop only) */}
-          {others.map((cfg, i) => {
-            const item = slots[cfg.key]
-            if (!item || item.enabled === false) return null
-            if (!item.url && item.type !== "quote" && item.type !== "testimonial") return null
-            return <SlotCard key={cfg.key} config={cfg} item={item} index={i} scrollY={scrollYProgress} cms={cms} />
-          })}
-        </div>
+              {/* Floating slot cards */}
+              {others.map((cfg, i) => {
+                const item = slots[cfg.key]
+                if (!item || item.enabled === false) return null
+                if (!item.url && item.type !== "quote" && item.type !== "testimonial") return null
+                return <SlotCard key={cfg.key} config={cfg} item={item} index={i} scrollY={scrollYProgress} cms={cms} />
+              })}
+            </div>
+          </motion.div>
 
-        {/* MOBILE — Elegant masonry stack */}
-        <div className="md:hidden">
-          {hero && hero.enabled !== false && (
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="relative w-full aspect-[4/5] mb-3 overflow-hidden border border-white/70"
+          {/* RIGHT 45% — Text content */}
+          <motion.div
+            initial={{ x: 40, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+            className="flex flex-col justify-center items-start"
+            style={{ width: "45%" }}
+          >
+            <h2
+              className="font-serif italic font-bold"
               style={{
-                borderRadius: cms.card_radius,
-                boxShadow: `0 24px 60px -24px ${heroGlow}66`,
+                ...headingStyle,
+                fontSize: "clamp(1.8rem, 3vw, 2.6rem)",
+                lineHeight: 1.3,
+                marginBottom: 20,
               }}
             >
-              <CardMedia item={hero} />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
-              {(hero.overlay_kicker || hero.overlay_text) && (
-                <div className="absolute bottom-3 left-3 right-3">
-                  <div className="rounded-xl px-3 py-2 border border-white/30" style={{ background: "rgba(255,255,255,0.16)", WebkitBackdropFilter: "blur(10px)", backdropFilter: "blur(10px)" }}>
-                    {hero.overlay_kicker && (
-                      <div className="flex items-center gap-1.5 text-white/90 text-[9px] uppercase tracking-[0.25em] mb-0.5">
-                        <Heart className="w-2.5 h-2.5 fill-white" />
-                        {hero.overlay_kicker}
-                      </div>
-                    )}
-                    {hero.overlay_text && (
-                      <div className="font-serif text-white text-base leading-snug">{hero.overlay_text}</div>
-                    )}
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          )}
-          <div className="grid grid-cols-2 gap-3">
-            {others.map((cfg, i) => {
-              const item = slots[cfg.key]
-              if (!item || item.enabled === false) return null
-              if (!item.url && item.type !== "quote" && item.type !== "testimonial") return null
-              const isTall = i % 3 === 0
-              return (
-                <motion.div
-                  key={cfg.key}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-30px" }}
-                  transition={{ duration: 0.55, delay: (i % 4) * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                  className={`relative overflow-hidden border border-white/70 ${isTall ? "aspect-[3/4]" : "aspect-square"}`}
+              &ldquo;{cms.heading}&rdquo;
+            </h2>
+            {cms.subtitle && (
+              <p
+                className="font-serif italic"
+                style={{
+                  fontSize: 17,
+                  color: "#7A2050",
+                  lineHeight: 1.7,
+                  paddingLeft: 18,
+                  borderLeft: "3px solid #E6007E",
+                  marginBottom: 32,
+                }}
+              >
+                {cms.subtitle}
+              </p>
+            )}
+            {cms.cta_text && (
+              <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }} className="inline-block">
+                <a
+                  href={cms.cta_url || "#"}
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-white text-sm font-semibold group"
                   style={{
-                    borderRadius: cms.card_radius - 4,
-                    boxShadow: `0 12px 30px -14px ${item.glow_color || cfg.defaultGlow || heroGlow}55`,
+                    background: `linear-gradient(135deg, ${cms.gradient_from}, ${cms.gradient_to})`,
+                    boxShadow: `0 14px 36px -10px ${cms.gradient_from}8c`,
                   }}
                 >
-                  <CardMedia item={item} />
-                </motion.div>
-              )
-            })}
-          </div>
+                  {cms.cta_text}
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                </a>
+              </motion.div>
+            )}
+          </motion.div>
         </div>
 
-        {cms.cta_text && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 lg:mt-14 text-center max-w-xl mx-auto relative z-10"
-          >
-            <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.98 }} className="inline-block">
+        {/* MOBILE — Text first, then image stack */}
+        <div className="md:hidden max-w-[1180px] mx-auto px-4 sm:px-6" style={{ display: "flex", flexDirection: "column", gap: 40, paddingTop: 48, paddingBottom: 48 }}>
+          {/* Text block first */}
+          <div className="flex flex-col items-start">
+            <h2
+              className="font-serif italic font-bold"
+              style={{
+                ...headingStyle,
+                fontSize: "clamp(1.8rem, 6vw, 2.2rem)",
+                lineHeight: 1.3,
+                marginBottom: 16,
+              }}
+            >
+              &ldquo;{cms.heading}&rdquo;
+            </h2>
+            {cms.subtitle && (
+              <p
+                className="font-serif italic"
+                style={{
+                  fontSize: 16,
+                  color: "#7A2050",
+                  lineHeight: 1.7,
+                  paddingLeft: 16,
+                  borderLeft: "3px solid #E6007E",
+                  marginBottom: 24,
+                }}
+              >
+                {cms.subtitle}
+              </p>
+            )}
+            {cms.cta_text && (
               <a
                 href={cms.cta_url || "#"}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-white text-sm font-semibold group"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-white text-sm font-semibold group"
                 style={{
                   background: `linear-gradient(135deg, ${cms.gradient_from}, ${cms.gradient_to})`,
                   boxShadow: `0 14px 36px -10px ${cms.gradient_from}8c`,
@@ -510,10 +514,70 @@ export function WhoWeAre() {
                 {cms.cta_text}
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
               </a>
-            </motion.div>
-          </motion.div>
-        )}
+            )}
+          </div>
+
+          {/* Image stack second */}
+          <div>
+            {hero && hero.enabled !== false && (
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className="relative w-full aspect-[4/5] mb-3 overflow-hidden border border-white/70"
+                style={{
+                  borderRadius: cms.card_radius,
+                  boxShadow: `0 24px 60px -24px ${heroGlow}66`,
+                }}
+              >
+                <CardMedia item={hero} />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
+                {(hero.overlay_kicker || hero.overlay_text) && (
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <div className="rounded-xl px-3 py-2 border border-white/30" style={{ background: "rgba(255,255,255,0.16)", WebkitBackdropFilter: "blur(10px)", backdropFilter: "blur(10px)" }}>
+                      {hero.overlay_kicker && (
+                        <div className="flex items-center gap-1.5 text-white/90 text-[9px] uppercase tracking-[0.25em] mb-0.5">
+                          <Heart className="w-2.5 h-2.5 fill-white" />
+                          {hero.overlay_kicker}
+                        </div>
+                      )}
+                      {hero.overlay_text && (
+                        <div className="font-serif text-white text-base leading-snug">{hero.overlay_text}</div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            )}
+            <div className="grid grid-cols-2 gap-3">
+              {others.map((cfg, i) => {
+                const item = slots[cfg.key]
+                if (!item || item.enabled === false) return null
+                if (!item.url && item.type !== "quote" && item.type !== "testimonial") return null
+                const isTall = i % 3 === 0
+                return (
+                  <motion.div
+                    key={cfg.key}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-30px" }}
+                    transition={{ duration: 0.55, delay: (i % 4) * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                    className={`relative overflow-hidden border border-white/70 ${isTall ? "aspect-[3/4]" : "aspect-square"}`}
+                    style={{
+                      borderRadius: cms.card_radius - 4,
+                      boxShadow: `0 12px 30px -14px ${item.glow_color || cfg.defaultGlow || heroGlow}55`,
+                    }}
+                  >
+                    <CardMedia item={item} />
+                  </motion.div>
+                )
+              })}
+            </div>
+          </div>
+        </div>
       </div>
+
     </section>
   )
 }
