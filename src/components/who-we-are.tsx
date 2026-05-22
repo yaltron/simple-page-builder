@@ -1,8 +1,9 @@
-import { motion, useScroll, useTransform } from "framer-motion"
-import { useRef, useState, type CSSProperties } from "react"
-import { ArrowRight, Heart, Quote } from "lucide-react"
+import { motion } from "framer-motion"
+import { useRef, type CSSProperties } from "react"
+import { Quote } from "lucide-react"
 import { MorphingBlob } from "@/components/morphing-blob"
 import { useHomepageSection } from "@/lib/use-cms-content"
+import { useMomentsGallery, type SpanClass } from "@/lib/use-moments-gallery"
 import miracle1 from "@/assets/miracle-1.jpg"
 import miracle2 from "@/assets/miracle-2.jpg"
 import miracle3 from "@/assets/miracle-3.jpg"
@@ -196,80 +197,62 @@ function CardMedia({ item }: { item: GalleryItem }) {
 }
 
 // ─────────────────────────────────────────────────────────
-// Floating slot card
+// Span class → grid placement
 // ─────────────────────────────────────────────────────────
-function SlotCard({
-  config,
-  item,
-  index,
-  scrollY,
-  cms,
-}: {
-  config: SlotConfig
-  item: GalleryItem
-  index: number
-  scrollY: ReturnType<typeof useScroll>["scrollYProgress"]
-  cms: StorytellingGalleryCMS
-}) {
-  const depth = 18 + (index % 4) * 5
-  const delay = 0.05 + (index % 7) * 0.04
-  const rotate = item.rotate ?? config.defaultRotate
-  const glow = item.glow_color || config.defaultGlow || cms.glow_color
-  const overlayOpacity = (item.overlay_opacity ?? 0) / 100
-  const radius = cms.card_radius
-  const speedMult = Math.max(0.4, cms.animation_speed || 1)
+const SPAN_STYLE: Record<SpanClass, CSSProperties> = {
+  normal: {},
+  wide: { gridColumn: "span 2" },
+  wider: { gridColumn: "span 3" },
+  high: { gridRow: "span 2" },
+}
 
-  const y = useTransform(scrollY, [0, 1], [depth, -depth])
-
-  const hoverProps =
-    cms.hover_style === "none" ? {} :
-    cms.hover_style === "tilt" ? { rotate: 0 } :
-    cms.hover_style === "zoom" ? { scale: 1.06 } :
-    { scale: 1.04, y: -4 }
+// ─────────────────────────────────────────────────────────
+// CMS-driven moments grid
+// ─────────────────────────────────────────────────────────
+function MomentsGrid({ radius }: { radius: number }) {
+  const { items } = useMomentsGallery()
+  if (items.length === 0) return null
 
   return (
-    <motion.div
-      className="absolute hidden md:block -translate-x-1/2 -translate-y-1/2"
-      style={{ top: config.top, left: config.left, width: config.width, height: config.height, zIndex: 2 + (index % 3), y }}
-      initial={{ opacity: 0, y: 40, scale: 0.9, rotate }}
-      whileInView={{ opacity: 1, scale: 1, rotate }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.9 * speedMult, delay, ease: [0.22, 1, 0.36, 1] }}
+    <div
+      className="w-full"
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(6, 1fr)",
+        gridAutoRows: "minmax(110px, auto)",
+        gap: 12,
+      }}
     >
-      <motion.div
-        animate={cms.floating_enabled ? { y: [0, -6, 0] } : undefined}
-        transition={{ duration: (8 + (index % 4)) * speedMult, repeat: Infinity, ease: "easeInOut", delay }}
-        whileHover={{ ...hoverProps, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
-        className="relative w-full h-full group cursor-pointer"
-        style={{ willChange: "transform" }}
-      >
-        <div
-          aria-hidden
-          className="absolute -inset-3 blur-2xl opacity-60 group-hover:opacity-90 transition-opacity duration-500"
-          style={{
-            borderRadius: radius + 8,
-            background: `radial-gradient(circle, ${glow}55, ${glow}22 55%, transparent 78%)`,
-          }}
-        />
-        <div
-          className="relative w-full h-full overflow-hidden border border-white/70"
-          style={{
-            borderRadius: radius,
-            boxShadow: `0 20px 50px -20px ${glow}55, 0 8px 24px -10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.6)`,
-          }}
-        >
-          <CardMedia item={item} />
-          {overlayOpacity > 0 && (
-            <div className="absolute inset-0" style={{ background: `rgba(0,0,0,${overlayOpacity})` }} />
-          )}
-          {(item.caption || item.overlay_text) && (
-            <div className="absolute bottom-2 left-2 right-2 text-white text-[11px] font-medium drop-shadow">
-              {item.overlay_text || item.caption}
-            </div>
-          )}
-        </div>
-      </motion.div>
-    </motion.div>
+      {items.map((item, i) => {
+        const span = (SPAN_STYLE[item.span_class] ?? {}) as CSSProperties
+        const isHigh = item.span_class === "high"
+        return (
+          <motion.div
+            key={item.id}
+            initial={{ opacity: 0, y: 20, scale: 0.96 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55, delay: (i % 8) * 0.05, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ y: -4, scale: 1.02 }}
+            className="relative overflow-hidden group cursor-pointer border border-white/70"
+            style={{
+              ...span,
+              borderRadius: radius,
+              minHeight: isHigh ? 232 : 110,
+              boxShadow:
+                "0 16px 40px -20px rgba(230,0,126,0.30), 0 6px 18px -10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.6)",
+            }}
+          >
+            <img
+              src={item.image_url}
+              alt={item.image_alt || ""}
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
+            />
+          </motion.div>
+        )
+      })}
+    </div>
   )
 }
 
@@ -278,15 +261,10 @@ function SlotCard({
 // ─────────────────────────────────────────────────────────
 export function WhoWeAre() {
   const ref = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
   const cms = useHomepageSection<StorytellingGalleryCMS>("who_we_are", DEFAULTS)
+  const { items: momentsItems } = useMomentsGallery()
 
   if (cms.enabled === false) return null
-
-  const slots = cms.slots || {}
-  const heroCfg = SLOT_CONFIG[0]
-  const hero = slots[heroCfg.key] ?? DEFAULT_SLOTS.center_hero
-  const others = SLOT_CONFIG.slice(1)
 
   const headingStyle: CSSProperties = cms.gradient_enabled
     ? {
@@ -297,14 +275,9 @@ export function WhoWeAre() {
       }
     : { color: cms.heading_color }
 
-  const heroY = useTransform(scrollYProgress, [0, 1], [-20, 20])
-  const heroScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.02, 1, 1.02])
-  const [hovered, setHovered] = useState(false)
-
   const py = cms.section_spacing || 80
-  const heroGlow = hero.glow_color || cms.glow_color || "#E6007E"
-  const glowAlpha = Math.min(100, Math.max(0, cms.glow_intensity ?? 60)) / 100
   const isDark = cms.background_style === "dark"
+  const hasImages = momentsItems.length > 0
 
   return (
     <section
@@ -328,99 +301,25 @@ export function WhoWeAre() {
       </div>
 
       <div className="relative">
-        {/* Two-column split — stacks text-first on mobile */}
         <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-10 md:gap-[60px] px-4 sm:px-6 md:px-[8%] py-12 md:py-[70px] md:min-h-[540px]">
-          {/* LEFT 55% — Floating image collage */}
-          <motion.div
-            initial={{ x: -40, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            className="w-full md:w-[60%] relative"
-          >
-            <div className="relative w-full" style={{ height: "clamp(420px, 44vw, 540px)" }}>
-              <div
-                aria-hidden
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl pointer-events-none"
-                style={{
-                  width: "min(620px, 60%)",
-                  height: "min(620px, 60%)",
-                  background: `radial-gradient(circle, ${heroGlow}${Math.round(glowAlpha * 40).toString(16).padStart(2, "0")}, transparent 70%)`,
-                }}
-              />
+          {hasImages && (
+            <motion.div
+              initial={{ x: -40, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+              className="w-full md:w-[60%] relative"
+            >
+              <MomentsGrid radius={cms.card_radius} />
+            </motion.div>
+          )}
 
-              {hero && hero.enabled !== false && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.92, y: 30 }}
-                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                  onHoverStart={() => setHovered(true)}
-                  onHoverEnd={() => setHovered(false)}
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
-                  style={{ width: "min(290px, 62%)", height: "clamp(260px, 30vw, 360px)" }}
-                >
-                  <motion.div style={{ y: heroY, scale: heroScale }} className="relative w-full h-full">
-                    <div
-                      aria-hidden
-                      className="absolute -inset-4 blur-3xl"
-                      style={{
-                        borderRadius: cms.card_radius + 12,
-                        background: `radial-gradient(circle, ${heroGlow}${Math.round(glowAlpha * 55).toString(16).padStart(2, "0")}, transparent 78%)`,
-                        opacity: hovered ? 0.9 : 0.6,
-                        transition: "opacity 600ms ease",
-                      }}
-                    />
-                    <div
-                      className="relative w-full h-full overflow-hidden border border-white/70 group"
-                      style={{
-                        borderRadius: cms.card_radius + 8,
-                        boxShadow: `0 40px 90px -30px ${heroGlow}73, 0 20px 50px -15px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6)`,
-                      }}
-                    >
-                      <CardMedia item={hero} />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
-                      {(hero.overlay_kicker || hero.overlay_text) && (
-                        <div className="absolute bottom-5 left-5 right-5">
-                          <div
-                            className="rounded-2xl px-5 py-4 border border-white/30"
-                            style={{ background: "rgba(255,255,255,0.16)", WebkitBackdropFilter: "blur(14px)", backdropFilter: "blur(14px)" }}
-                          >
-                            {hero.overlay_kicker && (
-                              <div className="flex items-center gap-2 text-white/90 text-[10px] uppercase tracking-[0.3em] mb-1">
-                                <Heart className="w-3 h-3 fill-white" />
-                                {hero.overlay_kicker}
-                              </div>
-                            )}
-                            {hero.overlay_text && (
-                              <div className="font-serif text-white text-xl lg:text-2xl leading-snug">
-                                {hero.overlay_text}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </motion.div>
-                </motion.div>
-              )}
-
-              {others.map((cfg, i) => {
-                const item = slots[cfg.key]
-                if (!item || item.enabled === false) return null
-                if (!item.url && item.type !== "quote" && item.type !== "testimonial") return null
-                return <SlotCard key={cfg.key} config={cfg} item={item} index={i} scrollY={scrollYProgress} cms={cms} />
-              })}
-            </div>
-          </motion.div>
-
-          {/* RIGHT 40% — Text content */}
           <motion.div
             initial={{ x: 40, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-            className="w-full md:w-[40%] flex flex-col justify-center items-start"
+            className={`${hasImages ? "w-full md:w-[40%]" : "w-full"} flex flex-col justify-center items-start`}
           >
             <h2
               className="font-serif italic font-bold"
@@ -434,9 +333,8 @@ export function WhoWeAre() {
             </h2>
           </motion.div>
         </div>
-
       </div>
-
     </section>
   )
 }
+

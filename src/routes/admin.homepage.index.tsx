@@ -4,6 +4,7 @@ import { Save, Plus, Trash2, ArrowUp, ArrowDown, ExternalLink } from "lucide-rea
 import { AdminShell, AdminLoading } from "@/components/admin/admin-shell"
 import { ImageUpload } from "@/components/admin/image-upload"
 import { ColorPicker } from "@/components/admin/color-picker"
+import { MomentsGalleryEditor } from "@/components/admin/moments-gallery-editor"
 import { useAdminAuth } from "@/lib/use-admin-auth"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
@@ -12,7 +13,7 @@ export const Route = createFileRoute("/admin/homepage/")({
   component: AdminHomepagePage,
 })
 
-type Tab = "hero" | "sections" | "about"
+type Tab = "hero" | "sections" | "moments" | "about"
 
 function AdminHomepagePage() {
   const { loading, isAdmin } = useAdminAuth()
@@ -26,6 +27,7 @@ function AdminHomepagePage() {
         {[
           { k: "hero", l: "Hero" },
           { k: "sections", l: "Section Content" },
+          { k: "moments", l: "Moments Gallery" },
           { k: "about", l: "About" },
         ].map((t) => (
           <button
@@ -44,6 +46,7 @@ function AdminHomepagePage() {
 
       {tab === "hero" && <HeroEditor />}
       {tab === "sections" && <SectionsEditor />}
+      {tab === "moments" && <MomentsGalleryEditor />}
       {tab === "about" && <AboutEditor />}
     </AdminShell>
   )
