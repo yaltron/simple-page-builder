@@ -304,7 +304,7 @@ function MomentModal({ mode, initial, nextOrderIndex, onClose, onSaved }: ModalP
               >
                 Browse Files
               </button>
-              <div className="text-[11px] text-gray-500 mt-3">Accepted: JPG, PNG, WEBP • Max 5MB</div>
+              <div className="text-[11px] text-gray-500 mt-3">JPG, PNG, WEBP, AVIF • Auto-converted to WebP for faster loading</div>
               <input
                 ref={fileRef}
                 type="file"
