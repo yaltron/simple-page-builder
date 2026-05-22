@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router"
 import { Facebook, Instagram, Youtube, MapPin, Phone, Mail, Clock } from "lucide-react"
-import logo from "@/assets/logo.png"
+import logo from "@/assets/logo-trimmed.png"
 
 const quickLinks = [
   { name: "About Us", to: "/about" },
@@ -39,7 +39,7 @@ const socialLinks = [
 
 const headingStyle: React.CSSProperties = {
   fontWeight: 700,
-  fontSize: 15,
+  fontSize: 17,
   color: "#8B0F50",
   position: "relative",
   paddingBottom: 10,
@@ -53,7 +53,7 @@ function ColumnHeading({ children }: { children: React.ReactNode }) {
 
 const linkStyle: React.CSSProperties = {
   color: "#7A2050",
-  fontSize: 14,
+  fontSize: 15,
   fontWeight: 500,
   lineHeight: 2.2,
   display: "inline-block",
