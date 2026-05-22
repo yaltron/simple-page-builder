@@ -132,7 +132,7 @@ export function DoctorsCarousel() {
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.18}
               onDragEnd={onDragEnd}
-              className="relative h-[460px] sm:h-[520px] lg:h-[560px] flex items-center justify-center select-none cursor-grab active:cursor-grabbing"
+              className="relative h-[380px] sm:h-[440px] lg:h-[480px] flex items-start justify-center select-none cursor-grab active:cursor-grabbing"
             >
               {/* Glow */}
               <motion.div
