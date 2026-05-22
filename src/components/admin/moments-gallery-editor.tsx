@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react"
 import { Plus, Trash2, Pencil, GripVertical, Upload, Camera, X } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
+import { convertImageToWebp } from "@/lib/image-to-webp"
 import { toast } from "sonner"
 import {
   DndContext,
@@ -34,8 +35,8 @@ const FOLDER = "moments-gallery"
 const PINK = "#E6007E"
 const PINK_SOFT = "#FFF1F7"
 const PINK_BORDER = "rgba(230,0,126,0.35)"
-const MAX_BYTES = 5 * 1024 * 1024
-const ACCEPTED = ["image/jpeg", "image/png", "image/webp"]
+const MAX_BYTES = 25 * 1024 * 1024 // 25MB source; converted to WebP before upload
+const ACCEPTED = ["image/jpeg", "image/png", "image/webp", "image/avif"]
 
 const SIZE_OPTIONS: { value: SpanClass; label: string; w: number; h: number }[] = [
   { value: "normal", label: "Normal", w: 20, h: 20 },
@@ -56,9 +57,12 @@ function pathFromPublicUrl(url: string): string | null {
 }
 
 async function uploadImage(file: File): Promise<string> {
-  const safe = file.name.replace(/[^a-zA-Z0-9.-]/g, "_")
+  const webp = await convertImageToWebp(file)
+  const safe = webp.name.replace(/[^a-zA-Z0-9.-]/g, "_")
   const path = `${FOLDER}/${Date.now()}-${safe}`
-  const { error } = await supabase.storage.from(BUCKET).upload(path, file, { upsert: false })
+  const { error } = await supabase.storage
+    .from(BUCKET)
+    .upload(path, webp, { upsert: false, contentType: webp.type })
   if (error) throw new Error(error.message)
   const { data } = supabase.storage.from(BUCKET).getPublicUrl(path)
   return data.publicUrl
@@ -155,7 +159,7 @@ function MomentModal({ mode, initial, nextOrderIndex, onClose, onSaved }: ModalP
       return
     }
     if (f.size > MAX_BYTES) {
-      toast.error("Max file size is 5MB")
+      toast.error("Max file size is 25MB")
       return
     }
     setFile(f)
@@ -300,7 +304,7 @@ function MomentModal({ mode, initial, nextOrderIndex, onClose, onSaved }: ModalP
               >
                 Browse Files
               </button>
-              <div className="text-[11px] text-gray-500 mt-3">Accepted: JPG, PNG, WEBP • Max 5MB</div>
+              <div className="text-[11px] text-gray-500 mt-3">JPG, PNG, WEBP, AVIF • Auto-converted to WebP for faster loading</div>
               <input
                 ref={fileRef}
                 type="file"
