@@ -13,7 +13,7 @@ export const Route = createFileRoute("/admin/homepage/")({
   component: AdminHomepagePage,
 })
 
-type Tab = "hero" | "sections" | "about"
+type Tab = "hero" | "sections" | "moments" | "about"
 
 function AdminHomepagePage() {
   const { loading, isAdmin } = useAdminAuth()
@@ -27,6 +27,7 @@ function AdminHomepagePage() {
         {[
           { k: "hero", l: "Hero" },
           { k: "sections", l: "Section Content" },
+          { k: "moments", l: "Moments Gallery" },
           { k: "about", l: "About" },
         ].map((t) => (
           <button
@@ -45,6 +46,7 @@ function AdminHomepagePage() {
 
       {tab === "hero" && <HeroEditor />}
       {tab === "sections" && <SectionsEditor />}
+      {tab === "moments" && <MomentsGalleryEditor />}
       {tab === "about" && <AboutEditor />}
     </AdminShell>
   )
