@@ -1,13 +1,21 @@
-# Requested tweaks
+# Update nav CTA color and reduce doctors section gap
 
-1. **Navbar CTAs** (`src/components/navbar.tsx`) — change "Book Appointment" and "Call Us" button background to `#8B0F50` (hover `#6E0B40`). No other magenta usage touched.
+## Changes
 
-2. **Doctors section** (`src/components/doctors-carousel.tsx`):
-   - Reduce top padding: `pt-8` → `pt-2 lg:pt-4` on the section.
-   - Remove the thin progress bar block below the cards (the `mt-3 h-0.5 ...` div with the animated `motion.div`). Autoplay keeps working.
+### 1. Navbar CTA color → `#B5005F`
+File: `src/components/navbar.tsx`
+- Update `COLORS.cta` from `#8B0F50` to `#B5005F`
+- Update `COLORS.ctaDark` from `#6E0B40` to `#8C0049` (matching darker hover)
 
-3. **Footer** (`src/components/footer.tsx`):
-   - Bump link font-size from `14` to `15` (matches navbar nav links). Headings stay as-is.
-   - Swap footer logo to the same file the header uses: replace `import logo from "@/assets/logo.png"` with `import logo from "@/assets/logo-trimmed.png"`.
+Affects both desktop "Book Appointment" button and "Call Us" anchor.
 
-Nothing else changes.
+### 2. Reduce gap above doctor cards
+File: `src/components/doctors-carousel.tsx`
+
+The visible empty space comes from the centered card container — it's 460–560px tall with `items-center`, leaving large empty space above the photo when the actual content is shorter.
+
+- Change card stage container (line ~135) from `items-center` to `items-start` so cards sit at the top instead of centered.
+- Reduce its height: `h-[380px] sm:h-[440px] lg:h-[480px]` (was `460/520/560`).
+- Reduce heading block bottom margin from `mb-8` to `mb-4` (line ~114).
+
+No other section/page changes.
