@@ -1,46 +1,41 @@
 ## Goal
-Restructure the desktop layout of the "Moments That Matter" section (`src/components/who-we-are.tsx`) into a two-column split: image collage on the left (55%), text content on the right (45%). Keep the image collage internals, mobile layout, CMS data, and section background untouched.
+
+Update the "Moments That Matter" split section in `src/components/who-we-are.tsx`:
+
+- Change desktop column widths from 55/45 to 60/40 (left images / right text).
+- Replace right-column content with a single styled quote.
 
 ## Changes (single file: `src/components/who-we-are.tsx`)
 
-### 1. Desktop layout wrapper
-Replace the current centered header + full-width collage block with a flex row (desktop only, `hidden md:flex`):
+### 1. Column widths
 
-```text
-[section bg unchanged]
-  [inner container]
-    [DESKTOP two-column flex]
-      [LEFT 55%] ── existing floating collage (cluster + hero + SlotCards)
-      [RIGHT 45%] ── new text column (title, quote, CTA)
-    [MOBILE stack] ── unchanged masonry block, but reorder so text comes first then images
-```
+- Left collage wrapper: `w-[55%]` → `w-[60%]`.
+- Right text column wrapper: `w-[45%]` → `w-[40%]`.
+- Mobile stack untouched.
 
-Wrapper styling on desktop column:
-- `display:flex; flex-direction:row; align-items:center; justify-content:space-between; min-height:540px; padding:70px 8%; gap:60px`
-- Keep section background and morphing blobs as-is.
+### 2. Right column content
 
-### 2. Left column (55%) — collage
-- Move the existing `<div className="relative w-full mx-auto hidden md:block" style={{ height: "clamp(480px, 44vw, 540px)" }}>` (lines 357–432) inside a new wrapper `<div style={{ width: '55%', position: 'relative' }}>`.
-- Do NOT change the inner cluster: hero card, SlotCard positions (`SLOT_CONFIG` percentages), sizes, radii, shadows, floating animations all preserved.
-- Wrap with a Framer Motion div: `initial={{ x: -40, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.7, ease: 'easeOut' }}`.
+Remove:
 
-### 3. Right column (45%) — text
-New motion column: `initial={{ x: 40, opacity: 0 }} whileInView={{ x: 0, opacity: 1 }} transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}`, flex column, justify-center, items-start.
+- Title `"Moments That Matter"` (curly-quoted heading using `cms.heading`).
+- Subtitle `"Where hope quietly becomes reality."` (the bordered quote line).
 
-Contents:
-1. **Title** — `cms.heading` wrapped in curly quotes `“…”`. Playfair italic, weight 700, `fontSize: clamp(1.8rem, 3vw, 2.6rem)`, line-height 1.3, margin-bottom 20px. Apply existing `headingStyle` (gradient text fill) untouched.
-2. **Quote** — `cms.subtitle` (defaults to "Where hope quietly becomes reality."). Playfair italic, 17px, color `#7A2050`, line-height 1.7, padding-left 18px, border-left `3px solid #E6007E`, margin-bottom 32px.
-3. **CTA** — Reuse the existing pill anchor (`cms.cta_text` → `cms.cta_url`), same gradient bg, same arrow, same hover motion. Remove its centered wrapper here; render inline-flex left-aligned.
+Replace with a single text element:
 
-The original centered header block (lines 331–354) and bottom CTA block (lines 493–515) are removed from the desktop flow — they now live in the right column. Mobile keeps them as-is (see below).
+> "The trust you have shown in us over the years is our greatest inspiration to turn hope into reality."
 
-### 4. Mobile (< 768px)
-- Keep the existing mobile masonry block (lines 435–491) and the centered CTA (lines 493–515) intact, but reorder so the text (heading + subtitle + CTA) renders FIRST, then images, per spec. Wrap text in a `md:hidden` block at top; keep image masonry `md:hidden` below; CTA stays at bottom of mobile stack. Gap 40px between text and images.
+Styled identically to the previous "Moments That Matter" title:
 
-### 5. Untouched
-- `SLOT_CONFIG`, `DEFAULT_SLOTS`, `DEFAULTS`, `CardMedia`, `SlotCard`, `BG_MAP`, morphing blobs, section padding background, fade gradients, hero parallax (`heroY`, `heroScale`), CMS hook.
+- Playfair Display, italic, weight 700
+- `fontSize: clamp(1.8rem, 3vw, 2.6rem)`, line-height 1.3
+- Same gradient text fill (existing `headingStyle`)
+- Wrapped in curly quotes `“…”`
+- Keep the right-column Framer Motion slide-in (`x: 40 → 0`, 0.7s, delay 0.2s)
 
-## Technical notes
-- Use Tailwind arbitrary values + inline styles for the precise spec numbers (`min-h-[540px]`, `px-[8%] py-[70px]`, `gap-[60px]`, `w-[55%]`, `w-[45%]`).
-- All animations remain Framer Motion; no new deps.
-- Single-file edit, no schema/CMS changes.
+### 3. Mobile block
+
+Apply the same content replacement in the mobile (`flex-col-reverse`) text block: remove title, subtitle, CTA; render only the new quote with the matching gradient-italic heading style (responsive size `clamp(1.6rem, 6vw, 2.2rem)`).
+
+### Untouched
+
+Image collage, animations, section background, blobs, CMS hook, all other sections.
