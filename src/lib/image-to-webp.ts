@@ -32,7 +32,7 @@ export async function convertImageToWebp(
   canvas.height = height
   const ctx = canvas.getContext("2d")
   if (!ctx) {
-    ((bitmap as ImageBitmap).close && (bitmap as ImageBitmap).close())
+    if ("close" in bitmap) (bitmap as ImageBitmap).close();
     return file
   }
   ctx.drawImage(bitmap as CanvasImageSource, 0, 0, width, height);
