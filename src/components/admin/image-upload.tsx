@@ -18,20 +18,27 @@ export function ImageUpload({
   const [uploading, setUploading] = useState(false)
 
   const handle = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
+    const original = e.target.files?.[0]
+    if (!original) return
     setUploading(true)
-    const path = `${folder}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`
-    const { error } = await supabase.storage.from(bucket).upload(path, file, { upsert: false })
-    if (error) {
-      toast.error(error.message)
+    try {
+      const file = await convertImageToWebp(original)
+      const path = `${folder}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`
+      const { error } = await supabase.storage
+        .from(bucket)
+        .upload(path, file, { upsert: false, contentType: file.type })
+      if (error) {
+        toast.error(error.message)
+        return
+      }
+      const { data } = supabase.storage.from(bucket).getPublicUrl(path)
+      onChange(data.publicUrl)
+      toast.success("Image uploaded")
+    } catch (err: any) {
+      toast.error(err?.message || "Upload failed")
+    } finally {
       setUploading(false)
-      return
     }
-    const { data } = supabase.storage.from(bucket).getPublicUrl(path)
-    onChange(data.publicUrl)
-    setUploading(false)
-    toast.success("Image uploaded")
   }
 
   return (
