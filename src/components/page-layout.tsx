@@ -105,7 +105,9 @@ export function PageCTABanner({
           <Link
             to="/contact"
             className="px-7 py-3 rounded-full font-bold transition-transform hover:scale-105"
-            style={{ background: BRAND.pink, color: "white" }}
+            style={{ background: "#B5005F", color: "white" }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = "#8C0049")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = "#B5005F")}
           >
             Book Consultation
           </Link>
