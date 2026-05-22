@@ -467,6 +467,9 @@ const WHO_DEFAULTS = {
   heading_color: "#E6007E",
   subtitle: "Where hope quietly becomes reality.",
   subtitle_color: "",
+  quote_text:
+    "The trust you have shown in us over the years is our greatest inspiration to turn hope into reality.",
+  quote_style: "gradient" as "gradient" | "pink" | "plum" | "rose",
   gradient_enabled: true,
   gradient_from: "#E6007E",
   gradient_to: "#A78BFA",
