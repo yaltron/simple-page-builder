@@ -42,8 +42,8 @@ const headingStyle: React.CSSProperties = {
   fontSize: 17,
   color: "#8B0F50",
   position: "relative",
-  paddingBottom: 10,
-  marginBottom: 20,
+  paddingBottom: 6,
+  marginBottom: 10,
   display: "inline-block",
 }
 
@@ -87,7 +87,7 @@ export function Footer() {
                 style={{ width: 200, height: "auto" }}
               />
             </Link>
-            <p style={{ color: "#7A2050", fontSize: 14, lineHeight: 1.7 }}>
+            <p style={{ color: "#7A2050", fontSize: 14, lineHeight: 1.7, textAlign: "justify" }}>
               Supporting your journey to parenthood with advanced fertility treatments and customized care plans, ensuring dignity, comfort, confidentiality, and the hope of bringing happiness into your life.
             </p>
             <div className="flex gap-2.5">

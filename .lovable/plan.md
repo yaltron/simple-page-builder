@@ -1,9 +1,10 @@
-## Change
+In `src/components/footer.tsx`:
 
-In `src/components/page-layout.tsx`, update the `PageCTABanner` component's "Book Consultation" button:
-- Change `style={{ background: BRAND.pink, color: "white" }}` to `style={{ background: "#B5005F", color: "white" }}`
-- Optionally add `onMouseEnter`/`onMouseLeave` hover state to `#8C0049` (matching the navbar CTA hover pattern)
+1. Reduce heading-to-items gap in `headingStyle` (line 40-48):
+   - `paddingBottom: 10` → `6`
+   - `marginBottom: 20` → `10`
 
-This component is used by multiple page routes, so the change applies to every page automatically.
+2. Justify the brand description paragraph (line 90):
+   - Add `textAlign: "justify"` to the `<p>` style.
 
 No other changes.
