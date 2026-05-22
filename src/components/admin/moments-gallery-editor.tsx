@@ -159,7 +159,7 @@ function MomentModal({ mode, initial, nextOrderIndex, onClose, onSaved }: ModalP
       return
     }
     if (f.size > MAX_BYTES) {
-      toast.error("Max file size is 5MB")
+      toast.error("Max file size is 25MB")
       return
     }
     setFile(f)
