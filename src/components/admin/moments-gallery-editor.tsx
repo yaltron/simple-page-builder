@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react"
 import { Plus, Trash2, Pencil, GripVertical, Upload, Camera, X } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
+import { convertImageToWebp } from "@/lib/image-to-webp"
 import { toast } from "sonner"
 import {
   DndContext,
