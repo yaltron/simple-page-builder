@@ -111,7 +111,7 @@ export function DoctorsCarousel() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.4 }}
-          className="text-center max-w-3xl mx-auto mb-8 space-y-3"
+          className="text-center max-w-3xl mx-auto mb-4 space-y-3"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/60 backdrop-blur-sm border border-rose-200/50 text-xs font-semibold tracking-wide uppercase text-rose-600">
             <Sparkles className="w-3.5 h-3.5" /> Our Specialists
