@@ -99,6 +99,8 @@ function ServicesPage() {
         </div>
       </Section>
 
+      <FertilityStages />
+
       <ProcessSteps />
 
       <PageCTABanner />
