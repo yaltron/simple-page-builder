@@ -322,10 +322,11 @@ export function WhoWeAre() {
             className={`${hasImages ? "w-full md:w-[40%]" : "w-full"} flex flex-col justify-center items-start`}
           >
             <h2
-              className="font-serif italic font-bold"
+              className="font-serif italic"
               style={{
                 ...headingStyle,
-                fontSize: "clamp(1.6rem, 3vw, 2.6rem)",
+                fontSize: "14px",
+                fontWeight: 300,
                 lineHeight: 1.3,
               }}
             >
