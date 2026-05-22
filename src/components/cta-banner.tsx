@@ -33,7 +33,10 @@ export function CTABanner() {
             <Button
               asChild
               size="lg"
-              className="bg-rose hover:bg-rose-dark text-white rounded-full px-8 text-base font-bold transition-transform hover:scale-105"
+              className="text-white rounded-full px-8 text-base font-bold transition-transform hover:scale-105"
+              style={{ background: "#B5005F" }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.background = "#8C0049")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.background = "#B5005F")}
             >
               {isExternal ? (
                 <a href={cms.primary_url}>{cms.primary_text}</a>
