@@ -328,20 +328,17 @@ export function WhoWeAre() {
       </div>
 
       <div className="relative">
-        {/* DESKTOP — Two-column split layout */}
-        <div
-          className="hidden md:flex flex-row items-center justify-between"
-          style={{ minHeight: 540, padding: "70px 8%", gap: 60 }}
-        >
+        {/* Two-column split — stacks text-first on mobile */}
+        <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-10 md:gap-[60px] px-4 sm:px-6 md:px-[8%] py-12 md:py-[70px] md:min-h-[540px]">
           {/* LEFT 55% — Floating image collage */}
           <motion.div
             initial={{ x: -40, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            style={{ width: "55%", position: "relative" }}
+            className="w-full md:w-[55%] relative"
           >
-            <div className="relative w-full" style={{ height: "clamp(480px, 44vw, 540px)" }}>
+            <div className="relative w-full" style={{ height: "clamp(420px, 44vw, 540px)" }}>
               <div
                 aria-hidden
                 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl pointer-events-none"
@@ -352,7 +349,6 @@ export function WhoWeAre() {
                 }}
               />
 
-              {/* HERO center */}
               {hero && hero.enabled !== false && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.92, y: 30 }}
@@ -409,7 +405,6 @@ export function WhoWeAre() {
                 </motion.div>
               )}
 
-              {/* Floating slot cards */}
               {others.map((cfg, i) => {
                 const item = slots[cfg.key]
                 if (!item || item.enabled === false) return null
@@ -425,8 +420,7 @@ export function WhoWeAre() {
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-            className="flex flex-col justify-center items-start"
-            style={{ width: "45%" }}
+            className="w-full md:w-[45%] flex flex-col justify-center items-start"
           >
             <h2
               className="font-serif italic font-bold"
@@ -472,110 +466,6 @@ export function WhoWeAre() {
           </motion.div>
         </div>
 
-        {/* MOBILE — Text first, then image stack */}
-        <div className="md:hidden max-w-[1180px] mx-auto px-4 sm:px-6" style={{ display: "flex", flexDirection: "column", gap: 40, paddingTop: 48, paddingBottom: 48 }}>
-          {/* Text block first */}
-          <div className="flex flex-col items-start">
-            <h2
-              className="font-serif italic font-bold"
-              style={{
-                ...headingStyle,
-                fontSize: "clamp(1.8rem, 6vw, 2.2rem)",
-                lineHeight: 1.3,
-                marginBottom: 16,
-              }}
-            >
-              &ldquo;{cms.heading}&rdquo;
-            </h2>
-            {cms.subtitle && (
-              <p
-                className="font-serif italic"
-                style={{
-                  fontSize: 16,
-                  color: "#7A2050",
-                  lineHeight: 1.7,
-                  paddingLeft: 16,
-                  borderLeft: "3px solid #E6007E",
-                  marginBottom: 24,
-                }}
-              >
-                {cms.subtitle}
-              </p>
-            )}
-            {cms.cta_text && (
-              <a
-                href={cms.cta_url || "#"}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-white text-sm font-semibold group"
-                style={{
-                  background: `linear-gradient(135deg, ${cms.gradient_from}, ${cms.gradient_to})`,
-                  boxShadow: `0 14px 36px -10px ${cms.gradient_from}8c`,
-                }}
-              >
-                {cms.cta_text}
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-              </a>
-            )}
-          </div>
-
-          {/* Image stack second */}
-          <div>
-            {hero && hero.enabled !== false && (
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="relative w-full aspect-[4/5] mb-3 overflow-hidden border border-white/70"
-                style={{
-                  borderRadius: cms.card_radius,
-                  boxShadow: `0 24px 60px -24px ${heroGlow}66`,
-                }}
-              >
-                <CardMedia item={hero} />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
-                {(hero.overlay_kicker || hero.overlay_text) && (
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <div className="rounded-xl px-3 py-2 border border-white/30" style={{ background: "rgba(255,255,255,0.16)", WebkitBackdropFilter: "blur(10px)", backdropFilter: "blur(10px)" }}>
-                      {hero.overlay_kicker && (
-                        <div className="flex items-center gap-1.5 text-white/90 text-[9px] uppercase tracking-[0.25em] mb-0.5">
-                          <Heart className="w-2.5 h-2.5 fill-white" />
-                          {hero.overlay_kicker}
-                        </div>
-                      )}
-                      {hero.overlay_text && (
-                        <div className="font-serif text-white text-base leading-snug">{hero.overlay_text}</div>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            )}
-            <div className="grid grid-cols-2 gap-3">
-              {others.map((cfg, i) => {
-                const item = slots[cfg.key]
-                if (!item || item.enabled === false) return null
-                if (!item.url && item.type !== "quote" && item.type !== "testimonial") return null
-                const isTall = i % 3 === 0
-                return (
-                  <motion.div
-                    key={cfg.key}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-30px" }}
-                    transition={{ duration: 0.55, delay: (i % 4) * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                    className={`relative overflow-hidden border border-white/70 ${isTall ? "aspect-[3/4]" : "aspect-square"}`}
-                    style={{
-                      borderRadius: cms.card_radius - 4,
-                      boxShadow: `0 12px 30px -14px ${item.glow_color || cfg.defaultGlow || heroGlow}55`,
-                    }}
-                  >
-                    <CardMedia item={item} />
-                  </motion.div>
-                )
-              })}
-            </div>
-          </div>
-        </div>
       </div>
 
     </section>
