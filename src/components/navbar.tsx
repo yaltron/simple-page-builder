@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { createPortal } from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
-import { Phone, Menu, X, Calendar, ChevronDown, Copy, Check, Hospital } from "lucide-react"
+import { Phone, Menu, X, Calendar, ChevronDown, Copy, Check, Hospital, Video } from "lucide-react"
 import { Link, useLocation, useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
 import { supabase } from "@/integrations/supabase/client"
@@ -297,16 +297,26 @@ export function Navbar() {
                         </h3>
                         
 
-                        <div className="mt-4">
+                        <div className="mt-4 grid grid-cols-2 gap-2">
                           <button
                             type="button"
                             onClick={() => { setBookOpen(false); navigate({ to: "/contact" }) }}
-                            className="w-full text-left p-3 rounded-xl hover:scale-[1.02] transition-transform"
+                            className="text-left p-3 rounded-xl hover:scale-[1.02] transition-transform"
                             style={{ background: COLORS.pinkSoft }}
                           >
                             <div style={{ color: COLORS.magenta }}><Hospital className="w-5 h-5" /></div>
                             <div className="font-semibold text-sm mt-2" style={{ color: COLORS.plum }}>Visit In-Clinic</div>
                             <div className="inline-block mt-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-700">Available Today</div>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => { setBookOpen(false); navigate({ to: "/contact" }) }}
+                            className="text-left p-3 rounded-xl hover:scale-[1.02] transition-transform"
+                            style={{ background: COLORS.pinkSoft }}
+                          >
+                            <div style={{ color: COLORS.magenta }}><Video className="w-5 h-5" /></div>
+                            <div className="font-semibold text-sm mt-2" style={{ color: COLORS.plum }}>Online Consultation</div>
+                            <div className="inline-block mt-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-100 text-blue-700">Video Call</div>
                           </button>
                         </div>
 

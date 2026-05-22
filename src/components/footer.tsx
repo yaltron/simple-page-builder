@@ -55,7 +55,7 @@ const linkStyle: React.CSSProperties = {
   color: "#7A2050",
   fontSize: 15,
   fontWeight: 500,
-  lineHeight: 2.2,
+  lineHeight: 1.8,
   display: "inline-block",
   transition: "color 0.2s, padding-left 0.2s",
 }
@@ -88,7 +88,7 @@ export function Footer() {
               />
             </Link>
             <p style={{ color: "#7A2050", fontSize: 14, lineHeight: 1.7 }}>
-              Nepal's leading fertility centre, transforming dreams of parenthood into reality for over 12 years.
+              Supporting your journey to parenthood with advanced fertility treatments and customized care plans, ensuring dignity, comfort, confidentiality, and the hope of bringing happiness into your life.
             </p>
             <div className="flex gap-2.5">
               {socialLinks.map(({ Icon, href, label }) => (
