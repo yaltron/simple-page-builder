@@ -85,7 +85,7 @@ function ServicesPage() {
                       className="overflow-hidden"
                     >
                       <div className="pt-4 mt-4 border-t" style={{ borderColor: "rgba(230,0,126,0.15)" }}>
-                        <p className="text-sm mb-4" style={{ color: BRAND.navLink, lineHeight: 1.7 }}>{s.description}</p>
+                        <FormattedDescription text={s.description} />
                         <Link to="/contact" className="inline-flex items-center gap-1 text-sm font-bold text-white px-4 py-2 rounded-full" style={{ background: BRAND.pink }}>
                           Book for this Service <ArrowRight className="w-4 h-4" />
                         </Link>
@@ -105,5 +105,33 @@ function ServicesPage() {
 
       <PageCTABanner />
     </PageLayout>
+  )
+}
+
+function FormattedDescription({ text }: { text: string }) {
+  const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean)
+  const bulletRe = /^([→\-*•·▸▶►]|\d+[.)])\s*/
+  const isList = lines.length > 1 && lines.filter((l) => bulletRe.test(l)).length >= Math.ceil(lines.length / 2)
+
+  if (isList) {
+    return (
+      <ul className="text-sm mb-4 space-y-1.5 pl-1" style={{ color: BRAND.navLink, lineHeight: 1.7 }}>
+        {lines.map((l, i) => {
+          const clean = l.replace(bulletRe, "")
+          return (
+            <li key={i} className="flex gap-2">
+              <span style={{ color: BRAND.pink }}>→</span>
+              <span>{clean}</span>
+            </li>
+          )
+        })}
+      </ul>
+    )
+  }
+
+  return (
+    <div className="text-sm mb-4 space-y-2" style={{ color: BRAND.navLink, lineHeight: 1.7 }}>
+      {lines.map((l, i) => <p key={i}>{l}</p>)}
+    </div>
   )
 }
