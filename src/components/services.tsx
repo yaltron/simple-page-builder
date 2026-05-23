@@ -1,18 +1,11 @@
-
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
-import { useRef } from "react"
+import { useRef, useEffect, useState } from "react"
 import { Link } from "@tanstack/react-router"
-import {
-  Heart,
-  Microscope,
-  Snowflake,
-  Dna,
-  Users,
-  Stethoscope,
-  ArrowRight
-} from "lucide-react"
+import * as Icons from "lucide-react"
+import { Heart, ArrowRight } from "lucide-react"
 import { useHomepageSection } from "@/lib/use-cms-content"
+import { supabase } from "@/integrations/supabase/client"
 
 const SERVICES_HEADING_DEFAULTS = {
   heading: "Comprehensive Fertility Care, Tailored for You",
@@ -28,43 +21,25 @@ const cardGradients = [
   "linear-gradient(135deg, #EAF7FD 0%, #fcd4e8 100%)",
 ]
 
-const services = [
-  {
-    icon: Heart,
-    title: "IVF Treatment",
-    description: "Advanced in-vitro fertilization with personalized protocols for optimal success rates.",
-  },
-  {
-    icon: Microscope,
-    title: "ICSI Procedure",
-    description: "Intracytoplasmic sperm injection for male factor infertility with precision technology.",
-  },
-  {
-    icon: Snowflake,
-    title: "Embryo Freezing",
-    description: "State-of-the-art cryopreservation to preserve your fertility for the future.",
-  },
-  {
-    icon: Dna,
-    title: "Genetic Testing (PGT)",
-    description: "Preimplantation genetic testing to ensure healthy embryo selection.",
-  },
-  {
-    icon: Users,
-    title: "Donor Egg Programme",
-    description: "Comprehensive donor egg program with carefully screened donors.",
-  },
-  {
-    icon: Stethoscope,
-    title: "Infertility Diagnosis",
-    description: "Thorough diagnostic evaluations to identify the root cause of infertility.",
-  },
-]
+function pickIcon(name?: string | null) {
+  const I = (Icons as any)[name || ""] as React.ComponentType<{ className?: string; style?: any }> | undefined
+  return I || Heart
+}
 
 export function Services() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const cms = useHomepageSection("services_heading", SERVICES_HEADING_DEFAULTS)
+  const [services, setServices] = useState<any[]>([])
+
+  useEffect(() => {
+    supabase
+      .from("services")
+      .select("*")
+      .eq("status", "published")
+      .order("display_order")
+      .then(({ data }) => setServices(data || []))
+  }, [])
 
   return (
     <section id="services" ref={ref} className="py-10 sm:py-12 md:py-14" style={{ background: "linear-gradient(135deg, #EAF7FD, #FFF1F7)" }}>
@@ -93,9 +68,11 @@ export function Services() {
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
-          {services.map((service, index) => (
+          {services.map((service, index) => {
+            const Icon = pickIcon(service.icon)
+            return (
             <motion.div
-              key={service.title}
+              key={service.id}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -104,9 +81,7 @@ export function Services() {
               <div
                 className="relative rounded-2xl p-5 sm:p-6 lg:p-7 h-full transition-all duration-300 group-hover:-translate-y-1.5"
                 style={{
-                  background: service.title === "Genetic Testing (PGT)"
-                    ? "linear-gradient(135deg, #FFF1F7 0%, #fcd4e8 100%)"
-                    : cardGradients[index % cardGradients.length],
+                  background: cardGradients[index % cardGradients.length],
                   border: "1px solid rgba(230, 0, 126, 0.12)",
                 }}
                 onMouseEnter={(e) => {
@@ -120,7 +95,7 @@ export function Services() {
               >
                 {/* Icon */}
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white flex items-center justify-center mb-4 sm:mb-5">
-                  <service.icon className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: "#E6007E" }} />
+                  <Icon className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: "#E6007E" }} />
                 </div>
 
                 {/* Content */}
@@ -128,7 +103,7 @@ export function Services() {
                   {service.title}
                 </h3>
                 <p className="text-sm leading-relaxed mb-3 sm:mb-4" style={{ color: "#6B6B8A" }}>
-                  {service.description}
+                  {service.short_description}
                 </p>
 
                 {/* Link */}
@@ -142,7 +117,8 @@ export function Services() {
                 </Link>
               </div>
             </motion.div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>
