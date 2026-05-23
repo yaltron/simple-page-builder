@@ -85,7 +85,7 @@ function ServicesPage() {
                       className="overflow-hidden"
                     >
                       <div className="pt-4 mt-4 border-t" style={{ borderColor: "rgba(230,0,126,0.15)" }}>
-                        <p className="text-sm mb-4" style={{ color: BRAND.navLink, lineHeight: 1.7 }}>{s.description}</p>
+                        <FormattedDescription text={s.description} />
                         <Link to="/contact" className="inline-flex items-center gap-1 text-sm font-bold text-white px-4 py-2 rounded-full" style={{ background: BRAND.pink }}>
                           Book for this Service <ArrowRight className="w-4 h-4" />
                         </Link>
