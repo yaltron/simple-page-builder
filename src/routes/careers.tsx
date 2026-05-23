@@ -151,7 +151,9 @@ function ApplyModal({ listing, onClose }: { listing: Listing; onClose: () => voi
     setSubmitting(true)
     let resume_url: string | null = null
     if (resume) {
-      const path = `${Date.now()}-${resume.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`
+      const uuid = crypto.randomUUID()
+      const safeName = resume.name.replace(/[^a-zA-Z0-9._-]/g, "_")
+      const path = `uploads/${uuid}/${safeName}`
       const { error: upErr } = await supabase.storage.from("resumes").upload(path, resume)
       if (upErr) {
         setSubmitting(false)
