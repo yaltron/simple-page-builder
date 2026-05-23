@@ -107,3 +107,31 @@ function ServicesPage() {
     </PageLayout>
   )
 }
+
+function FormattedDescription({ text }: { text: string }) {
+  const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean)
+  const bulletRe = /^([→\-*•·▸▶►]|\d+[.)])\s*/
+  const isList = lines.length > 1 && lines.filter((l) => bulletRe.test(l)).length >= Math.ceil(lines.length / 2)
+
+  if (isList) {
+    return (
+      <ul className="text-sm mb-4 space-y-1.5 pl-1" style={{ color: BRAND.navLink, lineHeight: 1.7 }}>
+        {lines.map((l, i) => {
+          const clean = l.replace(bulletRe, "")
+          return (
+            <li key={i} className="flex gap-2">
+              <span style={{ color: BRAND.pink }}>→</span>
+              <span>{clean}</span>
+            </li>
+          )
+        })}
+      </ul>
+    )
+  }
+
+  return (
+    <div className="text-sm mb-4 space-y-2" style={{ color: BRAND.navLink, lineHeight: 1.7 }}>
+      {lines.map((l, i) => <p key={i}>{l}</p>)}
+    </div>
+  )
+}
