@@ -214,15 +214,35 @@ function MomentsGrid({ radius }: { radius: number }) {
   if (items.length === 0) return null
 
   return (
-    <div
-      className="w-full"
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(6, 1fr)",
-        gridAutoRows: "minmax(110px, auto)",
-        gap: 12,
-      }}
-    >
+    <div className="w-full moments-grid">
+      <style>{`
+        .moments-grid {
+          display: grid;
+          gap: 8px;
+          grid-template-columns: repeat(3, 1fr);
+          grid-auto-rows: minmax(70px, auto);
+        }
+        .moments-grid > .moment-cell { min-height: 70px; }
+        .moments-grid > .moment-cell.is-high { min-height: 148px; }
+        @media (min-width: 480px) {
+          .moments-grid {
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: minmax(90px, auto);
+            gap: 10px;
+          }
+          .moments-grid > .moment-cell { min-height: 90px; }
+          .moments-grid > .moment-cell.is-high { min-height: 190px; }
+        }
+        @media (min-width: 768px) {
+          .moments-grid {
+            grid-template-columns: repeat(6, 1fr);
+            grid-auto-rows: minmax(110px, auto);
+            gap: 12px;
+          }
+          .moments-grid > .moment-cell { min-height: 110px; }
+          .moments-grid > .moment-cell.is-high { min-height: 232px; }
+        }
+      `}</style>
       {items.map((item, i) => {
         const span = (SPAN_STYLE[item.span_class] ?? {}) as CSSProperties
         const isHigh = item.span_class === "high"
@@ -234,11 +254,10 @@ function MomentsGrid({ radius }: { radius: number }) {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.55, delay: (i % 8) * 0.05, ease: [0.22, 1, 0.36, 1] }}
             whileHover={{ y: -4, scale: 1.02 }}
-            className="relative overflow-hidden group cursor-pointer border border-white/70"
+            className={`moment-cell ${isHigh ? "is-high" : ""} relative overflow-hidden group cursor-pointer border border-white/70`}
             style={{
               ...span,
               borderRadius: radius,
-              minHeight: isHigh ? 232 : 110,
               boxShadow:
                 "0 16px 40px -20px rgba(230,0,126,0.30), 0 6px 18px -10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.6)",
             }}
