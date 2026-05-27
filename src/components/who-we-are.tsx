@@ -1,5 +1,6 @@
 import { motion } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
+import { Link } from "@tanstack/react-router"
 import { MorphingBlob } from "@/components/morphing-blob"
 import { useHomepageSection } from "@/lib/use-cms-content"
 import { useMomentsGallery } from "@/lib/use-moments-gallery"

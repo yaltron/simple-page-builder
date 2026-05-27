@@ -1,10 +1,14 @@
-In `src/components/footer.tsx`:
+## Plan
 
-1. Reduce heading-to-items gap in `headingStyle` (line 40-48):
-   - `paddingBottom: 10` → `6`
-   - `marginBottom: 20` → `10`
+Add an "Explore Stories" button under the italic quote on the right side of the Gallery / Who-We-Are section.
 
-2. Justify the brand description paragraph (line 90):
-   - Add `textAlign: "justify"` to the `<p>` style.
+### Implementation
+1. In `src/components/who-we-are.tsx`:
+   - Import `Link` from `@tanstack/react-router`.
+   - Add a `<Link to="/success-stories">` button as a child of the right-side `motion.div`, placed below the `<h2>` quote block.
+   - Style it with a pink-to-purple gradient (`from-rose to-rose-dark`), white text, rounded-full, with padding and a subtle hover state — matching existing button patterns in the codebase.
+   - Keep the vertical centering behavior of the right-side block intact.
 
-No other changes.
+### Notes
+- No new routes or dependencies needed.
+- The section already exists; this is a single-component addition.
