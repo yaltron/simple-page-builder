@@ -327,14 +327,6 @@ export function DoctorsCarousel() {
                   >
                     <User className="w-4 h-4" /> View Profile
                   </Link>
-                  <button
-                    onClick={() =>
-                      window.dispatchEvent(new CustomEvent("open-call-popover"))
-                    }
-                    className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-bold bg-white/70 border border-plum/15 text-plum hover:bg-white transition-all"
-                  >
-                    <Phone className="w-4 h-4" /> Request Callback
-                  </button>
                 </div>
               </motion.div>
             </AnimatePresence>
