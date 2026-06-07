@@ -12,7 +12,7 @@ const DOCTORS_HEADING_DEFAULTS = {
 
 const AUTOPLAY_MS = 3200
 
-// Premium spring — snappier, still fluid
+// Premium spring - snappier, still fluid
 const SPRING = { type: "spring" as const, stiffness: 340, damping: 32, mass: 0.7 }
 const SPRING_SOFT = { type: "spring" as const, stiffness: 260, damping: 30, mass: 0.7 }
 
@@ -125,7 +125,7 @@ export function DoctorsCarousel() {
         </motion.div>
 
         <div className="grid lg:grid-cols-[1fr_1fr] gap-6 lg:gap-10 items-center">
-          {/* LEFT — active card + slider */}
+          {/* LEFT - active card + slider */}
           <div className="relative">
             <motion.div
               drag="x"
@@ -241,7 +241,7 @@ export function DoctorsCarousel() {
 
           </div>
 
-          {/* RIGHT — details */}
+          {/* RIGHT - details */}
           <div className="relative" {...pauseOn}>
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div

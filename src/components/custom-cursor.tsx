@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Premium minimal cursor — tiny pink dot with a soft glow.
+ * Premium minimal cursor - tiny pink dot with a soft glow.
  * Desktop only (disabled on touch / coarse pointer devices).
  */
 export function CustomCursor() {

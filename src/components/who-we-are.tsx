@@ -36,7 +36,7 @@ const BG_MAP: Record<NonNullable<WhoWeAreCMS["background_style"]>, string> = {
 }
 
 // ─────────────────────────────────────────────────────────
-// Carousel — shows N cards at a time, auto-advances, infinite loop
+// Carousel - shows N cards at a time, auto-advances, infinite loop
 // ─────────────────────────────────────────────────────────
 function GalleryCarousel({ radius }: { radius: number }) {
   const { items } = useMomentsGallery()

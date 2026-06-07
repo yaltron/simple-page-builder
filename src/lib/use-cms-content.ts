@@ -81,7 +81,7 @@ export function toEmbedUrl(url: string): string {
       return url + (url.includes("?") ? "&" : "?") + "autoplay=1"
     }
   } catch {
-    // not a URL — fall through
+    // not a URL - fall through
   }
   return url
 }

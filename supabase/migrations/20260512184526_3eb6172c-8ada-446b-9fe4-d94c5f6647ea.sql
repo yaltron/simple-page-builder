@@ -119,5 +119,5 @@ INSERT INTO public.faqs (question, answer, category, order_index) VALUES
   ('Is infertility primarily a woman''s problem?', '<p>No, infertility affects both men and women equally. About one-third of infertility cases are attributed to female factors, one-third to male factors, and the remaining third to a combination of both or unexplained causes.</p>', 'General', 2),
   ('Does age affect fertility?', '<p>Yes, age significantly affects fertility, particularly for women. Female fertility begins to decline after age 30 and more rapidly after 35.</p>', 'General', 3),
   ('What is the IVF process?', '<p>IVF (In Vitro Fertilization) involves several steps: ovarian stimulation, egg retrieval, fertilization in our laboratory, embryo development, and transfer to the uterus.</p>', 'IVF', 1),
-  ('How many IVF cycles are usually needed?', '<p>The number of IVF cycles needed varies by couple. Many couples achieve success within 2–3 cycles.</p>', 'IVF', 2),
+  ('How many IVF cycles are usually needed?', '<p>The number of IVF cycles needed varies by couple. Many couples achieve success within 2-3 cycles.</p>', 'IVF', 2),
   ('What is the cost of IVF at Subhashree IVF?', '<p>The cost varies depending on the treatment plan and medications. Please contact us for a personalised consultation and detailed estimate.</p>', 'Costs', 1);

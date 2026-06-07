@@ -513,7 +513,7 @@ export function MomentsGalleryEditor() {
     <div className="space-y-5">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="font-bold text-lg">Moments That Matter — Gallery Images</h2>
+          <h2 className="font-bold text-lg">Moments That Matter - Gallery Images</h2>
           <p className="text-sm text-gray-600 max-w-2xl">
             Upload images for the grid gallery on the homepage. Each image can be set to span different sizes in the grid.
           </p>

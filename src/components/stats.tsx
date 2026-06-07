@@ -75,7 +75,7 @@ export function Stats() {
 
   return (
     <section ref={ref} className="py-20 lg:py-24 bg-gradient-to-br from-rose-light/30 via-cream to-gold-light/40 relative overflow-hidden">
-      {/* Animated gradient mesh — multiply blend tints the soft bg */}
+      {/* Animated gradient mesh - multiply blend tints the soft bg */}
       <GradientMesh
         blendMode="multiply"
         items={[

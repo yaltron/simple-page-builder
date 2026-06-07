@@ -109,7 +109,7 @@ function AdminPopupPage() {
   return (
     <AdminShell title="Popup Banners" breadcrumb="Admin / Popup Banners">
       <div className="flex items-center mb-5">
-        <h2 className="text-sm text-muted-foreground">{items.length} banners — only one active at a time</h2>
+        <h2 className="text-sm text-muted-foreground">{items.length} banners - only one active at a time</h2>
         <button
           onClick={() => setEditing({ ...empty })}
           className="ml-auto inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold"

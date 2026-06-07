@@ -9,9 +9,9 @@ import { supabase } from "@/integrations/supabase/client"
 export const Route = createFileRoute("/gallery")({
   head: () => ({
     meta: [
-      { title: "Gallery — Subhashree IVF" },
-      { name: "description", content: "A look inside Subhashree IVF — our clinic, team, patients and events." },
-      { property: "og:title", content: "Gallery — Subhashree IVF" },
+      { title: "Gallery - Subhashree IVF" },
+      { name: "description", content: "A look inside Subhashree IVF - our clinic, team, patients and events." },
+      { property: "og:title", content: "Gallery - Subhashree IVF" },
       { property: "og:description", content: "Photos from our clinic, team and patient events." },
     ],
   }),
