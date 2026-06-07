@@ -73,7 +73,7 @@ function ServicesPage() {
                     className="inline-flex items-center gap-1 text-sm font-semibold transition-all"
                     style={{ color: BRAND.pink }}
                   >
-                    {isOpen ? "Show less" : "Learn more"}
+                    {isOpen ? "Show less" : "View service details"}
                     <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
                   </button>
                 )}
