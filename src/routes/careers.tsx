@@ -13,7 +13,9 @@ export const Route = createFileRoute("/careers")({
       { name: "description", content: "Join the Subhashree IVF team - current openings and how to apply." },
       { property: "og:title", content: "Career - Subhashree IVF" },
       { property: "og:description", content: "Build your career at Nepal's leading fertility centre." },
+      { property: "og:url", content: "https://subhashree-ui.lovable.app/careers" },
     ],
+    links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/careers" }],
   }),
   component: CareersPage,
 })

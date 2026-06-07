@@ -14,7 +14,9 @@ export const Route = createFileRoute("/about")({
       { name: "description", content: "12+ years of trusted fertility care in Nepal. Learn about our mission, values, and commitment to helping families." },
       { property: "og:title", content: "About Subhashree IVF" },
       { property: "og:description", content: "Nepal's trusted fertility centre - our story, mission and values." },
+      { property: "og:url", content: "https://subhashree-ui.lovable.app/about" },
     ],
+    links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/about" }],
   }),
   component: AboutPage,
 })

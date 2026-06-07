@@ -13,7 +13,9 @@ export const Route = createFileRoute("/contact")({
       { name: "description", content: "Get in touch with Subhashree IVF in Kathmandu - phone, email, address and clinic hours." },
       { property: "og:title", content: "Contact Us - Subhashree IVF" },
       { property: "og:description", content: "Reach out - we'd love to hear from you." },
+      { property: "og:url", content: "https://subhashree-ui.lovable.app/contact" },
     ],
+    links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/contact" }],
   }),
   component: ContactPage,
 })
