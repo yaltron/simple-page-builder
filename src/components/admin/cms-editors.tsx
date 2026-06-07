@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Save, Plus, Trash2, ArrowUp, ArrowDown, ExternalLink, Pencil, X, FileDown } from "lucide-react"
 import { ImageUpload } from "@/components/admin/image-upload"
 import { ColorPicker } from "@/components/admin/color-picker"
+import { MomentsGalleryEditor } from "@/components/admin/moments-gallery-editor"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
 
