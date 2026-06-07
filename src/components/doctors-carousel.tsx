@@ -24,8 +24,17 @@ export function DoctorsCarousel() {
   const [[active, direction], setActive] = useState<[number, 1 | -1]>([0, 1])
   const [paused, setPaused] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const update = () => setIsMobile(window.innerWidth <= 640)
+    update()
+    window.addEventListener("resize", update)
+    return () => window.removeEventListener("resize", update)
+  }, [])
 
   const total = doctors.length
+
   const go = useCallback(
     (dir: 1 | -1) =>
       setActive(([i]) => [(i + dir + total) % total, dir]),
