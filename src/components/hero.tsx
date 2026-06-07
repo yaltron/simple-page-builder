@@ -207,7 +207,7 @@ function HeroSlideshow({ slides }: { slides: string[] }) {
           <img
             key={currentSrc}
             src={currentSrc}
-            alt="Subhashree IVF"
+            alt="Shubhashree IVF fertility clinic in Kathmandu - caring fertility treatment"
             className="absolute inset-0 w-full h-full object-cover"
             style={{
               opacity: 1,

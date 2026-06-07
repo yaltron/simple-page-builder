@@ -147,7 +147,7 @@ export function DoctorsCarousel() {
                   {current.image && (
                     <img
                       src={current.image}
-                      alt={current.name}
+                      alt={`${current.name} - fertility specialist at Shubhashree IVF Kathmandu`}
                       style={{
                         width: "100%",
                         height: "100%",
@@ -632,7 +632,7 @@ function SideCard({
       {doctor.image && (
         <img
           src={doctor.image}
-          alt={doctor.name}
+          alt={`${doctor.name} - fertility specialist at Shubhashree IVF Kathmandu`}
           loading="lazy"
           className="w-full h-full object-cover"
         />
