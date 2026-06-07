@@ -141,7 +141,7 @@ function GalleryPage() {
       </AnimatePresence>
 
       <VideoModal open={tourOpen} onClose={() => setTourOpen(false)} title="Virtual Clinic Tour" />
-      <VideoModal open={video !== null} onClose={() => setVideo(null)} src={video ? toYouTubeEmbed(video) : undefined} title="Gallery Video" />
+      <VideoModal open={video !== null} onClose={() => setVideo(null)} src={video ? (toYouTubeEmbed(video) ?? video) : undefined} title="Gallery Video" />
     </PageLayout>
   )
 }
