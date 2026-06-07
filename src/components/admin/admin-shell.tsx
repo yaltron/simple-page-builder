@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
 import logo from "@/assets/logo.png"
 
-type LeafItem = { to: string; label: string }
+type LeafItem = { to: string; label: string; params?: Record<string, string>; matchPath?: string }
 type NavItem = {
   key: string
   label: string
@@ -18,6 +18,7 @@ type NavItem = {
   badgeKey?: "appointments"
   children?: LeafItem[]
 }
+
 
 const navItems: NavItem[] = [
   { key: "dashboard", to: "/admin", label: "Dashboard", icon: LayoutDashboard },
