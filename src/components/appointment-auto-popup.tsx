@@ -105,6 +105,15 @@ export function AppointmentAutoPopup() {
     background: "white",
   }
 
+  const labelStyle: React.CSSProperties = {
+    display: "block",
+    fontSize: 13,
+    fontWeight: 700,
+    color: "#2D0A1E",
+    marginBottom: 6,
+  }
+
+
   return createPortal(
     <AnimatePresence>
       {open && (
