@@ -1,28 +1,111 @@
 import { ReactNode, useEffect, useState } from "react"
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router"
-import { LayoutDashboard, FileText, LogOut, Stethoscope, UserRound, Image as ImageIcon, MessageSquareQuote, CalendarCheck, HelpCircle, Megaphone, Home, Briefcase } from "lucide-react"
+import {
+  LayoutDashboard, FileText, LogOut, Stethoscope, UserRound, Image as ImageIcon,
+  MessageSquareQuote, CalendarCheck, HelpCircle, Megaphone, Home, Briefcase,
+  Info, ChevronDown,
+} from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
 import logo from "@/assets/logo.png"
 
-const navItems = [
-  { to: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/admin/appointments", label: "Appointments", icon: CalendarCheck, badgeKey: "appointments" as const },
-  { to: "/admin/homepage", label: "Homepage & About", icon: Home },
-  { to: "/admin/blog", label: "Blog Posts", icon: FileText },
-  { to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
-  { to: "/admin/services", label: "Services", icon: Stethoscope },
-  { to: "/admin/doctors", label: "Doctors", icon: UserRound },
-  { to: "/admin/gallery", label: "Gallery", icon: ImageIcon },
-  { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
-  { to: "/admin/popup", label: "Popup Banners", icon: Megaphone },
-  { to: "/admin/careers", label: "Career", icon: Briefcase },
+type LeafItem = { to: string; label: string }
+type NavItem = {
+  key: string
+  label: string
+  icon: any
+  to?: string
+  badgeKey?: "appointments"
+  children?: LeafItem[]
+}
+
+const navItems: NavItem[] = [
+  { key: "dashboard", to: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  {
+    key: "homepage", label: "Homepage", icon: Home,
+    children: [
+      { to: "/admin/homepage/hero", label: "Hero Section" },
+      { to: "/admin/homepage/who-we-are", label: "Who We Are" },
+      { to: "/admin/homepage/services", label: "Services" },
+      { to: "/admin/homepage/how-it-works", label: "How It Works" },
+      { to: "/admin/homepage/when-to-visit", label: "When To Visit" },
+      { to: "/admin/homepage/doctors-heading", label: "Our Doctors" },
+      { to: "/admin/homepage/moments-gallery", label: "Moments Gallery" },
+      { to: "/admin/homepage/cta-banner", label: "CTA Banner" },
+    ],
+  },
+  {
+    key: "about", label: "About Us", icon: Info,
+    children: [
+      { to: "/admin/about/our-story", label: "Our Story" },
+      { to: "/admin/about/mission-vision", label: "Mission & Vision" },
+      { to: "/admin/about/values", label: "Our Values" },
+    ],
+  },
+  { key: "appointments", to: "/admin/appointments", label: "Appointments", icon: CalendarCheck, badgeKey: "appointments" },
+  {
+    key: "blog", label: "Blog Posts", icon: FileText,
+    children: [
+      { to: "/admin/blog", label: "All Posts" },
+      { to: "/admin/blog/new", label: "Add New Post" },
+    ],
+  },
+  { key: "team", to: "/admin/team", label: "Our Team", icon: UserRound },
+  { key: "services", to: "/admin/services", label: "Services", icon: Stethoscope },
+  { key: "faqs", to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
+  { key: "gallery", to: "/admin/gallery", label: "Gallery", icon: ImageIcon },
+  { key: "testimonials", to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
+  { key: "popup", to: "/admin/popup-banners", label: "Popup Banners", icon: Megaphone },
+  {
+    key: "career", label: "Career", icon: Briefcase,
+    children: [
+      { to: "/admin/career/listings", label: "Job Listings" },
+      { to: "/admin/career/applications", label: "Applications" },
+    ],
+  },
 ]
+
+const STORAGE_KEY = "admin-sidebar-open"
+
+function isLeafActive(pathname: string, to: string) {
+  if (to === "/admin") return pathname === "/admin"
+  if (to === "/admin/blog") return pathname === "/admin/blog"
+  if (to === "/admin/blog/new") return pathname === "/admin/blog/new" || pathname.startsWith("/admin/blog/") && pathname !== "/admin/blog"
+  return pathname === to || pathname.startsWith(to + "/")
+}
+
+function isParentActive(pathname: string, item: NavItem) {
+  if (!item.children) return false
+  return item.children.some((c) => isLeafActive(pathname, c.to))
+}
 
 export function AdminShell({ title, breadcrumb, children }: { title: string; breadcrumb?: string; children: ReactNode }) {
   const navigate = useNavigate()
   const pathname = useRouterState({ select: (s) => s.location.pathname })
   const [newCount, setNewCount] = useState<number>(0)
+  const [openKey, setOpenKey] = useState<string | null>(null)
+
+  // initial open key (active parent OR persisted)
+  useEffect(() => {
+    const activeParent = navItems.find((it) => it.children && isParentActive(pathname, it))
+    if (activeParent) {
+      setOpenKey(activeParent.key)
+      sessionStorage.setItem(STORAGE_KEY, activeParent.key)
+      return
+    }
+    const stored = sessionStorage.getItem(STORAGE_KEY)
+    if (stored) setOpenKey(stored)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
+
+  const toggle = (key: string) => {
+    setOpenKey((prev) => {
+      const next = prev === key ? null : key
+      if (next) sessionStorage.setItem(STORAGE_KEY, next)
+      else sessionStorage.removeItem(STORAGE_KEY)
+      return next
+    })
+  }
 
   useEffect(() => {
     let mounted = true
@@ -47,36 +130,164 @@ export function AdminShell({ title, breadcrumb, children }: { title: string; bre
 
   return (
     <div className="min-h-screen flex" style={{ background: "#f8f9fa" }}>
-      <aside className="w-60 flex-shrink-0 flex flex-col text-white" style={{ background: "#2D0A1E" }}>
-        <div style={{ padding: "16px 16px 8px 16px", borderBottom: "1px solid rgba(255,255,255,0.08)", marginBottom: 12 }}>
+      <aside className="w-64 flex-shrink-0 flex flex-col text-white" style={{ background: "#2D0A1E" }}>
+        <div style={{ padding: "16px 16px 8px 16px", borderBottom: "1px solid rgba(255,255,255,0.08)", marginBottom: 8 }}>
           <img src={logo} alt="Subhashree IVF" style={{ width: 140, height: "auto", objectFit: "contain", display: "block", margin: "0 auto 4px auto", filter: "brightness(1.1)" }} />
           <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", color: "rgba(255,255,255,0.45)", textAlign: "center", paddingBottom: 8 }}>CMS Dashboard</div>
         </div>
-        <nav className="flex-1 p-3 space-y-1">
-          {navItems.map((it) => {
-            const active = it.to === "/admin" ? pathname === "/admin" : pathname.startsWith(it.to)
-            const badge = badgeFor((it as any).badgeKey)
+        <nav className="flex-1 px-3 py-2 overflow-y-auto">
+          {navItems.map((item, idx) => {
+            const isParent = !!item.children
+            const expanded = isParent && openKey === item.key
+            const activeParent = isParent && isParentActive(pathname, item)
+            const leafActive = !isParent && item.to ? isLeafActive(pathname, item.to) : false
+            const showActive = leafActive || activeParent || expanded
+            const badge = badgeFor(item.badgeKey)
+
+            const parentStyle: React.CSSProperties = {
+              padding: "12px 16px",
+              fontSize: 14,
+              fontWeight: 600,
+              color: showActive ? "white" : "rgba(255,255,255,0.85)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              cursor: "pointer",
+              borderRadius: 10,
+              transition: "background 0.2s",
+              background: showActive ? "rgba(230,0,126,0.15)" : "transparent",
+              borderLeft: showActive ? "3px solid #E6007E" : "3px solid transparent",
+              paddingLeft: showActive ? 13 : 16,
+              textDecoration: "none",
+              width: "100%",
+              border: "none",
+              fontFamily: "inherit",
+              marginBottom: 2,
+            }
+
             return (
-              <Link
-                key={it.to}
-                to={it.to}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors"
-                style={{ background: active ? "#E6007E" : "transparent", color: "white" }}
-              >
-                <it.icon className="w-4 h-4" />
-                <span className="flex-1">{it.label}</span>
-                {badge !== null && (
-                  <span className="ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded-full" style={{ background: "#E6007E", color: "white", minWidth: 18, textAlign: "center" }}>
-                    {badge}
-                  </span>
+              <div key={item.key}>
+                {idx > 0 && <div style={{ height: 1, background: "rgba(255,255,255,0.06)", margin: "8px 12px" }} />}
+
+                {isParent ? (
+                  <button
+                    type="button"
+                    onClick={() => toggle(item.key)}
+                    style={parentStyle}
+                    onMouseEnter={(e) => { if (!showActive) (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.08)" }}
+                    onMouseLeave={(e) => { if (!showActive) (e.currentTarget as HTMLButtonElement).style.background = "transparent" }}
+                  >
+                    <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <item.icon className="w-4 h-4" />
+                      {item.label}
+                    </span>
+                    <ChevronDown
+                      style={{
+                        fontSize: 12,
+                        color: "rgba(255,255,255,0.4)",
+                        transition: "transform 0.25s ease",
+                        transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
+                        width: 14,
+                        height: 14,
+                      }}
+                    />
+                  </button>
+                ) : (
+                  <Link
+                    to={item.to!}
+                    style={parentStyle}
+                    onMouseEnter={(e) => { if (!showActive) (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.08)" }}
+                    onMouseLeave={(e) => { if (!showActive) (e.currentTarget as HTMLAnchorElement).style.background = "transparent" }}
+                  >
+                    <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <item.icon className="w-4 h-4" />
+                      {item.label}
+                    </span>
+                    {badge !== null && (
+                      <span style={{
+                        fontSize: 10, fontWeight: 700, padding: "2px 7px", borderRadius: 999,
+                        background: "#E6007E", color: "white", minWidth: 18, textAlign: "center",
+                      }}>{badge}</span>
+                    )}
+                  </Link>
                 )}
-              </Link>
+
+                {isParent && (
+                  <div
+                    style={{
+                      overflow: "hidden",
+                      maxHeight: expanded ? 500 : 0,
+                      transition: "max-height 0.3s ease",
+                      marginBottom: expanded ? 4 : 0,
+                    }}
+                  >
+                    {item.children!.map((c) => {
+                      const active = isLeafActive(pathname, c.to)
+                      return (
+                        <Link
+                          key={c.to}
+                          to={c.to}
+                          style={{
+                            padding: "9px 16px 9px 44px",
+                            fontSize: 13,
+                            fontWeight: active ? 600 : 500,
+                            color: active ? "#F48FB1" : "rgba(255,255,255,0.60)",
+                            borderRadius: 8,
+                            transition: "all 0.2s",
+                            display: "block",
+                            background: active ? "rgba(230,0,126,0.10)" : "transparent",
+                            textDecoration: "none",
+                          }}
+                          onMouseEnter={(e) => {
+                            if (!active) {
+                              const el = e.currentTarget as HTMLAnchorElement
+                              el.style.color = "white"
+                              el.style.background = "rgba(255,255,255,0.06)"
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (!active) {
+                              const el = e.currentTarget as HTMLAnchorElement
+                              el.style.color = "rgba(255,255,255,0.60)"
+                              el.style.background = "transparent"
+                            }
+                          }}
+                        >
+                          {c.label}
+                        </Link>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
             )
           })}
+
+          <div style={{ height: 1, background: "rgba(255,255,255,0.06)", margin: "8px 12px" }} />
+
+          <button
+            onClick={logout}
+            style={{
+              padding: "12px 16px",
+              fontSize: 14,
+              fontWeight: 600,
+              color: "rgba(255,255,255,0.85)",
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              cursor: "pointer",
+              borderRadius: 10,
+              background: "transparent",
+              border: "none",
+              width: "100%",
+              fontFamily: "inherit",
+            }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.08)" }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "transparent" }}
+          >
+            <LogOut className="w-4 h-4" /> Logout
+          </button>
         </nav>
-        <button onClick={logout} className="m-3 flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm hover:bg-white/10">
-          <LogOut className="w-4 h-4" /> Logout
-        </button>
       </aside>
       <main className="flex-1 min-w-0 flex flex-col">
         <header className="h-14 bg-white border-b px-6 flex items-center">
