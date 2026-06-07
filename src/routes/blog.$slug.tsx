@@ -3,6 +3,7 @@ import { motion } from "framer-motion"
 import { ArrowLeft, Calendar, Clock, Facebook, Twitter, Linkedin, Link2, MessageCircle } from "lucide-react"
 import { toast } from "sonner"
 import { PageLayout, PageCTABanner, Section, BRAND } from "@/components/page-layout"
+import { dashesToHyphen } from "@/lib/title-utils"
 
 import { createServerFn } from "@tanstack/react-start"
 
@@ -36,8 +37,8 @@ export const Route = createFileRoute("/blog/$slug")({
   head: ({ loaderData }) => {
     const p: any = (loaderData as any)?.post
     if (!p) return { meta: [] }
-    const title = p.meta_title || `${p.title} - Subhashree IVF`
-    const desc = p.meta_description || p.excerpt || "Read the full article on Subhashree IVF."
+    const title = dashesToHyphen(p.meta_title || `${p.title} - Subhashree IVF`)
+    const desc = dashesToHyphen(p.meta_description || p.excerpt || "Read the full article on Subhashree IVF.")
     const url = `${BASE_URL}/blog/${p.slug}`
     return {
       meta: [
