@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { Play } from "lucide-react"
 import { Link } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
@@ -18,13 +18,7 @@ const DEFAULT_HERO = {
   story_video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
   story_video_thumbnail: "",
   story_video_thumbnail_alt: "Our story",
-  slides: [
-    "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=90&fit=crop",
-    "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=90&fit=crop",
-    "https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=800&q=90&fit=crop",
-    "https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=800&q=90&fit=crop",
-    "https://images.unsplash.com/photo-1491013516836-7db643ee125a?w=800&q=90&fit=crop",
-  ] as string[],
+  slides: [] as string[],
 }
 
 function renderHeadline(text: string, highlight: string) {
@@ -150,7 +144,7 @@ export function Hero() {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="lg:col-span-2 relative"
             >
-              <HeroSlideshow slides={hero.slides && hero.slides.length ? hero.slides : DEFAULT_HERO.slides} />
+              <HeroSlideshow slides={hero.slides || []} />
             </motion.div>
           </div>
         </div>
@@ -167,7 +161,30 @@ export function Hero() {
 
 function HeroSlideshow({ slides }: { slides: string[] }) {
   const [index, setIndex] = useState(0)
+  const [readySet, setReadySet] = useState<Set<string>>(new Set())
 
+  // Preload each slide URL; mark ready when loaded
+  useEffect(() => {
+    let cancelled = false
+    slides.forEach((src) => {
+      if (!src || readySet.has(src)) return
+      const img = new Image()
+      img.onload = () => {
+        if (cancelled) return
+        setReadySet((prev) => {
+          if (prev.has(src)) return prev
+          const next = new Set(prev)
+          next.add(src)
+          return next
+        })
+      }
+      img.src = src
+    })
+    return () => { cancelled = true }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slides.join("|")])
+
+  // Auto-advance only when multiple slides
   useEffect(() => {
     if (slides.length <= 1) return
     const id = setInterval(() => {
@@ -176,35 +193,45 @@ function HeroSlideshow({ slides }: { slides: string[] }) {
     return () => clearInterval(id)
   }, [slides.length])
 
+  const placeholderBg = "linear-gradient(135deg, #FFE4EF 0%, #FFF5F9 50%, #EAF7FD 100%)"
+  const currentSrc = slides[index]
+  const showImage = currentSrc && readySet.has(currentSrc)
+
   return (
     <div className="relative">
-      <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl aspect-[4/5] max-w-[320px] sm:max-w-sm md:max-w-md mx-auto lg:max-w-none bg-rose-light/20">
-        <AnimatePresence>
-          <motion.img
-            key={index}
-            src={slides[index]}
+      <div
+        className="relative z-10 rounded-3xl overflow-hidden shadow-2xl aspect-[4/5] max-w-[320px] sm:max-w-sm md:max-w-md mx-auto lg:max-w-none"
+        style={{ background: placeholderBg }}
+      >
+        {showImage && (
+          <img
+            key={currentSrc}
+            src={currentSrc}
             alt="Subhashree IVF"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
             className="absolute inset-0 w-full h-full object-cover"
-          />
-        </AnimatePresence>
-      </div>
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setIndex(i)}
-            aria-label={`Go to slide ${i + 1}`}
-            className="w-2.5 h-2.5 rounded-full transition-colors"
             style={{
-              backgroundColor: i === index ? "#E6007E" : "rgba(230,0,126,0.25)",
+              opacity: 1,
+              transition: "opacity 0.5s ease",
+              animation: "hero-fade-in 0.5s ease forwards",
             }}
           />
-        ))}
+        )}
       </div>
+      {slides.length > 1 && (
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIndex(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              className="w-2.5 h-2.5 rounded-full transition-colors"
+              style={{
+                backgroundColor: i === index ? "#E6007E" : "rgba(230,0,126,0.25)",
+              }}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
