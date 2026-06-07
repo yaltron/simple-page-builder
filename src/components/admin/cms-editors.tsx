@@ -61,11 +61,13 @@ function SectionCard({
   title,
   onSave,
   saving,
+  saveLabel,
   children,
 }: {
   title: string
   onSave: () => void
   saving: boolean
+  saveLabel?: string
   children: React.ReactNode
 }) {
   return (
@@ -79,7 +81,7 @@ function SectionCard({
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold disabled:opacity-50"
           style={{ background: "#E6007E" }}
         >
-          <Save className="w-4 h-4" /> {saving ? "Saving…" : "Save Section"}
+          <Save className="w-4 h-4" /> {saving ? "Saving…" : (saveLabel ?? "Save Section")}
         </button>
       </div>
     </div>
