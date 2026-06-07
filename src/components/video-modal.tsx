@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion"
 import { X } from "lucide-react"
 import { useEffect } from "react"
+import { toYouTubeEmbed } from "@/lib/youtube"
 
 export function VideoModal({
   open,
@@ -19,6 +20,8 @@ export function VideoModal({
     document.addEventListener("keydown", onKey)
     return () => document.removeEventListener("keydown", onKey)
   }, [open, onClose])
+
+  const embedSrc = toYouTubeEmbed(src) ?? src
 
   return (
     <AnimatePresence>
@@ -43,10 +46,15 @@ export function VideoModal({
             onClick={(e) => e.stopPropagation()}
           >
             <iframe
-              src={src}
+              src={embedSrc}
               title={title}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              width="100%"
+              height="100%"
+              frameBorder={0}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+              loading="lazy"
               className="w-full h-full border-0"
             />
           </div>

@@ -5,6 +5,7 @@ import { Search, X, ChevronLeft, ChevronRight, Play } from "lucide-react"
 import { PageLayout, Section, SectionHeading, BRAND } from "@/components/page-layout"
 import { VideoModal } from "@/components/video-modal"
 import { supabase } from "@/integrations/supabase/client"
+import { toYouTubeEmbed } from "@/lib/youtube"
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -20,16 +21,6 @@ export const Route = createFileRoute("/gallery")({
 
 const cats = ["All", "Clinic", "Team", "Patients", "Events", "Videos"] as const
 
-const getYouTubeId = (url: string): string | null => {
-  if (!url) return null
-  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/)
-  return match ? match[1] : null
-}
-
-const toYouTubeEmbed = (url: string): string => {
-  const id = getYouTubeId(url)
-  return id ? `https://www.youtube.com/embed/${id}?autoplay=1` : url
-}
 
 function GalleryPage() {
   const [items, setItems] = useState<any[]>([])
@@ -150,7 +141,7 @@ function GalleryPage() {
       </AnimatePresence>
 
       <VideoModal open={tourOpen} onClose={() => setTourOpen(false)} title="Virtual Clinic Tour" />
-      <VideoModal open={video !== null} onClose={() => setVideo(null)} src={video ? toYouTubeEmbed(video) : undefined} title="Gallery Video" />
+      <VideoModal open={video !== null} onClose={() => setVideo(null)} src={video ? (toYouTubeEmbed(video) ?? video) : undefined} title="Gallery Video" />
     </PageLayout>
   )
 }

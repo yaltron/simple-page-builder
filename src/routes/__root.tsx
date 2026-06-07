@@ -9,7 +9,7 @@ import type { ReactNode } from "react";
 import { FloatingButtons } from "@/components/floating-buttons";
 import ScrollToTop from "@/components/scroll-to-top";
 import { PopupBanner } from "@/components/popup-banner";
-import { AppointmentAutoPopup } from "@/components/appointment-auto-popup";
+
 import { CustomCursor } from "@/components/custom-cursor";
 import { NotFoundPage } from "@/components/not-found-page";
 import { Toaster } from "sonner";
@@ -87,7 +87,7 @@ function RootDocument({ children }: { children: ReactNode }) {
           <CustomCursor />
           <FloatingButtons />
           <PopupBanner />
-          <AppointmentAutoPopup />
+          
         </ClientOnly>
         <Scripts />
       </body>
