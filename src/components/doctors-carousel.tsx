@@ -123,10 +123,6 @@ export function DoctorsCarousel() {
             style={{
               width: "100%",
               maxWidth: 360,
-              borderRadius: 16,
-              overflow: "hidden",
-              background: "white",
-              boxShadow: "0 4px 20px rgba(230,0,126,0.10)",
             }}
           >
             <AnimatePresence mode="wait" custom={direction} initial={false}>
@@ -137,67 +133,115 @@ export function DoctorsCarousel() {
                 exit={{ opacity: 0, x: direction === 1 ? -60 : 60 }}
                 transition={{ duration: 0.35 }}
               >
-                {current.image && (
-                  <img
-                    src={current.image}
-                    alt={current.name}
-                    style={{
-                      width: "100%",
-                      height: 200,
-                      objectFit: "cover",
-                      objectPosition: "top center",
-                      display: "block",
-                    }}
-                  />
-                )}
-                <div style={{ padding: 16 }}>
-                  <p style={{ fontSize: 16, fontWeight: 700, color: "#2D0A1E", margin: 0 }}>
-                    {current.name}
-                  </p>
-                  {current.title && (
-                    <p style={{ fontSize: 12, color: "#C2185B", margin: "4px 0 12px", fontWeight: 600 }}>
-                      {current.title}
-                    </p>
-                  )}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 12 }}>
-                    <Link
-                      to="/contact"
+                <div
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    aspectRatio: "4 / 5",
+                    borderRadius: 16,
+                    overflow: "hidden",
+                    background: "white",
+                    boxShadow: "0 4px 20px rgba(230,0,126,0.10)",
+                  }}
+                >
+                  {current.image && (
+                    <img
+                      src={current.image}
+                      alt={current.name}
                       style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: 6,
                         width: "100%",
-                        padding: 10,
-                        fontSize: 13,
-                        fontWeight: 700,
-                        color: "white",
-                        borderRadius: 999,
-                        background: "linear-gradient(90deg, #E6007E 0%, #C2185B 100%)",
+                        height: "100%",
+                        objectFit: "cover",
+                        objectPosition: "top center",
+                        display: "block",
                       }}
-                    >
-                      <Calendar className="w-4 h-4" /> Consult Now
-                    </Link>
-                    <Link
-                      to="/team"
+                    />
+                  )}
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: 12,
+                      right: 12,
+                      bottom: 12,
+                      padding: "10px 14px",
+                      borderRadius: 16,
+                      background: "rgba(255,255,255,0.55)",
+                      backdropFilter: "blur(12px)",
+                      WebkitBackdropFilter: "blur(12px)",
+                      border: "1px solid rgba(255,255,255,0.6)",
+                      boxShadow: "0 8px 24px rgba(45,10,30,0.12)",
+                    }}
+                  >
+                    <p
                       style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: 6,
-                        width: "100%",
-                        padding: 10,
-                        fontSize: 13,
+                        fontSize: 17,
                         fontWeight: 700,
                         color: "#2D0A1E",
-                        borderRadius: 999,
-                        background: "white",
-                        border: "1.5px solid rgba(45,10,30,0.15)",
+                        margin: 0,
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
                       }}
                     >
-                      <User className="w-4 h-4" /> View Profile
-                    </Link>
+                      {current.name}
+                    </p>
+                    {current.title && (
+                      <p
+                        style={{
+                          fontSize: 11,
+                          color: "#C2185B",
+                          margin: "2px 0 0",
+                          fontWeight: 600,
+                          textTransform: "uppercase",
+                          letterSpacing: "0.06em",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {current.title}
+                      </p>
+                    )}
                   </div>
+                </div>
+                <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
+                  <Link
+                    to="/contact"
+                    style={{
+                      flex: 1,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 6,
+                      padding: "10px 8px",
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: "white",
+                      borderRadius: 999,
+                      background: "linear-gradient(90deg, #E6007E 0%, #C2185B 100%)",
+                    }}
+                  >
+                    <Calendar className="w-4 h-4" /> Consult Now
+                  </Link>
+                  <Link
+                    to="/team"
+                    style={{
+                      flex: 1,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 6,
+                      padding: "10px 8px",
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: "#2D0A1E",
+                      borderRadius: 999,
+                      background: "white",
+                      border: "1.5px solid rgba(45,10,30,0.15)",
+                    }}
+                  >
+                    <User className="w-4 h-4" /> View Profile
+                  </Link>
                 </div>
               </motion.div>
             </AnimatePresence>
