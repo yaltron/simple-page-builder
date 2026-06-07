@@ -73,8 +73,10 @@ export function TiptapEditor({ value, onChange }: Props) {
     editor.chain().focus().extendMarkRange("link").setLink({ href: url, target: open ? "_blank" : null }).run()
   }
 
-  const onUpload = async (file: File) => {
+  const onUpload = async (original: File) => {
     const alt = window.prompt("Image alt text (for accessibility & SEO)") || ""
+    const { convertImageToWebp } = await import("@/lib/image-to-webp")
+    const file = await convertImageToWebp(original)
     const ext = file.name.split(".").pop()
     const path = `posts/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
     const { error } = await supabase.storage.from("blog-images").upload(path, file, { contentType: file.type })

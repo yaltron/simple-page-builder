@@ -51,9 +51,10 @@ export function ImageUpload({
           </button>
         </div>
       ) : (
-        <label className="w-32 h-32 rounded-lg border-2 border-dashed flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 text-xs text-muted-foreground">
+        <label className="w-32 h-32 rounded-lg border-2 border-dashed flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 text-[11px] text-muted-foreground text-center px-1">
           <Upload className="w-5 h-5 mb-1" />
           {uploading ? "Uploading…" : "Upload"}
+          <span className="mt-1 leading-tight">JPG, PNG, WEBP<br/>(auto-converted to WebP)</span>
           <input type="file" accept="image/*" className="hidden" onChange={handle} disabled={uploading} />
         </label>
       )}
