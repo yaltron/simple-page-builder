@@ -69,17 +69,19 @@ const navItems: NavItem[] = [
 
 const STORAGE_KEY = "admin-sidebar-open"
 
-function isLeafActive(pathname: string, to: string) {
-  if (to === "/admin") return pathname === "/admin"
-  if (to === "/admin/blog") return pathname === "/admin/blog"
-  if (to === "/admin/blog/new") return pathname === "/admin/blog/new" || pathname.startsWith("/admin/blog/") && pathname !== "/admin/blog"
-  return pathname === to || pathname.startsWith(to + "/")
+function isLeafActive(pathname: string, leaf: LeafItem) {
+  const target = leaf.matchPath || leaf.to
+  if (target === "/admin/blog") return pathname === "/admin/blog"
+  if (target === "/admin/blog/new") return pathname === "/admin/blog/new" || (pathname.startsWith("/admin/blog/") && pathname !== "/admin/blog")
+  if (target === "/admin") return pathname === "/admin"
+  return pathname === target || pathname.startsWith(target + "/")
 }
 
 function isParentActive(pathname: string, item: NavItem) {
   if (!item.children) return false
-  return item.children.some((c) => isLeafActive(pathname, c.to))
+  return item.children.some((c) => isLeafActive(pathname, c))
 }
+
 
 export function AdminShell({ title, breadcrumb, children }: { title: string; breadcrumb?: string; children: ReactNode }) {
   const navigate = useNavigate()
