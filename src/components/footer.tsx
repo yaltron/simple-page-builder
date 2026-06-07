@@ -128,7 +128,7 @@ export function Footer() {
           </div>
 
           {/* Column 2 - Quick Links */}
-          <div>
+          <div className="footer-col-quick">
             <ColumnHeading>Quick Links</ColumnHeading>
             <ul>
               {quickLinks.map((link) => (
@@ -153,7 +153,7 @@ export function Footer() {
           </div>
 
           {/* Column 3 - Services */}
-          <div>
+          <div className="footer-col-services">
             <ColumnHeading>Our Services</ColumnHeading>
             <ul>
               {services.map((service) => (
