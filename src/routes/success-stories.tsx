@@ -13,7 +13,9 @@ export const Route = createFileRoute("/success-stories")({
       { name: "description", content: "Real families, real journeys. Read how Subhashree IVF has helped thousands of couples become parents." },
       { property: "og:title", content: "Success Stories - Subhashree IVF" },
       { property: "og:description", content: "Real stories of hope and joy from our families." },
+      { property: "og:url", content: "https://subhashree-ui.lovable.app/success-stories" },
     ],
+    links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/success-stories" }],
   }),
   component: StoriesPage,
 })

@@ -11,7 +11,9 @@ export const Route = createFileRoute("/team")({
       { name: "description", content: "Meet our expert fertility specialists, embryologists, nurses and support team dedicated to your journey." },
       { property: "og:title", content: "Our Team - Subhashree IVF" },
       { property: "og:description", content: "Expert specialists committed to your fertility journey." },
+      { property: "og:url", content: "https://subhashree-ui.lovable.app/team" },
     ],
+    links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/team" }],
   }),
   component: TeamPage,
 })

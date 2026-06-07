@@ -13,7 +13,9 @@ export const Route = createFileRoute("/blog/")({
       { name: "description", content: "Fertility insights, treatment guides and clinic news from Nepal's leading IVF centre." },
       { property: "og:title", content: "Blogs and News - Subhashree IVF" },
       { property: "og:description", content: "Expert fertility insights and clinic updates." },
+      { property: "og:url", content: "https://subhashree-ui.lovable.app/blog" },
     ],
+    links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/blog" }],
   }),
   component: BlogPage,
 })

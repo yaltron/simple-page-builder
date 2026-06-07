@@ -15,7 +15,9 @@ export const Route = createFileRoute("/services")({
       { name: "description", content: "IVF, ICSI, embryo freezing, genetic testing, donor programmes and more - comprehensive fertility care under one roof." },
       { property: "og:title", content: "Our Services - Subhashree IVF" },
       { property: "og:description", content: "Comprehensive fertility services tailored for you." },
+      { property: "og:url", content: "https://subhashree-ui.lovable.app/services" },
     ],
+    links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/services" }],
   }),
   component: ServicesPage,
 })

@@ -14,7 +14,9 @@ export const Route = createFileRoute("/gallery")({
       { name: "description", content: "A look inside Subhashree IVF - our clinic, team, patients and events." },
       { property: "og:title", content: "Gallery - Subhashree IVF" },
       { property: "og:description", content: "Photos from our clinic, team and patient events." },
+      { property: "og:url", content: "https://subhashree-ui.lovable.app/gallery" },
     ],
+    links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/gallery" }],
   }),
   component: GalleryPage,
 })
