@@ -178,7 +178,7 @@ export function Footer() {
           </div>
 
           {/* Column 4 - Contact */}
-          <div>
+          <div className="footer-col-contact">
             <ColumnHeading>Contact Us</ColumnHeading>
             <ul>
               {contactItems.map(({ Icon, label, value, href, external }) => (

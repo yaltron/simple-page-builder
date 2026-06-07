@@ -20,7 +20,7 @@ export function CTABanner() {
   return (
     <section
       id="contact"
-      className="py-12 sm:py-16 lg:py-24 bg-gradient-to-br from-rose-light/40 via-cream to-gold-light/40 relative overflow-hidden"
+      className="cta-section py-12 sm:py-16 lg:py-24 bg-gradient-to-br from-rose-light/40 via-cream to-gold-light/40 relative overflow-hidden"
     >
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="space-y-4 sm:space-y-6">
