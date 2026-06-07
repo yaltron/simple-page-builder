@@ -132,12 +132,14 @@ export function AppointmentAutoPopup() {
               width: "90vw",
               maxHeight: "90vh",
               overflowY: "auto",
+              WebkitOverflowScrolling: "touch",
               boxShadow: "0 24px 80px rgba(0,0,0,0.2)",
               position: "relative",
             }}
           >
             {/* Header */}
             <div style={{
+
               background: "linear-gradient(135deg, #E6007E, #B5005F)",
               padding: "24px 28px",
               borderRadius: "24px 24px 0 0",
