@@ -21,26 +21,12 @@ export const Route = createRootRoute({
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "theme-color", content: "#C2185B" },
-      { title: "Subhashree IVF & Fertility Centre, Kathmandu" },
-      {
-        name: "description",
-        content:
-          "Nepal's leading IVF centre with 12+ years of excellence, 5,000+ successful treatments, and 75% success rate. Comprehensive fertility care in Kathmandu.",
-      },
       {
         name: "keywords",
         content:
           "IVF, fertility, Nepal, Kathmandu, infertility treatment, ICSI, embryo freezing",
       },
-      {
-        property: "og:title",
-        content: "Subhashree IVF & Fertility Centre",
-      },
-      {
-        property: "og:description",
-        content:
-          "Nepal's leading IVF centre with 12+ years of excellence and 5,000+ successful treatments.",
-      },
+      { property: "og:site_name", content: "Shubhashree IVF & Fertility Centre" },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2763929e-3781-4f77-96d6-089915beb33e/id-preview-0338afa5--21c28b4a-1c9f-40e2-a587-0b34d8e11f6f.lovable.app-1777588428747.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2763929e-3781-4f77-96d6-089915beb33e/id-preview-0338afa5--21c28b4a-1c9f-40e2-a587-0b34d8e11f6f.lovable.app-1777588428747.png" },
