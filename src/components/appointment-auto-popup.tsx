@@ -174,18 +174,47 @@ export function AppointmentAutoPopup() {
                 </div>
               ) : (
                 <form onSubmit={submit} className="space-y-3">
-                  <input style={fieldStyle} placeholder="Full Name *" required value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })} />
-                  <input type="tel" style={fieldStyle} placeholder="Phone *" required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
-                  <input type="date" style={fieldStyle} required min={getMinDate()} max={getMaxDate()} value={form.preferred_date} onChange={(e) => setForm({ ...form, preferred_date: e.target.value })} />
-                  <select style={fieldStyle} required value={form.preferred_time} onChange={(e) => setForm({ ...form, preferred_time: e.target.value })}>
-                    <option value="">Preferred Time *</option>
-                    {TIME_OPTIONS.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
-                  </select>
+                  <div>
+                    <label style={labelStyle}>Full Name *</label>
+                    <input style={fieldStyle} placeholder="Your full name" required value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })} />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Phone *</label>
+                    <input type="tel" style={fieldStyle} placeholder="Phone number" required value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Preferred Date *</label>
+                    <input
+                      type="date"
+                      required
+                      min={getMinDate()}
+                      max={getMaxDate()}
+                      value={form.preferred_date}
+                      onChange={(e) => setForm({ ...form, preferred_date: e.target.value })}
+                      style={{
+                        ...fieldStyle,
+                        WebkitAppearance: "none",
+                        appearance: "none",
+                        minHeight: 44,
+                        display: "block",
+                        position: "relative",
+                        cursor: "pointer",
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Preferred Time *</label>
+                    <select style={fieldStyle} required value={form.preferred_time} onChange={(e) => setForm({ ...form, preferred_time: e.target.value })}>
+                      <option value="">Select a time slot</option>
+                      {TIME_OPTIONS.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+                    </select>
+                  </div>
                   <select style={fieldStyle} value={form.service} onChange={(e) => setForm({ ...form, service: e.target.value })}>
                     <option value="">Service Interested In (optional)</option>
                     {SERVICE_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
                   </select>
                   <textarea rows={3} style={fieldStyle} placeholder="Your Message (optional)" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
+
                   <button
                     type="submit"
                     disabled={submitting}
