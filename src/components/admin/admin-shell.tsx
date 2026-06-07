@@ -48,9 +48,10 @@ const navItems: NavItem[] = [
     key: "blog", label: "Blog Posts", icon: FileText,
     children: [
       { to: "/admin/blog", label: "All Posts" },
-      { to: "/admin/blog/new", label: "Add New Post" },
+      { to: "/admin/blog/$id", params: { id: "new" }, matchPath: "/admin/blog/new", label: "Add New Post" },
     ],
   },
+
   { key: "team", to: "/admin/team", label: "Our Team", icon: UserRound },
   { key: "services", to: "/admin/services", label: "Services", icon: Stethoscope },
   { key: "faqs", to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
