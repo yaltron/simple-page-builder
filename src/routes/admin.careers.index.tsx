@@ -36,7 +36,7 @@ function AdminCareersPage() {
   if (loading || !isAdmin) return <AdminLoading />
 
   return (
-    <AdminShell title="Careers" breadcrumb="Admin / Careers">
+    <AdminShell title="Career" breadcrumb="Admin / Career">
       <div className="flex gap-1 mb-5 border-b">
         {[{ k: "jobs", l: "Job Listings" }, { k: "apps", l: "Applications" }].map((t) => (
           <button
@@ -156,7 +156,7 @@ function JobsTab() {
               <Field label="Application Deadline"><input type="date" value={editing.deadline || ""} onChange={(e) => setEditing({ ...editing, deadline: e.target.value || null })} className="w-full px-3 py-2 border rounded-lg" /></Field>
               <label className="flex items-center gap-2 text-sm">
                 <input type="checkbox" checked={editing.is_active} onChange={(e) => setEditing({ ...editing, is_active: e.target.checked })} />
-                Active (visible on /careers)
+                Active (visible on /career page)
               </label>
               <button onClick={save} className="w-full py-2.5 rounded-lg text-white font-semibold" style={{ background: "#E6007E" }}>Save</button>
             </div>

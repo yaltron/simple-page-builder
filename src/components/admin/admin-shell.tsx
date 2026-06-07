@@ -16,7 +16,7 @@ const navItems = [
   { to: "/admin/gallery", label: "Gallery", icon: ImageIcon },
   { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
   { to: "/admin/popup", label: "Popup Banners", icon: Megaphone },
-  { to: "/admin/careers", label: "Careers", icon: Briefcase },
+  { to: "/admin/careers", label: "Career", icon: Briefcase },
 ]
 
 export function AdminShell({ title, breadcrumb, children }: { title: string; breadcrumb?: string; children: ReactNode }) {

@@ -9,9 +9,9 @@ import { supabase } from "@/integrations/supabase/client"
 export const Route = createFileRoute("/careers")({
   head: () => ({
     meta: [
-      { title: "Careers — Subhashree IVF" },
+      { title: "Career — Subhashree IVF" },
       { name: "description", content: "Join the Subhashree IVF team — current openings and how to apply." },
-      { property: "og:title", content: "Careers — Subhashree IVF" },
+      { property: "og:title", content: "Career — Subhashree IVF" },
       { property: "og:description", content: "Build your career at Nepal's leading fertility centre." },
     ],
   }),
@@ -47,7 +47,7 @@ function CareersPage() {
   }, [])
 
   return (
-    <PageLayout title="Careers" breadcrumb="Careers">
+    <PageLayout title="Career" breadcrumb="Career">
       <Section bg="white">
         <SectionHeading>Why Work With Us</SectionHeading>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">

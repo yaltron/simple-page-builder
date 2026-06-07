@@ -71,7 +71,9 @@ function BlogEditorPage() {
     setForm((f) => ({ ...f, content: html, word_count: words, reading_time: Math.max(1, Math.round(words / 200)) }))
   }
 
-  const uploadFeatured = async (file: File) => {
+  const uploadFeatured = async (original: File) => {
+    const { convertImageToWebp } = await import("@/lib/image-to-webp")
+    const file = await convertImageToWebp(original)
     const ext = file.name.split(".").pop()
     const path = `featured/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
     const { error } = await supabase.storage.from("blog-images").upload(path, file, { contentType: file.type })
