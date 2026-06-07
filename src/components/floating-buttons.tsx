@@ -1,6 +1,5 @@
 
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useState, useEffect, useRef } from "react"
 import { Calendar } from "lucide-react"
 import { Link, useRouterState } from "@tanstack/react-router"
 
@@ -13,61 +12,75 @@ function WhatsAppIcon({ className }: { className?: string }) {
 }
 
 export function FloatingButtons() {
-  const [showMobileBooking, setShowMobileBooking] = useState(true)
-  const [lastScrollY, setLastScrollY] = useState(0)
   const pathname = useRouterState({ select: (s) => s.location.pathname })
   const isAdmin = pathname.startsWith("/admin")
 
+  const [isCompact, setIsCompact] = useState(false)
+  const [scrollingDown, setScrollingDown] = useState(false)
+  const lastScrollY = useRef(0)
+
   useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1024px)")
+    const update = () => setIsCompact(mq.matches)
+    update()
+    mq.addEventListener("change", update)
+    return () => mq.removeEventListener("change", update)
+  }, [])
+
+  useEffect(() => {
+    lastScrollY.current = window.scrollY
     const handleScroll = () => {
-      const currentScrollY = window.scrollY
-      if (currentScrollY > lastScrollY && currentScrollY > 200) {
-        setShowMobileBooking(false)
-      } else {
-        setShowMobileBooking(true)
+      const current = window.scrollY
+      const delta = current - lastScrollY.current
+      if (Math.abs(delta) < 5) return
+      if (delta > 0 && current > 100) {
+        setScrollingDown(true)
+      } else if (delta < 0) {
+        setScrollingDown(false)
       }
-      setLastScrollY(currentScrollY)
+      lastScrollY.current = current
     }
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [lastScrollY])
+  }, [])
 
   if (isAdmin) return null
 
+  // On compact (≤1024px): toggle based on scroll direction.
+  // On desktop (≥1025px): WhatsApp always visible; Book Now stays hidden (lg:hidden).
+  const whatsappVisible = isCompact ? scrollingDown : true
+  const bookingVisible = isCompact ? !scrollingDown : false
+
+  const visibleStyle = "opacity-100 scale-100 pointer-events-auto"
+  const hiddenStyle = "opacity-0 scale-75 pointer-events-none"
+
   return (
     <>
-      <motion.a
+      <a
         href="https://wa.me/9779861141699"
         target="_blank"
         rel="noopener noreferrer"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 1, type: "spring" }}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+        className={`fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg transition-all duration-300 ease-out hover:scale-110 ${
+          whatsappVisible ? visibleStyle : hiddenStyle
+        }`}
         aria-label="Chat on WhatsApp"
       >
         <WhatsAppIcon className="w-7 h-7 text-white" />
-      </motion.a>
+      </a>
 
-      <AnimatePresence>
-        {showMobileBooking && (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0 }}
-            transition={{ type: "spring" }}
-            className="fixed bottom-6 right-6 z-50 lg:hidden"
-          >
-            <Link
-              to="/contact"
-              className="flex items-center gap-2 bg-gradient-to-r from-rose to-rose-dark text-white rounded-full px-5 py-3 shadow-lg"
-            >
-              <Calendar className="w-5 h-5" />
-              <span className="font-medium text-sm">Book Now</span>
-            </Link>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div
+        className={`fixed bottom-6 right-6 z-50 lg:hidden transition-all duration-300 ease-out ${
+          bookingVisible ? visibleStyle : hiddenStyle
+        }`}
+      >
+        <Link
+          to="/contact"
+          className="flex items-center gap-2 bg-gradient-to-r from-rose to-rose-dark text-white rounded-full px-5 py-3 shadow-lg"
+        >
+          <Calendar className="w-5 h-5" />
+          <span className="font-medium text-sm">Book Now</span>
+        </Link>
+      </div>
     </>
   )
 }
