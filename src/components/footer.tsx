@@ -69,21 +69,23 @@ const contactItems = [
 
 export function Footer() {
   return (
-    <footer>
+    <footer className="footer-root">
       {/* ROW 1 — Main footer */}
       <div
+        className="footer-main"
         style={{
           background: "#FFF1F7",
           padding: "60px 8%",
         }}
       >
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="footer-grid grid md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Column 1 - Brand */}
-          <div className="space-y-5">
+          <div className="footer-col-brand space-y-5">
             <Link to="/" className="inline-flex items-center w-fit" style={{ marginBottom: 16 }}>
               <img
                 src={logo}
                 alt="Shubhashree IVF Clinic Pvt. Ltd."
+                className="footer-logo"
                 style={{ width: 200, height: "auto" }}
               />
             </Link>
@@ -126,7 +128,7 @@ export function Footer() {
           </div>
 
           {/* Column 2 - Quick Links */}
-          <div>
+          <div className="footer-col-quick">
             <ColumnHeading>Quick Links</ColumnHeading>
             <ul>
               {quickLinks.map((link) => (
@@ -151,7 +153,7 @@ export function Footer() {
           </div>
 
           {/* Column 3 - Services */}
-          <div>
+          <div className="footer-col-services">
             <ColumnHeading>Our Services</ColumnHeading>
             <ul>
               {services.map((service) => (
@@ -176,7 +178,7 @@ export function Footer() {
           </div>
 
           {/* Column 4 - Contact */}
-          <div>
+          <div className="footer-col-contact">
             <ColumnHeading>Contact Us</ColumnHeading>
             <ul>
               {contactItems.map(({ Icon, label, value, href, external }) => (
