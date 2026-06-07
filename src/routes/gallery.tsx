@@ -10,10 +10,10 @@ import { toYouTubeEmbed } from "@/lib/youtube"
 export const Route = createFileRoute("/gallery")({
   head: () => ({
     meta: [
-      { title: "Gallery - Subhashree IVF" },
-      { name: "description", content: "A look inside Subhashree IVF - our clinic, team, patients and events." },
-      { property: "og:title", content: "Gallery - Subhashree IVF" },
-      { property: "og:description", content: "Photos from our clinic, team and patient events." },
+      { title: "Photo & Video Gallery | Shubhashree IVF, Kathmandu" },
+      { name: "description", content: "Explore the Shubhashree IVF Clinic, Kathmandu - photos and videos of our facilities, fertility team, happy patients and events." },
+      { property: "og:title", content: "Photo & Video Gallery | Shubhashree IVF, Kathmandu" },
+      { property: "og:description", content: "Photos and videos from our clinic, fertility team and patient events at Shubhashree IVF, Kathmandu." },
       { property: "og:url", content: "https://subhashree-ui.lovable.app/gallery" },
     ],
     links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/gallery" }],
@@ -134,10 +134,10 @@ function GalleryPage() {
       <AnimatePresence>
         {lightbox !== null && filtered[lightbox] && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[1000000] flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.9)" }} onClick={() => setLightbox(null)}>
-            <button onClick={(e) => { e.stopPropagation(); setLightbox(null) }} className="absolute top-5 right-5 text-white p-2"><X className="w-8 h-8" /></button>
-            <button onClick={(e) => { e.stopPropagation(); prev() }} className="absolute left-5 text-white p-3 rounded-full bg-white/10 hover:bg-white/20"><ChevronLeft className="w-6 h-6" /></button>
+            <button aria-label="Close image viewer" onClick={(e) => { e.stopPropagation(); setLightbox(null) }} className="absolute top-5 right-5 text-white p-2"><X className="w-8 h-8" /></button>
+            <button aria-label="Previous image" onClick={(e) => { e.stopPropagation(); prev() }} className="absolute left-5 text-white p-3 rounded-full bg-white/10 hover:bg-white/20"><ChevronLeft className="w-6 h-6" /></button>
             <img src={filtered[lightbox].url} alt={filtered[lightbox].title || ""} className="max-h-[85vh] max-w-[90vw] rounded-xl" onClick={(e) => e.stopPropagation()} />
-            <button onClick={(e) => { e.stopPropagation(); next() }} className="absolute right-5 text-white p-3 rounded-full bg-white/10 hover:bg-white/20"><ChevronRight className="w-6 h-6" /></button>
+            <button aria-label="Next image" onClick={(e) => { e.stopPropagation(); next() }} className="absolute right-5 text-white p-3 rounded-full bg-white/10 hover:bg-white/20"><ChevronRight className="w-6 h-6" /></button>
           </motion.div>
         )}
       </AnimatePresence>

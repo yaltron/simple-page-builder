@@ -34,8 +34,8 @@ const DEFAULT_STORY = {
   paragraph_2:
     "With more than 5,000 successful treatments and a dedicated team of specialists, embryologists and counsellors, we have built a reputation founded on outcomes, transparency and compassionate care for every couple who walks through our doors.",
   images: [
-    { url: whoClinic, alt: "Our clinic" },
-    { url: whoTeam, alt: "Our team" },
+    { url: whoClinic, alt: "Shubhashree IVF Clinic building and reception in Kathmandu" },
+    { url: whoTeam, alt: "Our fertility specialist team at Shubhashree IVF Clinic, Kathmandu" },
   ] as { url: string; alt: string }[],
 }
 

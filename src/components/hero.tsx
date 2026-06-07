@@ -8,8 +8,8 @@ import { VideoModal } from "@/components/video-modal"
 import { useHomepageSection, toEmbedUrl } from "@/lib/use-cms-content"
 
 const DEFAULT_HERO = {
-  headline: "Bringing Happiness Into Your Life",
-  headline_highlight: "Your Life",
+  headline: "Bringing Happiness Into Your Life at Shubhashree IVF Clinic",
+  headline_highlight: "Shubhashree IVF Clinic",
   subheadline:
     "With over 12 years of excellence and 5,000+ successful treatments, Subhashree IVF & Fertility Centre has been transforming dreams of parenthood into beautiful realities for families across Nepal and beyond.",
   cta_primary_text: "Book Consultation",
