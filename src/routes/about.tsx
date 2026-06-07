@@ -10,10 +10,10 @@ import { useAboutSection } from "@/lib/use-cms-content"
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Us - Subhashree IVF & Fertility Centre" },
-      { name: "description", content: "12+ years of trusted fertility care in Nepal. Learn about our mission, values, and commitment to helping families." },
-      { property: "og:title", content: "About Subhashree IVF" },
-      { property: "og:description", content: "Nepal's trusted fertility centre - our story, mission and values." },
+      { title: "About Shubhashree IVF Clinic | Fertility Experts in Kathmandu" },
+      { name: "description", content: "Learn about Shubhashree IVF Clinic in Kathmandu - our mission, ethical approach, and experienced fertility specialists. Caring fertility care in Nepal." },
+      { property: "og:title", content: "About Shubhashree IVF Clinic | Fertility Experts in Kathmandu" },
+      { property: "og:description", content: "Learn about Shubhashree IVF Clinic in Kathmandu - our mission, ethical approach, and experienced fertility specialists." },
       { property: "og:url", content: "https://subhashree-ui.lovable.app/about" },
     ],
     links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/about" }],

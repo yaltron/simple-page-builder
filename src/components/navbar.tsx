@@ -201,7 +201,7 @@ export function Navbar() {
       {!logoFailed ? (
         <img
           src={logo}
-          alt="Subhashree IVF"
+          alt="Shubhashree IVF Clinic Kathmandu logo"
           className="nav-logo h-[52px] sm:h-[64px] md:h-[75px] w-auto object-contain block"
           onError={() => setLogoFailed(true)}
         />
@@ -454,7 +454,7 @@ export function Navbar() {
               style={{ width: "min(340px, 90vw)", zIndex: 99999 }}
             >
               <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: COLORS.pinkSoft }}>
-                <img src={logo} alt="Subhashree IVF" style={{ width: 130 }} onError={(e) => ((e.currentTarget.style.display = "none"))} />
+                <img src={logo} alt="Shubhashree IVF Clinic Kathmandu logo" style={{ width: 130 }} onError={(e) => ((e.currentTarget.style.display = "none"))} />
                 <button onClick={() => setIsMobileOpen(false)} aria-label="Close menu" style={{ color: COLORS.plum }}>
                   <X className="w-6 h-6" />
                 </button>
