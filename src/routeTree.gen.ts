@@ -34,7 +34,6 @@ import { Route as AdminAppointmentsIndexRouteImport } from './routes/admin.appoi
 import { Route as AdminHomepageWhoWeAreRouteImport } from './routes/admin.homepage.who-we-are'
 import { Route as AdminHomepageWhenToVisitRouteImport } from './routes/admin.homepage.when-to-visit'
 import { Route as AdminHomepageServicesRouteImport } from './routes/admin.homepage.services'
-import { Route as AdminHomepageMomentsGalleryRouteImport } from './routes/admin.homepage.moments-gallery'
 import { Route as AdminHomepageHowItWorksRouteImport } from './routes/admin.homepage.how-it-works'
 import { Route as AdminHomepageHeroRouteImport } from './routes/admin.homepage.hero'
 import { Route as AdminHomepageDoctorsHeadingRouteImport } from './routes/admin.homepage.doctors-heading'
@@ -172,12 +171,6 @@ const AdminHomepageServicesRoute = AdminHomepageServicesRouteImport.update({
   path: '/admin/homepage/services',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminHomepageMomentsGalleryRoute =
-  AdminHomepageMomentsGalleryRouteImport.update({
-    id: '/admin/homepage/moments-gallery',
-    path: '/admin/homepage/moments-gallery',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const AdminHomepageHowItWorksRoute = AdminHomepageHowItWorksRouteImport.update({
   id: '/admin/homepage/how-it-works',
   path: '/admin/homepage/how-it-works',
@@ -257,7 +250,6 @@ export interface FileRoutesByFullPath {
   '/admin/homepage/doctors-heading': typeof AdminHomepageDoctorsHeadingRoute
   '/admin/homepage/hero': typeof AdminHomepageHeroRoute
   '/admin/homepage/how-it-works': typeof AdminHomepageHowItWorksRoute
-  '/admin/homepage/moments-gallery': typeof AdminHomepageMomentsGalleryRoute
   '/admin/homepage/services': typeof AdminHomepageServicesRoute
   '/admin/homepage/when-to-visit': typeof AdminHomepageWhenToVisitRoute
   '/admin/homepage/who-we-are': typeof AdminHomepageWhoWeAreRoute
@@ -295,7 +287,6 @@ export interface FileRoutesByTo {
   '/admin/homepage/doctors-heading': typeof AdminHomepageDoctorsHeadingRoute
   '/admin/homepage/hero': typeof AdminHomepageHeroRoute
   '/admin/homepage/how-it-works': typeof AdminHomepageHowItWorksRoute
-  '/admin/homepage/moments-gallery': typeof AdminHomepageMomentsGalleryRoute
   '/admin/homepage/services': typeof AdminHomepageServicesRoute
   '/admin/homepage/when-to-visit': typeof AdminHomepageWhenToVisitRoute
   '/admin/homepage/who-we-are': typeof AdminHomepageWhoWeAreRoute
@@ -334,7 +325,6 @@ export interface FileRoutesById {
   '/admin/homepage/doctors-heading': typeof AdminHomepageDoctorsHeadingRoute
   '/admin/homepage/hero': typeof AdminHomepageHeroRoute
   '/admin/homepage/how-it-works': typeof AdminHomepageHowItWorksRoute
-  '/admin/homepage/moments-gallery': typeof AdminHomepageMomentsGalleryRoute
   '/admin/homepage/services': typeof AdminHomepageServicesRoute
   '/admin/homepage/when-to-visit': typeof AdminHomepageWhenToVisitRoute
   '/admin/homepage/who-we-are': typeof AdminHomepageWhoWeAreRoute
@@ -374,7 +364,6 @@ export interface FileRouteTypes {
     | '/admin/homepage/doctors-heading'
     | '/admin/homepage/hero'
     | '/admin/homepage/how-it-works'
-    | '/admin/homepage/moments-gallery'
     | '/admin/homepage/services'
     | '/admin/homepage/when-to-visit'
     | '/admin/homepage/who-we-are'
@@ -412,7 +401,6 @@ export interface FileRouteTypes {
     | '/admin/homepage/doctors-heading'
     | '/admin/homepage/hero'
     | '/admin/homepage/how-it-works'
-    | '/admin/homepage/moments-gallery'
     | '/admin/homepage/services'
     | '/admin/homepage/when-to-visit'
     | '/admin/homepage/who-we-are'
@@ -450,7 +438,6 @@ export interface FileRouteTypes {
     | '/admin/homepage/doctors-heading'
     | '/admin/homepage/hero'
     | '/admin/homepage/how-it-works'
-    | '/admin/homepage/moments-gallery'
     | '/admin/homepage/services'
     | '/admin/homepage/when-to-visit'
     | '/admin/homepage/who-we-are'
@@ -489,7 +476,6 @@ export interface RootRouteChildren {
   AdminHomepageDoctorsHeadingRoute: typeof AdminHomepageDoctorsHeadingRoute
   AdminHomepageHeroRoute: typeof AdminHomepageHeroRoute
   AdminHomepageHowItWorksRoute: typeof AdminHomepageHowItWorksRoute
-  AdminHomepageMomentsGalleryRoute: typeof AdminHomepageMomentsGalleryRoute
   AdminHomepageServicesRoute: typeof AdminHomepageServicesRoute
   AdminHomepageWhenToVisitRoute: typeof AdminHomepageWhenToVisitRoute
   AdminHomepageWhoWeAreRoute: typeof AdminHomepageWhoWeAreRoute
@@ -678,13 +664,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminHomepageServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/homepage/moments-gallery': {
-      id: '/admin/homepage/moments-gallery'
-      path: '/admin/homepage/moments-gallery'
-      fullPath: '/admin/homepage/moments-gallery'
-      preLoaderRoute: typeof AdminHomepageMomentsGalleryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/admin/homepage/how-it-works': {
       id: '/admin/homepage/how-it-works'
       path: '/admin/homepage/how-it-works'
@@ -785,7 +764,6 @@ const rootRouteChildren: RootRouteChildren = {
   AdminHomepageDoctorsHeadingRoute: AdminHomepageDoctorsHeadingRoute,
   AdminHomepageHeroRoute: AdminHomepageHeroRoute,
   AdminHomepageHowItWorksRoute: AdminHomepageHowItWorksRoute,
-  AdminHomepageMomentsGalleryRoute: AdminHomepageMomentsGalleryRoute,
   AdminHomepageServicesRoute: AdminHomepageServicesRoute,
   AdminHomepageWhenToVisitRoute: AdminHomepageWhenToVisitRoute,
   AdminHomepageWhoWeAreRoute: AdminHomepageWhoWeAreRoute,
@@ -799,3 +777,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
