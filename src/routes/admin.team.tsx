@@ -7,7 +7,7 @@ import { useAdminAuth } from "@/lib/use-admin-auth"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
 
-export const Route = createFileRoute("/admin/doctors/")({
+export const Route = createFileRoute("/admin/team")({
   component: AdminDoctorsPage,
 })
 

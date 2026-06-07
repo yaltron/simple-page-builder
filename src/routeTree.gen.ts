@@ -22,18 +22,29 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as AdminTeamRouteImport } from './routes/admin.team'
+import { Route as AdminPopupBannersRouteImport } from './routes/admin.popup-banners'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminTestimonialsIndexRouteImport } from './routes/admin.testimonials.index'
 import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
-import { Route as AdminPopupIndexRouteImport } from './routes/admin.popup.index'
-import { Route as AdminHomepageIndexRouteImport } from './routes/admin.homepage.index'
 import { Route as AdminGalleryIndexRouteImport } from './routes/admin.gallery.index'
 import { Route as AdminFaqsIndexRouteImport } from './routes/admin.faqs.index'
-import { Route as AdminDoctorsIndexRouteImport } from './routes/admin.doctors.index'
-import { Route as AdminCareersIndexRouteImport } from './routes/admin.careers.index'
 import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
 import { Route as AdminAppointmentsIndexRouteImport } from './routes/admin.appointments.index'
+import { Route as AdminHomepageWhoWeAreRouteImport } from './routes/admin.homepage.who-we-are'
+import { Route as AdminHomepageWhenToVisitRouteImport } from './routes/admin.homepage.when-to-visit'
+import { Route as AdminHomepageServicesRouteImport } from './routes/admin.homepage.services'
+import { Route as AdminHomepageMomentsGalleryRouteImport } from './routes/admin.homepage.moments-gallery'
+import { Route as AdminHomepageHowItWorksRouteImport } from './routes/admin.homepage.how-it-works'
+import { Route as AdminHomepageHeroRouteImport } from './routes/admin.homepage.hero'
+import { Route as AdminHomepageDoctorsHeadingRouteImport } from './routes/admin.homepage.doctors-heading'
+import { Route as AdminHomepageCtaBannerRouteImport } from './routes/admin.homepage.cta-banner'
+import { Route as AdminCareerListingsRouteImport } from './routes/admin.career.listings'
+import { Route as AdminCareerApplicationsRouteImport } from './routes/admin.career.applications'
 import { Route as AdminBlogIdRouteImport } from './routes/admin.blog.$id'
+import { Route as AdminAboutValuesRouteImport } from './routes/admin.about.values'
+import { Route as AdminAboutOurStoryRouteImport } from './routes/admin.about.our-story'
+import { Route as AdminAboutMissionVisionRouteImport } from './routes/admin.about.mission-vision'
 
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
@@ -100,6 +111,16 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminTeamRoute = AdminTeamRouteImport.update({
+  id: '/admin/team',
+  path: '/admin/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPopupBannersRoute = AdminPopupBannersRouteImport.update({
+  id: '/admin/popup-banners',
+  path: '/admin/popup-banners',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin/login',
   path: '/admin/login',
@@ -115,16 +136,6 @@ const AdminServicesIndexRoute = AdminServicesIndexRouteImport.update({
   path: '/admin/services/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminPopupIndexRoute = AdminPopupIndexRouteImport.update({
-  id: '/admin/popup/',
-  path: '/admin/popup/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminHomepageIndexRoute = AdminHomepageIndexRouteImport.update({
-  id: '/admin/homepage/',
-  path: '/admin/homepage/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AdminGalleryIndexRoute = AdminGalleryIndexRouteImport.update({
   id: '/admin/gallery/',
   path: '/admin/gallery/',
@@ -133,16 +144,6 @@ const AdminGalleryIndexRoute = AdminGalleryIndexRouteImport.update({
 const AdminFaqsIndexRoute = AdminFaqsIndexRouteImport.update({
   id: '/admin/faqs/',
   path: '/admin/faqs/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminDoctorsIndexRoute = AdminDoctorsIndexRouteImport.update({
-  id: '/admin/doctors/',
-  path: '/admin/doctors/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminCareersIndexRoute = AdminCareersIndexRouteImport.update({
-  id: '/admin/careers/',
-  path: '/admin/careers/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminBlogIndexRoute = AdminBlogIndexRouteImport.update({
@@ -155,9 +156,77 @@ const AdminAppointmentsIndexRoute = AdminAppointmentsIndexRouteImport.update({
   path: '/admin/appointments/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminHomepageWhoWeAreRoute = AdminHomepageWhoWeAreRouteImport.update({
+  id: '/admin/homepage/who-we-are',
+  path: '/admin/homepage/who-we-are',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminHomepageWhenToVisitRoute =
+  AdminHomepageWhenToVisitRouteImport.update({
+    id: '/admin/homepage/when-to-visit',
+    path: '/admin/homepage/when-to-visit',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminHomepageServicesRoute = AdminHomepageServicesRouteImport.update({
+  id: '/admin/homepage/services',
+  path: '/admin/homepage/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminHomepageMomentsGalleryRoute =
+  AdminHomepageMomentsGalleryRouteImport.update({
+    id: '/admin/homepage/moments-gallery',
+    path: '/admin/homepage/moments-gallery',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminHomepageHowItWorksRoute = AdminHomepageHowItWorksRouteImport.update({
+  id: '/admin/homepage/how-it-works',
+  path: '/admin/homepage/how-it-works',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminHomepageHeroRoute = AdminHomepageHeroRouteImport.update({
+  id: '/admin/homepage/hero',
+  path: '/admin/homepage/hero',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminHomepageDoctorsHeadingRoute =
+  AdminHomepageDoctorsHeadingRouteImport.update({
+    id: '/admin/homepage/doctors-heading',
+    path: '/admin/homepage/doctors-heading',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminHomepageCtaBannerRoute = AdminHomepageCtaBannerRouteImport.update({
+  id: '/admin/homepage/cta-banner',
+  path: '/admin/homepage/cta-banner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCareerListingsRoute = AdminCareerListingsRouteImport.update({
+  id: '/admin/career/listings',
+  path: '/admin/career/listings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCareerApplicationsRoute = AdminCareerApplicationsRouteImport.update({
+  id: '/admin/career/applications',
+  path: '/admin/career/applications',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminBlogIdRoute = AdminBlogIdRouteImport.update({
   id: '/admin/blog/$id',
   path: '/admin/blog/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAboutValuesRoute = AdminAboutValuesRouteImport.update({
+  id: '/admin/about/values',
+  path: '/admin/about/values',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAboutOurStoryRoute = AdminAboutOurStoryRouteImport.update({
+  id: '/admin/about/our-story',
+  path: '/admin/about/our-story',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAboutMissionVisionRoute = AdminAboutMissionVisionRouteImport.update({
+  id: '/admin/about/mission-vision',
+  path: '/admin/about/mission-vision',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -173,18 +242,29 @@ export interface FileRoutesByFullPath {
   '/success-stories': typeof SuccessStoriesRoute
   '/team': typeof TeamRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/popup-banners': typeof AdminPopupBannersRoute
+  '/admin/team': typeof AdminTeamRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
+  '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
+  '/admin/about/our-story': typeof AdminAboutOurStoryRoute
+  '/admin/about/values': typeof AdminAboutValuesRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
+  '/admin/career/applications': typeof AdminCareerApplicationsRoute
+  '/admin/career/listings': typeof AdminCareerListingsRoute
+  '/admin/homepage/cta-banner': typeof AdminHomepageCtaBannerRoute
+  '/admin/homepage/doctors-heading': typeof AdminHomepageDoctorsHeadingRoute
+  '/admin/homepage/hero': typeof AdminHomepageHeroRoute
+  '/admin/homepage/how-it-works': typeof AdminHomepageHowItWorksRoute
+  '/admin/homepage/moments-gallery': typeof AdminHomepageMomentsGalleryRoute
+  '/admin/homepage/services': typeof AdminHomepageServicesRoute
+  '/admin/homepage/when-to-visit': typeof AdminHomepageWhenToVisitRoute
+  '/admin/homepage/who-we-are': typeof AdminHomepageWhoWeAreRoute
   '/admin/appointments/': typeof AdminAppointmentsIndexRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
-  '/admin/careers/': typeof AdminCareersIndexRoute
-  '/admin/doctors/': typeof AdminDoctorsIndexRoute
   '/admin/faqs/': typeof AdminFaqsIndexRoute
   '/admin/gallery/': typeof AdminGalleryIndexRoute
-  '/admin/homepage/': typeof AdminHomepageIndexRoute
-  '/admin/popup/': typeof AdminPopupIndexRoute
   '/admin/services/': typeof AdminServicesIndexRoute
   '/admin/testimonials/': typeof AdminTestimonialsIndexRoute
 }
@@ -200,18 +280,29 @@ export interface FileRoutesByTo {
   '/success-stories': typeof SuccessStoriesRoute
   '/team': typeof TeamRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/popup-banners': typeof AdminPopupBannersRoute
+  '/admin/team': typeof AdminTeamRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/admin': typeof AdminIndexRoute
   '/blog': typeof BlogIndexRoute
+  '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
+  '/admin/about/our-story': typeof AdminAboutOurStoryRoute
+  '/admin/about/values': typeof AdminAboutValuesRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
+  '/admin/career/applications': typeof AdminCareerApplicationsRoute
+  '/admin/career/listings': typeof AdminCareerListingsRoute
+  '/admin/homepage/cta-banner': typeof AdminHomepageCtaBannerRoute
+  '/admin/homepage/doctors-heading': typeof AdminHomepageDoctorsHeadingRoute
+  '/admin/homepage/hero': typeof AdminHomepageHeroRoute
+  '/admin/homepage/how-it-works': typeof AdminHomepageHowItWorksRoute
+  '/admin/homepage/moments-gallery': typeof AdminHomepageMomentsGalleryRoute
+  '/admin/homepage/services': typeof AdminHomepageServicesRoute
+  '/admin/homepage/when-to-visit': typeof AdminHomepageWhenToVisitRoute
+  '/admin/homepage/who-we-are': typeof AdminHomepageWhoWeAreRoute
   '/admin/appointments': typeof AdminAppointmentsIndexRoute
   '/admin/blog': typeof AdminBlogIndexRoute
-  '/admin/careers': typeof AdminCareersIndexRoute
-  '/admin/doctors': typeof AdminDoctorsIndexRoute
   '/admin/faqs': typeof AdminFaqsIndexRoute
   '/admin/gallery': typeof AdminGalleryIndexRoute
-  '/admin/homepage': typeof AdminHomepageIndexRoute
-  '/admin/popup': typeof AdminPopupIndexRoute
   '/admin/services': typeof AdminServicesIndexRoute
   '/admin/testimonials': typeof AdminTestimonialsIndexRoute
 }
@@ -228,18 +319,29 @@ export interface FileRoutesById {
   '/success-stories': typeof SuccessStoriesRoute
   '/team': typeof TeamRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/popup-banners': typeof AdminPopupBannersRoute
+  '/admin/team': typeof AdminTeamRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
+  '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
+  '/admin/about/our-story': typeof AdminAboutOurStoryRoute
+  '/admin/about/values': typeof AdminAboutValuesRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
+  '/admin/career/applications': typeof AdminCareerApplicationsRoute
+  '/admin/career/listings': typeof AdminCareerListingsRoute
+  '/admin/homepage/cta-banner': typeof AdminHomepageCtaBannerRoute
+  '/admin/homepage/doctors-heading': typeof AdminHomepageDoctorsHeadingRoute
+  '/admin/homepage/hero': typeof AdminHomepageHeroRoute
+  '/admin/homepage/how-it-works': typeof AdminHomepageHowItWorksRoute
+  '/admin/homepage/moments-gallery': typeof AdminHomepageMomentsGalleryRoute
+  '/admin/homepage/services': typeof AdminHomepageServicesRoute
+  '/admin/homepage/when-to-visit': typeof AdminHomepageWhenToVisitRoute
+  '/admin/homepage/who-we-are': typeof AdminHomepageWhoWeAreRoute
   '/admin/appointments/': typeof AdminAppointmentsIndexRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
-  '/admin/careers/': typeof AdminCareersIndexRoute
-  '/admin/doctors/': typeof AdminDoctorsIndexRoute
   '/admin/faqs/': typeof AdminFaqsIndexRoute
   '/admin/gallery/': typeof AdminGalleryIndexRoute
-  '/admin/homepage/': typeof AdminHomepageIndexRoute
-  '/admin/popup/': typeof AdminPopupIndexRoute
   '/admin/services/': typeof AdminServicesIndexRoute
   '/admin/testimonials/': typeof AdminTestimonialsIndexRoute
 }
@@ -257,18 +359,29 @@ export interface FileRouteTypes {
     | '/success-stories'
     | '/team'
     | '/admin/login'
+    | '/admin/popup-banners'
+    | '/admin/team'
     | '/blog/$slug'
     | '/admin/'
     | '/blog/'
+    | '/admin/about/mission-vision'
+    | '/admin/about/our-story'
+    | '/admin/about/values'
     | '/admin/blog/$id'
+    | '/admin/career/applications'
+    | '/admin/career/listings'
+    | '/admin/homepage/cta-banner'
+    | '/admin/homepage/doctors-heading'
+    | '/admin/homepage/hero'
+    | '/admin/homepage/how-it-works'
+    | '/admin/homepage/moments-gallery'
+    | '/admin/homepage/services'
+    | '/admin/homepage/when-to-visit'
+    | '/admin/homepage/who-we-are'
     | '/admin/appointments/'
     | '/admin/blog/'
-    | '/admin/careers/'
-    | '/admin/doctors/'
     | '/admin/faqs/'
     | '/admin/gallery/'
-    | '/admin/homepage/'
-    | '/admin/popup/'
     | '/admin/services/'
     | '/admin/testimonials/'
   fileRoutesByTo: FileRoutesByTo
@@ -284,18 +397,29 @@ export interface FileRouteTypes {
     | '/success-stories'
     | '/team'
     | '/admin/login'
+    | '/admin/popup-banners'
+    | '/admin/team'
     | '/blog/$slug'
     | '/admin'
     | '/blog'
+    | '/admin/about/mission-vision'
+    | '/admin/about/our-story'
+    | '/admin/about/values'
     | '/admin/blog/$id'
+    | '/admin/career/applications'
+    | '/admin/career/listings'
+    | '/admin/homepage/cta-banner'
+    | '/admin/homepage/doctors-heading'
+    | '/admin/homepage/hero'
+    | '/admin/homepage/how-it-works'
+    | '/admin/homepage/moments-gallery'
+    | '/admin/homepage/services'
+    | '/admin/homepage/when-to-visit'
+    | '/admin/homepage/who-we-are'
     | '/admin/appointments'
     | '/admin/blog'
-    | '/admin/careers'
-    | '/admin/doctors'
     | '/admin/faqs'
     | '/admin/gallery'
-    | '/admin/homepage'
-    | '/admin/popup'
     | '/admin/services'
     | '/admin/testimonials'
   id:
@@ -311,18 +435,29 @@ export interface FileRouteTypes {
     | '/success-stories'
     | '/team'
     | '/admin/login'
+    | '/admin/popup-banners'
+    | '/admin/team'
     | '/blog/$slug'
     | '/admin/'
     | '/blog/'
+    | '/admin/about/mission-vision'
+    | '/admin/about/our-story'
+    | '/admin/about/values'
     | '/admin/blog/$id'
+    | '/admin/career/applications'
+    | '/admin/career/listings'
+    | '/admin/homepage/cta-banner'
+    | '/admin/homepage/doctors-heading'
+    | '/admin/homepage/hero'
+    | '/admin/homepage/how-it-works'
+    | '/admin/homepage/moments-gallery'
+    | '/admin/homepage/services'
+    | '/admin/homepage/when-to-visit'
+    | '/admin/homepage/who-we-are'
     | '/admin/appointments/'
     | '/admin/blog/'
-    | '/admin/careers/'
-    | '/admin/doctors/'
     | '/admin/faqs/'
     | '/admin/gallery/'
-    | '/admin/homepage/'
-    | '/admin/popup/'
     | '/admin/services/'
     | '/admin/testimonials/'
   fileRoutesById: FileRoutesById
@@ -339,18 +474,29 @@ export interface RootRouteChildren {
   SuccessStoriesRoute: typeof SuccessStoriesRoute
   TeamRoute: typeof TeamRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminPopupBannersRoute: typeof AdminPopupBannersRoute
+  AdminTeamRoute: typeof AdminTeamRoute
   BlogSlugRoute: typeof BlogSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
+  AdminAboutMissionVisionRoute: typeof AdminAboutMissionVisionRoute
+  AdminAboutOurStoryRoute: typeof AdminAboutOurStoryRoute
+  AdminAboutValuesRoute: typeof AdminAboutValuesRoute
   AdminBlogIdRoute: typeof AdminBlogIdRoute
+  AdminCareerApplicationsRoute: typeof AdminCareerApplicationsRoute
+  AdminCareerListingsRoute: typeof AdminCareerListingsRoute
+  AdminHomepageCtaBannerRoute: typeof AdminHomepageCtaBannerRoute
+  AdminHomepageDoctorsHeadingRoute: typeof AdminHomepageDoctorsHeadingRoute
+  AdminHomepageHeroRoute: typeof AdminHomepageHeroRoute
+  AdminHomepageHowItWorksRoute: typeof AdminHomepageHowItWorksRoute
+  AdminHomepageMomentsGalleryRoute: typeof AdminHomepageMomentsGalleryRoute
+  AdminHomepageServicesRoute: typeof AdminHomepageServicesRoute
+  AdminHomepageWhenToVisitRoute: typeof AdminHomepageWhenToVisitRoute
+  AdminHomepageWhoWeAreRoute: typeof AdminHomepageWhoWeAreRoute
   AdminAppointmentsIndexRoute: typeof AdminAppointmentsIndexRoute
   AdminBlogIndexRoute: typeof AdminBlogIndexRoute
-  AdminCareersIndexRoute: typeof AdminCareersIndexRoute
-  AdminDoctorsIndexRoute: typeof AdminDoctorsIndexRoute
   AdminFaqsIndexRoute: typeof AdminFaqsIndexRoute
   AdminGalleryIndexRoute: typeof AdminGalleryIndexRoute
-  AdminHomepageIndexRoute: typeof AdminHomepageIndexRoute
-  AdminPopupIndexRoute: typeof AdminPopupIndexRoute
   AdminServicesIndexRoute: typeof AdminServicesIndexRoute
   AdminTestimonialsIndexRoute: typeof AdminTestimonialsIndexRoute
 }
@@ -448,6 +594,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/team': {
+      id: '/admin/team'
+      path: '/admin/team'
+      fullPath: '/admin/team'
+      preLoaderRoute: typeof AdminTeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/popup-banners': {
+      id: '/admin/popup-banners'
+      path: '/admin/popup-banners'
+      fullPath: '/admin/popup-banners'
+      preLoaderRoute: typeof AdminPopupBannersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/admin/login'
@@ -469,20 +629,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminServicesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/popup/': {
-      id: '/admin/popup/'
-      path: '/admin/popup'
-      fullPath: '/admin/popup/'
-      preLoaderRoute: typeof AdminPopupIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/homepage/': {
-      id: '/admin/homepage/'
-      path: '/admin/homepage'
-      fullPath: '/admin/homepage/'
-      preLoaderRoute: typeof AdminHomepageIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/admin/gallery/': {
       id: '/admin/gallery/'
       path: '/admin/gallery'
@@ -495,20 +641,6 @@ declare module '@tanstack/react-router' {
       path: '/admin/faqs'
       fullPath: '/admin/faqs/'
       preLoaderRoute: typeof AdminFaqsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/doctors/': {
-      id: '/admin/doctors/'
-      path: '/admin/doctors'
-      fullPath: '/admin/doctors/'
-      preLoaderRoute: typeof AdminDoctorsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/careers/': {
-      id: '/admin/careers/'
-      path: '/admin/careers'
-      fullPath: '/admin/careers/'
-      preLoaderRoute: typeof AdminCareersIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/blog/': {
@@ -525,11 +657,102 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAppointmentsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/homepage/who-we-are': {
+      id: '/admin/homepage/who-we-are'
+      path: '/admin/homepage/who-we-are'
+      fullPath: '/admin/homepage/who-we-are'
+      preLoaderRoute: typeof AdminHomepageWhoWeAreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage/when-to-visit': {
+      id: '/admin/homepage/when-to-visit'
+      path: '/admin/homepage/when-to-visit'
+      fullPath: '/admin/homepage/when-to-visit'
+      preLoaderRoute: typeof AdminHomepageWhenToVisitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage/services': {
+      id: '/admin/homepage/services'
+      path: '/admin/homepage/services'
+      fullPath: '/admin/homepage/services'
+      preLoaderRoute: typeof AdminHomepageServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage/moments-gallery': {
+      id: '/admin/homepage/moments-gallery'
+      path: '/admin/homepage/moments-gallery'
+      fullPath: '/admin/homepage/moments-gallery'
+      preLoaderRoute: typeof AdminHomepageMomentsGalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage/how-it-works': {
+      id: '/admin/homepage/how-it-works'
+      path: '/admin/homepage/how-it-works'
+      fullPath: '/admin/homepage/how-it-works'
+      preLoaderRoute: typeof AdminHomepageHowItWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage/hero': {
+      id: '/admin/homepage/hero'
+      path: '/admin/homepage/hero'
+      fullPath: '/admin/homepage/hero'
+      preLoaderRoute: typeof AdminHomepageHeroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage/doctors-heading': {
+      id: '/admin/homepage/doctors-heading'
+      path: '/admin/homepage/doctors-heading'
+      fullPath: '/admin/homepage/doctors-heading'
+      preLoaderRoute: typeof AdminHomepageDoctorsHeadingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage/cta-banner': {
+      id: '/admin/homepage/cta-banner'
+      path: '/admin/homepage/cta-banner'
+      fullPath: '/admin/homepage/cta-banner'
+      preLoaderRoute: typeof AdminHomepageCtaBannerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/career/listings': {
+      id: '/admin/career/listings'
+      path: '/admin/career/listings'
+      fullPath: '/admin/career/listings'
+      preLoaderRoute: typeof AdminCareerListingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/career/applications': {
+      id: '/admin/career/applications'
+      path: '/admin/career/applications'
+      fullPath: '/admin/career/applications'
+      preLoaderRoute: typeof AdminCareerApplicationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/blog/$id': {
       id: '/admin/blog/$id'
       path: '/admin/blog/$id'
       fullPath: '/admin/blog/$id'
       preLoaderRoute: typeof AdminBlogIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/about/values': {
+      id: '/admin/about/values'
+      path: '/admin/about/values'
+      fullPath: '/admin/about/values'
+      preLoaderRoute: typeof AdminAboutValuesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/about/our-story': {
+      id: '/admin/about/our-story'
+      path: '/admin/about/our-story'
+      fullPath: '/admin/about/our-story'
+      preLoaderRoute: typeof AdminAboutOurStoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/about/mission-vision': {
+      id: '/admin/about/mission-vision'
+      path: '/admin/about/mission-vision'
+      fullPath: '/admin/about/mission-vision'
+      preLoaderRoute: typeof AdminAboutMissionVisionRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -547,18 +770,29 @@ const rootRouteChildren: RootRouteChildren = {
   SuccessStoriesRoute: SuccessStoriesRoute,
   TeamRoute: TeamRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminPopupBannersRoute: AdminPopupBannersRoute,
+  AdminTeamRoute: AdminTeamRoute,
   BlogSlugRoute: BlogSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
+  AdminAboutMissionVisionRoute: AdminAboutMissionVisionRoute,
+  AdminAboutOurStoryRoute: AdminAboutOurStoryRoute,
+  AdminAboutValuesRoute: AdminAboutValuesRoute,
   AdminBlogIdRoute: AdminBlogIdRoute,
+  AdminCareerApplicationsRoute: AdminCareerApplicationsRoute,
+  AdminCareerListingsRoute: AdminCareerListingsRoute,
+  AdminHomepageCtaBannerRoute: AdminHomepageCtaBannerRoute,
+  AdminHomepageDoctorsHeadingRoute: AdminHomepageDoctorsHeadingRoute,
+  AdminHomepageHeroRoute: AdminHomepageHeroRoute,
+  AdminHomepageHowItWorksRoute: AdminHomepageHowItWorksRoute,
+  AdminHomepageMomentsGalleryRoute: AdminHomepageMomentsGalleryRoute,
+  AdminHomepageServicesRoute: AdminHomepageServicesRoute,
+  AdminHomepageWhenToVisitRoute: AdminHomepageWhenToVisitRoute,
+  AdminHomepageWhoWeAreRoute: AdminHomepageWhoWeAreRoute,
   AdminAppointmentsIndexRoute: AdminAppointmentsIndexRoute,
   AdminBlogIndexRoute: AdminBlogIndexRoute,
-  AdminCareersIndexRoute: AdminCareersIndexRoute,
-  AdminDoctorsIndexRoute: AdminDoctorsIndexRoute,
   AdminFaqsIndexRoute: AdminFaqsIndexRoute,
   AdminGalleryIndexRoute: AdminGalleryIndexRoute,
-  AdminHomepageIndexRoute: AdminHomepageIndexRoute,
-  AdminPopupIndexRoute: AdminPopupIndexRoute,
   AdminServicesIndexRoute: AdminServicesIndexRoute,
   AdminTestimonialsIndexRoute: AdminTestimonialsIndexRoute,
 }

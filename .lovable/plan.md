@@ -1,45 +1,97 @@
-## Fix 1 — Date placeholder in appointment popup (mobile)
+## Scope
 
-Edit `src/components/appointment-auto-popup.tsx`:
+Rebuild the admin sidebar with expandable groups + nested routes, applying your design rules. Editor forms, fields, save logic, and Supabase queries are untouched — I only extract them into reusable components and wrap them in new route files. Submenu items with no existing editor are omitted entirely (per your answer).
 
-- Wrap each form field in a `<div>` with a small label above; specifically add a visible `<label>` "Preferred Date" above the date input (font 13px / weight 700 / color #2D0A1E / mb 6px / block). Also add labels for the other required fields ("Full Name", "Phone", "Preferred Time") for consistency — minimal additions, no layout shake.
-- On the date `<input type="date">` add inline styles: `WebkitAppearance: "none"`, `appearance: "none"`, `minHeight: 44`, `display: "block"`, `width: "100%"`, `position: "relative"`, `cursor: "pointer"` (keep existing fieldStyle: padding, border, radius, font, color, background).
-- Ensure the modal scroll container keeps `maxHeight: "90vh"`, `overflowY: "auto"`, plus add `WebkitOverflowScrolling: "touch"`.
+## Sidebar (rewrite `src/components/admin/admin-shell.tsx`)
 
-Add one small global CSS rule in `src/styles.css` (cannot inline pseudo-element styles):
+Replace the flat `navItems` list with a nested model:
 
-```css
-input[type="date"]::-webkit-date-and-time-value {
-  text-align: left;
-  padding-left: 4px;
-}
-input[type="date"]:focus { border-color: #E6007E; outline: none; }
+```
+Dashboard            → /admin
+Homepage (expand)
+  Hero Section       → /admin/homepage/hero
+  Who We Are         → /admin/homepage/who-we-are
+  Services           → /admin/homepage/services
+  How It Works       → /admin/homepage/how-it-works
+  When To Visit      → /admin/homepage/when-to-visit
+  Our Doctors        → /admin/homepage/doctors-heading
+  Moments Gallery    → /admin/homepage/moments-gallery
+  CTA Banner         → /admin/homepage/cta-banner
+About Us (expand)
+  Our Story          → /admin/about/our-story
+  Mission & Vision   → /admin/about/mission-vision
+  Our Values         → /admin/about/values
+Appointments         → /admin/appointments  (red badge preserved)
+Blog Posts (expand)
+  All Posts          → /admin/blog
+  Add New Post       → /admin/blog/new
+Our Team             → /admin/team
+Services             → /admin/services
+FAQs                 → /admin/faqs
+Gallery              → /admin/gallery
+Testimonials         → /admin/testimonials
+Popup Banners        → /admin/popup-banners
+Career (expand)
+  Job Listings       → /admin/career/listings
+  Applications       → /admin/career/applications
+Logout               (action)
 ```
 
-## Fix 2 — Doctors section on mobile (≤640px)
+Omitted (no existing editor, per your choice): Why Choose Us, Testimonials heading, Blog Section heading, FAQ Section heading, About CTA Banner, all Site Settings sub-pages, Blog Categories.
 
-Edit `src/components/doctors-carousel.tsx` + `src/styles.css`. Desktop layout untouched; add a dedicated mobile branch using a `useEffect` width check (`isMobile = window.innerWidth <= 640`).
+Sidebar behavior + visuals exactly per your spec:
+- Parent: 12/16 padding, 14px/600, white@85%, flex-between, 10px radius, hover bg `rgba(255,255,255,0.08)`, expanded bg `rgba(230,0,126,0.15)` + white + 3px left border `#E6007E`. Right chevron 12px, rotates 180° on expand (0.25s).
+- Submenu container: `overflow:hidden`, `max-height` 0→500px with 0.3s transition, 4px bottom margin when open.
+- Submenu item: 9/16/9/44 padding, 13px/500, white@60%, 8px radius. Hover → white + bg @6%. Active (current route) → `#F48FB1`, weight 600, bg `rgba(230,0,126,0.10)`.
+- Divider: 1px `rgba(255,255,255,0.06)` with 8/12 margin between groups.
+- Behavior: only one parent open at a time; on mount, auto-expand the parent containing the active route; persist the open key in `sessionStorage` under `admin-sidebar-open`. Active detection uses `useRouterState` pathname matching (longest prefix for nested routes).
 
-- Section: padding `30px 16px 50px` on mobile (override the current `pt-2 pb-16`). Heading 1.4rem / center / px 16 / mb 24.
-- When `isMobile`, render a simplified single-card carousel instead of the 2-column grid:
-  - Card width `85vw`, centered, border-radius 16, overflow hidden, shadow `0 4px 20px rgba(230,0,126,0.10)`.
-  - Photo 200px tall, full width, `object-fit: cover`, `object-position: top center`.
-  - Card body padding 16: name 16px/700, specialty 12px, two CTA buttons stacked full-width (font 13 / padding 10) — "Consult Now" and "View Profile".
-  - Hide the right details panel and the SideCard peeks on mobile.
-- Navigation arrows below card: two 44×44 white circles with 1.5px `rgba(230,0,126,0.2)` border, color `#E6007E`, gap 16, mt 20, centered.
-- Dot indicators below arrows: 8px circles, gap 8, active `#E6007E`, inactive `rgba(230,0,126,0.25)`, mt 12.
-- Autoplay/keyboard/swipe behavior is preserved.
+## Editor extraction (no logic changes)
 
-## Fix 3 — Replace em/en dash with hyphen
+Pull editors out of `src/routes/admin.homepage.index.tsx` (884 lines) into a new file `src/components/admin/homepage-editors.tsx` exporting each as a standalone component. The existing helpers (`useSection`, `SectionCard`, `Field`, `*_DEFAULTS`, slot helpers) move with them. Each component renders only one `<SectionCard>` (or the existing multi-card group for that section). New exports:
 
-Run a project-wide replace across `src/**` (and the two SQL files under `supabase/migrations/` that contain them) of:
-- `—` (U+2014) → `-`
-- `–` (U+2013) → `-`
-- `&mdash;` → `-`
-- `&ndash;` → `-`
+- `HeroEditor` (existing)
+- `WhoWeAreEditor` (the Storytelling Gallery card from SectionsEditor)
+- `ServicesHeadingEditor` (services_heading card)
+- `ProcessStepsEditor` (process card)
+- `WhenToVisitEditor` (when_to_visit card)
+- `DoctorsHeadingEditor` (doctors_heading card)
+- `CTABannerEditor` (cta_banner card)
+- `MomentsGalleryEditor` (already its own component — re-export)
 
-Implementation: a single `bun`/`node` script that walks the files listed by `rg -l` (already enumerated: ~32 files including `hero.tsx`, `footer.tsx`, `stories-testimonials.tsx`, `doctors-carousel.tsx`, route files, CMS defaults in `use-cms-content.ts`, migration seed SQL, and `styles.css` comments). Excludes `node_modules`, `routeTree.gen.ts`, `package-lock`/`bun.lock`. After replacement, spot-check changed files for syntax integrity (the dashes only appear in string literals, JSX text, and comments — safe to bulk replace).
+About editors extracted to `src/components/admin/about-editors.tsx`:
+- `StoryEditor`, `MissionVisionEditor`, `ValuesEditor` (split from current `AboutEditor`).
 
-## Out of scope
+Careers split: extract `JobListings` and `Applications` from `src/routes/admin.careers.index.tsx` into `src/components/admin/career/{job-listings,applications}.tsx`.
 
-Desktop / tablet doctors layout, any other section, design tokens, business logic, server functions, schema changes.
+## New route files (thin wrappers)
+
+Each new route is ~12 lines: auth check + `AdminShell` with section-specific title/breadcrumb + the extracted editor.
+
+Homepage (8 files): `src/routes/admin.homepage.{hero,who-we-are,services,how-it-works,when-to-visit,doctors-heading,moments-gallery,cta-banner}.tsx`
+
+About (3 files): `src/routes/admin.about.{our-story,mission-vision,values}.tsx`
+
+Career (2 files): `src/routes/admin.career.{listings,applications}.tsx`
+
+Blog: `src/routes/admin.blog.new.tsx` → renders the existing `admin.blog.$id.tsx` editor component with `id="new"`.
+
+Team: `src/routes/admin.team.tsx` → renders the existing doctors page component.
+Popup Banners: `src/routes/admin.popup-banners.tsx` → renders the existing popup page component.
+
+## Deletions / replacements
+
+- Delete `src/routes/admin.homepage.index.tsx` (replaced by 8 split routes).
+- Delete `src/routes/admin.careers.index.tsx` (replaced by 2 split routes).
+- Delete `src/routes/admin.doctors.index.tsx` after its component is moved/imported into `admin.team.tsx`. Equivalent for `admin.popup.index.tsx` → `admin.popup-banners.tsx`.
+- `src/routes/admin.index.tsx` (Dashboard) untouched.
+
+`src/routeTree.gen.ts` regenerates automatically.
+
+## What is NOT changing
+
+Editor JSX, form fields, validation, image upload, Supabase tables/queries, frontend pages, design tokens, or any non-admin route. Appointment-badge realtime stays as-is.
+
+## Open assumption
+
+"Add New Post" → `/admin/blog/new` reuses the existing `admin.blog.$id.tsx` editor (it already handles the `id === "new"` case). If you'd rather keep the current `/admin/blog/$id` route only, I'll skip the `/admin/blog/new` file and have the sidebar link directly to `/admin/blog/$id` with `params={{ id: "new" }}`.
