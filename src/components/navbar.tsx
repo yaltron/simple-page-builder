@@ -202,7 +202,7 @@ export function Navbar() {
         <img
           src={logo}
           alt="Subhashree IVF"
-          className="h-[52px] sm:h-[64px] md:h-[75px] w-auto object-contain block"
+          className="nav-logo h-[52px] sm:h-[64px] md:h-[75px] w-auto object-contain block"
           onError={() => setLogoFailed(true)}
         />
       ) : (
@@ -245,7 +245,7 @@ export function Navbar() {
             {Logo}
 
             {/* Desktop CTAs */}
-            <div className="hidden md:flex items-center gap-3">
+            <div className="nav-cta-row hidden md:flex items-center gap-3">
               {/* Book */}
               <div className="relative" ref={bookRef}>
                 <button
@@ -258,7 +258,7 @@ export function Navbar() {
                       return next
                     })
                   }}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-all"
+                  className="nav-cta-btn flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-all"
                   style={{ background: COLORS.cta }}
                   onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = COLORS.ctaDark; (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)" }}
                   onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = COLORS.cta; (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)" }}
@@ -358,7 +358,7 @@ export function Navbar() {
               {/* Call */}
               <a
                 href="tel:015312007"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-colors"
+                className="nav-cta-btn flex items-center gap-2 px-5 py-2.5 rounded-full text-white font-bold text-sm transition-colors"
                 style={{ background: COLORS.cta }}
                 onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.background = COLORS.ctaDark)}
                 onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.background = COLORS.cta)}
@@ -392,7 +392,7 @@ export function Navbar() {
 
         {/* ROW 2 */}
         <div
-          className="hidden md:block relative"
+          className="nav-row2 hidden md:block relative"
           style={{
             height: 72,
             paddingBottom: 24,
@@ -406,7 +406,7 @@ export function Navbar() {
                   <Link
                     key={link.name}
                     to={link.to}
-                    className="relative px-3 py-1 group"
+                    className="nav-row2-link relative px-3 py-1 group"
                     style={{
                       color: isActive ? COLORS.magenta : COLORS.navLink,
                       fontWeight: 600,
