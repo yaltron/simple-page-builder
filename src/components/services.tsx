@@ -112,7 +112,7 @@ export function Services() {
                   className="inline-flex items-center gap-1 text-sm font-medium transition-all duration-300 group-hover:gap-2"
                   style={{ color: "#E6007E" }}
                 >
-                  Learn more
+                  Explore our fertility services
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
