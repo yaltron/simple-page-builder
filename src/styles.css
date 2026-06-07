@@ -567,3 +567,13 @@ select, [role="button"] {
   }
   section#process [data-process-wave] { display: none !important; }
 }
+
+/* At ≤780px: tighten CTA buttons further to avoid clipping next to logo */
+@media (min-width: 641px) and (max-width: 780px) {
+  .nav-cta-btn {
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+    gap: 5px !important;
+  }
+  .nav-cta-row { gap: 6px !important; }
+}
