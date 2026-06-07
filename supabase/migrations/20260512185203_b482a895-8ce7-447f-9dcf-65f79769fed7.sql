@@ -91,12 +91,12 @@ INSERT INTO public.about_content (section, content) VALUES
       jsonb_build_object('url', '/src/assets/who-clinic.jpg', 'alt', 'Our clinic'),
       jsonb_build_object('url', '/src/assets/who-team.jpg', 'alt', 'Our team')
     ),
-    'paragraph_1', 'Founded over 12 years ago, Subhashree IVF & Fertility Centre has grown into Nepal''s most trusted name in reproductive medicine. From our first clinic to today''s full-service centre of excellence, our mission has remained the same — bringing happiness into your life.',
+    'paragraph_1', 'Founded over 12 years ago, Subhashree IVF & Fertility Centre has grown into Nepal''s most trusted name in reproductive medicine. From our first clinic to today''s full-service centre of excellence, our mission has remained the same - bringing happiness into your life.',
     'paragraph_2', 'With more than 5,000 successful treatments and a dedicated team of specialists, embryologists and counsellors, we have built a reputation founded on outcomes, transparency and compassionate care for every couple who walks through our doors.'
   )),
   ('mission_vision', jsonb_build_object(
     'mission_title', 'Our Mission',
-    'mission_text', 'To empower every couple on their path to parenthood through advanced fertility care, transparent guidance and compassionate emotional support — at a cost accessible to all.',
+    'mission_text', 'To empower every couple on their path to parenthood through advanced fertility care, transparent guidance and compassionate emotional support - at a cost accessible to all.',
     'vision_title', 'Our Vision',
     'vision_text', 'To be South Asia''s most trusted fertility centre, recognised for medical excellence, ethical practice and the joy we bring to families.'
   )),
@@ -104,6 +104,6 @@ INSERT INTO public.about_content (section, content) VALUES
     'items', jsonb_build_array(
       jsonb_build_object('icon', 'HeartHandshake', 'title', 'Compassion', 'description', 'Every patient is treated with empathy, dignity and unwavering support.'),
       jsonb_build_object('icon', 'ShieldCheck', 'title', 'Excellence', 'description', 'World-class technology and protocols, refined over more than a decade.'),
-      jsonb_build_object('icon', 'Sparkles', 'title', 'Hope', 'description', 'We believe in the dream of every family — and work tirelessly to honour it.')
+      jsonb_build_object('icon', 'Sparkles', 'title', 'Hope', 'description', 'We believe in the dream of every family - and work tirelessly to honour it.')
     )
   ));

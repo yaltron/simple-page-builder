@@ -64,13 +64,13 @@ const contactItems = [
   { Icon: MapPin, label: "Address", value: "Kathmandu, Nepal", href: "https://maps.app.goo.gl/uBT758S7LyZYjHJz5", external: true },
   { Icon: Phone, label: "Phone", value: "+977 9861141699", href: "tel:+9779861141699", external: false },
   { Icon: Mail, label: "Email", value: "Shubhashreeivf@gmail.com", href: "mailto:Shubhashreeivf@gmail.com", external: false },
-  { Icon: Clock, label: "Hours", value: "Sun–Fri: 8:00 AM – 6:00 PM", href: undefined, external: false },
+  { Icon: Clock, label: "Hours", value: "Sun-Fri: 8:00 AM - 6:00 PM", href: undefined, external: false },
 ] as const
 
 export function Footer() {
   return (
     <footer className="footer-root">
-      {/* ROW 1 — Main footer */}
+      {/* ROW 1 - Main footer */}
       <div
         className="footer-main"
         style={{
@@ -231,7 +231,7 @@ export function Footer() {
         </div>
       </div>
 
-      {/* ROW 2 — Bottom bar */}
+      {/* ROW 2 - Bottom bar */}
       <div
         style={{
           background: "white",

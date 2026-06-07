@@ -5,13 +5,13 @@ interface MagneticProps {
   children: ReactNode
   /** Distance from the element edge that begins attracting the cursor (px) */
   range?: number
-  /** Maximum displacement (px) — fraction of the offset to apply */
+  /** Maximum displacement (px) - fraction of the offset to apply */
   strength?: number
   className?: string
 }
 
 /**
- * Wraps any element to make it "magnetic" — when the mouse comes within
+ * Wraps any element to make it "magnetic" - when the mouse comes within
  * `range` px of the element's bounding box, it slides toward the cursor
  * with a Framer Motion spring.
  */

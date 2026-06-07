@@ -125,7 +125,7 @@ function BlogEditorPage() {
     const sentences = stripHtml(form.content).split(/[.!?]+/).filter((s) => s.trim().length > 0).length || 1
     const avg = form.word_count / sentences
     return avg < 14 ? "Easy" : avg < 22 ? "Medium" : "Hard"
-  })() : "—"
+  })() : "-"
 
   if (loading || !isAdmin || loadingPost) return <AdminLoading />
 

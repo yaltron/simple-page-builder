@@ -156,7 +156,7 @@ export function WhenToVisit() {
                 <div className="rounded-2xl overflow-hidden h-32 lg:h-40">
                   <img src={i3} alt={a3} className="w-full h-full object-cover" loading="lazy" />
                 </div>
-                {/* Video thumbnail — autoplay iframe if video_url is set, otherwise click-to-open thumbnail */}
+                {/* Video thumbnail - autoplay iframe if video_url is set, otherwise click-to-open thumbnail */}
                 {embed ? (
                   <div
                     className="rounded-2xl overflow-hidden h-48 lg:h-64"

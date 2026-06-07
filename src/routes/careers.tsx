@@ -9,9 +9,9 @@ import { supabase } from "@/integrations/supabase/client"
 export const Route = createFileRoute("/careers")({
   head: () => ({
     meta: [
-      { title: "Career — Subhashree IVF" },
-      { name: "description", content: "Join the Subhashree IVF team — current openings and how to apply." },
-      { property: "og:title", content: "Career — Subhashree IVF" },
+      { title: "Career - Subhashree IVF" },
+      { name: "description", content: "Join the Subhashree IVF team - current openings and how to apply." },
+      { property: "og:title", content: "Career - Subhashree IVF" },
       { property: "og:description", content: "Build your career at Nepal's leading fertility centre." },
     ],
   }),

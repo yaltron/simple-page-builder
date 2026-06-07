@@ -56,7 +56,7 @@ export function GradientOrb({
       style={{
         width: size,
         height: size,
-        // Radial gradient that fades to transparent — soft mesh feel
+        // Radial gradient that fades to transparent - soft mesh feel
         background: `radial-gradient(circle at 50% 50%, ${c} 0%, ${c} 25%, transparent 70%)`,
         mixBlendMode: "multiply",
         filter: "blur(40px)",

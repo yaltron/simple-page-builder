@@ -340,7 +340,7 @@ function AdminAppointmentsPage() {
                     style={it.status === "new" ? { borderLeft: "4px solid #E6007E" } : undefined}>
                   <td className="px-4 py-3 font-medium">{it.full_name}</td>
                   <td className="px-4 py-3">{it.phone}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{it.service || "—"}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{it.service || "-"}</td>
                   <td className="px-4 py-3">{it.preferred_date}</td>
                   <td className="px-4 py-3 text-xs">{it.preferred_time}</td>
                   <td className="px-4 py-3" onClick={e => e.stopPropagation()}>
@@ -361,7 +361,7 @@ function AdminAppointmentsPage() {
                       />
                     )}
                   </td>
-                  <td className="px-4 py-3 text-xs">{it.follow_up_at ? formatFollowUp(it.follow_up_at) : "—"}</td>
+                  <td className="px-4 py-3 text-xs">{it.follow_up_at ? formatFollowUp(it.follow_up_at) : "-"}</td>
                   <td className="px-4 py-3 text-xs text-muted-foreground">{new Date(it.created_at).toLocaleDateString()}</td>
                   <td className="px-4 py-3 text-right" onClick={e => e.stopPropagation()}>
                     <button onClick={() => remove(it.id)} className="text-red-500 hover:text-red-700 p-1"><Trash2 className="w-4 h-4" /></button>
@@ -403,14 +403,14 @@ function DetailPanel({ appt, onClose, onUpdateStatus, onUpdateFollowUp, onSaveNo
 
         <div className="p-5 space-y-4">
           <Field label="Phone" value={appt.phone} />
-          <Field label="Email" value={appt.email || "—"} />
-          <Field label="Service" value={appt.service || "—"} />
+          <Field label="Email" value={appt.email || "-"} />
+          <Field label="Service" value={appt.service || "-"} />
           <Field label="Date" value={appt.preferred_date} />
           <Field label="Time" value={appt.preferred_time} />
           <Field label="Type" value={appt.consultation_type} />
           <div>
             <div className="text-xs uppercase text-muted-foreground mb-1">Message</div>
-            <div className="text-sm whitespace-pre-wrap p-3 bg-gray-50 rounded-lg">{appt.message || "—"}</div>
+            <div className="text-sm whitespace-pre-wrap p-3 bg-gray-50 rounded-lg">{appt.message || "-"}</div>
           </div>
 
           <div>

@@ -11,9 +11,9 @@ import { supabase } from "@/integrations/supabase/client"
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "Our Services — Subhashree IVF" },
-      { name: "description", content: "IVF, ICSI, embryo freezing, genetic testing, donor programmes and more — comprehensive fertility care under one roof." },
-      { property: "og:title", content: "Our Services — Subhashree IVF" },
+      { title: "Our Services - Subhashree IVF" },
+      { name: "description", content: "IVF, ICSI, embryo freezing, genetic testing, donor programmes and more - comprehensive fertility care under one roof." },
+      { property: "og:title", content: "Our Services - Subhashree IVF" },
       { property: "og:description", content: "Comprehensive fertility services tailored for you." },
     ],
   }),

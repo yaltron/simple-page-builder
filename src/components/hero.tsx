@@ -48,7 +48,7 @@ export function Hero() {
           background: "linear-gradient(to right, #FFE4EF 0%, #FFF5F9 25%, #FFFAFC 50%, #ffffff 100%)",
         }}
       >
-        {/* Floating decoratives — z-0, pointer-events-none */}
+        {/* Floating decoratives - z-0, pointer-events-none */}
         <div aria-hidden="true" style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
           <div style={{ position: "absolute", width: 300, height: 300, border: "1.5px solid rgba(230,0,126,0.08)", borderRadius: "50%", top: -60, left: -80, animation: "hero-rotate 30s linear infinite" }} />
           <div style={{ position: "absolute", width: 180, height: 180, border: "1px solid rgba(230,0,126,0.06)", borderRadius: "50%", bottom: "20%", right: "10%", animation: "hero-float 8s ease-in-out infinite" }} />

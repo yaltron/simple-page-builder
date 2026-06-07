@@ -112,8 +112,8 @@ function JobsTab() {
             {items.map((j) => (
               <tr key={j.id} className="border-t">
                 <td className="p-3 font-medium">{j.title}</td>
-                <td className="p-3">{j.department || "—"}</td>
-                <td className="p-3">{j.type || "—"}</td>
+                <td className="p-3">{j.department || "-"}</td>
+                <td className="p-3">{j.type || "-"}</td>
                 <td className="p-3 text-center">
                   <button onClick={() => toggle(j)} className="text-[10px] px-2 py-0.5 rounded-full font-semibold" style={{ background: j.is_active ? "#dcfce7" : "#f1f5f9", color: j.is_active ? "#166534" : "#475569" }}>
                     {j.is_active ? "Active" : "Hidden"}
@@ -249,7 +249,7 @@ function ApplicationsTab() {
                       <button onClick={() => viewResume(a.resume_url)} className="inline-flex items-center gap-1 text-xs text-pink-700 hover:underline">
                         <FileDown className="w-3.5 h-3.5" /> View
                       </button>
-                    ) : "—"}
+                    ) : "-"}
                   </td>
                   <td className="p-3 text-center">
                     <select

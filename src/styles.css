@@ -164,7 +164,7 @@ select, [role="button"] {
   }
 }
 
-/* Doctors marquee — continuous auto-scroll, loops seamlessly because
+/* Doctors marquee - continuous auto-scroll, loops seamlessly because
    the track contains the list duplicated twice; -50% returns to the start. */
 @keyframes marquee {
   from { transform: translateX(0); }
@@ -294,7 +294,7 @@ select, [role="button"] {
   font-size: 0.9em;
 }
 
-/* Blog content — renders TipTap HTML as a formatted article */
+/* Blog content - renders TipTap HTML as a formatted article */
 .blog-content {
   max-width: 100%;
   color: #3D2040;
@@ -378,7 +378,7 @@ select, [role="button"] {
 .blog-content em { font-style: italic; }
 
 
-/* Why Families Trust Us — card hover */
+/* Why Families Trust Us - card hover */
 .why-card {
   transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
   will-change: transform;
@@ -415,7 +415,7 @@ select, [role="button"] {
 }
 
 /* ════════════════════════════════════════════════════════
-   TABLET RESPONSIVE OVERRIDES (641px – 1024px)
+   TABLET RESPONSIVE OVERRIDES (641px - 1024px)
    Scoped strictly to tablet range; desktop/mobile untouched.
    ════════════════════════════════════════════════════════ */
 @media (min-width: 641px) and (max-width: 1024px) {
@@ -539,7 +539,7 @@ select, [role="button"] {
      blog/index featured area handled below */
   .featured-blog-cover { height: 240px !important; }
 
-  /* Buttons (scoped) — minimum tablet sizing */
+  /* Buttons (scoped) - minimum tablet sizing */
   main button:not([data-icon-only]):not([aria-label*="menu"]):not([aria-label*="close"]),
   main a[class*="rounded-full"]:not([data-icon-only]) {
     min-width: unset;
@@ -578,7 +578,7 @@ select, [role="button"] {
   .nav-cta-row { gap: 6px !important; }
 }
 
-/* Force ALL tablet widths to keep nav CTAs visible — single overrule */
+/* Force ALL tablet widths to keep nav CTAs visible - single overrule */
 @media (min-width: 641px) and (max-width: 1024px) {
   .nav-cta-btn {
     white-space: nowrap;
@@ -601,3 +601,10 @@ select, [role="button"] {
     padding-right: 10px !important;
   }
 }
+
+/* Date input cross-browser */
+input[type="date"]::-webkit-date-and-time-value {
+  text-align: left;
+  padding-left: 4px;
+}
+input[type="date"]:focus { border-color: #E6007E; outline: none; }

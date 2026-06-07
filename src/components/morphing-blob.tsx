@@ -16,7 +16,7 @@ interface MorphingBlobProps {
   driftX?: number
   /** Drift distance in px on y */
   driftY?: number
-  /** Positioning — any standard absolute style props */
+  /** Positioning - any standard absolute style props */
   style?: CSSProperties
   /** Apply blur for soft edges */
   blur?: number
@@ -38,7 +38,7 @@ export function MorphingBlob({
   style,
   blur = 60,
 }: MorphingBlobProps) {
-  // Sequence of asymmetric border-radius "blob" shapes — never repeats
+  // Sequence of asymmetric border-radius "blob" shapes - never repeats
   // exactly within a cycle, then yoyos back via repeatType: "reverse".
   const shapes = [
     "60% 40% 30% 70% / 60% 30% 70% 40%",

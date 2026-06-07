@@ -88,7 +88,7 @@ export function StoriesTestimonials() {
                       </p>
                     )}
                     <p className="text-sm font-semibold text-brand-pink">
-                      — {active?.name}
+                      - {active?.name}
                       {active?.location ? `, ${active.location}` : ""}
                     </p>
                   </div>

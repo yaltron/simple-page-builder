@@ -51,7 +51,7 @@ function AdminDashboardPage() {
     { label: "Total Posts", value: stats.total, icon: FileText },
     { label: "Published", value: stats.published, icon: CheckCircle2 },
     { label: "Drafts", value: stats.drafts, icon: Clock },
-    { label: "Media", value: "—", icon: ImgIcon },
+    { label: "Media", value: "-", icon: ImgIcon },
   ]
 
   return (

@@ -10,10 +10,10 @@ import { useAboutSection } from "@/lib/use-cms-content"
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Us — Subhashree IVF & Fertility Centre" },
+      { title: "About Us - Subhashree IVF & Fertility Centre" },
       { name: "description", content: "12+ years of trusted fertility care in Nepal. Learn about our mission, values, and commitment to helping families." },
       { property: "og:title", content: "About Subhashree IVF" },
-      { property: "og:description", content: "Nepal's trusted fertility centre — our story, mission and values." },
+      { property: "og:description", content: "Nepal's trusted fertility centre - our story, mission and values." },
     ],
   }),
   component: AboutPage,
@@ -28,7 +28,7 @@ const whyChoose = [
 
 const DEFAULT_STORY = {
   paragraph_1:
-    "Founded over 12 years ago, Subhashree IVF & Fertility Centre has grown into Nepal's most trusted name in reproductive medicine. From our first clinic to today's full-service centre of excellence, our mission has remained the same — bringing happiness into your life.",
+    "Founded over 12 years ago, Subhashree IVF & Fertility Centre has grown into Nepal's most trusted name in reproductive medicine. From our first clinic to today's full-service centre of excellence, our mission has remained the same - bringing happiness into your life.",
   paragraph_2:
     "With more than 5,000 successful treatments and a dedicated team of specialists, embryologists and counsellors, we have built a reputation founded on outcomes, transparency and compassionate care for every couple who walks through our doors.",
   images: [
@@ -40,7 +40,7 @@ const DEFAULT_STORY = {
 const DEFAULT_MV = {
   mission_title: "Our Mission",
   mission_text:
-    "To empower every couple on their path to parenthood through advanced fertility care, transparent guidance and compassionate emotional support — at a cost accessible to all.",
+    "To empower every couple on their path to parenthood through advanced fertility care, transparent guidance and compassionate emotional support - at a cost accessible to all.",
   vision_title: "Our Vision",
   vision_text:
     "To be South Asia's most trusted fertility centre, recognised for medical excellence, ethical practice and the joy we bring to families.",
@@ -50,7 +50,7 @@ const DEFAULT_VALUES = {
   items: [
     { icon: "HeartHandshake", title: "Compassion", description: "Every patient is treated with empathy, dignity and unwavering support." },
     { icon: "ShieldCheck", title: "Excellence", description: "World-class technology and protocols, refined over more than a decade." },
-    { icon: "Sparkles", title: "Hope", description: "We believe in the dream of every family — and work tirelessly to honour it." },
+    { icon: "Sparkles", title: "Hope", description: "We believe in the dream of every family - and work tirelessly to honour it." },
   ],
 }
 
@@ -60,7 +60,7 @@ function IconByName({ name, className, style }: { name: string; className?: stri
 }
 
 function resolveImage(url: string) {
-  // Old seed used /src/assets/* paths — fall back to bundled imports
+  // Old seed used /src/assets/* paths - fall back to bundled imports
   if (url?.includes("who-clinic")) return whoClinic
   if (url?.includes("who-team")) return whoTeam
   return url
@@ -75,7 +75,7 @@ function AboutPage() {
 
   return (
     <PageLayout title="About Us" breadcrumb="About Us">
-      {/* Section 1 — Our Story */}
+      {/* Section 1 - Our Story */}
       <Section bg="white">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <motion.div
@@ -118,7 +118,7 @@ function AboutPage() {
         </div>
       </Section>
 
-      {/* Section 2 — Mission & Vision */}
+      {/* Section 2 - Mission & Vision */}
       <Section bg="white">
         <SectionHeading>Our Mission & Vision</SectionHeading>
         <div className="grid md:grid-cols-2 gap-6">
@@ -145,7 +145,7 @@ function AboutPage() {
         </div>
       </Section>
 
-      {/* Section 3 — Why Choose Us */}
+      {/* Section 3 - Why Choose Us */}
       <Section bg={BRAND.pinkSoft}>
         <SectionHeading>Why Choose Us</SectionHeading>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -168,7 +168,7 @@ function AboutPage() {
         </div>
       </Section>
 
-      {/* Section 4 — Our Values */}
+      {/* Section 4 - Our Values */}
       <Section bg="white">
         <SectionHeading>Our Values</SectionHeading>
         <div className="grid md:grid-cols-3 gap-6">

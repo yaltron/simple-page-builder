@@ -12,7 +12,7 @@ const DOCTORS_HEADING_DEFAULTS = {
 
 const AUTOPLAY_MS = 3200
 
-// Premium spring — snappier, still fluid
+// Premium spring - snappier, still fluid
 const SPRING = { type: "spring" as const, stiffness: 340, damping: 32, mass: 0.7 }
 const SPRING_SOFT = { type: "spring" as const, stiffness: 260, damping: 30, mass: 0.7 }
 
@@ -24,8 +24,17 @@ export function DoctorsCarousel() {
   const [[active, direction], setActive] = useState<[number, 1 | -1]>([0, 1])
   const [paused, setPaused] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const update = () => setIsMobile(window.innerWidth <= 640)
+    update()
+    window.addEventListener("resize", update)
+    return () => window.removeEventListener("resize", update)
+  }, [])
 
   const total = doctors.length
+
   const go = useCallback(
     (dir: 1 | -1) =>
       setActive(([i]) => [(i + dir + total) % total, dir]),
@@ -80,7 +89,186 @@ export function DoctorsCarousel() {
 
   const pauseOn = { onMouseEnter: () => setPaused(true), onMouseLeave: () => setPaused(false) }
 
+  if (isMobile) {
+    return (
+      <section
+        id="team"
+        ref={ref}
+        style={{
+          padding: "30px 16px 50px",
+          background:
+            "radial-gradient(ellipse at top left, #FFE4F1 0%, transparent 55%), radial-gradient(ellipse at bottom right, #EDE7FF 0%, transparent 55%), linear-gradient(180deg, #FFF7FB 0%, #FFF1F7 100%)",
+        }}
+      >
+        <h2
+          style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: "1.4rem",
+            fontWeight: 700,
+            textAlign: "center",
+            padding: "0 16px",
+            marginBottom: 24,
+            color: cms.heading_color,
+          }}
+        >
+          {cms.heading}
+        </h2>
+
+        <motion.div
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.18}
+          onDragEnd={onDragEnd}
+          style={{
+            width: "85vw",
+            margin: "0 auto",
+            borderRadius: 16,
+            overflow: "hidden",
+            background: "white",
+            boxShadow: "0 4px 20px rgba(230,0,126,0.10)",
+          }}
+        >
+          <AnimatePresence mode="wait" custom={direction} initial={false}>
+            <motion.div
+              key={current.id}
+              initial={{ opacity: 0, x: direction === 1 ? 60 : -60 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: direction === 1 ? -60 : 60 }}
+              transition={{ duration: 0.35 }}
+            >
+              {current.image && (
+                <img
+                  src={current.image}
+                  alt={current.name}
+                  style={{
+                    width: "100%",
+                    height: 200,
+                    objectFit: "cover",
+                    objectPosition: "top center",
+                    display: "block",
+                  }}
+                />
+              )}
+              <div style={{ padding: 16 }}>
+                <p style={{ fontSize: 16, fontWeight: 700, color: "#2D0A1E", margin: 0 }}>
+                  {current.name}
+                </p>
+                {current.title && (
+                  <p style={{ fontSize: 12, color: "#C2185B", margin: "4px 0 12px", fontWeight: 600 }}>
+                    {current.title}
+                  </p>
+                )}
+                <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 12 }}>
+                  <Link
+                    to="/contact"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 6,
+                      width: "100%",
+                      padding: 10,
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: "white",
+                      borderRadius: 999,
+                      background: "linear-gradient(90deg, #E6007E 0%, #C2185B 100%)",
+                    }}
+                  >
+                    <Calendar className="w-4 h-4" /> Consult Now
+                  </Link>
+                  <Link
+                    to="/team"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 6,
+                      width: "100%",
+                      padding: 10,
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: "#2D0A1E",
+                      borderRadius: 999,
+                      background: "white",
+                      border: "1.5px solid rgba(45,10,30,0.15)",
+                    }}
+                  >
+                    <User className="w-4 h-4" /> View Profile
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Arrows */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 20 }}>
+          <button
+            aria-label="Previous"
+            onClick={() => go(-1)}
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: "50%",
+              background: "white",
+              border: "1.5px solid rgba(230,0,126,0.2)",
+              color: "#E6007E",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+            }}
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </button>
+          <button
+            aria-label="Next"
+            onClick={() => go(1)}
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: "50%",
+              background: "white",
+              border: "1.5px solid rgba(230,0,126,0.2)",
+              color: "#E6007E",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+            }}
+          >
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Dots */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 8, marginTop: 12 }}>
+          {doctors.map((d, i) => (
+            <button
+              key={d.id}
+              aria-label={`Go to ${d.name}`}
+              onClick={() => goTo(i)}
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                border: "none",
+                padding: 0,
+                background: i === active ? "#E6007E" : "rgba(230,0,126,0.25)",
+                cursor: "pointer",
+              }}
+            />
+          ))}
+        </div>
+        {/* progress accessor to keep var used */}
+        <span style={{ display: "none" }}>{progress}</span>
+      </section>
+    )
+  }
+
   return (
+
     <section
       id="team"
       ref={ref}
@@ -125,7 +313,7 @@ export function DoctorsCarousel() {
         </motion.div>
 
         <div className="grid lg:grid-cols-[1fr_1fr] gap-6 lg:gap-10 items-center">
-          {/* LEFT — active card + slider */}
+          {/* LEFT - active card + slider */}
           <div className="relative">
             <motion.div
               drag="x"
@@ -241,7 +429,7 @@ export function DoctorsCarousel() {
 
           </div>
 
-          {/* RIGHT — details */}
+          {/* RIGHT - details */}
           <div className="relative" {...pauseOn}>
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div

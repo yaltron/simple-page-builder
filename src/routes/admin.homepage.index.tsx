@@ -137,7 +137,7 @@ function HeroEditor() {
         <Field label="Headline">
           <input value={data.headline} onChange={(e) => setData({ ...data, headline: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
         </Field>
-        <Field label="Highlight word(s) — these appear in pink" hint="Must be a substring of the headline (e.g. 'Your Life').">
+        <Field label="Highlight word(s) - these appear in pink" hint="Must be a substring of the headline (e.g. 'Your Life').">
           <input value={data.headline_highlight} onChange={(e) => setData({ ...data, headline_highlight: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
         </Field>
         <Field label="Subheadline">
@@ -177,7 +177,7 @@ function HeroEditor() {
                 <button onClick={() => removeSlide(i)} className="p-1.5 rounded hover:bg-red-50 text-red-600"><Trash2 className="w-4 h-4" /></button>
               </div>
             ))}
-            {(data.slides || []).length === 0 && <div className="text-xs text-muted-foreground">No slides yet — add one above.</div>}
+            {(data.slides || []).length === 0 && <div className="text-xs text-muted-foreground">No slides yet - add one above.</div>}
           </div>
         </div>
         <SaveBar onSave={save} saving={saving} />
@@ -573,8 +573,8 @@ function SectionsEditor() {
 
   return (
     <div className="space-y-6">
-      {/* Storytelling Gallery — Moments That Matter */}
-      <SectionCard title="Storytelling Gallery — Moments That Matter" onSave={who.save} saving={who.saving}>
+      {/* Storytelling Gallery - Moments That Matter */}
+      <SectionCard title="Storytelling Gallery - Moments That Matter" onSave={who.save} saving={who.saving}>
         <div className="grid md:grid-cols-[auto_1fr_1fr] gap-3 items-end">
           <label className="inline-flex items-center gap-2 text-sm font-medium">
             <input type="checkbox" checked={who.data.enabled !== false}
@@ -795,7 +795,7 @@ function SectionsEditor() {
           <ColorPicker value={when.data.heading_color} onChange={(c) => when.setData({ ...when.data, heading_color: c })} />
         </Field>
         <div>
-          <div className="text-xs font-semibold text-muted-foreground mb-1">Video URL (4th slot — autoplays in the When To Visit section)</div>
+          <div className="text-xs font-semibold text-muted-foreground mb-1">Video URL (4th slot - autoplays in the When To Visit section)</div>
           <input
             value={when.data.video_url || ""}
             onChange={(e) => when.setData({ ...when.data, video_url: e.target.value })}

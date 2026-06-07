@@ -76,11 +76,11 @@ function AdminBlogListPage() {
             {filtered.map((p) => (
               <tr key={p.id} className="border-t hover:bg-gray-50">
                 <td className="px-4 py-3 font-medium">{p.title}</td>
-                <td className="px-4 py-3 text-muted-foreground">{p.category || "—"}</td>
+                <td className="px-4 py-3 text-muted-foreground">{p.category || "-"}</td>
                 <td className="px-4 py-3">
                   <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: p.status === "published" ? "#D1FADF" : "#FEF3C7", color: p.status === "published" ? "#027A48" : "#92400E" }}>{p.status}</span>
                 </td>
-                <td className="px-4 py-3 text-muted-foreground">{p.author || "—"}</td>
+                <td className="px-4 py-3 text-muted-foreground">{p.author || "-"}</td>
                 <td className="px-4 py-3 text-muted-foreground">{new Date(p.published_at || p.created_at).toLocaleDateString()}</td>
                 <td className="px-4 py-3 text-muted-foreground">{p.word_count || 0}</td>
                 <td className="px-4 py-3 text-right">

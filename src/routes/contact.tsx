@@ -9,10 +9,10 @@ import { supabase } from "@/integrations/supabase/client"
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact Us — Subhashree IVF" },
-      { name: "description", content: "Get in touch with Subhashree IVF in Kathmandu — phone, email, address and clinic hours." },
-      { property: "og:title", content: "Contact Us — Subhashree IVF" },
-      { property: "og:description", content: "Reach out — we'd love to hear from you." },
+      { title: "Contact Us - Subhashree IVF" },
+      { name: "description", content: "Get in touch with Subhashree IVF in Kathmandu - phone, email, address and clinic hours." },
+      { property: "og:title", content: "Contact Us - Subhashree IVF" },
+      { property: "og:description", content: "Reach out - we'd love to hear from you." },
     ],
   }),
   component: ContactPage,
@@ -48,7 +48,7 @@ const info = [
   { icon: MapPin, label: "Address", value: "Kathmandu, Nepal" },
   { icon: Phone, label: "Phone", value: "+977 9861141699" },
   { icon: Mail, label: "Email", value: "Shubhashreeivf@gmail.com" },
-  { icon: Clock, label: "Hours", value: "Sun–Fri: 8:00 AM – 6:00 PM" },
+  { icon: Clock, label: "Hours", value: "Sun-Fri: 8:00 AM - 6:00 PM" },
 ]
 
 const inputStyle: React.CSSProperties = {
