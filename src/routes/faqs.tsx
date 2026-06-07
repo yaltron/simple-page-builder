@@ -31,16 +31,16 @@ export const Route = createFileRoute("/faqs")({
     }
     return {
       meta: [
-        { title: "FAQs | Subhashree IVF & Fertility Centre" },
+        { title: "Fertility & IVF FAQs | Shubhashree IVF, Kathmandu" },
         {
           name: "description",
           content:
-            "Answers to common questions about IVF, ICSI, costs, preparation and after-treatment care at Subhashree IVF, Kathmandu.",
+            "Answers to common questions about IVF, ICSI, treatment costs, preparation and after-care at Shubhashree IVF Clinic, Kathmandu.",
         },
-        { property: "og:title", content: "FAQs | Subhashree IVF" },
+        { property: "og:title", content: "Fertility & IVF FAQs | Shubhashree IVF, Kathmandu" },
         {
           property: "og:description",
-          content: "Common fertility, IVF and ICSI questions answered by our specialists.",
+          content: "Common fertility, IVF and ICSI questions answered by the specialists at Shubhashree IVF, Kathmandu.",
         },
         { property: "og:url", content: "https://subhashree-ui.lovable.app/faqs" },
       ],
