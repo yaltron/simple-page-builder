@@ -462,19 +462,10 @@ const CTA_DEFAULTS = {
 
 export function WhoWeAreEditor() {
   const who = useSection("homepage_content", "who_we_are", WHO_DEFAULTS)
-  const slots: Partial<Record<SlotKey, GalleryItem>> = who.data.slots || {}
-  const patchSlot = (key: SlotKey, patch: Partial<GalleryItem>) => {
-    const current = slots[key] || { enabled: true, type: "image" as const }
-    who.setData({ ...who.data, slots: { ...slots, [key]: { ...current, ...patch } } })
-  }
-  const clearSlot = (key: SlotKey) => {
-    const next = { ...slots }
-    delete next[key]
-    who.setData({ ...who.data, slots: next })
-  }
 
   return (
-    <SectionCard title="Storytelling Gallery - Moments That Matter" onSave={who.save} saving={who.saving}>
+    <SectionCard title="Storytelling Gallery - Moments That Matter" onSave={who.save} saving={who.saving} saveLabel="Save Gallery Settings">
+
       <div className="grid md:grid-cols-[auto_1fr_1fr] gap-3 items-end">
         <label className="inline-flex items-center gap-2 text-sm font-medium">
           <input type="checkbox" checked={who.data.enabled !== false}
