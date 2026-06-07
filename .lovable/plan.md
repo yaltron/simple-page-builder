@@ -1,38 +1,48 @@
-## Goal
-Move the standalone Moments Gallery editor into the existing "Storytelling Gallery – Moments That Matter" section on the Who We Are admin page (`/admin/homepage/who-we-are`). Remove the standalone Moments Gallery page and its sidebar item. No other CMS page, frontend page, or unrelated Who We Are field is touched.
+# Three targeted fixes
 
-## Files changed
+## Fix 1 — Remove the appointment auto-popup
 
-### 1. `src/components/admin/cms-editors.tsx`
-- In `WhoWeAreEditor` (`SectionCard title="Storytelling Gallery - Moments That Matter"`):
-  - Keep **all existing settings fields** as-is and in the same order: Section enabled, Main heading, Subtitle/tagline, Use-gradient toggle, Gradient from/to, Subtitle color, CTA text, CTA URL, Background glow color, Glow intensity slider, Section background style, Section spacing slider, Card radius slider, Animation speed slider, Hover style, Enable floating animation.
-  - **Replace** the existing `Gallery Slots` subsection (current lines 575–682 — the fixed `SLOT_LIST` grid with center_hero / left_card_* / right_card_* / floating slots) with:
-    - A horizontal rule (`<hr/>`) and a sub-label `Storytelling Gallery - Moments That Matter`.
-    - `<MomentsGalleryEditor />` rendered inline (imported from `@/components/admin/moments-gallery-editor`). This brings in the full functionality from the current Moments Gallery CMS page exactly as it exists today: add slot button, drag-to-reorder grid, span-size selector per slot, edit/remove per slot, all wired to the `moments_gallery` table and `site-media` storage. No changes to that component or its Supabase calls.
-  - Pass `saveLabel="Save Gallery Settings"` to `SectionCard` (add a small optional prop — see Technical Notes) so the single button at the bottom reads **Save Gallery Settings** and triggers `who.save` (saves only the styling/settings fields, same as today).
-  - Remove the now-unused `SLOT_LIST`, `SlotKey` type, `slots` / `patchSlot` / `clearSlot` helpers from `WhoWeAreEditor` (only if no other editor uses them — they live in this file and are only referenced here).
-  - Leave the rest of `WhoWeAreEditor` (everything above the Gallery Slots subsection) untouched.
+- `src/routes/__root.tsx`: drop the `AppointmentAutoPopup` import (line 12) and its `<AppointmentAutoPopup />` render (line 90).
+- Delete the file `src/components/appointment-auto-popup.tsx` entirely (contains the 5s `setTimeout`, the `appointment_popup_shown` sessionStorage check, the overlay markup, and all related `useEffect`s).
+- Leave the navbar "Book Appointment" dropdown and the Contact page form untouched.
+- Leave `src/components/popup-banner.tsx` (CMS-driven banner) and its `__root.tsx` render untouched — it is a different feature.
 
-### 2. `src/components/admin/cms-editors.tsx` – `SectionCard`
-- Add an optional `saveLabel?: string` prop, defaulting to `"Save Section"`. Use it in the button label. No other call sites change behavior.
+## Fix 2 — Normalize em/en dashes in page titles
 
-### 3. `src/components/admin/admin-shell.tsx`
-- Remove the `Moments Gallery` leaf from the `homepage` group in `navItems`:
-  - Delete `{ to: "/admin/homepage/moments-gallery", label: "Moments Gallery" }`.
-- Leave every other menu item, ordering, and submenu behavior unchanged.
+Source audit shows no `—`, `–`, `&mdash;` or `&ndash;` in `src/` today; all hard-coded route titles already use `-`. The em dashes the user sees come from DB-stored CMS values (blog `meta_title`, gallery item `title`, popup banner `title`, etc.) that the route's `head()` injects into `<title>`/og:title/twitter:title.
 
-### 4. `src/routes/admin.homepage.moments-gallery.tsx`
-- Delete the file. The route disappears from `routeTree.gen.ts` automatically on the next build.
+Add a tiny sanitizer and apply it everywhere a dynamic string is injected into a title-style meta tag:
 
-## Files NOT changed
-- `src/components/admin/moments-gallery-editor.tsx` — kept as-is, now consumed only by `WhoWeAreEditor`. All Supabase queries (`moments_gallery` table, `site-media` bucket, add/edit/delete/reorder logic) stay identical.
-- Database schema, RLS, storage buckets — no migration.
-- `src/components/who-we-are.tsx` and the rest of the frontend.
-- All other CMS editors and routes.
-- Other fields in `WhoWeAreEditor` and its `who.save` flow.
+- New helper `dashesToHyphen(s: string)` in `src/lib/blog-utils.ts` (or a new `src/lib/title-utils.ts`) that replaces `\u2014`, `\u2013`, `&mdash;`, `&ndash;` with `-`, collapsing surrounding spaces.
+- Apply in `head()` of:
+  - `src/routes/blog.$slug.tsx` — `title`, `og:title`, `twitter:title`, JSON-LD `headline`, and `meta_description`/`og:description`/`twitter:description` (so the share preview is also clean).
+  - `src/routes/blog.index.tsx`, `src/routes/services.tsx`, `src/routes/about.tsx`, `src/routes/team.tsx`, `src/routes/success-stories.tsx`, `src/routes/gallery.tsx`, `src/routes/contact.tsx`, `src/routes/careers.tsx`, `src/routes/faqs.tsx`, `src/routes/index.tsx` — wrap the title string just in case (cheap, defensive).
+  - `src/routes/__root.tsx` defaults.
+- No DB writes; this is purely render-time normalization so existing admin content is displayed with `-` without forcing the admin to re-edit.
 
-## Technical Notes
-- `SectionCard` signature becomes `{ title, onSave, saving, saveLabel?, children }`; render `saveLabel ?? "Save Section"`.
-- `WHO_DEFAULTS.slots` and the `GalleryItem`/`SlotKey` typings become unused inside `WhoWeAreEditor`. Leaving `slots: {}` in `WHO_DEFAULTS` is safe (it just sits in the JSON payload unused); remove only the now-orphaned local consts (`SLOT_LIST`, `slots`, `patchSlot`, `clearSlot`) to keep TypeScript happy under `strict`.
-- The single Save button at the bottom of the section saves the Who We Are settings (`homepage_content.who_we_are`). The Moments Gallery items continue to save themselves per-item via their existing modal flow inside `MomentsGalleryEditor` — exactly as on the standalone page today.
-- No route registration to edit manually — `routeTree.gen.ts` regenerates on build.
+## Fix 3 — YouTube embed URL handling
+
+Replace the ad-hoc URL handling at every public embed site with a single shared helper.
+
+- New helper `src/lib/youtube.ts` exporting `toYouTubeEmbed(url: string | null | undefined): string | null` that supports:
+  - `youtube.com/watch?v=ID`
+  - `youtu.be/ID`
+  - `youtube.com/embed/ID`
+  - `youtube.com/v/ID`
+  - `youtube.com/shorts/ID`
+  Returns `https://www.youtube.com/embed/<ID>?rel=0&modestbranding=1` (passes through any already-embed URL).
+
+- `src/components/video-modal.tsx`: run `src` through `toYouTubeEmbed` (fallback to the original `src` for non-YouTube sources like Vimeo). Update the iframe to include the attributes the user listed: `width="100%"`, `height="100%"`, `frameBorder="0"`, `allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"`, `allowFullScreen`, `referrerPolicy="strict-origin-when-cross-origin"`, `loading="lazy"`. This is what Success Stories and Hero "Watch Our Story" use, so both are fixed in one place.
+- `src/routes/gallery.tsx`: replace the inline regex (`getEmbedUrl`) with `toYouTubeEmbed` so gallery lightbox handles `watch?v=` URLs entered in the CMS.
+- `src/lib/use-cms-content.ts` (`toEmbedUrl` used by `when-to-visit` / hero data path): keep Vimeo branch, route YouTube branch through `toYouTubeEmbed` for consistency.
+- `src/components/when-to-visit.tsx`: leaves its own extractor in place but its iframe `src` building now goes via the shared helper for safety.
+
+No CSP / meta tag exists in the project today, so nothing to allowlist.
+
+## Out of scope (explicitly not changed)
+
+- Navbar "Book Appointment" dropdown and Contact form.
+- CMS-driven `popup_banners` feature.
+- Admin UI, DB schema, RLS, storage.
+- Any styling, colors, or layout.
+- Other CMS pages and frontend pages.
