@@ -306,14 +306,14 @@ export function AdminShell({ title, breadcrumb, children }: { title: string; bre
           </button>
         </nav>
       </aside>
-      <main className="flex-1 min-w-0 flex flex-col">
+      <main className="flex-1 min-w-0 flex flex-col admin-main-scroll" style={{ height: "100vh", overflowY: "auto", overflowX: "hidden" }}>
         <header className="h-14 bg-white border-b px-6 flex items-center">
           <div>
             <div className="text-xs text-muted-foreground">{breadcrumb || "Admin"}</div>
             <h1 className="text-base font-bold" style={{ color: "#2D0A1E" }}>{title}</h1>
           </div>
         </header>
-        <div className="flex-1 p-6 overflow-auto">{children}</div>
+        <div className="flex-1 p-6">{children}</div>
       </main>
     </div>
   )
