@@ -144,7 +144,7 @@ export function AdminShell({ title, breadcrumb, children }: { title: string; bre
             const isParent = !!item.children
             const expanded = isParent && openKey === item.key
             const activeParent = isParent && isParentActive(pathname, item)
-            const leafActive = !isParent && item.to ? isLeafActive(pathname, item.to) : false
+            const leafActive = !isParent && item.to ? isLeafActive(pathname, { to: item.to, label: item.label }) : false
             const showActive = leafActive || activeParent || expanded
             const badge = badgeFor(item.badgeKey)
 
