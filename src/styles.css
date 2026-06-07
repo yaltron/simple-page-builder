@@ -413,3 +413,157 @@ select, [role="button"] {
   background: #E6007E !important;
   color: #ffffff !important;
 }
+
+/* ════════════════════════════════════════════════════════
+   TABLET RESPONSIVE OVERRIDES (641px – 1024px)
+   Scoped strictly to tablet range; desktop/mobile untouched.
+   ════════════════════════════════════════════════════════ */
+@media (min-width: 641px) and (max-width: 1024px) {
+
+  /* ── Global ── */
+  html, body { overflow-x: hidden; }
+  body img { max-width: 100%; }
+
+  /* ── Navbar ── */
+  .nav-logo { height: auto !important; width: 140px !important; }
+  .nav-cta-row { gap: 8px !important; }
+  .nav-cta-btn {
+    padding: 9px 16px !important;
+    font-size: 13px !important;
+    gap: 6px !important;
+  }
+  .nav-row2-inner { padding-left: 3% !important; padding-right: 3% !important; }
+  .nav-row2-links { justify-content: space-evenly !important; }
+  .nav-row2-link {
+    font-size: 13px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  /* ── Hero ── */
+  .hero-section { padding: 40px 5% !important; }
+  .hero-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 24px !important;
+    align-items: center;
+  }
+  .hero-left { grid-column: auto !important; width: 100%; }
+  .hero-right { grid-column: auto !important; width: 100%; }
+  .hero-section h1 { font-size: clamp(1.6rem, 3vw, 2.2rem) !important; }
+  .hero-section p { font-size: 14px !important; }
+  .hero-section .group, .hero-section button, .hero-section a[class*="rounded-full"] {
+    font-size: 14px !important;
+  }
+
+  /* ── Who We Are (#about on home) ── */
+  section#about > div > div { padding: 50px 5% !important; gap: 30px !important; }
+  section#about .md\:w-\[60\%\] { width: 55% !important; }
+  section#about .md\:w-\[40\%\] { width: 45% !important; }
+  section#about h2 { font-size: 20px !important; }
+
+  /* ── Services / Why Us / Blog / Team / Stories / Gallery grids ── */
+  section#services, section#why-us {
+    padding-left: 5% !important;
+    padding-right: 5% !important;
+  }
+
+  /* ── Doctors Carousel (#team) ── */
+  section#team { padding-left: 5% !important; padding-right: 5% !important; }
+  section#team .grid.lg\:grid-cols-\[1fr_1fr\] {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 24px !important;
+  }
+  /* Hide left side peek to leave 2 visible (main + right peek) */
+  section#team .absolute.top-1\/2.left-0 { display: none !important; }
+  section#team h2 { font-size: 1.5rem !important; }
+
+  /* ── CTA Banner ── */
+  .cta-section { padding: 50px 5% !important; }
+  .cta-section h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem) !important; }
+  .cta-section .flex-col.sm\:flex-row { flex-wrap: wrap; justify-content: center; }
+
+  /* ── FAQ filter tabs: allow horizontal scroll ── */
+  section#faq, section#faqs { padding: 50px 5% !important; }
+  section#faq [role="tablist"], section#faqs [role="tablist"],
+  section#faq .flex.flex-wrap, section#faqs .flex.flex-wrap {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── Page hero banners (inner pages, .page-hero or PageLayout hero) ── */
+  .page-hero, [data-page-hero] { min-height: 160px !important; height: 160px !important; }
+  .page-hero h1, [data-page-hero] h1 { font-size: 1.8rem !important; }
+
+  /* ── Footer ── */
+  .footer-root .footer-main { padding: 40px 5% !important; }
+  .footer-root .footer-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 30px !important;
+  }
+  .footer-root .footer-col-brand { grid-column: 1 / -1 !important; }
+  .footer-root .footer-col-contact { grid-column: 1 / -1 !important; }
+  .footer-root .footer-logo { width: 160px !important; }
+
+  /* ── About page ── */
+  body .about-mission-vision-grid { grid-template-columns: 1fr !important; }
+  body .about-values-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* ── Generic grid collapses for tablet (target tailwind class lists) ── */
+  /* 3-column lg grids → 2 columns at tablet (where md is also 3+) */
+  section#services .grid.md\:grid-cols-2.lg\:grid-cols-3,
+  section#why-us .grid.md\:grid-cols-2.lg\:grid-cols-3,
+  .grid.md\:grid-cols-3.lg\:grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+
+  /* Contact page split */
+  .grid.lg\:grid-cols-\[55fr_45fr\] {
+    grid-template-columns: 55fr 45fr !important;
+    gap: 24px !important;
+  }
+
+  /* Team page: 4-col → 3-col at 1024, 2-col at 768 */
+  .grid.md\:grid-cols-2.lg\:grid-cols-4 {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  /* Success Stories: 3-col → 2-col */
+  .grid.sm\:grid-cols-2.lg\:grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Blog preview: keep 3-col at 1024, no change needed for that;
+     blog/index featured area handled below */
+  .featured-blog-cover { height: 240px !important; }
+
+  /* Buttons (scoped) — minimum tablet sizing */
+  main button:not([data-icon-only]):not([aria-label*="menu"]):not([aria-label*="close"]),
+  main a[class*="rounded-full"]:not([data-icon-only]) {
+    min-width: unset;
+  }
+
+  /* Section padding default for content sections inside pages */
+  main > section { padding-left: 5%; padding-right: 5%; }
+
+}
+
+/* Narrower tablet (≤880px): reduce nav link size further to prevent overflow */
+@media (min-width: 641px) and (max-width: 880px) {
+  .nav-row2-link {
+    font-size: 12px !important;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
+  .nav-logo { width: 120px !important; }
+}
+
+/* At ≤820px: process steps fallback to 2×2, hide decorative wave if any */
+@media (min-width: 641px) and (max-width: 820px) {
+  section#process .grid.sm\:grid-cols-2.lg\:grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  section#process [data-process-wave] { display: none !important; }
+}
