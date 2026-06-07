@@ -43,7 +43,7 @@ export function Hero() {
   return (
     <>
       <section
-        className="relative flex items-center overflow-hidden py-6 sm:py-8 md:py-10"
+        className="hero-section relative flex items-center overflow-hidden py-6 sm:py-8 md:py-10"
         style={{
           background: "linear-gradient(to right, #FFE4EF 0%, #FFF5F9 25%, #FFFAFC 50%, #ffffff 100%)",
         }}
@@ -89,9 +89,9 @@ export function Hero() {
             <span style={{ position: "absolute", top: 0, left: 9, width: 2, height: 20, background: "rgba(230,0,126,0.08)" }} />
           </div>
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ zIndex: 1 }}>
-          <div className="grid lg:grid-cols-5 gap-6 sm:gap-8 lg:gap-12 items-center">
-            <div className="lg:col-span-3 space-y-4 sm:space-y-6 lg:space-y-8">
+        <div className="hero-container relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ zIndex: 1 }}>
+          <div className="hero-grid grid lg:grid-cols-5 gap-6 sm:gap-8 lg:gap-12 items-center">
+            <div className="hero-left lg:col-span-3 space-y-4 sm:space-y-6 lg:space-y-8">
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -142,7 +142,7 @@ export function Hero() {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
-              className="lg:col-span-2 relative"
+              className="hero-right lg:col-span-2 relative"
             >
               <HeroSlideshow slides={hero.slides || []} />
             </motion.div>
