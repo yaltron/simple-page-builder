@@ -208,6 +208,10 @@ function HeroSlideshow({ slides }: { slides: string[] }) {
             key={currentSrc}
             src={currentSrc}
             alt="Shubhashree IVF fertility clinic in Kathmandu - caring fertility treatment"
+            width={800}
+            height={1000}
+            fetchPriority={index === 0 ? "high" : "auto"}
+            decoding="async"
             className="absolute inset-0 w-full h-full object-cover"
             style={{
               opacity: 1,
