@@ -151,9 +151,15 @@ function ApplyModal({ listing, onClose }: { listing: Listing; onClose: () => voi
     setSubmitting(true)
     let resume_url: string | null = null
     if (resume) {
-      const uuid = crypto.randomUUID()
+      const folderUuid = crypto.randomUUID()
+      const fileUuid = crypto.randomUUID()
+      const ext = (resume.name.split(".").pop() || "").toLowerCase()
+      if (!["pdf", "doc", "docx"].includes(ext)) {
+        setSubmitting(false)
+        return toast.error("Resume must be a PDF, DOC, or DOCX file")
+      }
       const safeName = resume.name.replace(/[^a-zA-Z0-9._-]/g, "_")
-      const path = `uploads/${uuid}/${safeName}`
+      const path = `uploads/${folderUuid}/${fileUuid}_${safeName}`
       const { error: upErr } = await supabase.storage.from("resumes").upload(path, resume)
       if (upErr) {
         setSubmitting(false)
