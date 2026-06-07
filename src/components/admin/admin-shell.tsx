@@ -226,11 +226,13 @@ export function AdminShell({ title, breadcrumb, children }: { title: string; bre
                     }}
                   >
                     {item.children!.map((c) => {
-                      const active = isLeafActive(pathname, c.to)
+                      const active = isLeafActive(pathname, c)
                       return (
                         <Link
-                          key={c.to}
-                          to={c.to}
+                          key={c.matchPath || c.to}
+                          to={c.to as any}
+                          params={c.params as any}
+
                           style={{
                             padding: "9px 16px 9px 44px",
                             fontSize: 13,
