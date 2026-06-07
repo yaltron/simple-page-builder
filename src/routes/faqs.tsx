@@ -42,7 +42,9 @@ export const Route = createFileRoute("/faqs")({
           property: "og:description",
           content: "Common fertility, IVF and ICSI questions answered by our specialists.",
         },
+        { property: "og:url", content: "https://subhashree-ui.lovable.app/faqs" },
       ],
+      links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/faqs" }],
       scripts: [
         {
           type: "application/ld+json",
