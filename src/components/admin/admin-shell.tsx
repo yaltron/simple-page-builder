@@ -133,8 +133,19 @@ export function AdminShell({ title, breadcrumb, children }: { title: string; bre
   const badgeFor = (key?: string) => key === "appointments" && newCount > 0 ? newCount : null
 
   return (
-    <div className="min-h-screen flex" style={{ background: "#f8f9fa" }}>
-      <aside className="w-64 flex-shrink-0 flex flex-col text-white" style={{ background: "#2D0A1E" }}>
+    <div className="flex" style={{ background: "#f8f9fa", height: "100vh", overflow: "hidden" }}>
+      <style>{`
+        .admin-sidebar-scroll::-webkit-scrollbar { width: 4px; }
+        .admin-sidebar-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); border-radius: 4px; }
+        .admin-sidebar-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+        .admin-sidebar-scroll::-webkit-scrollbar-thumb:hover { background: rgba(230,0,126,0.4); }
+        .admin-sidebar-scroll { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.15) transparent; }
+        .admin-main-scroll::-webkit-scrollbar { width: 6px; }
+        .admin-main-scroll::-webkit-scrollbar-track { background: #f8f9fa; }
+        .admin-main-scroll::-webkit-scrollbar-thumb { background: rgba(230,0,126,0.2); border-radius: 4px; }
+        .admin-main-scroll::-webkit-scrollbar-thumb:hover { background: rgba(230,0,126,0.4); }
+      `}</style>
+      <aside className="w-64 flex-shrink-0 flex flex-col text-white admin-sidebar-scroll" style={{ background: "#2D0A1E", height: "100vh", overflowY: "auto", overflowX: "hidden", position: "sticky", top: 0, left: 0 }}>
         <div style={{ padding: "16px 16px 8px 16px", borderBottom: "1px solid rgba(255,255,255,0.08)", marginBottom: 8 }}>
           <img src={logo} alt="Subhashree IVF" style={{ width: 140, height: "auto", objectFit: "contain", display: "block", margin: "0 auto 4px auto", filter: "brightness(1.1)" }} />
           <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", color: "rgba(255,255,255,0.45)", textAlign: "center", paddingBottom: 8 }}>CMS Dashboard</div>
@@ -295,14 +306,14 @@ export function AdminShell({ title, breadcrumb, children }: { title: string; bre
           </button>
         </nav>
       </aside>
-      <main className="flex-1 min-w-0 flex flex-col">
+      <main className="flex-1 min-w-0 flex flex-col admin-main-scroll" style={{ height: "100vh", overflowY: "auto", overflowX: "hidden" }}>
         <header className="h-14 bg-white border-b px-6 flex items-center">
           <div>
             <div className="text-xs text-muted-foreground">{breadcrumb || "Admin"}</div>
             <h1 className="text-base font-bold" style={{ color: "#2D0A1E" }}>{title}</h1>
           </div>
         </header>
-        <div className="flex-1 p-6 overflow-auto">{children}</div>
+        <div className="flex-1 p-6">{children}</div>
       </main>
     </div>
   )
