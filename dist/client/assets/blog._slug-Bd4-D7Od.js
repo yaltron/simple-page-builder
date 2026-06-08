@@ -1,0 +1,1 @@
+import{r as o,i as t,S as n,L as e,a as s}from"./index-CGZ3akq9.js";const a=()=>o.jsx(t,{title:"Post not found",breadcrumb:"Blog",children:o.jsx(n,{bg:"white",children:o.jsx("div",{className:"text-center py-10",children:o.jsx(e,{to:"/blog",style:{color:s.pink},children:"← Back to blog"})})})});export{a as notFoundComponent};

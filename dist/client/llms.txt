@@ -1,0 +1,16 @@
+# Shubhashree IVF & Fertility Centre
+
+> Shubhashree IVF & Fertility Centre is a leading IVF and fertility clinic in Kathmandu, Nepal, offering IVF, ICSI, IUI, embryo freezing, genetic testing and donor programmes with 12+ years of experience and 5,000+ successful treatments.
+
+## Pages
+
+- [Home](/): Overview of Shubhashree IVF Clinic, services and success rates.
+- [About Us](/about): Our story, mission, vision and values.
+- [Fertility Services](/services): IVF, ICSI, IUI, embryo freezing, genetic testing and donor programmes.
+- [Our Doctors](/team): Fertility specialists, embryologists and counsellors.
+- [Success Stories](/success-stories): Real patient stories and testimonials.
+- [Gallery](/gallery): Photos and videos of our clinic, team and patient events.
+- [Blog](/blog): Articles on IVF, IUI, PCOS, male infertility and fertility care.
+- [FAQs](/faqs): Common questions about IVF, ICSI, costs and treatment process.
+- [Careers](/careers): Current openings and how to join our team.
+- [Contact](/contact): Address, phone, email and online consultation booking.
