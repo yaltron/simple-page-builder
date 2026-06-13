@@ -158,7 +158,7 @@ function AboutPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
               className="bg-white rounded-2xl p-5 flex items-center gap-4 transition-transform hover:-translate-y-1"
-              style={{ border: "1px solid rgba(230,0,126,0.12)" }}
+              style={{ border: "1px solid rgba(230,0,126,0.12)", width: "100%" }}
             >
               <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: BRAND.pinkSoft }}>
                 <w.icon className="w-6 h-6" style={{ color: BRAND.pink }} />
