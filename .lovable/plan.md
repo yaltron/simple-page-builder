@@ -1,30 +1,19 @@
 ## Scope
-Update only `GalleryCarousel` in `src/components/who-we-are.tsx`. Nothing else on the page changes — card sizes, images, radius, layout, right-side text, button, blobs, and surrounding markup stay as-is.
+Apply two targeted fixes to the right-side testimonial cards in `src/components/stories-testimonials.tsx` ("Stories of Hope & Happiness" section). No other files or sections change.
 
-## Changes to GalleryCarousel
+## Fix 1 — Remove unwanted gap between quote text and patient name
+- Update the testimonial card container inside the `motion.div`:
+  - Remove `h-full` (the card itself has no fixed/min-height)
+  - Change to `flex flex-col gap-3 p-6 sm:p-8` (gap = 12px, padding = 24px)
+- Stars row (`flex gap-1`): remove `mb-3`
+- Quote text (`<p>`): keep `flex-1`, remove `mb-3`
+- Patient name (`<p>`): add `mt-3 pt-3 border-t border-[rgba(230,0,126,0.10)]`
+- Also remove the fixed-height `h-[340px] sm:h-[300px]` from the outer wrapper so the card sizes to its content and the `flex-1` text does not force a huge gap.
 
-### Track (slides container)
-- `display: flex`, `will-change: transform`, `backface-visibility: hidden` (+ `-webkit-`), `perspective: 1000px` (+ `-webkit-`)
-- `transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)` on the track
-- Keep current `translateX(-index * slidePct%)` math
-
-### Each card
-- Add per-card wrapper styles: `transform: translateZ(0)` (+ `-webkit-`), `transition: opacity 0.4s ease, transform 0.4s ease`
-- Active (visible) cards: `opacity: 1`, `scale(1)`
-- Non-active cards (outside the current window of `perView`): `opacity: 0.6`, `scale(0.97)`
-- Keep existing image, border, shadow, aspect ratio, radius, hover zoom
-
-### Auto-advance
-- Replace `setInterval` with a `requestAnimationFrame` loop driven by `performance.now()`, advancing every 4000 ms
-- Pause flag toggled by `onMouseEnter` / `onMouseLeave` on the carousel wrapper
-- On mouse leave, wait 1 s before resuming (setTimeout cleared on re-enter / unmount)
-- Cancel rAF and clear timeout on unmount
-
-### Navigation dots
-- Container: `display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px`
-- Each dot: 8×8, `border-radius: 50%`, background `rgba(230,0,126,0.25)`, `transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)`
-- Active dot: `width: 28px`, `border-radius: 4px`, background `#E6007E`, `box-shadow: 0 2px 8px rgba(230,0,126,0.4)`
-- Inactive returns to base via the same transition
+## Fix 2 — Fill star color
+- Replace the current star rendering for the 5 rating stars with explicit solid pink fill.
+- Pass inline styles `color: "#E6007E", fill: "#E6007E"` (or equivalent Tailwind `text-[#E6007E] fill-[#E6007E]`) so all 5 stars are fully filled pink, matching the brand.
+- Keep star size, card border, background, quote icon, text content, and name styling exactly as-is.
 
 ## Not touched
-Right-side quote, Explore Stories button, section background, blobs, framer-motion wrappers, CMS logic, perView responsive logic, image markup, card aspect/shadow/radius, or any other section/page.
+Left-side image container, section background, heading, auto-advance timing, CMS data logic, or any other component/page.
