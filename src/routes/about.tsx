@@ -149,7 +149,7 @@ function AboutPage() {
       {/* Section 3 - Why Choose Us */}
       <Section bg={BRAND.pinkSoft}>
         <SectionHeading>Why Choose Us</SectionHeading>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", width: "100%", maxWidth: "900px", margin: "0 auto" }}>
           {whyChoose.map((w, i) => (
             <motion.div
               key={w.label}
