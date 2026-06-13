@@ -22,7 +22,6 @@ export const Route = createFileRoute("/about")({
 })
 
 const whyChoose = [
-  { icon: ShieldCheck, label: "ISO Certified Lab" },
   { icon: HeartHandshake, label: "Personalised Plans" },
   { icon: Sparkles, label: "Emotional Support" },
   { icon: Award, label: "Affordable Care" },
