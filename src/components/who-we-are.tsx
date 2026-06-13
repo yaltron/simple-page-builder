@@ -42,6 +42,8 @@ function GalleryCarousel({ radius }: { radius: number }) {
   const { items } = useMomentsGallery()
   const [perView, setPerView] = useState(3)
   const [index, setIndex] = useState(0)
+  const pausedRef = useRef(false)
+  const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Responsive cards-per-view
   useEffect(() => {
@@ -64,14 +66,46 @@ function GalleryCarousel({ radius }: { radius: number }) {
     if (index >= pages) setIndex(0)
   }, [pages, index])
 
-  // Auto-advance every 3s, infinite loop
+  // Auto-advance every 4s using requestAnimationFrame for smoother performance
   useEffect(() => {
     if (pages <= 1) return
-    const id = setInterval(() => {
-      setIndex((i) => (i + 1) % pages)
-    }, 3000)
-    return () => clearInterval(id)
+    let rafId = 0
+    let last = performance.now()
+    const tick = (now: number) => {
+      if (!pausedRef.current) {
+        if (now - last >= 4000) {
+          setIndex((i) => (i + 1) % pages)
+          last = now
+        }
+      } else {
+        last = now
+      }
+      rafId = requestAnimationFrame(tick)
+    }
+    rafId = requestAnimationFrame(tick)
+    return () => {
+      cancelAnimationFrame(rafId)
+      if (resumeTimeoutRef.current) {
+        clearTimeout(resumeTimeoutRef.current)
+        resumeTimeoutRef.current = null
+      }
+    }
   }, [pages])
+
+  const handleMouseEnter = () => {
+    if (resumeTimeoutRef.current) {
+      clearTimeout(resumeTimeoutRef.current)
+      resumeTimeoutRef.current = null
+    }
+    pausedRef.current = true
+  }
+  const handleMouseLeave = () => {
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current)
+    resumeTimeoutRef.current = setTimeout(() => {
+      pausedRef.current = false
+      resumeTimeoutRef.current = null
+    }, 1000)
+  }
 
   if (total === 0) return null
 
@@ -79,60 +113,98 @@ function GalleryCarousel({ radius }: { radius: number }) {
   const translatePct = index * slidePct
 
   return (
-    <div className="w-full">
+    <div
+      className="w-full"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        willChange: "transform",
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
+        perspective: 1000,
+        WebkitPerspective: 1000,
+      }}
+    >
       <div className="overflow-hidden" style={{ borderRadius: radius }}>
         <div
           className="flex"
           style={{
             transform: `translateX(-${translatePct}%)`,
-            transition: "transform 600ms cubic-bezier(0.45, 0, 0.15, 1)",
+            transition: "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+            willChange: "transform",
           }}
         >
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className="shrink-0 px-2"
-              style={{ flex: `0 0 ${slidePct}%` }}
-            >
+          {items.map((item, i) => {
+            const isActive = i >= index && i < index + perView
+            return (
               <div
-                className="relative overflow-hidden border border-white/70 aspect-[3/4] sm:aspect-[4/5] group"
+                key={item.id}
+                className="shrink-0 px-2"
                 style={{
-                  borderRadius: radius,
-                  boxShadow:
-                    "0 16px 40px -20px rgba(230,0,126,0.30), 0 6px 18px -10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.6)",
+                  flex: `0 0 ${slidePct}%`,
+                  opacity: isActive ? 1 : 0.6,
+                  transform: isActive
+                    ? "translateZ(0) scale(1)"
+                    : "translateZ(0) scale(0.97)",
+                  WebkitTransform: isActive
+                    ? "translateZ(0) scale(1)"
+                    : "translateZ(0) scale(0.97)",
+                  transition: "opacity 0.4s ease, transform 0.4s ease",
                 }}
               >
-                <img
-                  src={item.image_url}
-                  alt={item.image_alt || ""}
-                  loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
-                />
+                <div
+                  className="relative overflow-hidden border border-white/70 aspect-[3/4] sm:aspect-[4/5] group"
+                  style={{
+                    borderRadius: radius,
+                    boxShadow:
+                      "0 16px 40px -20px rgba(230,0,126,0.30), 0 6px 18px -10px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.6)",
+                  }}
+                >
+                  <img
+                    src={item.image_url}
+                    alt={item.image_alt || ""}
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
 
       {/* Dot indicators */}
       {pages > 1 && (
-        <div className="flex justify-center gap-2 mt-5">
-          {Array.from({ length: pages }).map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setIndex(i)}
-              aria-label={`Go to slide ${i + 1}`}
-              className="transition-all duration-300 rounded-full"
-              style={{
-                width: i === index ? 24 : 8,
-                height: 8,
-                background:
-                  i === index
-                    ? "linear-gradient(90deg, #E6007E, #A78BFA)"
-                    : "rgba(230,0,126,0.25)",
-              }}
-            />
-          ))}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
+            marginTop: 20,
+          }}
+        >
+          {Array.from({ length: pages }).map((_, i) => {
+            const active = i === index
+            return (
+              <button
+                key={i}
+                onClick={() => setIndex(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                style={{
+                  width: active ? 28 : 8,
+                  height: 8,
+                  borderRadius: active ? 4 : "50%",
+                  background: active ? "#E6007E" : "rgba(230,0,126,0.25)",
+                  boxShadow: active ? "0 2px 8px rgba(230,0,126,0.4)" : "none",
+                  cursor: "pointer",
+                  border: "none",
+                  padding: 0,
+                  transition: "all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                }}
+              />
+            )
+          })}
         </div>
       )}
     </div>
