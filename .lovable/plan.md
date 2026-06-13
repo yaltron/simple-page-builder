@@ -1,39 +1,30 @@
-## Mobile Doctor Card Redesign
+## Scope
+Update only `GalleryCarousel` in `src/components/who-we-are.tsx`. Nothing else on the page changes — card sizes, images, radius, layout, right-side text, button, blobs, and surrounding markup stay as-is.
 
-Update only the mobile branch in `src/components/doctors-carousel.tsx` (the `if (isMobile)` block, ~lines 88-237). Desktop view, carousel logic, swipe, autoplay, arrows, and dots remain unchanged.
+## Changes to GalleryCarousel
 
-### Changes to the mobile card
+### Track (slides container)
+- `display: flex`, `will-change: transform`, `backface-visibility: hidden` (+ `-webkit-`), `perspective: 1000px` (+ `-webkit-`)
+- `transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)` on the track
+- Keep current `translateX(-index * slidePct%)` math
 
-1. **Image**
-   - Full card width, taller aspect ratio (4:5).
-   - Replace fixed `height: 200` with `aspectRatio: "4/5"`, `width: "100%"`, `objectFit: "cover"`, `objectPosition: "top center"`.
+### Each card
+- Add per-card wrapper styles: `transform: translateZ(0)` (+ `-webkit-`), `transition: opacity 0.4s ease, transform 0.4s ease`
+- Active (visible) cards: `opacity: 1`, `scale(1)`
+- Non-active cards (outside the current window of `perView`): `opacity: 0.6`, `scale(0.97)`
+- Keep existing image, border, shadow, aspect ratio, radius, hover zoom
 
-2. **Name + designation overlay (laptop-style glass label)**
-   - Remove the separate text block currently below the image.
-   - Position an absolute overlay inside the image container at the bottom (`inset-x` with small inset, `bottom: 12px`).
-   - Semi-transparent white background (`rgba(255,255,255,0.55)`), `backdropFilter: blur(12px)`, rounded `16px`, subtle border `1px solid rgba(255,255,255,0.6)`, soft shadow.
-   - Name: bold, ~16–17px, color `#2D0A1E` (plum), truncated.
-   - Designation: ~11px, uppercase, letter-spacing, color `#C2185B` (brand magenta), `fontWeight: 600`, truncated.
+### Auto-advance
+- Replace `setInterval` with a `requestAnimationFrame` loop driven by `performance.now()`, advancing every 4000 ms
+- Pause flag toggled by `onMouseEnter` / `onMouseLeave` on the carousel wrapper
+- On mouse leave, wait 1 s before resuming (setTimeout cleared on re-enter / unmount)
+- Cancel rAF and clear timeout on unmount
 
-3. **Buttons row**
-   - Move outside the image, directly below it with minimal gap (~10–12px).
-   - `display: flex`, `gap: 10px`, both buttons `flex: 1` for equal width.
-   - "Consult Now": keep filled gradient pink/magenta style.
-   - "View Profile": keep white background + outlined style.
-   - Reduce padding slightly so both fit comfortably on small screens.
+### Navigation dots
+- Container: `display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px`
+- Each dot: 8×8, `border-radius: 50%`, background `rgba(230,0,126,0.25)`, `transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)`
+- Active dot: `width: 28px`, `border-radius: 4px`, background `#E6007E`, `box-shadow: 0 2px 8px rgba(230,0,126,0.4)`
+- Inactive returns to base via the same transition
 
-4. **Card container**
-   - Keep rounded `16px`, white background, existing shadow.
-   - Remove inner `padding: 16` block that wrapped name/designation/buttons — buttons now sit just below the card image with no extra whitespace. The buttons row sits outside the white card (or in a tight `padding: 10px 10px 12px` strip) so the image goes edge-to-edge.
-
-### Preserved (no changes)
-
-- Drag/swipe handler (`onDragEnd`, `drag="x"`, `dragConstraints`, `dragElastic`).
-- `AnimatePresence` slide transition between doctors.
-- Prev/Next arrow buttons and dot indicators below the card.
-- Autoplay, pause-on-hover, keyboard nav, CMS heading.
-- Desktop layout (entire non-mobile JSX) untouched.
-- No changes to data fetching, routes, or other components.
-
-### Files touched
-- `src/components/doctors-carousel.tsx` (mobile branch only)
+## Not touched
+Right-side quote, Explore Stories button, section background, blobs, framer-motion wrappers, CMS logic, perView responsive logic, image markup, card aspect/shadow/radius, or any other section/page.
