@@ -64,27 +64,6 @@ function DoctorProfilePage() {
     <main>
       <Navbar />
 
-      {/* Hero banner */}
-      <section style={{ position: "relative", height: 360, width: "100%", overflow: "hidden", background: "#2D0A1E" }}>
-        {doctor.image && (
-          <img
-            src={doctor.image}
-            alt={doctor.name}
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", opacity: 0.55 }}
-          />
-        )}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.65) 100%)" }} />
-        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "flex-end", padding: "0 5% 36px" }}>
-          <div className="max-w-7xl mx-auto w-full">
-            <h1 className="font-serif font-bold text-white" style={{ fontSize: "clamp(28px, 4.5vw, 48px)", margin: 0 }}>
-              {doctor.name}
-            </h1>
-            {doctor.title && (
-              <p style={{ color: "#fff", opacity: 0.92, marginTop: 6, fontWeight: 700, fontSize: 15 }}>{doctor.title}</p>
-            )}
-          </div>
-        </div>
-      </section>
 
       {/* Breadcrumb */}
       <div style={{ background: "#FFF1F7", padding: "12px 5%" }}>
