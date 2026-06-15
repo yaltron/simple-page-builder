@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { createFileRoute } from "@tanstack/react-router"
-import { Plus, Pencil, Trash2, X, ArrowUp, ArrowDown } from "lucide-react"
+import { Plus, Pencil, Trash2, X, ArrowUp, ArrowDown, Save } from "lucide-react"
 import { AdminShell, AdminLoading } from "@/components/admin/admin-shell"
+import { ColorPicker } from "@/components/admin/color-picker"
 import { useAdminAuth } from "@/lib/use-admin-auth"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
@@ -162,6 +163,8 @@ function AdminFAQsPage() {
 
   return (
     <AdminShell title="FAQs" breadcrumb="Admin / FAQs">
+      <HeadingColorEditor sectionKey="faq_section" label="FAQ Section Heading Color" />
+
       <div className="flex items-center gap-3 mb-5 flex-wrap">
         <select value={filter} onChange={(e) => setFilter(e.target.value)} className="px-3 py-2 border rounded-lg bg-white text-sm">
           <option>All</option>
@@ -287,5 +290,44 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       <div className="text-xs font-semibold text-muted-foreground mb-1">{label}</div>
       {children}
     </label>
+  )
+}
+
+function HeadingColorEditor({ sectionKey, label }: { sectionKey: string; label: string }) {
+  const [color, setColor] = useState("#C2185B")
+  const [loaded, setLoaded] = useState(false)
+  const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    ;(async () => {
+      const { data } = await supabase.from("homepage_content").select("content").eq("section", sectionKey).maybeSingle()
+      if (data?.content && typeof (data.content as any).heading_color === "string") {
+        setColor((data.content as any).heading_color)
+      }
+      setLoaded(true)
+    })()
+  }, [sectionKey])
+
+  const save = async () => {
+    setSaving(true)
+    const { data: existing } = await supabase.from("homepage_content").select("id, content").eq("section", sectionKey).maybeSingle()
+    const next = { ...((existing?.content as object) || {}), heading_color: color }
+    const { error } = existing
+      ? await supabase.from("homepage_content").update({ content: next as any }).eq("id", existing.id)
+      : await supabase.from("homepage_content").insert({ section: sectionKey, content: next as any })
+    setSaving(false)
+    if (error) toast.error(error.message)
+    else toast.success("Saved")
+  }
+
+  if (!loaded) return null
+  return (
+    <div className="bg-white rounded-xl border p-4 mb-5 flex items-center gap-4 flex-wrap">
+      <div className="text-sm font-semibold">{label}</div>
+      <ColorPicker value={color} onChange={setColor} />
+      <button onClick={save} disabled={saving} className="ml-auto inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold" style={{ background: "#8B0F50" }}>
+        <Save className="w-4 h-4" /> {saving ? "Saving…" : "Save Color"}
+      </button>
+    </div>
   )
 }
