@@ -189,7 +189,7 @@ export function DoctorsCarousel() {
                       <p
                         style={{
                           fontSize: 11,
-                          color: "#C2185B",
+                          color: "#8B0F50",
                           margin: "2px 0 0",
                           fontWeight: 600,
                           textTransform: "uppercase",
@@ -224,7 +224,8 @@ export function DoctorsCarousel() {
                     <Calendar className="w-4 h-4" /> Consult Now
                   </Link>
                   <Link
-                    to="/team"
+                    to="/team/$doctorSlug"
+                    params={{ doctorSlug: current.slug || "" }}
                     style={{
                       flex: 1,
                       display: "flex",
@@ -349,7 +350,7 @@ export function DoctorsCarousel() {
           className="text-center max-w-3xl mx-auto mb-4 space-y-3"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/60 backdrop-blur-sm border border-rose-200/50 text-xs font-semibold tracking-wide uppercase text-rose-600">
-            <Sparkles className="w-3.5 h-3.5" /> Our Specialists
+            <Sparkles className="w-3.5 h-3.5" /> Meet our team
           </div>
           <h2
             className="font-serif text-3xl lg:text-4xl font-bold"
@@ -495,13 +496,13 @@ export function DoctorsCarousel() {
                 className="rounded-[28px] p-6 sm:p-8 lg:p-9 backdrop-blur-xl bg-white/55 border border-white/70 shadow-[0_20px_60px_-20px_rgba(194,24,91,0.2)]"
               >
                 <p className="text-xs font-bold tracking-[0.2em] uppercase text-rose-500 mb-3">
-                  Meet Your Specialist
+                  Meet our team
                 </p>
                 <h3 className="font-serif text-3xl lg:text-4xl font-bold text-plum leading-tight mb-2">
                   {current.name}
                 </h3>
                 {current.title && (
-                  <p className="text-base font-semibold text-rose-600 mb-2">
+                  <p className="text-base font-semibold mb-2" style={{ color: "#8B0F50" }}>
                     {current.title}
                   </p>
                 )}
@@ -550,14 +551,16 @@ export function DoctorsCarousel() {
                     to="/contact"
                     className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-bold text-white shadow-lg shadow-rose-500/30 hover:shadow-rose-500/50 hover:-translate-y-0.5 transition-all"
                     style={{
-                      background:
-                        "linear-gradient(90deg, #E6007E 0%, #C2185B 100%)",
+                      background: "#8B0F50",
                     }}
+                    onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = "#6D0A3E")}
+                    onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = "#8B0F50")}
                   >
                     <Calendar className="w-4 h-4" /> Consult Now
                   </Link>
                   <Link
-                    to="/team"
+                    to="/team/$doctorSlug"
+                    params={{ doctorSlug: current.slug || "" }}
                     className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-bold bg-white/70 border border-plum/15 text-plum hover:bg-white transition-all"
                   >
                     <User className="w-4 h-4" /> View Profile
