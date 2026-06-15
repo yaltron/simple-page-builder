@@ -5,7 +5,7 @@ import { useTestimonials } from "@/lib/use-testimonials"
 import { useHomepageSection } from "@/lib/use-cms-content"
 import fallbackImg from "@/assets/testimonial-family.jpg"
 
-const SECTION_DEFAULTS = { heading_color: "#C2185B" }
+const SECTION_DEFAULTS = { heading_color: "#8B0F50" }
 
 export function StoriesTestimonials() {
   const { items } = useTestimonials()

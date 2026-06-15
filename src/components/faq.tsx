@@ -6,7 +6,7 @@ import { Plus, Minus } from "lucide-react"
 import { FloatingDecoField } from "@/components/floating-deco"
 import { useHomepageSection } from "@/lib/use-cms-content"
 
-const FAQ_DEFAULTS = { heading_color: "#C2185B" }
+const FAQ_DEFAULTS = { heading_color: "#8B0F50" }
 
 const faqs = [
   {

@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client"
 
 const SERVICES_HEADING_DEFAULTS = {
   heading: "Comprehensive Fertility Care, Tailored for You",
-  heading_color: "#C2185B",
+  heading_color: "#8B0F50",
 }
 
 const cardGradients = [

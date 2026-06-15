@@ -7,7 +7,7 @@ import { useDoctors, type CMSDoctor } from "@/lib/use-doctors"
 
 const DOCTORS_HEADING_DEFAULTS = {
   heading: "Experienced IVF Specialists Providing Compassionate Fertility Care",
-  heading_color: "#C2185B",
+  heading_color: "#8B0F50",
 }
 
 const AUTOPLAY_MS = 3200
