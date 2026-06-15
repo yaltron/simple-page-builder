@@ -1,64 +1,48 @@
-import { createFileRoute, Link } from "@tanstack/react-router"
-import { useEffect, useState } from "react"
+import { createFileRoute, Link, notFound } from "@tanstack/react-router"
+import { createServerFn } from "@tanstack/react-start"
 import { Calendar } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
-import { supabase } from "@/integrations/supabase/client"
 import type { CMSDoctor } from "@/lib/use-doctors"
 
+const fetchDoctor = createServerFn({ method: "GET" })
+  .inputValidator((data: { slug: string }) => data)
+  .handler(async ({ data }) => {
+    const { createClient } = await import("@supabase/supabase-js")
+    const sb = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PUBLISHABLE_KEY!)
+    const { data: doctor } = await sb
+      .from("doctors")
+      .select("*")
+      .eq("slug", data.slug)
+      .eq("status", "published")
+      .maybeSingle()
+    if (!doctor) throw notFound()
+    return doctor as CMSDoctor
+  })
+
 export const Route = createFileRoute("/team/$doctorSlug")({
-  head: ({ params }) => ({
-    meta: [
-      { title: `Doctor — ${params.doctorSlug} | Shubhashree IVF` },
-      { property: "og:url", content: `https://subhashree-ui.lovable.app/team/${params.doctorSlug}` },
-    ],
-    links: [{ rel: "canonical", href: `https://subhashree-ui.lovable.app/team/${params.doctorSlug}` }],
-  }),
+  loader: ({ params }) => fetchDoctor({ data: { slug: params.doctorSlug } }),
+  head: ({ loaderData }) => {
+    const doctor = loaderData as CMSDoctor
+    const title = `${doctor.name} - Shubhashree IVF`
+    const url = `https://subhashree-ui.lovable.app/team/${doctor.slug}`
+    return {
+      meta: [
+        { title },
+        { property: "og:url", content: url },
+        { property: "og:title", content: title },
+        { name: "twitter:title", content: title },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    }
+  },
   component: DoctorProfilePage,
   errorComponent: ({ error }) => <div className="p-10 text-center">{error.message}</div>,
   notFoundComponent: () => <div className="p-10 text-center">Doctor not found</div>,
 })
 
 function DoctorProfilePage() {
-  const { doctorSlug } = Route.useParams()
-  const [doctor, setDoctor] = useState<CMSDoctor | null>(null)
-  const [loaded, setLoaded] = useState(false)
-
-  useEffect(() => {
-    ;(async () => {
-      const { data } = await supabase
-        .from("doctors")
-        .select("*")
-        .eq("slug", doctorSlug)
-        .eq("status", "published")
-        .maybeSingle()
-      setDoctor((data as CMSDoctor) || null)
-      setLoaded(true)
-    })()
-  }, [doctorSlug])
-
-  if (!loaded) {
-    return (
-      <main>
-        <Navbar />
-        <div className="py-20 text-center text-muted-foreground">Loading…</div>
-        <Footer />
-      </main>
-    )
-  }
-
-  if (!doctor) {
-    return (
-      <main>
-        <Navbar />
-        <div className="py-20 text-center">
-          <h2 className="text-2xl font-bold mb-3">Doctor not found</h2>
-          <Link to="/team" className="text-[#8B0F50] underline">Back to Our Team</Link>
-        </div>
-        <Footer />
-      </main>
-    )
-  }
+  const doctor = Route.useLoaderData() as CMSDoctor
 
   return (
     <main>
