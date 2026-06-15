@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router"
+import { createFileRoute, Link, notFound } from "@tanstack/react-router"
+import { createServerFn } from "@tanstack/react-start"
 import { useEffect, useState } from "react"
 import { Calendar } from "lucide-react"
 import { Navbar } from "@/components/navbar"
