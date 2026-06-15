@@ -92,15 +92,26 @@ export function Hero() {
         <div className="hero-container relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full" style={{ zIndex: 1 }}>
           <div className="hero-grid grid lg:grid-cols-5 gap-6 sm:gap-8 lg:gap-12 items-center">
             <div className="hero-left lg:col-span-3 space-y-4 sm:space-y-6 lg:space-y-8">
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="font-serif font-bold leading-tight text-balance"
-                style={{ color: "#8B0F50", fontSize: "clamp(1.875rem, 5.5vw, 3.75rem)" }}
-              >
-                {renderHeadline(hero.headline, hero.headline_highlight)}
-              </motion.h1>
+              {hero.headline ? (
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="font-serif font-bold leading-tight text-balance"
+                  style={{ color: "#8B0F50", fontSize: "clamp(1.875rem, 5.5vw, 3.75rem)" }}
+                >
+                  {renderHeadline(hero.headline, hero.headline_highlight)}
+                </motion.h1>
+              ) : (
+                <div
+                  aria-hidden="true"
+                  style={{
+                    height: "clamp(4.5rem, 13vw, 9rem)",
+                    background: "rgba(139,15,80,0.08)",
+                    borderRadius: 8,
+                  }}
+                />
+              )}
 
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
