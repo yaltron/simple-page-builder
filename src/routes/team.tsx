@@ -31,7 +31,7 @@ function TeamPage() {
   return (
     <PageLayout title="Our Team" breadcrumb="Our Team">
       <Section bg="white">
-        <SectionHeading>Meet Our Specialists</SectionHeading>
+        <SectionHeading>Meet our team</SectionHeading>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {doctors.map((d, i) => (
             <motion.div
@@ -53,12 +53,17 @@ function TeamPage() {
               </div>
               <div className="p-4">
                 <h3 className="font-serif text-base font-bold mb-1" style={{ color: BRAND.heading }}>{d.name}</h3>
-                {d.title && <p className="text-xs font-semibold mb-1" style={{ color: BRAND.pink }}>{d.title}</p>}
+                {d.title && <p className="text-xs font-semibold mb-1" style={{ color: "#8B0F50" }}>{d.title}</p>}
                 {d.qualifications && <p className="text-xs mb-1" style={{ color: BRAND.navLink }}>{d.qualifications}</p>}
                 {d.experience_years ? <p className="text-[11px] font-semibold mb-3" style={{ color: BRAND.plum }}>{d.experience_years}+ Years</p> : <div className="mb-3" />}
-                <Link to="/contact" className="w-full py-2 text-white text-xs font-bold rounded-full inline-flex items-center justify-center gap-1.5 transition-transform hover:scale-[1.02]" style={{ background: `linear-gradient(90deg, ${BRAND.pink}, ${BRAND.pinkDark})` }}>
-                  <Calendar className="w-3.5 h-3.5" /> Book
-                </Link>
+                <div className="flex gap-2">
+                  <Link to="/team/$doctorSlug" params={{ doctorSlug: d.slug || "" }} className="flex-1 py-2 text-xs font-bold rounded-full inline-flex items-center justify-center gap-1.5 transition-transform hover:scale-[1.02] border" style={{ color: "#8B0F50", borderColor: "#8B0F50", background: "white" }}>
+                    View Profile
+                  </Link>
+                  <Link to="/contact" className="flex-1 py-2 text-white text-xs font-bold rounded-full inline-flex items-center justify-center gap-1.5 transition-transform hover:scale-[1.02]" style={{ background: "#8B0F50" }}>
+                    <Calendar className="w-3.5 h-3.5" /> Book
+                  </Link>
+                </div>
               </div>
             </motion.div>
           ))}
