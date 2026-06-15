@@ -2,10 +2,14 @@ import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { Star, Quote } from "lucide-react"
 import { useTestimonials } from "@/lib/use-testimonials"
+import { useHomepageSection } from "@/lib/use-cms-content"
 import fallbackImg from "@/assets/testimonial-family.jpg"
+
+const SECTION_DEFAULTS = { heading_color: "#8B0F50" }
 
 export function StoriesTestimonials() {
   const { items } = useTestimonials()
+  const cms = useHomepageSection("testimonials", SECTION_DEFAULTS)
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
 
@@ -35,8 +39,8 @@ export function StoriesTestimonials() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 lg:mb-10">
-          <h2 className="reveal font-extrabold text-[#1A1535] text-balance" style={{ fontSize: "clamp(1.625rem, 4vw, 2.25rem)" }}>
-            Stories of Hope & <span className="text-brand-pink">Happiness</span>
+          <h2 className="reveal font-extrabold text-balance" style={{ fontSize: "clamp(1.625rem, 4vw, 2.25rem)", color: cms.heading_color }}>
+            Stories of Hope &amp; Happiness
           </h2>
         </div>
 

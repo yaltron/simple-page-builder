@@ -1,16 +1,20 @@
-import { Microscope, FlaskConical, UserCheck, HeartHandshake } from "lucide-react"
+import * as Icons from "lucide-react"
+import { Sparkles, ArrowRight } from "lucide-react"
+import { Link } from "@tanstack/react-router"
+import { useTrustFeatures } from "@/lib/use-trust-features"
 
-const items = [
-  { icon: Microscope, title: "Advanced Lab Technology", desc: "Our advanced laboratories and precision-monitoring ensure safe and successful treatment outcomes." },
-  { icon: FlaskConical, title: "Experienced Embryologists", desc: "Skilled embryologists ensure your embryos receive the highest level of professional care." },
-  { icon: UserCheck, title: "Personalized Care Protocols", desc: "Our specialists create personalized treatment plans tailored to every unique medical case." },
-  { icon: HeartHandshake, title: "Compassionate Emotional Support", desc: "We guide you with compassionate support from start to a successful pregnancy confirmation." },
-]
+function pickIcon(name?: string | null) {
+  const I = (Icons as any)[name || ""] as React.ComponentType<{ className?: string; strokeWidth?: number }> | undefined
+  return I || Sparkles
+}
 
 export function WhyUs() {
+  const { items } = useTrustFeatures()
+
+  if (items.length === 0) return null
+
   return (
     <section className="relative py-12 sm:py-16 lg:py-24 overflow-hidden gradient-brand-band">
-      {/* Floating decorative blobs */}
       <div className="pointer-events-none absolute -top-24 -left-24 h-80 w-80 rounded-full bg-white/15 blur-3xl animate-float-slow" />
       <div className="pointer-events-none absolute -bottom-32 -right-20 h-96 w-96 rounded-full bg-white/10 blur-3xl animate-float-slower" />
 
@@ -19,21 +23,29 @@ export function WhyUs() {
           Why Families Trust Us
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 max-w-5xl mx-auto">
           {items.map((it, i) => {
-            const Icon = it.icon
+            const Icon = pickIcon(it.icon)
             return (
-              <div
-                key={it.title}
-                className="reveal why-card group bg-white/95 backdrop-blur rounded-2xl p-6 text-left border border-transparent shadow-[0_15px_40px_-20px_rgba(0,0,0,0.25)]"
-                style={{ transitionDelay: `${i * 120}ms` }}
+              <Link
+                key={it.id}
+                to="/why-us/$slug"
+                params={{ slug: it.slug }}
+                className="reveal why-card group bg-white/95 backdrop-blur rounded-2xl p-6 text-left border border-transparent shadow-[0_15px_40px_-20px_rgba(0,0,0,0.25)] no-underline block"
+                style={{ transitionDelay: `${i * 120}ms`, cursor: "pointer" }}
               >
-                <div className="why-card-icon h-14 w-14 rounded-xl gradient-brand grid place-items-center text-white mb-4 shadow-md">
+                <div className="why-card-icon h-14 w-14 rounded-xl grid place-items-center text-white mb-4 shadow-md" style={{ background: it.icon_bg_color || "#8B0F50" }}>
                   <Icon className="h-7 w-7" strokeWidth={1.8} />
                 </div>
                 <h3 className="font-bold text-lg text-[#1A1535] mb-2">{it.title}</h3>
-                <p className="text-sm text-[#6B6B8A] leading-relaxed">{it.desc}</p>
-              </div>
+                <p className="text-sm text-[#6B6B8A] leading-relaxed">{it.short_description}</p>
+                <span
+                  className="mt-3 inline-flex items-center gap-1 text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{ color: "#8B0F50" }}
+                >
+                  Learn more <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </Link>
             )
           })}
         </div>

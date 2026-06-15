@@ -152,9 +152,9 @@ function ContactPage() {
                   type="submit"
                   disabled={submitting}
                   className="w-full py-3 rounded-full text-white font-bold transition-colors disabled:opacity-60"
-                  style={{ background: "#B5005F" }}
-                  onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.background = "#8C0049")}
-                  onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.background = "#B5005F")}
+                  style={{ background: "#8B0F50" }}
+                  onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.background = "#6D0A3E")}
+                  onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.background = "#8B0F50")}
                 >
                   {submitting ? "Submitting…" : "Confirm"}
                 </button>

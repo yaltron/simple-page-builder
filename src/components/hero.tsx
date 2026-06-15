@@ -115,7 +115,10 @@ export function Hero() {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-gradient-to-r from-rose to-rose-dark hover:from-rose-dark hover:to-rose text-white rounded-full px-6 sm:px-8 text-sm sm:text-base"
+                  className="text-white rounded-full px-6 sm:px-8 text-sm sm:text-base"
+                  style={{ background: "#8B0F50" }}
+                  onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.background = "#6D0A3E")}
+                  onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.background = "#8B0F50")}
                 >
                   {isExternal ? (
                     <a href={hero.cta_primary_url}>{hero.cta_primary_text}</a>

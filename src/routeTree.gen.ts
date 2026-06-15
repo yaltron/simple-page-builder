@@ -20,6 +20,8 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as WhyUsSlugRouteImport } from './routes/why-us.$slug'
+import { Route as TeamDoctorSlugRouteImport } from './routes/team.$doctorSlug'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AdminTeamRouteImport } from './routes/admin.team'
 import { Route as AdminPopupBannersRouteImport } from './routes/admin.popup-banners'
@@ -30,6 +32,7 @@ import { Route as AdminGalleryIndexRouteImport } from './routes/admin.gallery.in
 import { Route as AdminFaqsIndexRouteImport } from './routes/admin.faqs.index'
 import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
 import { Route as AdminAppointmentsIndexRouteImport } from './routes/admin.appointments.index'
+import { Route as AdminHomepageWhyChooseUsRouteImport } from './routes/admin.homepage.why-choose-us'
 import { Route as AdminHomepageWhoWeAreRouteImport } from './routes/admin.homepage.who-we-are'
 import { Route as AdminHomepageWhenToVisitRouteImport } from './routes/admin.homepage.when-to-visit'
 import { Route as AdminHomepageServicesRouteImport } from './routes/admin.homepage.services'
@@ -99,6 +102,16 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WhyUsSlugRoute = WhyUsSlugRouteImport.update({
+  id: '/why-us/$slug',
+  path: '/why-us/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamDoctorSlugRoute = TeamDoctorSlugRouteImport.update({
+  id: '/$doctorSlug',
+  path: '/$doctorSlug',
+  getParentRoute: () => TeamRoute,
+} as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog/$slug',
   path: '/blog/$slug',
@@ -149,6 +162,12 @@ const AdminAppointmentsIndexRoute = AdminAppointmentsIndexRouteImport.update({
   path: '/admin/appointments/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminHomepageWhyChooseUsRoute =
+  AdminHomepageWhyChooseUsRouteImport.update({
+    id: '/admin/homepage/why-choose-us',
+    path: '/admin/homepage/why-choose-us',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminHomepageWhoWeAreRoute = AdminHomepageWhoWeAreRouteImport.update({
   id: '/admin/homepage/who-we-are',
   path: '/admin/homepage/who-we-are',
@@ -226,11 +245,13 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/services': typeof ServicesRoute
   '/success-stories': typeof SuccessStoriesRoute
-  '/team': typeof TeamRoute
+  '/team': typeof TeamRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
   '/admin/team': typeof AdminTeamRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/team/$doctorSlug': typeof TeamDoctorSlugRoute
+  '/why-us/$slug': typeof WhyUsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
@@ -246,6 +267,7 @@ export interface FileRoutesByFullPath {
   '/admin/homepage/services': typeof AdminHomepageServicesRoute
   '/admin/homepage/when-to-visit': typeof AdminHomepageWhenToVisitRoute
   '/admin/homepage/who-we-are': typeof AdminHomepageWhoWeAreRoute
+  '/admin/homepage/why-choose-us': typeof AdminHomepageWhyChooseUsRoute
   '/admin/appointments/': typeof AdminAppointmentsIndexRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/faqs/': typeof AdminFaqsIndexRoute
@@ -262,11 +284,13 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryRoute
   '/services': typeof ServicesRoute
   '/success-stories': typeof SuccessStoriesRoute
-  '/team': typeof TeamRoute
+  '/team': typeof TeamRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
   '/admin/team': typeof AdminTeamRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/team/$doctorSlug': typeof TeamDoctorSlugRoute
+  '/why-us/$slug': typeof WhyUsSlugRoute
   '/admin': typeof AdminIndexRoute
   '/blog': typeof BlogIndexRoute
   '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
@@ -282,6 +306,7 @@ export interface FileRoutesByTo {
   '/admin/homepage/services': typeof AdminHomepageServicesRoute
   '/admin/homepage/when-to-visit': typeof AdminHomepageWhenToVisitRoute
   '/admin/homepage/who-we-are': typeof AdminHomepageWhoWeAreRoute
+  '/admin/homepage/why-choose-us': typeof AdminHomepageWhyChooseUsRoute
   '/admin/appointments': typeof AdminAppointmentsIndexRoute
   '/admin/blog': typeof AdminBlogIndexRoute
   '/admin/faqs': typeof AdminFaqsIndexRoute
@@ -299,11 +324,13 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/services': typeof ServicesRoute
   '/success-stories': typeof SuccessStoriesRoute
-  '/team': typeof TeamRoute
+  '/team': typeof TeamRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
   '/admin/team': typeof AdminTeamRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/team/$doctorSlug': typeof TeamDoctorSlugRoute
+  '/why-us/$slug': typeof WhyUsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
@@ -319,6 +346,7 @@ export interface FileRoutesById {
   '/admin/homepage/services': typeof AdminHomepageServicesRoute
   '/admin/homepage/when-to-visit': typeof AdminHomepageWhenToVisitRoute
   '/admin/homepage/who-we-are': typeof AdminHomepageWhoWeAreRoute
+  '/admin/homepage/why-choose-us': typeof AdminHomepageWhyChooseUsRoute
   '/admin/appointments/': typeof AdminAppointmentsIndexRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/faqs/': typeof AdminFaqsIndexRoute
@@ -342,6 +370,8 @@ export interface FileRouteTypes {
     | '/admin/popup-banners'
     | '/admin/team'
     | '/blog/$slug'
+    | '/team/$doctorSlug'
+    | '/why-us/$slug'
     | '/admin/'
     | '/blog/'
     | '/admin/about/mission-vision'
@@ -357,6 +387,7 @@ export interface FileRouteTypes {
     | '/admin/homepage/services'
     | '/admin/homepage/when-to-visit'
     | '/admin/homepage/who-we-are'
+    | '/admin/homepage/why-choose-us'
     | '/admin/appointments/'
     | '/admin/blog/'
     | '/admin/faqs/'
@@ -378,6 +409,8 @@ export interface FileRouteTypes {
     | '/admin/popup-banners'
     | '/admin/team'
     | '/blog/$slug'
+    | '/team/$doctorSlug'
+    | '/why-us/$slug'
     | '/admin'
     | '/blog'
     | '/admin/about/mission-vision'
@@ -393,6 +426,7 @@ export interface FileRouteTypes {
     | '/admin/homepage/services'
     | '/admin/homepage/when-to-visit'
     | '/admin/homepage/who-we-are'
+    | '/admin/homepage/why-choose-us'
     | '/admin/appointments'
     | '/admin/blog'
     | '/admin/faqs'
@@ -414,6 +448,8 @@ export interface FileRouteTypes {
     | '/admin/popup-banners'
     | '/admin/team'
     | '/blog/$slug'
+    | '/team/$doctorSlug'
+    | '/why-us/$slug'
     | '/admin/'
     | '/blog/'
     | '/admin/about/mission-vision'
@@ -429,6 +465,7 @@ export interface FileRouteTypes {
     | '/admin/homepage/services'
     | '/admin/homepage/when-to-visit'
     | '/admin/homepage/who-we-are'
+    | '/admin/homepage/why-choose-us'
     | '/admin/appointments/'
     | '/admin/blog/'
     | '/admin/faqs/'
@@ -446,11 +483,12 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   ServicesRoute: typeof ServicesRoute
   SuccessStoriesRoute: typeof SuccessStoriesRoute
-  TeamRoute: typeof TeamRoute
+  TeamRoute: typeof TeamRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
   AdminPopupBannersRoute: typeof AdminPopupBannersRoute
   AdminTeamRoute: typeof AdminTeamRoute
   BlogSlugRoute: typeof BlogSlugRoute
+  WhyUsSlugRoute: typeof WhyUsSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
   AdminAboutMissionVisionRoute: typeof AdminAboutMissionVisionRoute
@@ -466,6 +504,7 @@ export interface RootRouteChildren {
   AdminHomepageServicesRoute: typeof AdminHomepageServicesRoute
   AdminHomepageWhenToVisitRoute: typeof AdminHomepageWhenToVisitRoute
   AdminHomepageWhoWeAreRoute: typeof AdminHomepageWhoWeAreRoute
+  AdminHomepageWhyChooseUsRoute: typeof AdminHomepageWhyChooseUsRoute
   AdminAppointmentsIndexRoute: typeof AdminAppointmentsIndexRoute
   AdminBlogIndexRoute: typeof AdminBlogIndexRoute
   AdminFaqsIndexRoute: typeof AdminFaqsIndexRoute
@@ -553,6 +592,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/why-us/$slug': {
+      id: '/why-us/$slug'
+      path: '/why-us/$slug'
+      fullPath: '/why-us/$slug'
+      preLoaderRoute: typeof WhyUsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/team/$doctorSlug': {
+      id: '/team/$doctorSlug'
+      path: '/$doctorSlug'
+      fullPath: '/team/$doctorSlug'
+      preLoaderRoute: typeof TeamDoctorSlugRouteImport
+      parentRoute: typeof TeamRoute
+    }
     '/blog/$slug': {
       id: '/blog/$slug'
       path: '/blog/$slug'
@@ -621,6 +674,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/appointments'
       fullPath: '/admin/appointments/'
       preLoaderRoute: typeof AdminAppointmentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage/why-choose-us': {
+      id: '/admin/homepage/why-choose-us'
+      path: '/admin/homepage/why-choose-us'
+      fullPath: '/admin/homepage/why-choose-us'
+      preLoaderRoute: typeof AdminHomepageWhyChooseUsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/homepage/who-we-are': {
@@ -717,6 +777,16 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface TeamRouteChildren {
+  TeamDoctorSlugRoute: typeof TeamDoctorSlugRoute
+}
+
+const TeamRouteChildren: TeamRouteChildren = {
+  TeamDoctorSlugRoute: TeamDoctorSlugRoute,
+}
+
+const TeamRouteWithChildren = TeamRoute._addFileChildren(TeamRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -726,11 +796,12 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   ServicesRoute: ServicesRoute,
   SuccessStoriesRoute: SuccessStoriesRoute,
-  TeamRoute: TeamRoute,
+  TeamRoute: TeamRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
   AdminPopupBannersRoute: AdminPopupBannersRoute,
   AdminTeamRoute: AdminTeamRoute,
   BlogSlugRoute: BlogSlugRoute,
+  WhyUsSlugRoute: WhyUsSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
   AdminAboutMissionVisionRoute: AdminAboutMissionVisionRoute,
@@ -746,6 +817,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminHomepageServicesRoute: AdminHomepageServicesRoute,
   AdminHomepageWhenToVisitRoute: AdminHomepageWhenToVisitRoute,
   AdminHomepageWhoWeAreRoute: AdminHomepageWhoWeAreRoute,
+  AdminHomepageWhyChooseUsRoute: AdminHomepageWhyChooseUsRoute,
   AdminAppointmentsIndexRoute: AdminAppointmentsIndexRoute,
   AdminBlogIndexRoute: AdminBlogIndexRoute,
   AdminFaqsIndexRoute: AdminFaqsIndexRoute,
@@ -756,13 +828,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -271,18 +271,22 @@ export function WhoWeAre() {
             <h2
               className="font-serif italic"
               style={{
-                color: "#E6007E",
+                color: "#8B0F50",
                 fontSize: "24px",
                 fontWeight: 300,
                 lineHeight: 1.3,
+                background: "none",
+                WebkitTextFillColor: "unset",
               }}
             >
               &ldquo;The trust you have shown in us over the years is our greatest inspiration to turn hope into reality.&rdquo;
             </h2>
             <Link
               to="/success-stories"
-              className="inline-flex items-center mt-6 px-7 py-3 rounded-full text-white font-medium shadow-[0_10px_30px_-10px_rgba(230,0,126,0.5)] hover:shadow-[0_14px_36px_-10px_rgba(230,0,126,0.65)] hover:-translate-y-0.5 transition-all duration-300"
-              style={{ background: "linear-gradient(90deg, #E6007E, #A78BFA)" }}
+              className="inline-flex items-center mt-6 px-7 py-3 rounded-full text-white font-medium shadow-[0_10px_30px_-10px_rgba(139,15,80,0.5)] hover:shadow-[0_14px_36px_-10px_rgba(139,15,80,0.65)] hover:-translate-y-0.5 transition-all duration-300"
+              style={{ background: "#8B0F50" }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = "#6D0A3E")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = "#8B0F50")}
             >
               Explore Stories
             </Link>

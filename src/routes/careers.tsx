@@ -263,7 +263,7 @@ function ApplyModal({ listing, onClose }: { listing: Listing; onClose: () => voi
           </div>
 
           <textarea rows={4} placeholder="Cover letter (optional)" value={form.cover_letter} onChange={(e) => setForm({ ...form, cover_letter: e.target.value })} className="w-full px-3 py-2.5 border rounded-lg text-sm" />
-          <button type="submit" disabled={submitting} className="w-full py-3 rounded-full text-white font-bold disabled:opacity-60" style={{ background: "#B5005F" }}>
+          <button type="submit" disabled={submitting} className="w-full py-3 rounded-full text-white font-bold disabled:opacity-60" style={{ background: "#8B0F50" }}>
             {submitting ? "Submitting…" : "Submit Application"}
           </button>
         </form>

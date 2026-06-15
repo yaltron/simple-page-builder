@@ -38,7 +38,7 @@ export function PageHero({ title, breadcrumb }: { title: string; breadcrumb: str
         transition={{ duration: 0.5 }}
         style={{
           fontFamily: "'Playfair Display', serif",
-          color: BRAND.heading,
+          color: "#8B0F50",
           fontSize: "clamp(32px, 5vw, 52px)",
           fontWeight: 700,
           margin: 0,
@@ -56,7 +56,7 @@ export function PageHero({ title, breadcrumb }: { title: string; breadcrumb: str
           Home
         </Link>{" "}
         <span style={{ margin: "0 8px", opacity: 0.6 }}>›</span>
-        <span style={{ color: BRAND.pink }}>{breadcrumb}</span>
+        <span style={{ color: "#8B0F50" }}>{breadcrumb}</span>
       </motion.div>
     </section>
   )
@@ -105,9 +105,9 @@ export function PageCTABanner({
           <Link
             to="/contact"
             className="px-7 py-3 rounded-full font-bold transition-transform hover:scale-105"
-            style={{ background: "#B5005F", color: "white" }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = "#8C0049")}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = "#B5005F")}
+            style={{ background: "#8B0F50", color: "white" }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = "#6D0A3E")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.background = "#8B0F50")}
           >
             Book Consultation
           </Link>
