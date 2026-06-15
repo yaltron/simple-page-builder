@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router"
+import { createFileRoute, Link } from "@tanstack/react-router"
 import * as Icons from "lucide-react"
 import { Sparkles } from "lucide-react"
 import { useEffect, useState } from "react"
