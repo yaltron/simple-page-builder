@@ -30,7 +30,7 @@ export function useTrustFeatures() {
         .eq("is_active", true)
         .order("order_index", { ascending: true })
       if (mounted) {
-        setItems((data as TrustFeature[]) || [])
+        setItems(((data as unknown) as TrustFeature[]) || [])
         setLoading(false)
       }
     }

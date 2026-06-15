@@ -37,7 +37,7 @@ function WhyUsDetailPage() {
         .eq("slug", slug)
         .eq("is_active", true)
         .maybeSingle()
-      setFeature((data as TrustFeature) || null)
+      setFeature(((data as unknown) as TrustFeature) || null)
       setLoaded(true)
     })()
   }, [slug])
