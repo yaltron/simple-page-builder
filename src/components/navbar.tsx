@@ -5,8 +5,7 @@ import { Phone, Menu, X, Calendar, ChevronDown, Copy, Check, Hospital, Video } f
 import { Link, useLocation, useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
 import { supabase } from "@/integrations/supabase/client"
-import logoAsset from "@/assets/logo.png.asset.json"
-const logo = logoAsset.url
+import logo from "@/assets/logo-trimmed.png"
 
 const SERVICE_OPTIONS = [
   "IVF Treatment",
