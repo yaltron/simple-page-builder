@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TeamRouteImport } from './routes/team'
 import { Route as SuccessStoriesRouteImport } from './routes/success-stories'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as GalleryRouteImport } from './routes/gallery'
@@ -18,6 +17,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TeamIndexRouteImport } from './routes/team.index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as WhyUsSlugRouteImport } from './routes/why-us.$slug'
@@ -47,11 +47,6 @@ import { Route as AdminAboutValuesRouteImport } from './routes/admin.about.value
 import { Route as AdminAboutOurStoryRouteImport } from './routes/admin.about.our-story'
 import { Route as AdminAboutMissionVisionRouteImport } from './routes/admin.about.mission-vision'
 
-const TeamRoute = TeamRouteImport.update({
-  id: '/team',
-  path: '/team',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SuccessStoriesRoute = SuccessStoriesRouteImport.update({
   id: '/success-stories',
   path: '/success-stories',
@@ -92,6 +87,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TeamIndexRoute = TeamIndexRouteImport.update({
+  id: '/team/',
+  path: '/team/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
@@ -108,9 +108,9 @@ const WhyUsSlugRoute = WhyUsSlugRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const TeamDoctorSlugRoute = TeamDoctorSlugRouteImport.update({
-  id: '/$doctorSlug',
-  path: '/$doctorSlug',
-  getParentRoute: () => TeamRoute,
+  id: '/team/$doctorSlug',
+  path: '/team/$doctorSlug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog/$slug',
@@ -245,7 +245,6 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/services': typeof ServicesRoute
   '/success-stories': typeof SuccessStoriesRoute
-  '/team': typeof TeamRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
   '/admin/team': typeof AdminTeamRoute
@@ -254,6 +253,7 @@ export interface FileRoutesByFullPath {
   '/why-us/$slug': typeof WhyUsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
+  '/team/': typeof TeamIndexRoute
   '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
   '/admin/about/our-story': typeof AdminAboutOurStoryRoute
   '/admin/about/values': typeof AdminAboutValuesRoute
@@ -284,7 +284,6 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryRoute
   '/services': typeof ServicesRoute
   '/success-stories': typeof SuccessStoriesRoute
-  '/team': typeof TeamRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
   '/admin/team': typeof AdminTeamRoute
@@ -293,6 +292,7 @@ export interface FileRoutesByTo {
   '/why-us/$slug': typeof WhyUsSlugRoute
   '/admin': typeof AdminIndexRoute
   '/blog': typeof BlogIndexRoute
+  '/team': typeof TeamIndexRoute
   '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
   '/admin/about/our-story': typeof AdminAboutOurStoryRoute
   '/admin/about/values': typeof AdminAboutValuesRoute
@@ -324,7 +324,6 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/services': typeof ServicesRoute
   '/success-stories': typeof SuccessStoriesRoute
-  '/team': typeof TeamRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
   '/admin/team': typeof AdminTeamRoute
@@ -333,6 +332,7 @@ export interface FileRoutesById {
   '/why-us/$slug': typeof WhyUsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
+  '/team/': typeof TeamIndexRoute
   '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
   '/admin/about/our-story': typeof AdminAboutOurStoryRoute
   '/admin/about/values': typeof AdminAboutValuesRoute
@@ -365,7 +365,6 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/services'
     | '/success-stories'
-    | '/team'
     | '/admin/login'
     | '/admin/popup-banners'
     | '/admin/team'
@@ -374,6 +373,7 @@ export interface FileRouteTypes {
     | '/why-us/$slug'
     | '/admin/'
     | '/blog/'
+    | '/team/'
     | '/admin/about/mission-vision'
     | '/admin/about/our-story'
     | '/admin/about/values'
@@ -404,7 +404,6 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/services'
     | '/success-stories'
-    | '/team'
     | '/admin/login'
     | '/admin/popup-banners'
     | '/admin/team'
@@ -413,6 +412,7 @@ export interface FileRouteTypes {
     | '/why-us/$slug'
     | '/admin'
     | '/blog'
+    | '/team'
     | '/admin/about/mission-vision'
     | '/admin/about/our-story'
     | '/admin/about/values'
@@ -443,7 +443,6 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/services'
     | '/success-stories'
-    | '/team'
     | '/admin/login'
     | '/admin/popup-banners'
     | '/admin/team'
@@ -452,6 +451,7 @@ export interface FileRouteTypes {
     | '/why-us/$slug'
     | '/admin/'
     | '/blog/'
+    | '/team/'
     | '/admin/about/mission-vision'
     | '/admin/about/our-story'
     | '/admin/about/values'
@@ -483,14 +483,15 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   ServicesRoute: typeof ServicesRoute
   SuccessStoriesRoute: typeof SuccessStoriesRoute
-  TeamRoute: typeof TeamRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
   AdminPopupBannersRoute: typeof AdminPopupBannersRoute
   AdminTeamRoute: typeof AdminTeamRoute
   BlogSlugRoute: typeof BlogSlugRoute
+  TeamDoctorSlugRoute: typeof TeamDoctorSlugRoute
   WhyUsSlugRoute: typeof WhyUsSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
+  TeamIndexRoute: typeof TeamIndexRoute
   AdminAboutMissionVisionRoute: typeof AdminAboutMissionVisionRoute
   AdminAboutOurStoryRoute: typeof AdminAboutOurStoryRoute
   AdminAboutValuesRoute: typeof AdminAboutValuesRoute
@@ -515,13 +516,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/team': {
-      id: '/team'
-      path: '/team'
-      fullPath: '/team'
-      preLoaderRoute: typeof TeamRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/success-stories': {
       id: '/success-stories'
       path: '/success-stories'
@@ -578,6 +572,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/team/': {
+      id: '/team/'
+      path: '/team'
+      fullPath: '/team/'
+      preLoaderRoute: typeof TeamIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/': {
       id: '/blog/'
       path: '/blog'
@@ -601,10 +602,10 @@ declare module '@tanstack/react-router' {
     }
     '/team/$doctorSlug': {
       id: '/team/$doctorSlug'
-      path: '/$doctorSlug'
+      path: '/team/$doctorSlug'
       fullPath: '/team/$doctorSlug'
       preLoaderRoute: typeof TeamDoctorSlugRouteImport
-      parentRoute: typeof TeamRoute
+      parentRoute: typeof rootRouteImport
     }
     '/blog/$slug': {
       id: '/blog/$slug'
@@ -777,16 +778,6 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface TeamRouteChildren {
-  TeamDoctorSlugRoute: typeof TeamDoctorSlugRoute
-}
-
-const TeamRouteChildren: TeamRouteChildren = {
-  TeamDoctorSlugRoute: TeamDoctorSlugRoute,
-}
-
-const TeamRouteWithChildren = TeamRoute._addFileChildren(TeamRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -796,14 +787,15 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   ServicesRoute: ServicesRoute,
   SuccessStoriesRoute: SuccessStoriesRoute,
-  TeamRoute: TeamRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
   AdminPopupBannersRoute: AdminPopupBannersRoute,
   AdminTeamRoute: AdminTeamRoute,
   BlogSlugRoute: BlogSlugRoute,
+  TeamDoctorSlugRoute: TeamDoctorSlugRoute,
   WhyUsSlugRoute: WhyUsSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
+  TeamIndexRoute: TeamIndexRoute,
   AdminAboutMissionVisionRoute: AdminAboutMissionVisionRoute,
   AdminAboutOurStoryRoute: AdminAboutOurStoryRoute,
   AdminAboutValuesRoute: AdminAboutValuesRoute,

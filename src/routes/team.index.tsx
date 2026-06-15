@@ -4,7 +4,7 @@ import { Calendar, Stethoscope, HeartHandshake, FlaskConical, Briefcase } from "
 import { PageLayout, PageCTABanner, Section, SectionHeading, BRAND } from "@/components/page-layout"
 import { useDoctors } from "@/lib/use-doctors"
 
-export const Route = createFileRoute("/team")({
+export const Route = createFileRoute("/team/")({
   head: () => ({
     meta: [
       { title: "Our Fertility Doctors in Kathmandu | Shubhashree IVF" },
