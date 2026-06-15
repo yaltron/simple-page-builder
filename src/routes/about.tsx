@@ -94,26 +94,33 @@ function AboutPage() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="grid grid-cols-2 gap-4"
           >
-            <div className="space-y-4">
-              {images[0] && (
-                <div className="rounded-2xl overflow-hidden h-56 shadow-lg">
-                  <img src={resolveImage(images[0].url)} alt={images[0].alt} className="w-full h-full object-cover" />
-                </div>
-              )}
-              {images[2] && (
-                <div className="rounded-2xl overflow-hidden h-56 shadow-lg">
-                  <img src={resolveImage(images[2].url)} alt={images[2].alt} className="w-full h-full object-cover" />
-                </div>
-              )}
-            </div>
-            <div className="pt-10">
-              {images[1] && (
-                <div className="rounded-2xl overflow-hidden h-72 shadow-lg">
-                  <img src={resolveImage(images[1].url)} alt={images[1].alt} className="w-full h-full object-cover" />
-                </div>
-              )}
+            <style>{`
+              .story-collage { display: flex; flex-direction: row; gap: 16px; align-items: stretch; width: 100%; }
+              .story-collage-left { display: flex; flex-direction: column; gap: 16px; width: 45%; }
+              .story-collage-right { width: 52%; }
+              .story-collage-img-sm { width: 100%; height: 220px; object-fit: cover; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.10); display: block; }
+              .story-collage-img-tall { width: 100%; height: 460px; object-fit: cover; object-position: top center; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.10); display: block; }
+              @media (max-width: 767px) {
+                .story-collage { flex-direction: column; }
+                .story-collage-left, .story-collage-right { width: 100%; }
+                .story-collage-img-tall { height: 220px; }
+              }
+            `}</style>
+            <div className="story-collage">
+              <div className="story-collage-left">
+                {images[0] && (
+                  <img src={resolveImage(images[0].url)} alt={images[0].alt} className="story-collage-img-sm" />
+                )}
+                {images[1] && (
+                  <img src={resolveImage(images[1].url)} alt={images[1].alt} className="story-collage-img-sm" />
+                )}
+              </div>
+              <div className="story-collage-right">
+                {images[2] && (
+                  <img src={resolveImage(images[2].url)} alt={images[2].alt} className="story-collage-img-tall" />
+                )}
+              </div>
             </div>
           </motion.div>
         </div>
