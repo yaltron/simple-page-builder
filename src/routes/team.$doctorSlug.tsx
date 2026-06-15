@@ -42,45 +42,7 @@ export const Route = createFileRoute("/team/$doctorSlug")({
 })
 
 function DoctorProfilePage() {
-  const { doctorSlug } = Route.useParams()
-  const [doctor, setDoctor] = useState<CMSDoctor | null>(null)
-  const [loaded, setLoaded] = useState(false)
-
-  useEffect(() => {
-    ;(async () => {
-      const { data } = await supabase
-        .from("doctors")
-        .select("*")
-        .eq("slug", doctorSlug)
-        .eq("status", "published")
-        .maybeSingle()
-      setDoctor((data as CMSDoctor) || null)
-      setLoaded(true)
-    })()
-  }, [doctorSlug])
-
-  if (!loaded) {
-    return (
-      <main>
-        <Navbar />
-        <div className="py-20 text-center text-muted-foreground">Loading…</div>
-        <Footer />
-      </main>
-    )
-  }
-
-  if (!doctor) {
-    return (
-      <main>
-        <Navbar />
-        <div className="py-20 text-center">
-          <h2 className="text-2xl font-bold mb-3">Doctor not found</h2>
-          <Link to="/team" className="text-[#8B0F50] underline">Back to Our Team</Link>
-        </div>
-        <Footer />
-      </main>
-    )
-  }
+  const doctor = Route.useLoaderData() as CMSDoctor
 
   return (
     <main>
