@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react"
 import { Link } from "@tanstack/react-router"
 import { Facebook, Instagram, Youtube, MapPin, Phone, Mail, Clock } from "lucide-react"
+import { supabase } from "@/integrations/supabase/client"
 import logo from "@/assets/logo-trimmed.png"
 
 const quickLinks = [
@@ -12,15 +14,6 @@ const quickLinks = [
   { name: "Career", to: "/careers" },
   { name: "Contact", to: "/contact" },
 ] as const
-
-const services = [
-  "IVF Treatment",
-  "ICSI Procedure",
-  "Embryo Freezing",
-  "Genetic Testing (PGT)",
-  "Donor Egg Programme",
-  "Infertility Diagnosis",
-]
 
 function TikTokIcon({ className }: { className?: string }) {
   return (
@@ -68,9 +61,21 @@ const contactItems = [
 ] as const
 
 export function Footer() {
+  const [services, setServices] = useState<{ id: string; title: string }[]>([])
+
+  useEffect(() => {
+    ;(async () => {
+      const { data } = await supabase
+        .from("services")
+        .select("id,title")
+        .eq("status", "published")
+        .order("display_order", { ascending: true })
+      setServices(data || [])
+    })()
+  }, [])
+
   return (
     <footer className="footer-root">
-      {/* ROW 1 - Main footer */}
       <div
         className="footer-main"
         style={{
@@ -86,10 +91,15 @@ export function Footer() {
                 src={logo}
                 alt="Shubhashree IVF Clinic Pvt. Ltd."
                 className="footer-logo"
-                style={{ width: 200, height: "auto" }}
+                style={{
+                  width: 200,
+                  height: "auto",
+                  objectFit: "contain",
+                  imageRendering: "-webkit-optimize-contrast" as any,
+                }}
               />
             </Link>
-            <p style={{ color: "#7A2050", fontSize: 14, lineHeight: 1.7, textAlign: "justify" }}>
+            <p style={{ color: "#7A2050", fontSize: 14, lineHeight: 1.7, textAlign: "left" }}>
               Supporting your journey to parenthood with advanced fertility treatments and customized care plans, ensuring dignity, comfort, confidentiality, and the hope of bringing happiness into your life.
             </p>
             <div className="flex gap-2.5">
@@ -152,12 +162,12 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 3 - Services */}
+          {/* Column 3 - Services (dynamic) */}
           <div className="footer-col-services">
             <ColumnHeading>Our Services</ColumnHeading>
             <ul>
               {services.map((service) => (
-                <li key={service}>
+                <li key={service.id}>
                   <Link
                     to="/services"
                     style={linkStyle}
@@ -170,7 +180,7 @@ export function Footer() {
                       e.currentTarget.style.paddingLeft = "0"
                     }}
                   >
-                    {service}
+                    {service.title}
                   </Link>
                 </li>
               ))}
@@ -231,7 +241,6 @@ export function Footer() {
         </div>
       </div>
 
-      {/* ROW 2 - Bottom bar */}
       <div
         style={{
           background: "white",

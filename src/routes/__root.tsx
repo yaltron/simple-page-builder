@@ -10,7 +10,7 @@ import { FloatingButtons } from "@/components/floating-buttons";
 import ScrollToTop from "@/components/scroll-to-top";
 import { PopupBanner } from "@/components/popup-banner";
 
-import { CustomCursor } from "@/components/custom-cursor";
+
 import { NotFoundPage } from "@/components/not-found-page";
 import { Toaster } from "sonner";
 import appCss from "@/styles.css?url";
@@ -61,10 +61,8 @@ function RootDocument({ children }: { children: ReactNode }) {
         {children}
         <Toaster position="top-center" richColors closeButton />
         <ClientOnly fallback={null}>
-          <CustomCursor />
           <FloatingButtons />
           <PopupBanner />
-          
         </ClientOnly>
         <Scripts />
       </body>

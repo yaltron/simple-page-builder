@@ -141,27 +141,19 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
-/* Default browser cursor everywhere */
-* {
-  cursor: default;
+/* Default browser cursor everywhere (no custom cursor) */
+*, *::before, *::after {
+  cursor: default !important;
 }
-a, button, [role="button"], select, input[type="submit"],
-input[type="button"], label[for], .clickable {
-  cursor: pointer;
+a, button, [role="button"], select, label, .clickable,
+input[type="submit"], input[type="button"], input[type="checkbox"], input[type="radio"] {
+  cursor: pointer !important;
 }
-input, textarea, select {
-  cursor: text;
-}
-select, [role="button"] {
-  cursor: pointer;
-}
-
-/* Hide native cursor when custom premium cursor is active (desktop only) */
-@media (hover: hover) and (pointer: fine) {
-  html.has-custom-cursor,
-  html.has-custom-cursor * {
-    cursor: none !important;
-  }
+input[type="text"], input[type="email"], input[type="tel"],
+input[type="date"], input[type="time"], input[type="number"],
+input[type="password"], input[type="search"], input[type="url"],
+textarea {
+  cursor: text !important;
 }
 
 /* Doctors marquee - continuous auto-scroll, loops seamlessly because
@@ -235,12 +227,13 @@ select, [role="button"] {
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 .group:hover .step-badge {
-  background-color: #E6007E !important;
+  background-color: #8B0F50 !important;
   color: #ffffff !important;
+  border-color: #8B0F50 !important;
   transform: scale(1.2);
 }
 .group:hover .step-title {
-  color: #E6007E !important;
+  color: #8B0F50 !important;
 }
 
 /* Hero decoratives */

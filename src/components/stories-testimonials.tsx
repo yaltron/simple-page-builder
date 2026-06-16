@@ -2,10 +2,14 @@ import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { Star, Quote } from "lucide-react"
 import { useTestimonials } from "@/lib/use-testimonials"
+import { useHomepageSection } from "@/lib/use-cms-content"
 import fallbackImg from "@/assets/testimonial-family.jpg"
+
+const SECTION_DEFAULTS = { heading_color: "#8B0F50" }
 
 export function StoriesTestimonials() {
   const { items } = useTestimonials()
+  const cms = useHomepageSection("testimonials", SECTION_DEFAULTS)
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
 
@@ -35,8 +39,8 @@ export function StoriesTestimonials() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 lg:mb-10">
-          <h2 className="reveal font-extrabold text-[#1A1535] text-balance" style={{ fontSize: "clamp(1.625rem, 4vw, 2.25rem)" }}>
-            Stories of Hope & <span className="text-brand-pink">Happiness</span>
+          <h2 className="reveal font-extrabold text-balance" style={{ fontSize: "clamp(1.625rem, 4vw, 2.25rem)", color: cms.heading_color }}>
+            Stories of Hope &amp; Happiness
           </h2>
         </div>
 
@@ -61,7 +65,7 @@ export function StoriesTestimonials() {
 
           {/* Right: scrolling testimonial 60% */}
           <div className="lg:col-span-3">
-            <div className="relative h-[340px] sm:h-[300px] overflow-hidden">
+            <div className="relative overflow-hidden">
               <AnimatePresence mode="popLayout">
                 <motion.div
                   key={active?.id}
@@ -69,25 +73,24 @@ export function StoriesTestimonials() {
                   animate={{ y: "0%", opacity: 1 }}
                   exit={{ y: "-100%", opacity: 0 }}
                   transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
-                  className="absolute inset-0"
                 >
-                  <div className="relative bg-white rounded-2xl p-6 sm:p-8 border border-[#F2DCE8] shadow-[0_10px_30px_-15px_rgba(230,0,126,0.2)] h-full flex flex-col">
+                  <div className="relative bg-white rounded-2xl border border-[#F2DCE8] shadow-[0_10px_30px_-15px_rgba(230,0,126,0.2)] flex flex-col gap-3 p-6 sm:p-8">
                     <Quote className="absolute top-4 right-4 h-8 w-8 text-brand-pink/20" />
-                    <div className="flex gap-1 mb-3">
+                    <div className="flex gap-1">
                       {Array.from({ length: active?.rating ?? 5 }).map((_, j) => (
                         <Star
                           key={j}
-                          className="h-4 w-4 fill-brand-pink text-brand-pink"
-                          style={{ color: "oklch(0.62 0.27 357)" }}
+                          className="h-4 w-4"
+                          style={{ color: "#E6007E", fill: "#E6007E" }}
                         />
                       ))}
                     </div>
                     {active?.story && (
-                      <p className="text-[#1A1535]/90 leading-relaxed mb-3 flex-1 overflow-hidden">
+                      <p className="text-[#1A1535]/90 leading-relaxed flex-1">
                         {active.story}
                       </p>
                     )}
-                    <p className="text-sm font-semibold text-brand-pink">
+                    <p className="text-sm font-semibold text-brand-pink mt-3 pt-3 border-t border-[rgba(230,0,126,0.10)]">
                       - {active?.name}
                       {active?.location ? `, ${active.location}` : ""}
                     </p>

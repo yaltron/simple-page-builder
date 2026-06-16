@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/
 
-Sitemap: https://subhashree-ui.lovable.app/sitemap.xml
+Sitemap: https://shubhashreeivf.com/sitemap.xml

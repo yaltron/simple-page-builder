@@ -22,7 +22,6 @@ export const Route = createFileRoute("/about")({
 })
 
 const whyChoose = [
-  { icon: ShieldCheck, label: "ISO Certified Lab" },
   { icon: HeartHandshake, label: "Personalised Plans" },
   { icon: Sparkles, label: "Emotional Support" },
   { icon: Award, label: "Affordable Care" },
@@ -95,26 +94,33 @@ function AboutPage() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="grid grid-cols-2 gap-4"
           >
-            <div className="space-y-4">
-              {images[0] && (
-                <div className="rounded-2xl overflow-hidden h-56 shadow-lg">
-                  <img src={resolveImage(images[0].url)} alt={images[0].alt} className="w-full h-full object-cover" />
-                </div>
-              )}
-              {images[2] && (
-                <div className="rounded-2xl overflow-hidden h-56 shadow-lg">
-                  <img src={resolveImage(images[2].url)} alt={images[2].alt} className="w-full h-full object-cover" />
-                </div>
-              )}
-            </div>
-            <div className="pt-10">
-              {images[1] && (
-                <div className="rounded-2xl overflow-hidden h-72 shadow-lg">
-                  <img src={resolveImage(images[1].url)} alt={images[1].alt} className="w-full h-full object-cover" />
-                </div>
-              )}
+            <style>{`
+              .story-collage { display: flex; flex-direction: row; gap: 16px; align-items: stretch; width: 100%; }
+              .story-collage-left { display: flex; flex-direction: column; gap: 16px; width: 45%; }
+              .story-collage-right { width: 52%; }
+              .story-collage-img-sm { width: 100%; height: 220px; object-fit: cover; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.10); display: block; }
+              .story-collage-img-tall { width: 100%; height: 460px; object-fit: cover; object-position: top center; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.10); display: block; }
+              @media (max-width: 767px) {
+                .story-collage { flex-direction: column; }
+                .story-collage-left, .story-collage-right { width: 100%; }
+                .story-collage-img-tall { height: 220px; }
+              }
+            `}</style>
+            <div className="story-collage">
+              <div className="story-collage-left">
+                {images[0] && (
+                  <img src={resolveImage(images[0].url)} alt={images[0].alt} className="story-collage-img-sm" />
+                )}
+                {images[1] && (
+                  <img src={resolveImage(images[1].url)} alt={images[1].alt} className="story-collage-img-sm" />
+                )}
+              </div>
+              <div className="story-collage-right">
+                {images[2] && (
+                  <img src={resolveImage(images[2].url)} alt={images[2].alt} className="story-collage-img-tall" />
+                )}
+              </div>
             </div>
           </motion.div>
         </div>
@@ -150,7 +156,7 @@ function AboutPage() {
       {/* Section 3 - Why Choose Us */}
       <Section bg={BRAND.pinkSoft}>
         <SectionHeading>Why Choose Us</SectionHeading>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", width: "100%", maxWidth: "900px", margin: "0 auto" }}>
           {whyChoose.map((w, i) => (
             <motion.div
               key={w.label}
@@ -159,7 +165,7 @@ function AboutPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
               className="bg-white rounded-2xl p-5 flex items-center gap-4 transition-transform hover:-translate-y-1"
-              style={{ border: "1px solid rgba(230,0,126,0.12)" }}
+              style={{ border: "1px solid rgba(230,0,126,0.12)", width: "100%" }}
             >
               <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: BRAND.pinkSoft }}>
                 <w.icon className="w-6 h-6" style={{ color: BRAND.pink }} />

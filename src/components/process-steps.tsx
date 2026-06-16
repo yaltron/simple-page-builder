@@ -7,7 +7,7 @@ import { useHomepageSection } from "@/lib/use-cms-content"
 const PROCESS_DEFAULTS = {
   heading: "A Simple Guide to Your",
   heading_highlight: "Fertility Journey",
-  heading_color: "#E6007E",
+  heading_color: "#8B0F50",
 }
 
 type Step = {

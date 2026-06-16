@@ -31,7 +31,7 @@ const navItems: NavItem[] = [
       { to: "/admin/homepage/how-it-works", label: "How It Works" },
       { to: "/admin/homepage/when-to-visit", label: "When To Visit" },
       { to: "/admin/homepage/doctors-heading", label: "Our Doctors" },
-      
+      { to: "/admin/homepage/why-choose-us", label: "Why Choose Us" },
       { to: "/admin/homepage/cta-banner", label: "CTA Banner" },
     ],
   },

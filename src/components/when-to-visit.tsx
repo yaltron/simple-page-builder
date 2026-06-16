@@ -24,7 +24,7 @@ const reasons = [
 
 const DEFAULTS = {
   heading: "Signs You Should See a Fertility Specialist",
-  heading_color: "#C2185B",
+  heading_color: "#8B0F50",
   video_url: "",
   images: [
     { url: "", alt: "Compassionate care" },

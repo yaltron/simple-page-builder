@@ -263,6 +263,7 @@ export type Database = {
           image: string | null
           name: string
           qualifications: string | null
+          slug: string | null
           specialties: string[] | null
           status: string
           title: string | null
@@ -277,6 +278,7 @@ export type Database = {
           image?: string | null
           name: string
           qualifications?: string | null
+          slug?: string | null
           specialties?: string[] | null
           status?: string
           title?: string | null
@@ -291,6 +293,7 @@ export type Database = {
           image?: string | null
           name?: string
           qualifications?: string | null
+          slug?: string | null
           specialties?: string[] | null
           status?: string
           title?: string | null
@@ -595,6 +598,60 @@ export type Database = {
           treatment?: string | null
           updated_at?: string
           video_url?: string | null
+        }
+        Relationships: []
+      }
+      trust_features: {
+        Row: {
+          created_at: string
+          full_content: string
+          icon: string
+          icon_bg_color: string
+          id: string
+          is_active: boolean
+          meta_description: string
+          meta_title: string
+          order_index: number
+          page_heading: string
+          page_subtext: string
+          short_description: string
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          full_content?: string
+          icon?: string
+          icon_bg_color?: string
+          id?: string
+          is_active?: boolean
+          meta_description?: string
+          meta_title?: string
+          order_index?: number
+          page_heading?: string
+          page_subtext?: string
+          short_description?: string
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          full_content?: string
+          icon?: string
+          icon_bg_color?: string
+          id?: string
+          is_active?: boolean
+          meta_description?: string
+          meta_title?: string
+          order_index?: number
+          page_heading?: string
+          page_subtext?: string
+          short_description?: string
+          slug?: string
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }

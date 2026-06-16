@@ -4,6 +4,9 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useInView } from "framer-motion"
 import { Plus, Minus } from "lucide-react"
 import { FloatingDecoField } from "@/components/floating-deco"
+import { useHomepageSection } from "@/lib/use-cms-content"
+
+const FAQ_DEFAULTS = { heading_color: "#8B0F50" }
 
 const faqs = [
   {
@@ -93,6 +96,7 @@ export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const cms = useHomepageSection("faq_section", FAQ_DEFAULTS)
 
   return (
     <section ref={ref} className="py-12 sm:py-16 lg:py-24 bg-white relative overflow-hidden">
@@ -113,7 +117,7 @@ export function FAQ() {
           transition={{ duration: 0.5 }}
           className="text-center mb-8 sm:mb-12"
         >
-          <h2 className="font-serif font-bold text-plum" style={{ fontSize: "clamp(1.625rem, 4vw, 2.25rem)" }}>
+          <h2 className="font-serif font-bold" style={{ fontSize: "clamp(1.625rem, 4vw, 2.25rem)", color: cms.heading_color }}>
             Answers to Your Fertility Questions
           </h2>
         </motion.div>

@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client"
 export type CMSDoctor = {
   id: string
   name: string
+  slug: string | null
   title: string | null
   bio: string | null
   image: string | null
