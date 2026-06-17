@@ -203,7 +203,7 @@ export function Navbar() {
           src={logo}
           alt="Shubhashree IVF Clinic Kathmandu logo"
           className="nav-logo crisp-logo"
-          style={{ height: 60, width: "auto", maxWidth: 220, objectFit: "contain", objectPosition: "left center", display: "block" }}
+          style={{ height: 40, width: "auto", maxWidth: 160, objectFit: "contain", objectPosition: "left center", display: "block" }}
           onError={() => setLogoFailed(true)}
         />
       ) : (
