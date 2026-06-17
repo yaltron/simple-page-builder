@@ -1,8 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router"
+import { createFileRoute, ClientOnly, Link } from "@tanstack/react-router"
 import * as Icons from "lucide-react"
 import { Sparkles } from "lucide-react"
+import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
-import { PageLayout } from "@/components/page-layout"
+import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
+import { useReveal } from "@/hooks/use-reveal"
 import { supabase } from "@/integrations/supabase/client"
 import type { TrustFeature } from "@/lib/use-trust-features"
 
@@ -22,6 +25,25 @@ export const Route = createFileRoute("/why-us/$slug")({
 function pickIcon(name?: string | null) {
   const I = (Icons as any)[name || ""] as React.ComponentType<{ className?: string; strokeWidth?: number }> | undefined
   return I || Sparkles
+}
+
+function Shell({ children }: { children: React.ReactNode }) {
+  useReveal()
+  return (
+    <ClientOnly fallback={<main className="min-h-screen bg-background" aria-busy="true" />}>
+      <main>
+        <Navbar />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+          {children}
+        </motion.div>
+        <Footer />
+      </main>
+    </ClientOnly>
+  )
 }
 
 function WhyUsDetailPage() {
@@ -44,27 +66,27 @@ function WhyUsDetailPage() {
 
   if (!loaded) {
     return (
-      <PageLayout title="Loading…" breadcrumb="Why Choose Us">
+      <Shell>
         <div className="py-20 text-center text-muted-foreground">Loading…</div>
-      </PageLayout>
+      </Shell>
     )
   }
 
   if (!feature) {
     return (
-      <PageLayout title="Not Found" breadcrumb="Why Choose Us">
+      <Shell>
         <div className="py-20 text-center">
           <h2 className="text-2xl font-bold mb-3">Feature not found</h2>
           <Link to="/" className="text-[#8B0F50] underline">Back to home</Link>
         </div>
-      </PageLayout>
+      </Shell>
     )
   }
 
   const Icon = pickIcon(feature.icon)
 
   return (
-    <PageLayout title={feature.page_heading || feature.title} breadcrumb={feature.title}>
+    <Shell>
       <section style={{ background: "linear-gradient(180deg, #FFF1F7 0%, #ffffff 100%)", padding: "70px 5%" }}>
         <div className="max-w-3xl mx-auto text-center">
           <div className="mx-auto mb-6 w-20 h-20 rounded-full flex items-center justify-center text-white shadow-lg" style={{ background: feature.icon_bg_color || "#8B0F50" }}>
@@ -99,6 +121,6 @@ function WhyUsDetailPage() {
           Book Consultation
         </Link>
       </section>
-    </PageLayout>
+    </Shell>
   )
 }
