@@ -496,8 +496,16 @@ export type Database = {
           description: string | null
           display_order: number
           featured_image: string | null
+          full_content: string | null
+          hero_image_alt: string | null
+          hero_image_url: string | null
           icon: string | null
           id: string
+          key_points: string[]
+          meta_description: string | null
+          meta_title: string | null
+          page_heading: string | null
+          page_subtext: string | null
           short_description: string | null
           slug: string
           status: string
@@ -509,8 +517,16 @@ export type Database = {
           description?: string | null
           display_order?: number
           featured_image?: string | null
+          full_content?: string | null
+          hero_image_alt?: string | null
+          hero_image_url?: string | null
           icon?: string | null
           id?: string
+          key_points?: string[]
+          meta_description?: string | null
+          meta_title?: string | null
+          page_heading?: string | null
+          page_subtext?: string | null
           short_description?: string | null
           slug: string
           status?: string
@@ -522,8 +538,16 @@ export type Database = {
           description?: string | null
           display_order?: number
           featured_image?: string | null
+          full_content?: string | null
+          hero_image_alt?: string | null
+          hero_image_url?: string | null
           icon?: string | null
           id?: string
+          key_points?: string[]
+          meta_description?: string | null
+          meta_title?: string | null
+          page_heading?: string | null
+          page_subtext?: string | null
           short_description?: string | null
           slug?: string
           status?: string
@@ -673,6 +697,33 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      when_to_visit_items: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          order_index: number
+          text: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          order_index?: number
+          text: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          order_index?: number
+          text?: string
+          updated_at?: string
         }
         Relationships: []
       }
