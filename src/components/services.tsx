@@ -1,9 +1,9 @@
 import { motion } from "framer-motion"
-import { useInView, AnimatePresence } from "framer-motion"
+import { useInView } from "framer-motion"
 import { useRef, useEffect, useState } from "react"
 import { Link } from "@tanstack/react-router"
 import * as Icons from "lucide-react"
-import { Heart, ArrowRight, ChevronDown, Check } from "lucide-react"
+import { Heart, ArrowRight } from "lucide-react"
 import { useHomepageSection } from "@/lib/use-cms-content"
 import { supabase } from "@/integrations/supabase/client"
 
@@ -31,7 +31,6 @@ export function Services() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const cms = useHomepageSection("services_heading", SERVICES_HEADING_DEFAULTS)
   const [services, setServices] = useState<any[]>([])
-  const [openId, setOpenId] = useState<string | null>(null)
 
   useEffect(() => {
     supabase
@@ -68,8 +67,6 @@ export function Services() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
           {services.map((service, index) => {
             const Icon = pickIcon(service.icon)
-            const isOpen = openId === service.id
-            const keyPoints: string[] = Array.isArray(service.key_points) ? service.key_points.slice(0, 3) : []
             return (
               <motion.div
                 key={service.id}
@@ -78,63 +75,38 @@ export function Services() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="group relative"
               >
-                <div
-                  className="relative rounded-2xl p-5 sm:p-6 lg:p-7 h-full transition-all duration-300 group-hover:-translate-y-1.5"
-                  style={{
-                    background: cardGradients[index % cardGradients.length],
-                    border: "1px solid rgba(230, 0, 126, 0.12)",
-                  }}
+                <Link
+                  to="/services/$slug"
+                  params={{ slug: service.slug }}
+                  style={{ textDecoration: "none", cursor: "pointer" }}
+                  className="block h-full"
                 >
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white flex items-center justify-center mb-4 sm:mb-5">
-                    <Icon className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: "#E6007E" }} />
-                  </div>
-
-                  <h3 className="font-serif text-lg sm:text-xl font-semibold mb-2 sm:mb-3" style={{ color: "#1A1535" }}>
-                    {service.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed mb-3 sm:mb-4" style={{ color: "#6B6B8A" }}>
-                    {service.short_description}
-                  </p>
-
-                  <button
-                    type="button"
-                    onClick={() => setOpenId(isOpen ? null : service.id)}
-                    className="inline-flex items-center gap-1 text-sm font-semibold transition-all"
-                    style={{ color: "#E6007E" }}
-                  >
-                    {isOpen ? "Show less" : "Learn More"}
-                    <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
-                  </button>
-
                   <div
+                    className="relative rounded-2xl p-5 sm:p-6 lg:p-7 h-full flex flex-col transition-all duration-300 group-hover:-translate-y-1.5"
                     style={{
-                      maxHeight: isOpen ? 320 : 0,
-                      overflow: "hidden",
-                      transition: "max-height 0.4s ease",
+                      background: cardGradients[index % cardGradients.length],
+                      border: "1px solid rgba(230, 0, 126, 0.12)",
                     }}
                   >
-                    {keyPoints.length > 0 && (
-                      <ul className="mt-4 space-y-2">
-                        {keyPoints.map((kp, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm" style={{ color: "#6B6B8A" }}>
-                            <Check className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#E6007E" }} />
-                            <span>{kp}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                    {service.slug && (
-                      <Link
-                        to="/services/$slug"
-                        params={{ slug: service.slug }}
-                        className="inline-flex items-center gap-1 text-sm font-semibold mt-4"
-                        style={{ color: "#E6007E" }}
-                      >
-                        View Full Details <ArrowRight className="w-4 h-4" />
-                      </Link>
-                    )}
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white flex items-center justify-center mb-4 sm:mb-5">
+                      <Icon className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: "#E6007E" }} />
+                    </div>
+
+                    <h3 className="font-serif text-lg sm:text-xl font-semibold mb-2 sm:mb-3" style={{ color: "#1A1535" }}>
+                      {service.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed mb-3 sm:mb-4 flex-1" style={{ color: "#6B6B8A" }}>
+                      {service.short_description}
+                    </p>
+
+                    <span
+                      className="inline-flex items-center gap-1 text-sm font-semibold mt-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                      style={{ color: "#8B0F50" }}
+                    >
+                      Learn More <ArrowRight className="w-4 h-4" />
+                    </span>
                   </div>
-                </div>
+                </Link>
               </motion.div>
             )
           })}
