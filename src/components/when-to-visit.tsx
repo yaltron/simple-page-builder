@@ -8,12 +8,13 @@ import { Button } from "@/components/ui/button"
 import { FloatingDecoField } from "@/components/floating-deco"
 import { VideoModal } from "@/components/video-modal"
 import { useHomepageSection } from "@/lib/use-cms-content"
+import { useWhenToVisitItems } from "@/lib/use-when-to-visit"
 import visitCare from "@/assets/visit-care.jpg"
 import visitConsult from "@/assets/hero-consultation.jpg"
 import visitHope from "@/assets/visit-hope.jpg"
 import visitVideo from "@/assets/visit-video.jpg"
 
-const reasons = [
+const FALLBACK_REASONS = [
   "Couples who cannot conceive naturally",
   "Couples with recurrent pregnancy losses",
   "Couples carrying genetic disorders",
@@ -25,7 +26,11 @@ const reasons = [
 const DEFAULTS = {
   heading: "Signs You Should See a Fertility Specialist",
   heading_color: "#8B0F50",
+  subtext: "",
+  button_text: "Book an Appointment",
+  button_url: "/contact",
   video_url: "",
+  video_autoplay: false,
   images: [
     { url: "", alt: "Compassionate care" },
     { url: "", alt: "Consultation" },
@@ -66,6 +71,8 @@ export function WhenToVisit() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [videoOpen, setVideoOpen] = useState(false)
   const cms = useHomepageSection("when_to_visit", DEFAULTS)
+  const checklistItems = useWhenToVisitItems(FALLBACK_REASONS)
+  const reasons = checklistItems.map(i => i.text)
   const i1 = cms.images?.[0]?.url || visitCare
   const i2 = cms.images?.[1]?.url || visitConsult
   const i3 = cms.images?.[2]?.url || visitHope
@@ -75,6 +82,8 @@ export function WhenToVisit() {
   const a3 = cms.images?.[2]?.alt || "Hope for families"
   const a4 = cms.images?.[3]?.alt || "Watch our video"
   const embed = extractVideoEmbed(cms.video_url || "")
+  const buttonText = cms.button_text || "Book an Appointment"
+  const buttonUrl = cms.button_url || "/contact"
 
   return (
     <section ref={ref} className="pt-10 sm:pt-16 lg:pt-32 pb-8 sm:pb-10 overflow-hidden relative">
@@ -100,12 +109,13 @@ export function WhenToVisit() {
               <h2 className="font-serif font-bold leading-tight" style={{ color: cms.heading_color, fontSize: "clamp(1.625rem, 4vw, 2.25rem)" }}>
                 {cms.heading}
               </h2>
+              {cms.subtext && <p className="text-plum/80">{cms.subtext}</p>}
 
               {/* Checklist */}
               <div className="space-y-4 pt-4">
                 {reasons.map((reason, index) => (
                   <motion.div
-                    key={reason}
+                    key={reason + index}
                     initial={{ opacity: 0, x: -20 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
@@ -130,7 +140,7 @@ export function WhenToVisit() {
                   size="lg"
                   className="bg-gradient-to-r from-rose to-rose-dark text-white hover:from-rose-dark hover:to-rose rounded-full px-8"
                 >
-                  <Link to="/contact">Book an Appointment</Link>
+                  <a href={buttonUrl}>{buttonText}</a>
                 </Button>
               </motion.div>
             </motion.div>
