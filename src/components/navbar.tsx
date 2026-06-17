@@ -5,8 +5,7 @@ import { Phone, Menu, X, Calendar, ChevronDown, Copy, Check, Hospital, Video } f
 import { Link, useLocation, useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
 import { supabase } from "@/integrations/supabase/client"
-import logoAsset from "@/assets/shubhashree-logo.png.asset.json"
-const logo = logoAsset.url
+const logo = "/logo.png"
 
 const SERVICE_OPTIONS = [
   "IVF Treatment",
@@ -204,7 +203,7 @@ export function Navbar() {
           src={logo}
           alt="Shubhashree IVF Clinic Kathmandu logo"
           className="nav-logo crisp-logo"
-          style={{ height: 60, width: "auto", maxWidth: 220, objectFit: "contain", objectPosition: "left center", display: "block" }}
+          style={{ height: 60, width: "auto", maxWidth: 150, objectFit: "contain", objectPosition: "left center", display: "block" }}
           onError={() => setLogoFailed(true)}
         />
       ) : (
@@ -238,7 +237,7 @@ export function Navbar() {
       >
         {/* ROW 1 */}
         <div
-          className="min-h-[58px] md:min-h-[64px] pt-1.5 md:pt-2 pb-1"
+          className="min-h-[58px] md:min-h-[64px] pt-1 md:pt-1 pb-0"
           style={{
             transition: "min-height 0.35s ease",
           }}

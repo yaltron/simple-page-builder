@@ -3,8 +3,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
 import { Eye, EyeOff, Loader2, Hospital, FileText, Users } from "lucide-react"
-import logoAsset from "@/assets/shubhashree-logo.png.asset.json"
-const logo = logoAsset.url
+const logo = "/logo.png"
 
 export const Route = createFileRoute("/admin/login")({
   component: AdminLoginPage,
@@ -83,7 +82,7 @@ function AdminLoginPage() {
         <div style={{ position: "absolute", bottom: -140, right: -100, width: 400, height: 400, borderRadius: "50%", background: "white", opacity: 0.05, filter: "blur(50px)" }} />
 
         <div style={{ position: "relative", zIndex: 1, textAlign: "center", width: "100%", maxWidth: 360 }}>
-          <img src={logo} alt="Subhashree IVF" className="crisp-logo" style={{ height: 60, width: "auto", maxWidth: 200, objectFit: "contain", objectPosition: "center", display: "block", margin: "0 auto 24px", background: "white", borderRadius: 12, padding: 8 }} />
+          <img src={logo} alt="Subhashree IVF" className="crisp-logo" style={{ height: 44, width: "auto", maxWidth: 176, objectFit: "contain", objectPosition: "center", display: "block", margin: "0 auto 24px", background: "white", borderRadius: 12, padding: 8 }} />
           <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 28, color: "white", fontWeight: 700, textAlign: "center" }}>
             Subhashree IVF
           </div>
@@ -122,7 +121,7 @@ function AdminLoginPage() {
         }}
       >
         <div style={{ width: "100%", maxWidth: 440, margin: "0 auto" }}>
-          <img src={logo} alt="Subhashree IVF" className="crisp-logo" style={{ height: 60, width: "auto", maxWidth: 200, objectFit: "contain", objectPosition: "center", display: "block", margin: "0 auto 8px" }} />
+          <img src={logo} alt="Subhashree IVF" className="crisp-logo" style={{ height: 44, width: "auto", maxWidth: 176, objectFit: "contain", objectPosition: "center", display: "block", margin: "0 auto 8px" }} />
           <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", color: "#b06090", textAlign: "center", marginBottom: 40 }}>
             CMS Dashboard
           </div>

@@ -2,8 +2,7 @@ import { useEffect, useState } from "react"
 import { Link } from "@tanstack/react-router"
 import { Facebook, Instagram, Youtube, MapPin, Phone, Mail, Clock } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
-import logoAsset from "@/assets/shubhashree-logo.png.asset.json"
-const logo = logoAsset.url
+const logo = "/logo.png"
 
 const quickLinks = [
   { name: "About Us", to: "/about" },
@@ -93,9 +92,9 @@ export function Footer() {
                 alt="Shubhashree IVF Clinic Pvt. Ltd."
                 className="footer-logo crisp-logo"
                 style={{
-                  height: 64,
+                  height: 44,
                   width: "auto",
-                  maxWidth: 240,
+                  maxWidth: 176,
                   objectFit: "contain",
                   objectPosition: "center",
                   display: "block",
