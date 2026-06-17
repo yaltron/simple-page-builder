@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { createFileRoute, Link, notFound } from "@tanstack/react-router"
+import { createFileRoute, Link } from "@tanstack/react-router"
 import { motion } from "framer-motion"
 import * as Icons from "lucide-react"
 import { ArrowRight, Heart, Check, Phone, MessageCircle } from "lucide-react"
