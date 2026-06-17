@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { createFileRoute, Link } from "@tanstack/react-router"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import * as Icons from "lucide-react"
-import { ArrowRight, ChevronDown, Heart } from "lucide-react"
+import { ArrowRight, Heart } from "lucide-react"
 import { PageLayout, PageCTABanner, Section, SectionHeading, BRAND } from "@/components/page-layout"
 import { ProcessSteps } from "@/components/process-steps"
 import { FertilityStages } from "@/components/fertility-stages"
@@ -38,7 +38,6 @@ function pickIcon(name?: string | null) {
 
 function ServicesPage() {
   const [services, setServices] = useState<any[]>([])
-  const [open, setOpen] = useState<string | null>(null)
 
   useEffect(() => {
     supabase.from("services").select("*").eq("status", "published").order("display_order").then(({ data }) => setServices(data || []))
@@ -51,7 +50,6 @@ function ServicesPage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((s, i) => {
             const Icon = pickIcon(s.icon)
-            const isOpen = open === s.id
             return (
               <motion.div
                 key={s.id}
@@ -59,42 +57,24 @@ function ServicesPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: (i % 3) * 0.08 }}
-                className="rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1.5"
+                className="rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1.5 flex flex-col"
                 style={{ background: cardGradients[i % cardGradients.length], border: "1px solid rgba(230,0,126,0.12)" }}
               >
                 <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center mb-5">
                   <Icon className="w-7 h-7" style={{ color: BRAND.pink }} />
                 </div>
                 <h3 className="font-serif text-xl font-semibold mb-3" style={{ color: BRAND.plum }}>{s.title}</h3>
-                {s.short_description && <p className="text-sm leading-relaxed mb-4" style={{ color: BRAND.navLink }}>{s.short_description}</p>}
-                {s.description && (
-                  <button
-                    onClick={() => setOpen(isOpen ? null : s.id)}
-                    className="inline-flex items-center gap-1 text-sm font-semibold transition-all"
+                {s.short_description && <p className="text-sm leading-relaxed mb-4 flex-1" style={{ color: BRAND.navLink }}>{s.short_description}</p>}
+                {s.slug && (
+                  <Link
+                    to="/services/$slug"
+                    params={{ slug: s.slug }}
+                    className="inline-flex items-center gap-1 text-sm font-semibold mt-auto"
                     style={{ color: BRAND.pink }}
                   >
-                    {isOpen ? "Show less" : "View service details"}
-                    <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
-                  </button>
+                    Learn More <ArrowRight className="w-4 h-4" />
+                  </Link>
                 )}
-                <AnimatePresence initial={false}>
-                  {isOpen && s.description && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="pt-4 mt-4 border-t" style={{ borderColor: "rgba(230,0,126,0.15)" }}>
-                        <FormattedDescription text={s.description} />
-                        <Link to="/contact" className="inline-flex items-center gap-1 text-sm font-bold text-white px-4 py-2 rounded-full" style={{ background: BRAND.pink }}>
-                          Book for this Service <ArrowRight className="w-4 h-4" />
-                        </Link>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
               </motion.div>
             )
           })}
@@ -107,33 +87,5 @@ function ServicesPage() {
 
       <PageCTABanner />
     </PageLayout>
-  )
-}
-
-function FormattedDescription({ text }: { text: string }) {
-  const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean)
-  const bulletRe = /^([→\-*•·▸▶►]|\d+[.)])\s*/
-  const isList = lines.length > 1 && lines.filter((l) => bulletRe.test(l)).length >= Math.ceil(lines.length / 2)
-
-  if (isList) {
-    return (
-      <ul className="text-sm mb-4 space-y-1.5 pl-1" style={{ color: BRAND.navLink, lineHeight: 1.7 }}>
-        {lines.map((l, i) => {
-          const clean = l.replace(bulletRe, "")
-          return (
-            <li key={i} className="flex gap-2">
-              <span style={{ color: BRAND.pink }}>→</span>
-              <span>{clean}</span>
-            </li>
-          )
-        })}
-      </ul>
-    )
-  }
-
-  return (
-    <div className="text-sm mb-4 space-y-2" style={{ color: BRAND.navLink, lineHeight: 1.7 }}>
-      {lines.map((l, i) => <p key={i}>{l}</p>)}
-    </div>
   )
 }
