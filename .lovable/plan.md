@@ -1,9 +1,28 @@
-I’ll make only the routing/detail-page fix.
+## Remove hero/banner from Why Families Trust Us detail pages
 
-Plan:
-1. Convert `src/routes/services.tsx` into the parent route for `/services` that renders an `<Outlet />`, so `/services/$slug` can mount instead of being swallowed by the parent page.
-2. Move the current general Services page content into a new `src/routes/services.index.tsx` route for `/services`, keeping its design and behavior unchanged.
-3. Keep `src/routes/services.$slug.tsx` as the detail route, with `createFileRoute('/services/$slug')`, so URLs like `/services/fertility-assessment-diagnosis` render `ServiceDetailPage`.
-4. Do not edit navbar, footer, homepage service cards, or unrelated page design.
+### Goal
+On `/why-us/:slug` pages, remove the top hero banner section (page heading + breadcrumb) so the page starts directly with the icon circle after the navbar.
 
-Technical note: this project uses TanStack Start file-based routing, not React Router. The generated route tree already shows `/services/$slug` as a child of `/services`; the missing piece is that the `/services` parent currently renders the full Services page instead of an `<Outlet />`, preventing the child route content from displaying.
+### Approach
+1. **In `src/routes/why-us.$slug.tsx`** — stop using the shared `PageLayout` component, which unconditionally renders `PageHero`.
+2. **Compose the page directly** using:
+   - `<Navbar />`
+   - `<ClientOnly>` and `<main>` wrapper (matching `PageLayout` behavior)
+   - The existing `<motion.div>` fade-in wrapper
+   - The existing content sections: icon circle, heading, subtext, full content, CTA banner
+   - `<Footer />`
+3. **Preserve all existing behavior**: loading state, not-found state, SEO head, animations, colors, and layout.
+4. **No changes** to `src/components/page-layout.tsx` or any other file.
+
+### What the page will look like after
+```
+Navbar
+├── Icon circle
+├── Page heading (e.g. "Advanced Lab Technology...")
+├── Subtext
+├── Full content
+├── CTA banner
+Footer
+```
+
+The large gradient hero section with the duplicate title and breadcrumb is removed entirely.
