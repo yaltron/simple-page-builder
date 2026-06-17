@@ -1,20 +1,11 @@
-Replace the existing logo with the uploaded `shubhashreelogo.png` and update sizing in 4 locations.
+The navbar logo on desktop is currently rendered at 40px tall (inline style in `navbar.tsx`), making the clinic name text too small to read clearly. The navbar row has a fixed `min-h-[64px]` on desktop with 12px total vertical padding, leaving ~52px of content height — so the logo can grow without increasing the navbar height.
 
-Step 1 — Copy uploaded logo to public folder
-- Copy `user-uploads://shubhashreelogo.png` to `/public/logo.png`
+### Change
+- In `src/components/navbar.tsx`, update the logo `<img>` inline style: change `height: 40` → `height: 52`.
+- At the logo’s ~2.5∶1 aspect ratio (781×312px file), the width becomes ~130px, so the existing `maxWidth: 160` does not constrain it — no change needed there.
+- Leave the `logoScale` transform, navbar `min-height`, padding, CTA buttons, row 2 height, and all other styles untouched.
 
-Step 2 — Update logo img tag dimensions (src already "/logo.png" in all files)
-
-Navbar (`src/components/navbar.tsx`):
-- height: 40, width: "auto", maxWidth: 160, objectFit: "contain"
-
-Footer (`src/components/footer.tsx`):
-- height: 44, width: "auto", maxWidth: 176, objectFit: "contain"
-
-Admin Sidebar (`src/components/admin/admin-shell.tsx`):
-- height: 36, width: "auto", maxWidth: 140, objectFit: "contain"
-
-Admin Login Page (`src/routes/admin.login.tsx`):
-- Both logo img tags: height: 44, width: "auto", maxWidth: 176, objectFit: "contain"
-
-No other changes — layout, padding, colors, fonts, navbar height all untouched.
+### Verification
+- Desktop (>1024px): logo renders at 52px tall, clearly readable, navbar row stays at 64px minimum.
+- Scrolled desktop: visual height is 52 × 0.88 ≈ 46px, still readable.
+- Tablet CSS overrides remain unchanged — tablet already renders the logo larger via `width: 120–140px` rules.
