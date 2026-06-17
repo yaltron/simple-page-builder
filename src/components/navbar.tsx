@@ -5,7 +5,8 @@ import { Phone, Menu, X, Calendar, ChevronDown, Copy, Check, Hospital, Video } f
 import { Link, useLocation, useNavigate } from "@tanstack/react-router"
 import { toast } from "sonner"
 import { supabase } from "@/integrations/supabase/client"
-import logo from "@/assets/logo-trimmed.png"
+import logoAsset from "@/assets/shubhashree-logo.png.asset.json"
+const logo = logoAsset.url
 
 const SERVICE_OPTIONS = [
   "IVF Treatment",
@@ -197,12 +198,13 @@ export function Navbar() {
   const logoScale = isScrolled ? 0.88 : 1
 
   const Logo = (
-    <Link to="/" className="flex items-center gap-2" style={{ transform: `scale(${logoScale})`, transformOrigin: "left center", transition: "transform 0.35s ease", alignItems: "center" }}>
+    <Link to="/" className="flex items-center" style={{ transform: `scale(${logoScale})`, transformOrigin: "left center", transition: "transform 0.35s ease", alignItems: "center" }}>
       {!logoFailed ? (
         <img
           src={logo}
           alt="Shubhashree IVF Clinic Kathmandu logo"
-          className="nav-logo h-[52px] sm:h-[64px] md:h-[75px] w-auto object-contain block"
+          className="nav-logo crisp-logo"
+          style={{ height: 52, width: "auto", maxWidth: 200, objectFit: "contain", objectPosition: "left center", display: "block" }}
           onError={() => setLogoFailed(true)}
         />
       ) : (

@@ -2,7 +2,8 @@ import { useEffect, useState } from "react"
 import { Link } from "@tanstack/react-router"
 import { Facebook, Instagram, Youtube, MapPin, Phone, Mail, Clock } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
-import logo from "@/assets/logo-trimmed.png"
+import logoAsset from "@/assets/shubhashree-logo.png.asset.json"
+const logo = logoAsset.url
 
 const quickLinks = [
   { name: "About Us", to: "/about" },
@@ -54,23 +55,23 @@ const linkStyle: React.CSSProperties = {
 }
 
 const contactItems = [
-  { Icon: MapPin, label: "Address", value: "Kathmandu, Nepal", href: "https://maps.app.goo.gl/uBT758S7LyZYjHJz5", external: true },
+  { Icon: MapPin, label: "Address", value: "Soalteemod, Kathmandu, Nepal", href: "https://maps.app.goo.gl/uBT758S7LyZYjHJz5", external: true },
   { Icon: Phone, label: "Phone", value: "+977 9861141699", href: "tel:+9779861141699", external: false },
   { Icon: Mail, label: "Email", value: "Shubhashreeivf@gmail.com", href: "mailto:Shubhashreeivf@gmail.com", external: false },
   { Icon: Clock, label: "Hours", value: "Sun-Fri: 8:00 AM - 6:00 PM", href: undefined, external: false },
 ] as const
 
 export function Footer() {
-  const [services, setServices] = useState<{ id: string; title: string }[]>([])
+  const [services, setServices] = useState<{ id: string; title: string; slug: string }[]>([])
 
   useEffect(() => {
     ;(async () => {
       const { data } = await supabase
         .from("services")
-        .select("id,title")
+        .select("id,title,slug")
         .eq("status", "published")
         .order("display_order", { ascending: true })
-      setServices(data || [])
+      setServices((data as any) || [])
     })()
   }, [])
 
@@ -90,12 +91,14 @@ export function Footer() {
               <img
                 src={logo}
                 alt="Shubhashree IVF Clinic Pvt. Ltd."
-                className="footer-logo"
+                className="footer-logo crisp-logo"
                 style={{
-                  width: 200,
-                  height: "auto",
+                  height: 56,
+                  width: "auto",
+                  maxWidth: 220,
                   objectFit: "contain",
-                  imageRendering: "-webkit-optimize-contrast" as any,
+                  objectPosition: "center",
+                  display: "block",
                 }}
               />
             </Link>
@@ -169,7 +172,8 @@ export function Footer() {
               {services.map((service) => (
                 <li key={service.id}>
                   <Link
-                    to="/services"
+                    to="/services/$slug"
+                    params={{ slug: service.slug }}
                     style={linkStyle}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = "#E6007E"

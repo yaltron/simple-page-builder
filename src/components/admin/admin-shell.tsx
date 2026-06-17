@@ -7,7 +7,8 @@ import {
 } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
-import logo from "@/assets/logo.png"
+import logoAsset from "@/assets/shubhashree-logo.png.asset.json"
+const logo = logoAsset.url
 
 type LeafItem = { to: string; label: string; params?: Record<string, string>; matchPath?: string }
 type NavItem = {
@@ -55,7 +56,13 @@ const navItems: NavItem[] = [
   { key: "team", to: "/admin/team", label: "Our Team", icon: UserRound },
   { key: "services", to: "/admin/services", label: "Services", icon: Stethoscope },
   { key: "faqs", to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
-  { key: "gallery", to: "/admin/gallery", label: "Gallery", icon: ImageIcon },
+  {
+    key: "gallery", label: "Gallery", icon: ImageIcon,
+    children: [
+      { to: "/admin/gallery", label: "All Items" },
+      { to: "/admin/gallery/virtual-tour", label: "Virtual Tour" },
+    ],
+  },
   { key: "testimonials", to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
   { key: "popup", to: "/admin/popup-banners", label: "Popup Banners", icon: Megaphone },
   {
@@ -147,7 +154,7 @@ export function AdminShell({ title, breadcrumb, children }: { title: string; bre
       `}</style>
       <aside className="w-64 flex-shrink-0 flex flex-col text-white admin-sidebar-scroll" style={{ background: "#2D0A1E", height: "100vh", overflowY: "auto", overflowX: "hidden", position: "sticky", top: 0, left: 0 }}>
         <div style={{ padding: "16px 16px 8px 16px", borderBottom: "1px solid rgba(255,255,255,0.08)", marginBottom: 8 }}>
-          <img src={logo} alt="Subhashree IVF" style={{ width: 140, height: "auto", objectFit: "contain", display: "block", margin: "0 auto 4px auto", filter: "brightness(1.1)" }} />
+          <img src={logo} alt="Subhashree IVF" className="crisp-logo" style={{ height: 44, width: "auto", maxWidth: 160, objectFit: "contain", objectPosition: "center", display: "block", margin: "0 auto 4px auto", background: "white", borderRadius: 8, padding: 4 }} />
           <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", color: "rgba(255,255,255,0.45)", textAlign: "center", paddingBottom: 8 }}>CMS Dashboard</div>
         </div>
         <nav className="flex-1 px-3 py-2 overflow-y-auto">
