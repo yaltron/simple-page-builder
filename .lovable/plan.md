@@ -1,21 +1,20 @@
-Copy `src/assets/logo.png` to `public/logo.png` so it is served at the domain root (`/logo.png`).
+Replace the existing logo with the uploaded `shubhashreelogo.png` and update sizing in 4 locations.
 
-Then update the logo `src` in four components and remove the now-unused asset import:
+Step 1 — Copy uploaded logo to public folder
+- Copy `user-uploads://shubhashreelogo.png` to `/public/logo.png`
 
-1. `src/components/navbar.tsx`
-   - Remove: `import logoAsset from "@/assets/shubhashree-logo.png.asset.json"` and `const logo = logoAsset.url`
-   - Change `<img src={logo} …` to `<img src="/logo.png" …`
+Step 2 — Update logo img tag dimensions (src already "/logo.png" in all files)
 
-2. `src/components/footer.tsx`
-   - Remove: `import logoAsset from "@/assets/shubhashree-logo.png.asset.json"` and `const logo = logoAsset.url`
-   - Change `<img src={logo} …` to `<img src="/logo.png" …`
+Navbar (`src/components/navbar.tsx`):
+- height: 40, width: "auto", maxWidth: 160, objectFit: "contain"
 
-3. `src/components/admin/admin-shell.tsx`
-   - Remove: `import logoAsset from "@/assets/shubhashree-logo.png.asset.json"` and `const logo = logoAsset.url`
-   - Change `<img src={logo} …` to `<img src="/logo.png" …`
+Footer (`src/components/footer.tsx`):
+- height: 44, width: "auto", maxWidth: 176, objectFit: "contain"
 
-4. `src/routes/admin.login.tsx`
-   - Remove: `import logoAsset from "@/assets/shubhashree-logo.png.asset.json"` and `const logo = logoAsset.url`
-   - Change both `<img src={logo} …` occurrences to `<img src="/logo.png" …`
+Admin Sidebar (`src/components/admin/admin-shell.tsx`):
+- height: 36, width: "auto", maxWidth: 140, objectFit: "contain"
 
-No other attributes (className, style, width, height, alt, etc.) are touched.
+Admin Login Page (`src/routes/admin.login.tsx`):
+- Both logo img tags: height: 44, width: "auto", maxWidth: 176, objectFit: "contain"
+
+No other changes — layout, padding, colors, fonts, navbar height all untouched.
