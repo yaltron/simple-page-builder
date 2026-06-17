@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef, useState } from "react"
 import { Check, Play } from "lucide-react"
-import { Link } from "@tanstack/react-router"
+
 import { Button } from "@/components/ui/button"
 import { FloatingDecoField } from "@/components/floating-deco"
 import { VideoModal } from "@/components/video-modal"
