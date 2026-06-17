@@ -3,7 +3,8 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
 import { Eye, EyeOff, Loader2, Hospital, FileText, Users } from "lucide-react"
-const logo = "/logo.png"
+import logoAsset from "@/assets/shubhashree-logo.png.asset.json"
+const logo = logoAsset.url
 
 export const Route = createFileRoute("/admin/login")({
   component: AdminLoginPage,

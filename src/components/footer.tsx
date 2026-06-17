@@ -2,7 +2,8 @@ import { useEffect, useState } from "react"
 import { Link } from "@tanstack/react-router"
 import { Facebook, Instagram, Youtube, MapPin, Phone, Mail, Clock } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
-const logo = "/logo.png"
+import logoAsset from "@/assets/shubhashree-logo.png.asset.json"
+const logo = logoAsset.url
 
 const quickLinks = [
   { name: "About Us", to: "/about" },
