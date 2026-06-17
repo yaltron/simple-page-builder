@@ -132,15 +132,17 @@ function GalleryPage() {
         )}
       </Section>
 
-      <section style={{ padding: "60px 5%", background: `linear-gradient(135deg, ${BRAND.pinkSoft} 0%, ${BRAND.blueSoft} 100%)` }}>
-        <div className="max-w-3xl mx-auto text-center">
-          <SectionHeading>Take a Virtual Tour of Our Clinic</SectionHeading>
-          <p className="mb-8" style={{ color: BRAND.navLink, marginTop: -20 }}>Explore our facilities from the comfort of your home.</p>
-          <button onClick={() => setTourOpen(true)} className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-white font-bold transition-transform hover:scale-105" style={{ background: `linear-gradient(90deg, ${BRAND.pink}, ${BRAND.pinkDark})` }}>
-            <Play className="w-4 h-4 fill-current" /> Watch Tour Video
-          </button>
-        </div>
-      </section>
+      {tour.is_active !== false && (
+        <section style={{ padding: "60px 5%", background: `linear-gradient(135deg, ${BRAND.pinkSoft} 0%, ${BRAND.blueSoft} 100%)` }}>
+          <div className="max-w-3xl mx-auto text-center">
+            <SectionHeading>{tour.heading}</SectionHeading>
+            {tour.subtext && <p className="mb-8" style={{ color: BRAND.navLink, marginTop: -20 }}>{tour.subtext}</p>}
+            <button onClick={() => setTourOpen(true)} className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-white font-bold transition-transform hover:scale-105" style={{ background: `linear-gradient(90deg, ${BRAND.pink}, ${BRAND.pinkDark})` }}>
+              <Play className="w-4 h-4 fill-current" /> {tour.button_text}
+            </button>
+          </div>
+        </section>
+      )}
 
       <AnimatePresence>
         {lightbox !== null && filtered[lightbox] && (
@@ -153,7 +155,17 @@ function GalleryPage() {
         )}
       </AnimatePresence>
 
-      <VideoModal open={tourOpen} onClose={() => setTourOpen(false)} title="Virtual Clinic Tour" />
+      <VideoModal
+        open={tourOpen}
+        onClose={() => setTourOpen(false)}
+        title="Virtual Clinic Tour"
+        src={(() => {
+          if (!tour.video_url) return undefined
+          const embed = toYouTubeEmbed(tour.video_url) ?? tour.video_url
+          const sep = embed.includes("?") ? "&" : "?"
+          return tour.autoplay ? `${embed}${sep}autoplay=1&mute=1` : `${embed}${sep}autoplay=0`
+        })()}
+      />
       <VideoModal open={video !== null} onClose={() => setVideo(null)} src={video ? (toYouTubeEmbed(video) ?? video) : undefined} title="Gallery Video" />
     </PageLayout>
   )
