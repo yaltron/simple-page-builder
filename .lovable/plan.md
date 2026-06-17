@@ -1,11 +1,19 @@
-The navbar logo on desktop is currently rendered at 40px tall (inline style in `navbar.tsx`), making the clinic name text too small to read clearly. The navbar row has a fixed `min-h-[64px]` on desktop with 12px total vertical padding, leaving ~52px of content height — so the logo can grow without increasing the navbar height.
+The user wants the navbar logo rendered at exactly 150 × 60 px on desktop, without increasing the navbar height.
 
-### Change
-- In `src/components/navbar.tsx`, update the logo `<img>` inline style: change `height: 40` → `height: 52`.
-- At the logo’s ~2.5∶1 aspect ratio (781×312px file), the width becomes ~130px, so the existing `maxWidth: 160` does not constrain it — no change needed there.
-- Leave the `logoScale` transform, navbar `min-height`, padding, CTA buttons, row 2 height, and all other styles untouched.
+Current state
+- Logo file: 781 × 312 px (2.5:1 aspect ratio)
+- Navbar logo inline style: height: 52, maxWidth: 160
+- Navbar row 1: min-h-[64px] with pt-2 (8 px) + pb-1 (4 px) = 12 px vertical padding
+- Current computed row height: 52 px logo + 12 px padding = 64 px (exactly at min-height)
 
-### Verification
-- Desktop (>1024px): logo renders at 52px tall, clearly readable, navbar row stays at 64px minimum.
-- Scrolled desktop: visual height is 52 × 0.88 ≈ 46px, still readable.
-- Tablet CSS overrides remain unchanged — tablet already renders the logo larger via `width: 120–140px` rules.
+Planned change
+1. In `src/components/navbar.tsx`, update the logo `<img>` inline style:
+   - height: 52 → 60
+   - maxWidth: 160 → 150
+   This yields exactly 150 × 60 px because the logo’s native 2.5:1 ratio (60 × 2.5 = 150).
+
+2. In the same file, reduce the navbar row 1 vertical padding by 8 px to compensate for the 8 px taller logo:
+   - Change `pt-1.5 md:pt-2 pb-1` → `pt-1 md:pt-1 pb-0`
+   New computed row height: 60 px logo + 4 px padding = 64 px (unchanged).
+
+No other attributes, classes, or components are touched.
