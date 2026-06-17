@@ -167,7 +167,7 @@ export function WhenToVisit() {
                   <img src={i3} alt={a3} className="w-full h-full object-cover" loading="lazy" />
                 </div>
                 {/* Video thumbnail - autoplay iframe if video_url is set, otherwise click-to-open thumbnail */}
-                {embed ? (
+                {embed && cms.video_autoplay ? (
                   <div
                     className="rounded-2xl overflow-hidden h-48 lg:h-64"
                     style={{ position: "relative" }}
@@ -204,7 +204,7 @@ export function WhenToVisit() {
           </motion.div>
         </div>
       </div>
-      <VideoModal open={videoOpen} onClose={() => setVideoOpen(false)} />
+      <VideoModal open={videoOpen} onClose={() => setVideoOpen(false)} src={cms.video_url || undefined} />
     </section>
   )
 }

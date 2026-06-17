@@ -6,6 +6,16 @@ import { PageLayout, Section, SectionHeading, BRAND } from "@/components/page-la
 import { VideoModal } from "@/components/video-modal"
 import { supabase } from "@/integrations/supabase/client"
 import { toYouTubeEmbed } from "@/lib/youtube"
+import { useHomepageSection } from "@/lib/use-cms-content"
+
+const TOUR_DEFAULTS = {
+  heading: "Take a Virtual Tour of Our Clinic",
+  subtext: "Explore our facilities from the comfort of your home.",
+  button_text: "Watch Tour Video",
+  video_url: "",
+  autoplay: false,
+  is_active: true,
+}
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -30,6 +40,7 @@ function GalleryPage() {
   const [lightbox, setLightbox] = useState<number | null>(null)
   const [video, setVideo] = useState<string | null>(null)
   const [tourOpen, setTourOpen] = useState(false)
+  const tour = useHomepageSection("virtual_tour", TOUR_DEFAULTS)
 
   useEffect(() => {
     supabase.from("gallery_items").select("*").eq("status", "published").order("display_order").then(({ data }) => setItems(data || []))
