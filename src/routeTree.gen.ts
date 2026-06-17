@@ -18,6 +18,7 @@ import { Route as CareersRouteImport } from './routes/careers'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeamIndexRouteImport } from './routes/team.index'
+import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as WhyUsSlugRouteImport } from './routes/why-us.$slug'
@@ -93,6 +94,11 @@ const TeamIndexRoute = TeamIndexRouteImport.update({
   id: '/team/',
   path: '/team/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ServicesRoute,
 } as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
@@ -266,6 +272,7 @@ export interface FileRoutesByFullPath {
   '/why-us/$slug': typeof WhyUsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
+  '/services/': typeof ServicesIndexRoute
   '/team/': typeof TeamIndexRoute
   '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
   '/admin/about/our-story': typeof AdminAboutOurStoryRoute
@@ -296,7 +303,6 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/gallery': typeof GalleryRoute
-  '/services': typeof ServicesRouteWithChildren
   '/success-stories': typeof SuccessStoriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
@@ -307,6 +313,7 @@ export interface FileRoutesByTo {
   '/why-us/$slug': typeof WhyUsSlugRoute
   '/admin': typeof AdminIndexRoute
   '/blog': typeof BlogIndexRoute
+  '/services': typeof ServicesIndexRoute
   '/team': typeof TeamIndexRoute
   '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
   '/admin/about/our-story': typeof AdminAboutOurStoryRoute
@@ -349,6 +356,7 @@ export interface FileRoutesById {
   '/why-us/$slug': typeof WhyUsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
+  '/services/': typeof ServicesIndexRoute
   '/team/': typeof TeamIndexRoute
   '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
   '/admin/about/our-story': typeof AdminAboutOurStoryRoute
@@ -392,6 +400,7 @@ export interface FileRouteTypes {
     | '/why-us/$slug'
     | '/admin/'
     | '/blog/'
+    | '/services/'
     | '/team/'
     | '/admin/about/mission-vision'
     | '/admin/about/our-story'
@@ -422,7 +431,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faqs'
     | '/gallery'
-    | '/services'
     | '/success-stories'
     | '/admin/login'
     | '/admin/popup-banners'
@@ -433,6 +441,7 @@ export interface FileRouteTypes {
     | '/why-us/$slug'
     | '/admin'
     | '/blog'
+    | '/services'
     | '/team'
     | '/admin/about/mission-vision'
     | '/admin/about/our-story'
@@ -474,6 +483,7 @@ export interface FileRouteTypes {
     | '/why-us/$slug'
     | '/admin/'
     | '/blog/'
+    | '/services/'
     | '/team/'
     | '/admin/about/mission-vision'
     | '/admin/about/our-story'
@@ -603,6 +613,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/team/'
       preLoaderRoute: typeof TeamIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/services/': {
+      id: '/services/'
+      path: '/'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof ServicesRoute
     }
     '/blog/': {
       id: '/blog/'
@@ -819,10 +836,12 @@ declare module '@tanstack/react-router' {
 
 interface ServicesRouteChildren {
   ServicesSlugRoute: typeof ServicesSlugRoute
+  ServicesIndexRoute: typeof ServicesIndexRoute
 }
 
 const ServicesRouteChildren: ServicesRouteChildren = {
   ServicesSlugRoute: ServicesSlugRoute,
+  ServicesIndexRoute: ServicesIndexRoute,
 }
 
 const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
