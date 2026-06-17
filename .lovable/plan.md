@@ -1,28 +1,21 @@
-## Remove hero/banner from Why Families Trust Us detail pages
+Copy `src/assets/logo.png` to `public/logo.png` so it is served at the domain root (`/logo.png`).
 
-### Goal
-On `/why-us/:slug` pages, remove the top hero banner section (page heading + breadcrumb) so the page starts directly with the icon circle after the navbar.
+Then update the logo `src` in four components and remove the now-unused asset import:
 
-### Approach
-1. **In `src/routes/why-us.$slug.tsx`** — stop using the shared `PageLayout` component, which unconditionally renders `PageHero`.
-2. **Compose the page directly** using:
-   - `<Navbar />`
-   - `<ClientOnly>` and `<main>` wrapper (matching `PageLayout` behavior)
-   - The existing `<motion.div>` fade-in wrapper
-   - The existing content sections: icon circle, heading, subtext, full content, CTA banner
-   - `<Footer />`
-3. **Preserve all existing behavior**: loading state, not-found state, SEO head, animations, colors, and layout.
-4. **No changes** to `src/components/page-layout.tsx` or any other file.
+1. `src/components/navbar.tsx`
+   - Remove: `import logoAsset from "@/assets/shubhashree-logo.png.asset.json"` and `const logo = logoAsset.url`
+   - Change `<img src={logo} …` to `<img src="/logo.png" …`
 
-### What the page will look like after
-```
-Navbar
-├── Icon circle
-├── Page heading (e.g. "Advanced Lab Technology...")
-├── Subtext
-├── Full content
-├── CTA banner
-Footer
-```
+2. `src/components/footer.tsx`
+   - Remove: `import logoAsset from "@/assets/shubhashree-logo.png.asset.json"` and `const logo = logoAsset.url`
+   - Change `<img src={logo} …` to `<img src="/logo.png" …`
 
-The large gradient hero section with the duplicate title and breadcrumb is removed entirely.
+3. `src/components/admin/admin-shell.tsx`
+   - Remove: `import logoAsset from "@/assets/shubhashree-logo.png.asset.json"` and `const logo = logoAsset.url`
+   - Change `<img src={logo} …` to `<img src="/logo.png" …`
+
+4. `src/routes/admin.login.tsx`
+   - Remove: `import logoAsset from "@/assets/shubhashree-logo.png.asset.json"` and `const logo = logoAsset.url`
+   - Change both `<img src={logo} …` occurrences to `<img src="/logo.png" …`
+
+No other attributes (className, style, width, height, alt, etc.) are touched.

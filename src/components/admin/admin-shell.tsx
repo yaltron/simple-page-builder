@@ -7,8 +7,7 @@ import {
 } from "lucide-react"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
-import logoAsset from "@/assets/shubhashree-logo.png.asset.json"
-const logo = logoAsset.url
+const logo = "/logo.png"
 
 type LeafItem = { to: string; label: string; params?: Record<string, string>; matchPath?: string }
 type NavItem = {
