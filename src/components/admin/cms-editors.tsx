@@ -429,12 +429,25 @@ const WHO_DEFAULTS = {
 const WHEN_DEFAULTS = {
   heading: "Signs You Should See a Fertility Specialist",
   heading_color: "#C2185B",
+  subtext: "",
+  button_text: "Book an Appointment",
+  button_url: "/contact",
   video_url: "",
+  video_autoplay: false,
   images: [
     { url: "", alt: "" },
     { url: "", alt: "" },
     { url: "", alt: "" },
+    { url: "", alt: "" },
   ],
+}
+const VIRTUAL_TOUR_DEFAULTS = {
+  heading: "Take a Virtual Tour of Our Clinic",
+  subtext: "Explore our facilities from the comfort of your home.",
+  button_text: "Watch Tour Video",
+  video_url: "",
+  autoplay: false,
+  is_active: true,
 }
 const PROCESS_DEFAULTS = {
   heading: "A Simple Guide to Your",
@@ -574,43 +587,171 @@ export function WhoWeAreEditor() {
   )
 }
 
+type ChecklistItem = { id: string; text: string; order_index: number; is_active: boolean }
+
 export function WhenToVisitEditor() {
   const when = useSection("homepage_content", "when_to_visit", WHEN_DEFAULTS)
+  const [items, setItems] = useState<ChecklistItem[]>([])
+  const [itemsLoaded, setItemsLoaded] = useState(false)
+  const [savingItems, setSavingItems] = useState(false)
+
+  const loadItems = async () => {
+    const { data } = await supabase.from("when_to_visit_items").select("*").order("order_index", { ascending: true })
+    setItems((data as any) || [])
+    setItemsLoaded(true)
+  }
+  useEffect(() => { loadItems() }, [])
+
   const updateWhenImg = (i: number, patch: Partial<{ url: string; alt: string }>) => {
-    const next = [...when.data.images]
+    const next = [...(when.data.images || [])]
+    while (next.length < 4) next.push({ url: "", alt: "" })
     next[i] = { ...next[i], ...patch }
     when.setData({ ...when.data, images: next })
   }
+
+  const addItem = async () => {
+    const order = items.length > 0 ? Math.max(...items.map(i => i.order_index)) + 1 : 1
+    const { data, error } = await supabase.from("when_to_visit_items").insert({ text: "", order_index: order, is_active: true }).select().single()
+    if (error) return toast.error(error.message)
+    setItems([...items, data as any])
+  }
+  const updateItem = (id: string, patch: Partial<ChecklistItem>) => {
+    setItems(items.map(it => it.id === id ? { ...it, ...patch } : it))
+  }
+  const deleteItem = async (id: string) => {
+    if (!confirm("Delete this item?")) return
+    const { error } = await supabase.from("when_to_visit_items").delete().eq("id", id)
+    if (error) return toast.error(error.message)
+    setItems(items.filter(it => it.id !== id))
+  }
+  const moveItem = (i: number, dir: -1 | 1) => {
+    const j = i + dir
+    if (j < 0 || j >= items.length) return
+    const next = [...items]
+    ;[next[i], next[j]] = [next[j], next[i]]
+    setItems(next.map((it, idx) => ({ ...it, order_index: idx + 1 })))
+  }
+  const saveChecklist = async () => {
+    setSavingItems(true)
+    for (const it of items) {
+      await supabase.from("when_to_visit_items").update({ text: it.text, order_index: it.order_index, is_active: it.is_active }).eq("id", it.id)
+    }
+    setSavingItems(false)
+    toast.success("✅ Checklist saved")
+  }
+
+  const images = (when.data.images && when.data.images.length >= 4) ? when.data.images : [...(when.data.images || []), ...Array(4 - (when.data.images?.length || 0)).fill({ url: "", alt: "" })]
+
   return (
-    <SectionCard title="When To Visit" onSave={when.save} saving={when.saving}>
-      <Field label="Heading">
-        <input value={when.data.heading} onChange={(e) => when.setData({ ...when.data, heading: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
-      </Field>
-      <Field label="Heading color">
-        <ColorPicker value={when.data.heading_color} onChange={(c) => when.setData({ ...when.data, heading_color: c })} />
-      </Field>
-      <div>
-        <div className="text-xs font-semibold text-muted-foreground mb-1">Video URL (4th slot - autoplays in the When To Visit section)</div>
-        <input
-          value={when.data.video_url || ""}
-          onChange={(e) => when.setData({ ...when.data, video_url: e.target.value })}
-          placeholder="Paste YouTube or Vimeo URL here..."
-          className="w-full"
-          style={{ border: "1.5px solid rgba(230,0,126,0.2)", borderRadius: 12, padding: "11px 14px", outline: "none" }}
-          onFocus={(e) => (e.currentTarget.style.borderColor = "#E6007E")}
-          onBlur={(e) => (e.currentTarget.style.borderColor = "rgba(230,0,126,0.2)")}
-        />
-        <div style={{ fontSize: 12, color: "#b06090", marginTop: 4 }}>Supports YouTube and Vimeo links. The video autoplays muted and loops in the 4th tile on the homepage.</div>
-      </div>
-      <div className="grid md:grid-cols-3 gap-3">
-        {when.data.images.slice(0, 3).map((img, i) => (
-          <div key={i} className="border rounded-lg p-3 space-y-2">
-            <div className="text-xs font-semibold text-muted-foreground">Image {i + 1}</div>
-            <ImageUpload value={img.url} onChange={(url) => updateWhenImg( i, { url: url || "" })} folder="homepage" />
-            <input value={img.alt} onChange={(e) => updateWhenImg( i, { alt: e.target.value })} placeholder="Alt text" className="w-full px-2 py-1.5 border rounded text-sm" />
+    <div className="space-y-5">
+      {/* Section settings */}
+      <SectionCard title="Section Settings" onSave={when.save} saving={when.saving} saveLabel="Save Section Settings">
+        <Field label="Heading">
+          <input value={when.data.heading} onChange={(e) => when.setData({ ...when.data, heading: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+        </Field>
+        <Field label="Heading color">
+          <ColorPicker value={when.data.heading_color} onChange={(c) => when.setData({ ...when.data, heading_color: c })} />
+        </Field>
+        <Field label="Subtext (optional)">
+          <textarea rows={2} value={when.data.subtext || ""} onChange={(e) => when.setData({ ...when.data, subtext: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+        </Field>
+        <div className="grid md:grid-cols-2 gap-3">
+          <Field label="Button text">
+            <input value={when.data.button_text || ""} onChange={(e) => when.setData({ ...when.data, button_text: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+          </Field>
+          <Field label="Button URL">
+            <input value={when.data.button_url || ""} onChange={(e) => when.setData({ ...when.data, button_url: e.target.value })} placeholder="/contact" className="w-full px-3 py-2 border rounded-lg" />
+          </Field>
+        </div>
+      </SectionCard>
+
+      {/* Checklist items */}
+      <div className="bg-white rounded-xl border p-5 space-y-4">
+        <div className="flex items-center">
+          <h3 className="font-bold">Checklist Items</h3>
+          <button onClick={addItem} className="ml-auto text-xs px-3 py-1.5 rounded border inline-flex items-center gap-1"><Plus className="w-3 h-3" /> Add New Item</button>
+        </div>
+        {!itemsLoaded ? <div className="text-sm text-muted-foreground">Loading…</div> : (
+          <div className="space-y-2">
+            {items.map((it, i) => (
+              <div key={it.id} className="flex items-center gap-2 p-2 border rounded-lg">
+                <div className="flex flex-col">
+                  <button onClick={() => moveItem(i, -1)} className="p-0.5 hover:bg-gray-100 rounded"><ArrowUp className="w-3 h-3" /></button>
+                  <button onClick={() => moveItem(i, 1)} className="p-0.5 hover:bg-gray-100 rounded"><ArrowDown className="w-3 h-3" /></button>
+                </div>
+                <input
+                  value={it.text}
+                  onChange={(e) => updateItem(it.id, { text: e.target.value })}
+                  className="flex-1 px-3 py-2 border rounded-lg text-sm"
+                />
+                <label className="inline-flex items-center gap-1.5 text-xs whitespace-nowrap">
+                  <input type="checkbox" checked={it.is_active} onChange={(e) => updateItem(it.id, { is_active: e.target.checked })} />
+                  Active
+                </label>
+                <button onClick={() => deleteItem(it.id)} className="p-1.5 hover:bg-red-50 text-red-600 rounded"><Trash2 className="w-4 h-4" /></button>
+              </div>
+            ))}
+            {items.length === 0 && <div className="text-xs text-muted-foreground">No items yet.</div>}
           </div>
-        ))}
+        )}
+        <div className="flex justify-end">
+          <button onClick={saveChecklist} disabled={savingItems} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold disabled:opacity-50" style={{ background: "#E6007E" }}>
+            <Save className="w-4 h-4" /> {savingItems ? "Saving…" : "Save Checklist"}
+          </button>
+        </div>
       </div>
+
+      {/* Images */}
+      <SectionCard title="Images (4)" onSave={when.save} saving={when.saving} saveLabel="Save Images">
+        <div className="grid md:grid-cols-2 gap-3">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="border rounded-lg p-3 space-y-2">
+              <div className="text-xs font-semibold text-muted-foreground">Image {i + 1}</div>
+              <ImageUpload value={images[i]?.url || ""} onChange={(url) => updateWhenImg(i, { url: url || "" })} folder="homepage" />
+              <input value={images[i]?.alt || ""} onChange={(e) => updateWhenImg(i, { alt: e.target.value })} placeholder="Alt text" className="w-full px-2 py-1.5 border rounded text-sm" />
+            </div>
+          ))}
+        </div>
+      </SectionCard>
+
+      {/* Video */}
+      <SectionCard title="Video" onSave={when.save} saving={when.saving} saveLabel="Save Video">
+        <Field label="Video URL" hint="YouTube or Vimeo link">
+          <input value={when.data.video_url || ""} onChange={(e) => when.setData({ ...when.data, video_url: e.target.value })} placeholder="https://www.youtube.com/watch?v=…" className="w-full px-3 py-2 border rounded-lg" />
+        </Field>
+        <label className="inline-flex items-center gap-2 text-sm">
+          <input type="checkbox" checked={!!when.data.video_autoplay} onChange={(e) => when.setData({ ...when.data, video_autoplay: e.target.checked })} />
+          Autoplay video (muted)
+        </label>
+      </SectionCard>
+    </div>
+  )
+}
+
+export function VirtualTourEditor() {
+  const tour = useSection("homepage_content", "virtual_tour", VIRTUAL_TOUR_DEFAULTS)
+  return (
+    <SectionCard title="Virtual Tour" onSave={async () => { await tour.save(); toast.success("✅ Virtual tour updated") }} saving={tour.saving} saveLabel="Save Virtual Tour Settings">
+      <label className="inline-flex items-center gap-2 text-sm font-medium">
+        <input type="checkbox" checked={tour.data.is_active !== false} onChange={(e) => tour.setData({ ...tour.data, is_active: e.target.checked })} />
+        Section visible on Gallery page
+      </label>
+      <Field label="Heading">
+        <input value={tour.data.heading} onChange={(e) => tour.setData({ ...tour.data, heading: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+      </Field>
+      <Field label="Subtext (optional)">
+        <textarea rows={2} value={tour.data.subtext || ""} onChange={(e) => tour.setData({ ...tour.data, subtext: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+      </Field>
+      <Field label="Button text">
+        <input value={tour.data.button_text} onChange={(e) => tour.setData({ ...tour.data, button_text: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+      </Field>
+      <Field label="YouTube or Vimeo URL" hint="Paste the full video URL">
+        <input value={tour.data.video_url} onChange={(e) => tour.setData({ ...tour.data, video_url: e.target.value })} placeholder="https://youtube.com/..." className="w-full px-3 py-2 border rounded-lg" />
+      </Field>
+      <label className="inline-flex items-center gap-2 text-sm">
+        <input type="checkbox" checked={!!tour.data.autoplay} onChange={(e) => tour.setData({ ...tour.data, autoplay: e.target.checked })} />
+        Autoplay video when opened (muted)
+      </label>
     </SectionCard>
   )
 }

@@ -601,3 +601,11 @@ input[type="date"]::-webkit-date-and-time-value {
   padding-left: 4px;
 }
 input[type="date"]:focus { border-color: #E6007E; outline: none; }
+
+/* Crisp logo rendering used across navbar/footer/admin */
+.crisp-logo {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}

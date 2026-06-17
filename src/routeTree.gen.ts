@@ -18,10 +18,12 @@ import { Route as CareersRouteImport } from './routes/careers'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeamIndexRouteImport } from './routes/team.index'
+import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as WhyUsSlugRouteImport } from './routes/why-us.$slug'
 import { Route as TeamDoctorSlugRouteImport } from './routes/team.$doctorSlug'
+import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AdminTeamRouteImport } from './routes/admin.team'
 import { Route as AdminPopupBannersRouteImport } from './routes/admin.popup-banners'
@@ -40,6 +42,7 @@ import { Route as AdminHomepageHowItWorksRouteImport } from './routes/admin.home
 import { Route as AdminHomepageHeroRouteImport } from './routes/admin.homepage.hero'
 import { Route as AdminHomepageDoctorsHeadingRouteImport } from './routes/admin.homepage.doctors-heading'
 import { Route as AdminHomepageCtaBannerRouteImport } from './routes/admin.homepage.cta-banner'
+import { Route as AdminGalleryVirtualTourRouteImport } from './routes/admin.gallery.virtual-tour'
 import { Route as AdminCareerListingsRouteImport } from './routes/admin.career.listings'
 import { Route as AdminCareerApplicationsRouteImport } from './routes/admin.career.applications'
 import { Route as AdminBlogIdRouteImport } from './routes/admin.blog.$id'
@@ -92,6 +95,11 @@ const TeamIndexRoute = TeamIndexRouteImport.update({
   path: '/team/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ServicesRoute,
+} as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
@@ -111,6 +119,11 @@ const TeamDoctorSlugRoute = TeamDoctorSlugRouteImport.update({
   id: '/team/$doctorSlug',
   path: '/team/$doctorSlug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesSlugRoute = ServicesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ServicesRoute,
 } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog/$slug',
@@ -205,6 +218,11 @@ const AdminHomepageCtaBannerRoute = AdminHomepageCtaBannerRouteImport.update({
   path: '/admin/homepage/cta-banner',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminGalleryVirtualTourRoute = AdminGalleryVirtualTourRouteImport.update({
+  id: '/admin/gallery/virtual-tour',
+  path: '/admin/gallery/virtual-tour',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminCareerListingsRoute = AdminCareerListingsRouteImport.update({
   id: '/admin/career/listings',
   path: '/admin/career/listings',
@@ -243,16 +261,18 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/gallery': typeof GalleryRoute
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/success-stories': typeof SuccessStoriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
   '/admin/team': typeof AdminTeamRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/services/$slug': typeof ServicesSlugRoute
   '/team/$doctorSlug': typeof TeamDoctorSlugRoute
   '/why-us/$slug': typeof WhyUsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
+  '/services/': typeof ServicesIndexRoute
   '/team/': typeof TeamIndexRoute
   '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
   '/admin/about/our-story': typeof AdminAboutOurStoryRoute
@@ -260,6 +280,7 @@ export interface FileRoutesByFullPath {
   '/admin/blog/$id': typeof AdminBlogIdRoute
   '/admin/career/applications': typeof AdminCareerApplicationsRoute
   '/admin/career/listings': typeof AdminCareerListingsRoute
+  '/admin/gallery/virtual-tour': typeof AdminGalleryVirtualTourRoute
   '/admin/homepage/cta-banner': typeof AdminHomepageCtaBannerRoute
   '/admin/homepage/doctors-heading': typeof AdminHomepageDoctorsHeadingRoute
   '/admin/homepage/hero': typeof AdminHomepageHeroRoute
@@ -282,16 +303,17 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/gallery': typeof GalleryRoute
-  '/services': typeof ServicesRoute
   '/success-stories': typeof SuccessStoriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
   '/admin/team': typeof AdminTeamRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/services/$slug': typeof ServicesSlugRoute
   '/team/$doctorSlug': typeof TeamDoctorSlugRoute
   '/why-us/$slug': typeof WhyUsSlugRoute
   '/admin': typeof AdminIndexRoute
   '/blog': typeof BlogIndexRoute
+  '/services': typeof ServicesIndexRoute
   '/team': typeof TeamIndexRoute
   '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
   '/admin/about/our-story': typeof AdminAboutOurStoryRoute
@@ -299,6 +321,7 @@ export interface FileRoutesByTo {
   '/admin/blog/$id': typeof AdminBlogIdRoute
   '/admin/career/applications': typeof AdminCareerApplicationsRoute
   '/admin/career/listings': typeof AdminCareerListingsRoute
+  '/admin/gallery/virtual-tour': typeof AdminGalleryVirtualTourRoute
   '/admin/homepage/cta-banner': typeof AdminHomepageCtaBannerRoute
   '/admin/homepage/doctors-heading': typeof AdminHomepageDoctorsHeadingRoute
   '/admin/homepage/hero': typeof AdminHomepageHeroRoute
@@ -322,16 +345,18 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/gallery': typeof GalleryRoute
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/success-stories': typeof SuccessStoriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
   '/admin/team': typeof AdminTeamRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/services/$slug': typeof ServicesSlugRoute
   '/team/$doctorSlug': typeof TeamDoctorSlugRoute
   '/why-us/$slug': typeof WhyUsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
+  '/services/': typeof ServicesIndexRoute
   '/team/': typeof TeamIndexRoute
   '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
   '/admin/about/our-story': typeof AdminAboutOurStoryRoute
@@ -339,6 +364,7 @@ export interface FileRoutesById {
   '/admin/blog/$id': typeof AdminBlogIdRoute
   '/admin/career/applications': typeof AdminCareerApplicationsRoute
   '/admin/career/listings': typeof AdminCareerListingsRoute
+  '/admin/gallery/virtual-tour': typeof AdminGalleryVirtualTourRoute
   '/admin/homepage/cta-banner': typeof AdminHomepageCtaBannerRoute
   '/admin/homepage/doctors-heading': typeof AdminHomepageDoctorsHeadingRoute
   '/admin/homepage/hero': typeof AdminHomepageHeroRoute
@@ -369,10 +395,12 @@ export interface FileRouteTypes {
     | '/admin/popup-banners'
     | '/admin/team'
     | '/blog/$slug'
+    | '/services/$slug'
     | '/team/$doctorSlug'
     | '/why-us/$slug'
     | '/admin/'
     | '/blog/'
+    | '/services/'
     | '/team/'
     | '/admin/about/mission-vision'
     | '/admin/about/our-story'
@@ -380,6 +408,7 @@ export interface FileRouteTypes {
     | '/admin/blog/$id'
     | '/admin/career/applications'
     | '/admin/career/listings'
+    | '/admin/gallery/virtual-tour'
     | '/admin/homepage/cta-banner'
     | '/admin/homepage/doctors-heading'
     | '/admin/homepage/hero'
@@ -402,16 +431,17 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faqs'
     | '/gallery'
-    | '/services'
     | '/success-stories'
     | '/admin/login'
     | '/admin/popup-banners'
     | '/admin/team'
     | '/blog/$slug'
+    | '/services/$slug'
     | '/team/$doctorSlug'
     | '/why-us/$slug'
     | '/admin'
     | '/blog'
+    | '/services'
     | '/team'
     | '/admin/about/mission-vision'
     | '/admin/about/our-story'
@@ -419,6 +449,7 @@ export interface FileRouteTypes {
     | '/admin/blog/$id'
     | '/admin/career/applications'
     | '/admin/career/listings'
+    | '/admin/gallery/virtual-tour'
     | '/admin/homepage/cta-banner'
     | '/admin/homepage/doctors-heading'
     | '/admin/homepage/hero'
@@ -447,10 +478,12 @@ export interface FileRouteTypes {
     | '/admin/popup-banners'
     | '/admin/team'
     | '/blog/$slug'
+    | '/services/$slug'
     | '/team/$doctorSlug'
     | '/why-us/$slug'
     | '/admin/'
     | '/blog/'
+    | '/services/'
     | '/team/'
     | '/admin/about/mission-vision'
     | '/admin/about/our-story'
@@ -458,6 +491,7 @@ export interface FileRouteTypes {
     | '/admin/blog/$id'
     | '/admin/career/applications'
     | '/admin/career/listings'
+    | '/admin/gallery/virtual-tour'
     | '/admin/homepage/cta-banner'
     | '/admin/homepage/doctors-heading'
     | '/admin/homepage/hero'
@@ -481,7 +515,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   FaqsRoute: typeof FaqsRoute
   GalleryRoute: typeof GalleryRoute
-  ServicesRoute: typeof ServicesRoute
+  ServicesRoute: typeof ServicesRouteWithChildren
   SuccessStoriesRoute: typeof SuccessStoriesRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminPopupBannersRoute: typeof AdminPopupBannersRoute
@@ -498,6 +532,7 @@ export interface RootRouteChildren {
   AdminBlogIdRoute: typeof AdminBlogIdRoute
   AdminCareerApplicationsRoute: typeof AdminCareerApplicationsRoute
   AdminCareerListingsRoute: typeof AdminCareerListingsRoute
+  AdminGalleryVirtualTourRoute: typeof AdminGalleryVirtualTourRoute
   AdminHomepageCtaBannerRoute: typeof AdminHomepageCtaBannerRoute
   AdminHomepageDoctorsHeadingRoute: typeof AdminHomepageDoctorsHeadingRoute
   AdminHomepageHeroRoute: typeof AdminHomepageHeroRoute
@@ -579,6 +614,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/': {
+      id: '/services/'
+      path: '/'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof ServicesRoute
+    }
     '/blog/': {
       id: '/blog/'
       path: '/blog'
@@ -606,6 +648,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/team/$doctorSlug'
       preLoaderRoute: typeof TeamDoctorSlugRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/services/$slug': {
+      id: '/services/$slug'
+      path: '/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof ServicesSlugRouteImport
+      parentRoute: typeof ServicesRoute
     }
     '/blog/$slug': {
       id: '/blog/$slug'
@@ -733,6 +782,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminHomepageCtaBannerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/gallery/virtual-tour': {
+      id: '/admin/gallery/virtual-tour'
+      path: '/admin/gallery/virtual-tour'
+      fullPath: '/admin/gallery/virtual-tour'
+      preLoaderRoute: typeof AdminGalleryVirtualTourRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/career/listings': {
       id: '/admin/career/listings'
       path: '/admin/career/listings'
@@ -778,6 +834,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ServicesRouteChildren {
+  ServicesSlugRoute: typeof ServicesSlugRoute
+  ServicesIndexRoute: typeof ServicesIndexRoute
+}
+
+const ServicesRouteChildren: ServicesRouteChildren = {
+  ServicesSlugRoute: ServicesSlugRoute,
+  ServicesIndexRoute: ServicesIndexRoute,
+}
+
+const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
+  ServicesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -785,7 +855,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   FaqsRoute: FaqsRoute,
   GalleryRoute: GalleryRoute,
-  ServicesRoute: ServicesRoute,
+  ServicesRoute: ServicesRouteWithChildren,
   SuccessStoriesRoute: SuccessStoriesRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminPopupBannersRoute: AdminPopupBannersRoute,
@@ -802,6 +872,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminBlogIdRoute: AdminBlogIdRoute,
   AdminCareerApplicationsRoute: AdminCareerApplicationsRoute,
   AdminCareerListingsRoute: AdminCareerListingsRoute,
+  AdminGalleryVirtualTourRoute: AdminGalleryVirtualTourRoute,
   AdminHomepageCtaBannerRoute: AdminHomepageCtaBannerRoute,
   AdminHomepageDoctorsHeadingRoute: AdminHomepageDoctorsHeadingRoute,
   AdminHomepageHeroRoute: AdminHomepageHeroRoute,
