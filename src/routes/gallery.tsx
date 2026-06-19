@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { createFileRoute } from "@tanstack/react-router"
 import { motion, AnimatePresence } from "framer-motion"
 import { Search, X, ChevronLeft, ChevronRight, Play } from "lucide-react"
@@ -6,6 +6,7 @@ import { PageLayout, Section, SectionHeading, BRAND } from "@/components/page-la
 import { VideoModal } from "@/components/video-modal"
 import { supabase } from "@/integrations/supabase/client"
 import { toYouTubeEmbed } from "@/lib/youtube"
+import { getYouTubeEmbedUrl } from "@/lib/youtube-id"
 import { useHomepageSection } from "@/lib/use-cms-content"
 
 const TOUR_DEFAULTS = {
@@ -36,14 +37,17 @@ const cats = ["All", "Clinic", "Team", "Patients", "Events", "Videos"] as const
 
 function GalleryPage() {
   const [items, setItems] = useState<any[]>([])
+  const [podcasts, setPodcasts] = useState<any[]>([])
   const [active, setActive] = useState<string>("All")
   const [lightbox, setLightbox] = useState<number | null>(null)
   const [video, setVideo] = useState<string | null>(null)
   const [tourOpen, setTourOpen] = useState(false)
   const tour = useHomepageSection("virtual_tour", TOUR_DEFAULTS)
+  const podcastScrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     supabase.from("gallery_items").select("*").eq("status", "published").order("display_order").then(({ data }) => setItems(data || []))
+    supabase.from("podcasts").select("*").eq("is_active", true).order("order_index", { ascending: true }).then(({ data }) => setPodcasts(data || []))
   }, [])
 
   const filtered = useMemo(() => {
