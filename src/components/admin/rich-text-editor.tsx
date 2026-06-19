@@ -170,7 +170,7 @@ export function RichTextEditor({ value, onChange, placeholder = "Write here…",
         </div>
         <EditorContent
           editor={editor}
-          className="prose prose-sm max-w-none p-4 focus:outline-none [&_.ProseMirror]:outline-none"
+          className="tiptap-content p-4"
           style={{ minHeight }}
         />
       </div>
