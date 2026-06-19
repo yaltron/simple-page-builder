@@ -136,6 +136,109 @@ function GalleryPage() {
         )}
       </Section>
 
+      {podcasts.length > 0 && (
+        <section style={{ padding: "60px 5%", background: "white" }}>
+          <div className="max-w-7xl mx-auto">
+            <SectionHeading>Take a Look at our Podcast</SectionHeading>
+            <style>{`
+              .podcast-strip-wrap { position: relative; }
+              .podcast-strip {
+                display: flex; flex-direction: row; gap: 20px;
+                overflow-x: auto; scroll-behavior: smooth;
+                padding-bottom: 16px;
+                scrollbar-width: thin;
+                scrollbar-color: rgba(139,15,80,0.3) transparent;
+                -webkit-overflow-scrolling: touch;
+              }
+              .podcast-strip::-webkit-scrollbar { height: 8px; }
+              .podcast-strip::-webkit-scrollbar-thumb { background: rgba(139,15,80,0.3); border-radius: 8px; }
+              .podcast-strip::-webkit-scrollbar-thumb:hover { background: rgba(139,15,80,0.5); }
+              .podcast-card {
+                min-width: 280px; max-width: 280px;
+                border-radius: 16px; overflow: hidden; background: white;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                border: 1px solid rgba(139,15,80,0.10);
+                flex-shrink: 0;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+              }
+              .podcast-card:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 12px 40px rgba(139,15,80,0.15);
+              }
+              .podcast-arrow {
+                position: absolute; top: 50%; transform: translateY(-50%);
+                width: 44px; height: 44px; border-radius: 50%;
+                background: #8B0F50; color: white; font-size: 18px;
+                border: none; cursor: pointer;
+                box-shadow: 0 4px 16px rgba(139,15,80,0.3);
+                display: flex; align-items: center; justify-content: center;
+                z-index: 2; transition: background 0.2s;
+              }
+              .podcast-arrow:hover { background: #6D0A3E; }
+              .podcast-arrow-left { left: -8px; }
+              .podcast-arrow-right { right: -8px; }
+              .podcast-title {
+                font-family: 'Playfair Display', serif;
+                font-size: 15px; font-weight: 700; color: #2D0A1E;
+                margin: 0 0 6px 0;
+                display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+              }
+              .podcast-desc {
+                font-size: 13px; color: #7A2050; line-height: 1.5; margin: 0;
+                display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+              }
+            `}</style>
+            <div className="podcast-strip-wrap">
+              <button
+                type="button"
+                aria-label="Scroll podcasts left"
+                className="podcast-arrow podcast-arrow-left"
+                onClick={() => podcastScrollRef.current?.scrollBy({ left: -300, behavior: "smooth" })}
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <div ref={podcastScrollRef} className="podcast-strip">
+                {podcasts.map((p) => {
+                  const embed = getYouTubeEmbedUrl(p.youtube_url)
+                  return (
+                    <div key={p.id} className="podcast-card">
+                      <div style={{ width: "100%", height: 160, background: "#000" }}>
+                        {embed ? (
+                          <iframe
+                            src={embed}
+                            width="100%"
+                            height="160"
+                            frameBorder={0}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            loading="lazy"
+                            title={p.title || "Podcast"}
+                            style={{ display: "block", border: 0 }}
+                          />
+                        ) : null}
+                      </div>
+                      <div style={{ padding: 16 }}>
+                        {p.title && <h3 className="podcast-title">{p.title}</h3>}
+                        {p.description && <p className="podcast-desc">{p.description}</p>}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+              <button
+                type="button"
+                aria-label="Scroll podcasts right"
+                className="podcast-arrow podcast-arrow-right"
+                onClick={() => podcastScrollRef.current?.scrollBy({ left: 300, behavior: "smooth" })}
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
+
+
       {tour.is_active !== false && (
         <section style={{ padding: "60px 5%", background: `linear-gradient(135deg, ${BRAND.pinkSoft} 0%, ${BRAND.blueSoft} 100%)` }}>
           <div className="max-w-3xl mx-auto text-center">
