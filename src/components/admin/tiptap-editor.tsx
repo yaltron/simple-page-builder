@@ -1,8 +1,6 @@
 import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
-import Link from "@tiptap/extension-link"
 import Image from "@tiptap/extension-image"
-import Underline from "@tiptap/extension-underline"
 import { TextStyle } from "@tiptap/extension-text-style"
 import { Color } from "@tiptap/extension-color"
 import Highlight from "@tiptap/extension-highlight"
@@ -33,12 +31,11 @@ export function TiptapEditor({ value, onChange }: Props) {
     extensions: [
       StarterKit.configure({
         heading: { levels: [1, 2, 3, 4] },
+        link: { openOnClick: false, HTMLAttributes: { rel: "noopener noreferrer" } },
       }),
-      Underline,
       TextStyle,
       Color,
       Highlight.configure({ multicolor: true }),
-      Link.configure({ openOnClick: false, HTMLAttributes: { rel: "noopener noreferrer" } }),
       Image.configure({ HTMLAttributes: { class: "rounded-lg max-w-full h-auto" } }),
       Table.configure({ resizable: true }),
       TableRow, TableHeader, TableCell,
@@ -47,6 +44,7 @@ export function TiptapEditor({ value, onChange }: Props) {
     ],
     content: value || "<p></p>",
     autofocus: false,
+    shouldRerenderOnTransaction: true,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML()
       const words = editor.storage.characterCount.words()
