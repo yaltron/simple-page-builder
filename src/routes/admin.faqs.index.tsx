@@ -194,7 +194,7 @@ function AdminFAQsPage() {
                 <input value={editing.question} onChange={(e) => setEditing({ ...editing, question: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
               </Field>
               <Field label="Answer">
-                <SimpleEditor value={editing.answer} onChange={(v) => setEditing({ ...editing, answer: v })} />
+                <RichTextEditor value={editing.answer} onChange={(html) => setEditing({ ...editing, answer: html })} minHeight={180} />
               </Field>
               <div className="grid grid-cols-2 gap-3">
                 <Field label="Category">
