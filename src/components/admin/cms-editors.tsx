@@ -230,7 +230,7 @@ const WHY_DEFAULTS = {
   heading_color: "#C2185B",
   cards: [] as { icon: string; title: string; description: string }[],
 }
-const CTA_DEFAULTS = {
+const ABOUT_CTA_DEFAULTS = {
   heading: "Ready to Start Your Journey?",
   subtext: "Take the first step towards parenthood. Our compassionate team is here for you.",
   button_text: "Book Consultation",
@@ -413,7 +413,7 @@ export function WhyChooseUsEditor() {
 }
 
 export function AboutCtaBannerEditor() {
-  const cta = useSection("about_content", "cta_banner", CTA_DEFAULTS)
+  const cta = useSection("about_content", "cta_banner", ABOUT_CTA_DEFAULTS)
   return (
     <div className="bg-white rounded-xl border p-5 space-y-4">
       <h3 className="font-bold">About Page — CTA Banner</h3>
