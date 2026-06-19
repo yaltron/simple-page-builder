@@ -31,12 +31,11 @@ export function TiptapEditor({ value, onChange }: Props) {
     extensions: [
       StarterKit.configure({
         heading: { levels: [1, 2, 3, 4] },
+        link: { openOnClick: false, HTMLAttributes: { rel: "noopener noreferrer" } },
       }),
-      Underline,
       TextStyle,
       Color,
       Highlight.configure({ multicolor: true }),
-      Link.configure({ openOnClick: false, HTMLAttributes: { rel: "noopener noreferrer" } }),
       Image.configure({ HTMLAttributes: { class: "rounded-lg max-w-full h-auto" } }),
       Table.configure({ resizable: true }),
       TableRow, TableHeader, TableCell,
@@ -45,6 +44,7 @@ export function TiptapEditor({ value, onChange }: Props) {
     ],
     content: value || "<p></p>",
     autofocus: false,
+    shouldRerenderOnTransaction: true,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML()
       const words = editor.storage.characterCount.words()
@@ -56,7 +56,7 @@ export function TiptapEditor({ value, onChange }: Props) {
 
   useEffect(() => {
     if (editor && value !== editor.getHTML() && !editor.isFocused) {
-      editor.commands.setContent(value || "<p></p>", { emitUpdate: false })
+      editor.commands.setContent(value || "<p></p>", false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value])
