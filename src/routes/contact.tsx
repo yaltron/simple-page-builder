@@ -10,9 +10,9 @@ export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact Shubhashree IVF Clinic, Kathmandu | Book a Consultation" },
-      { name: "description", content: "Contact Shubhashree IVF Clinic in Soltimode, Kathmandu. Call +977 986-1141699 or book a fertility consultation online today." },
+      { name: "description", content: "Contact Shubhashree IVF Clinic in Soalteemode, Kathmandu. Call +977 986-1141699 or book a fertility consultation online today." },
       { property: "og:title", content: "Contact Shubhashree IVF Clinic, Kathmandu | Book a Consultation" },
-      { property: "og:description", content: "Contact Shubhashree IVF Clinic in Soltimode, Kathmandu. Call +977 986-1141699 or book a fertility consultation online today." },
+      { property: "og:description", content: "Contact Shubhashree IVF Clinic in Soalteemode, Kathmandu. Call +977 986-1141699 or book a fertility consultation online today." },
       { property: "og:url", content: "https://subhashree-ui.lovable.app/contact" },
     ],
     links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/contact" }],
@@ -47,7 +47,7 @@ function getMaxDate() {
 }
 
 const info = [
-  { icon: MapPin, label: "Address", value: "Soalteemod, Kathmandu, Nepal" },
+  { icon: MapPin, label: "Address", value: "Soalteemode, Kathmandu, Nepal" },
   { icon: Phone, label: "Phone", value: "+977 9861141699" },
   { icon: Mail, label: "Email", value: "Shubhashreeivf@gmail.com" },
   { icon: Clock, label: "Hours", value: "Sun-Fri: 8:00 AM - 6:00 PM" },

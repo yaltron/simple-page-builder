@@ -6,10 +6,7 @@ import { ColorPicker } from "@/components/admin/color-picker"
 import { useAdminAuth } from "@/lib/use-admin-auth"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
-import { useEditor, EditorContent } from "@tiptap/react"
-import StarterKit from "@tiptap/starter-kit"
-import Link from "@tiptap/extension-link"
-import { Bold, Italic, List, ListOrdered, Link as LinkIcon } from "lucide-react"
+import { RichTextEditor } from "@/components/admin/rich-text-editor"
 
 export const Route = createFileRoute("/admin/faqs/")({
   component: AdminFAQsPage,
@@ -28,66 +25,6 @@ type F = {
 
 const empty: F = { question: "", answer: "", category: "General", order_index: 0, is_active: true }
 
-function SimpleEditor({ value, onChange }: { value: string; onChange: (v: string) => void }) {
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Link.configure({ openOnClick: false, HTMLAttributes: { rel: "noopener noreferrer" } }),
-    ],
-    content: value || "",
-    onUpdate: ({ editor }) => onChange(editor.getHTML()),
-    immediatelyRender: false,
-  })
-
-  useEffect(() => {
-    if (editor && value !== editor.getHTML() && !editor.isFocused) {
-      editor.commands.setContent(value || "", { emitUpdate: false })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value])
-
-  if (!editor) return <div className="border rounded-lg p-3 text-xs text-muted-foreground">Loading…</div>
-
-  const Btn = ({ on, action, children }: any) => (
-    <button
-      type="button"
-      onClick={action}
-      className="p-1.5 rounded hover:bg-gray-100"
-      style={{ background: on ? "#E6007E" : "transparent", color: on ? "white" : "#2D0A1E" }}
-    >
-      {children}
-    </button>
-  )
-
-  const addLink = () => {
-    const url = window.prompt("URL")
-    if (!url) return
-    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run()
-  }
-
-  return (
-    <div className="border rounded-lg overflow-hidden bg-white">
-      <div className="flex gap-1 p-1 border-b bg-gray-50">
-        <Btn on={editor.isActive("bold")} action={() => editor.chain().focus().toggleBold().run()}>
-          <Bold className="w-4 h-4" />
-        </Btn>
-        <Btn on={editor.isActive("italic")} action={() => editor.chain().focus().toggleItalic().run()}>
-          <Italic className="w-4 h-4" />
-        </Btn>
-        <Btn on={editor.isActive("bulletList")} action={() => editor.chain().focus().toggleBulletList().run()}>
-          <List className="w-4 h-4" />
-        </Btn>
-        <Btn on={editor.isActive("orderedList")} action={() => editor.chain().focus().toggleOrderedList().run()}>
-          <ListOrdered className="w-4 h-4" />
-        </Btn>
-        <Btn on={editor.isActive("link")} action={addLink}>
-          <LinkIcon className="w-4 h-4" />
-        </Btn>
-      </div>
-      <EditorContent editor={editor} className="prose prose-sm max-w-none p-3 min-h-[140px] focus:outline-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:min-h-[120px]" />
-    </div>
-  )
-}
 
 function AdminFAQsPage() {
   const { loading, isAdmin } = useAdminAuth()
@@ -257,7 +194,7 @@ function AdminFAQsPage() {
                 <input value={editing.question} onChange={(e) => setEditing({ ...editing, question: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
               </Field>
               <Field label="Answer">
-                <SimpleEditor value={editing.answer} onChange={(v) => setEditing({ ...editing, answer: v })} />
+                <RichTextEditor value={editing.answer} onChange={(html) => setEditing({ ...editing, answer: html })} minHeight={180} />
               </Field>
               <div className="grid grid-cols-2 gap-3">
                 <Field label="Category">

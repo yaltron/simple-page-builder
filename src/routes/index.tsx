@@ -44,7 +44,7 @@ export const Route = createFileRoute("/")({
           name: "Shubhashree IVF Clinic",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "Soltimode",
+            streetAddress: "Soalteemode",
             addressLocality: "Kathmandu",
             addressCountry: "Nepal",
           },

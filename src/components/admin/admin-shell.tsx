@@ -40,7 +40,9 @@ const navItems: NavItem[] = [
     children: [
       { to: "/admin/about/our-story", label: "Our Story" },
       { to: "/admin/about/mission-vision", label: "Mission & Vision" },
+      { to: "/admin/about/why-choose-us", label: "Why Choose Us" },
       { to: "/admin/about/values", label: "Our Values" },
+      { to: "/admin/about/cta-banner", label: "CTA Banner" },
     ],
   },
   { key: "appointments", to: "/admin/appointments", label: "Appointments", icon: CalendarCheck, badgeKey: "appointments" },
@@ -59,6 +61,7 @@ const navItems: NavItem[] = [
     key: "gallery", label: "Gallery", icon: ImageIcon,
     children: [
       { to: "/admin/gallery", label: "All Items" },
+      { to: "/admin/gallery/podcasts", label: "Podcasts" },
       { to: "/admin/gallery/virtual-tour", label: "Virtual Tour" },
     ],
   },
