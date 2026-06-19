@@ -6,10 +6,7 @@ import { ColorPicker } from "@/components/admin/color-picker"
 import { useAdminAuth } from "@/lib/use-admin-auth"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
-import { useEditor, EditorContent } from "@tiptap/react"
-import StarterKit from "@tiptap/starter-kit"
-import Link from "@tiptap/extension-link"
-import { Bold, Italic, List, ListOrdered, Link as LinkIcon } from "lucide-react"
+import { RichTextEditor } from "@/components/admin/rich-text-editor"
 
 export const Route = createFileRoute("/admin/faqs/")({
   component: AdminFAQsPage,
