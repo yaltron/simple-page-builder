@@ -24,7 +24,7 @@ import { toast } from "sonner"
 
 interface Props {
   value: string
-  onChange: (html: string, words?: number, chars?: number) => void
+  onChange: (html: string, words: number, chars: number) => void
   placeholder?: string
   minHeight?: number
 }
