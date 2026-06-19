@@ -92,9 +92,9 @@ export function Footer() {
                 alt="Shubhashree IVF Clinic Pvt. Ltd."
                 className="footer-logo crisp-logo"
                 style={{
-                  height: 53,
+                  height: 72,
                   width: "auto",
-                  maxWidth: 211,
+                  maxWidth: 180,
                   objectFit: "contain",
                   objectPosition: "center",
                   display: "block",
