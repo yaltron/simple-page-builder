@@ -43,12 +43,15 @@ import { Route as AdminHomepageHeroRouteImport } from './routes/admin.homepage.h
 import { Route as AdminHomepageDoctorsHeadingRouteImport } from './routes/admin.homepage.doctors-heading'
 import { Route as AdminHomepageCtaBannerRouteImport } from './routes/admin.homepage.cta-banner'
 import { Route as AdminGalleryVirtualTourRouteImport } from './routes/admin.gallery.virtual-tour'
+import { Route as AdminGalleryPodcastsRouteImport } from './routes/admin.gallery.podcasts'
 import { Route as AdminCareerListingsRouteImport } from './routes/admin.career.listings'
 import { Route as AdminCareerApplicationsRouteImport } from './routes/admin.career.applications'
 import { Route as AdminBlogIdRouteImport } from './routes/admin.blog.$id'
+import { Route as AdminAboutWhyChooseUsRouteImport } from './routes/admin.about.why-choose-us'
 import { Route as AdminAboutValuesRouteImport } from './routes/admin.about.values'
 import { Route as AdminAboutOurStoryRouteImport } from './routes/admin.about.our-story'
 import { Route as AdminAboutMissionVisionRouteImport } from './routes/admin.about.mission-vision'
+import { Route as AdminAboutCtaBannerRouteImport } from './routes/admin.about.cta-banner'
 
 const SuccessStoriesRoute = SuccessStoriesRouteImport.update({
   id: '/success-stories',
@@ -223,6 +226,11 @@ const AdminGalleryVirtualTourRoute = AdminGalleryVirtualTourRouteImport.update({
   path: '/admin/gallery/virtual-tour',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminGalleryPodcastsRoute = AdminGalleryPodcastsRouteImport.update({
+  id: '/admin/gallery/podcasts',
+  path: '/admin/gallery/podcasts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminCareerListingsRoute = AdminCareerListingsRouteImport.update({
   id: '/admin/career/listings',
   path: '/admin/career/listings',
@@ -238,6 +246,11 @@ const AdminBlogIdRoute = AdminBlogIdRouteImport.update({
   path: '/admin/blog/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminAboutWhyChooseUsRoute = AdminAboutWhyChooseUsRouteImport.update({
+  id: '/admin/about/why-choose-us',
+  path: '/admin/about/why-choose-us',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminAboutValuesRoute = AdminAboutValuesRouteImport.update({
   id: '/admin/about/values',
   path: '/admin/about/values',
@@ -251,6 +264,11 @@ const AdminAboutOurStoryRoute = AdminAboutOurStoryRouteImport.update({
 const AdminAboutMissionVisionRoute = AdminAboutMissionVisionRouteImport.update({
   id: '/admin/about/mission-vision',
   path: '/admin/about/mission-vision',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAboutCtaBannerRoute = AdminAboutCtaBannerRouteImport.update({
+  id: '/admin/about/cta-banner',
+  path: '/admin/about/cta-banner',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -274,12 +292,15 @@ export interface FileRoutesByFullPath {
   '/blog/': typeof BlogIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/team/': typeof TeamIndexRoute
+  '/admin/about/cta-banner': typeof AdminAboutCtaBannerRoute
   '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
   '/admin/about/our-story': typeof AdminAboutOurStoryRoute
   '/admin/about/values': typeof AdminAboutValuesRoute
+  '/admin/about/why-choose-us': typeof AdminAboutWhyChooseUsRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
   '/admin/career/applications': typeof AdminCareerApplicationsRoute
   '/admin/career/listings': typeof AdminCareerListingsRoute
+  '/admin/gallery/podcasts': typeof AdminGalleryPodcastsRoute
   '/admin/gallery/virtual-tour': typeof AdminGalleryVirtualTourRoute
   '/admin/homepage/cta-banner': typeof AdminHomepageCtaBannerRoute
   '/admin/homepage/doctors-heading': typeof AdminHomepageDoctorsHeadingRoute
@@ -315,12 +336,15 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogIndexRoute
   '/services': typeof ServicesIndexRoute
   '/team': typeof TeamIndexRoute
+  '/admin/about/cta-banner': typeof AdminAboutCtaBannerRoute
   '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
   '/admin/about/our-story': typeof AdminAboutOurStoryRoute
   '/admin/about/values': typeof AdminAboutValuesRoute
+  '/admin/about/why-choose-us': typeof AdminAboutWhyChooseUsRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
   '/admin/career/applications': typeof AdminCareerApplicationsRoute
   '/admin/career/listings': typeof AdminCareerListingsRoute
+  '/admin/gallery/podcasts': typeof AdminGalleryPodcastsRoute
   '/admin/gallery/virtual-tour': typeof AdminGalleryVirtualTourRoute
   '/admin/homepage/cta-banner': typeof AdminHomepageCtaBannerRoute
   '/admin/homepage/doctors-heading': typeof AdminHomepageDoctorsHeadingRoute
@@ -358,12 +382,15 @@ export interface FileRoutesById {
   '/blog/': typeof BlogIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/team/': typeof TeamIndexRoute
+  '/admin/about/cta-banner': typeof AdminAboutCtaBannerRoute
   '/admin/about/mission-vision': typeof AdminAboutMissionVisionRoute
   '/admin/about/our-story': typeof AdminAboutOurStoryRoute
   '/admin/about/values': typeof AdminAboutValuesRoute
+  '/admin/about/why-choose-us': typeof AdminAboutWhyChooseUsRoute
   '/admin/blog/$id': typeof AdminBlogIdRoute
   '/admin/career/applications': typeof AdminCareerApplicationsRoute
   '/admin/career/listings': typeof AdminCareerListingsRoute
+  '/admin/gallery/podcasts': typeof AdminGalleryPodcastsRoute
   '/admin/gallery/virtual-tour': typeof AdminGalleryVirtualTourRoute
   '/admin/homepage/cta-banner': typeof AdminHomepageCtaBannerRoute
   '/admin/homepage/doctors-heading': typeof AdminHomepageDoctorsHeadingRoute
@@ -402,12 +429,15 @@ export interface FileRouteTypes {
     | '/blog/'
     | '/services/'
     | '/team/'
+    | '/admin/about/cta-banner'
     | '/admin/about/mission-vision'
     | '/admin/about/our-story'
     | '/admin/about/values'
+    | '/admin/about/why-choose-us'
     | '/admin/blog/$id'
     | '/admin/career/applications'
     | '/admin/career/listings'
+    | '/admin/gallery/podcasts'
     | '/admin/gallery/virtual-tour'
     | '/admin/homepage/cta-banner'
     | '/admin/homepage/doctors-heading'
@@ -443,12 +473,15 @@ export interface FileRouteTypes {
     | '/blog'
     | '/services'
     | '/team'
+    | '/admin/about/cta-banner'
     | '/admin/about/mission-vision'
     | '/admin/about/our-story'
     | '/admin/about/values'
+    | '/admin/about/why-choose-us'
     | '/admin/blog/$id'
     | '/admin/career/applications'
     | '/admin/career/listings'
+    | '/admin/gallery/podcasts'
     | '/admin/gallery/virtual-tour'
     | '/admin/homepage/cta-banner'
     | '/admin/homepage/doctors-heading'
@@ -485,12 +518,15 @@ export interface FileRouteTypes {
     | '/blog/'
     | '/services/'
     | '/team/'
+    | '/admin/about/cta-banner'
     | '/admin/about/mission-vision'
     | '/admin/about/our-story'
     | '/admin/about/values'
+    | '/admin/about/why-choose-us'
     | '/admin/blog/$id'
     | '/admin/career/applications'
     | '/admin/career/listings'
+    | '/admin/gallery/podcasts'
     | '/admin/gallery/virtual-tour'
     | '/admin/homepage/cta-banner'
     | '/admin/homepage/doctors-heading'
@@ -526,12 +562,15 @@ export interface RootRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
   TeamIndexRoute: typeof TeamIndexRoute
+  AdminAboutCtaBannerRoute: typeof AdminAboutCtaBannerRoute
   AdminAboutMissionVisionRoute: typeof AdminAboutMissionVisionRoute
   AdminAboutOurStoryRoute: typeof AdminAboutOurStoryRoute
   AdminAboutValuesRoute: typeof AdminAboutValuesRoute
+  AdminAboutWhyChooseUsRoute: typeof AdminAboutWhyChooseUsRoute
   AdminBlogIdRoute: typeof AdminBlogIdRoute
   AdminCareerApplicationsRoute: typeof AdminCareerApplicationsRoute
   AdminCareerListingsRoute: typeof AdminCareerListingsRoute
+  AdminGalleryPodcastsRoute: typeof AdminGalleryPodcastsRoute
   AdminGalleryVirtualTourRoute: typeof AdminGalleryVirtualTourRoute
   AdminHomepageCtaBannerRoute: typeof AdminHomepageCtaBannerRoute
   AdminHomepageDoctorsHeadingRoute: typeof AdminHomepageDoctorsHeadingRoute
@@ -789,6 +828,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminGalleryVirtualTourRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/gallery/podcasts': {
+      id: '/admin/gallery/podcasts'
+      path: '/admin/gallery/podcasts'
+      fullPath: '/admin/gallery/podcasts'
+      preLoaderRoute: typeof AdminGalleryPodcastsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/career/listings': {
       id: '/admin/career/listings'
       path: '/admin/career/listings'
@@ -810,6 +856,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBlogIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/about/why-choose-us': {
+      id: '/admin/about/why-choose-us'
+      path: '/admin/about/why-choose-us'
+      fullPath: '/admin/about/why-choose-us'
+      preLoaderRoute: typeof AdminAboutWhyChooseUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/about/values': {
       id: '/admin/about/values'
       path: '/admin/about/values'
@@ -829,6 +882,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/about/mission-vision'
       fullPath: '/admin/about/mission-vision'
       preLoaderRoute: typeof AdminAboutMissionVisionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/about/cta-banner': {
+      id: '/admin/about/cta-banner'
+      path: '/admin/about/cta-banner'
+      fullPath: '/admin/about/cta-banner'
+      preLoaderRoute: typeof AdminAboutCtaBannerRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -866,12 +926,15 @@ const rootRouteChildren: RootRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
   TeamIndexRoute: TeamIndexRoute,
+  AdminAboutCtaBannerRoute: AdminAboutCtaBannerRoute,
   AdminAboutMissionVisionRoute: AdminAboutMissionVisionRoute,
   AdminAboutOurStoryRoute: AdminAboutOurStoryRoute,
   AdminAboutValuesRoute: AdminAboutValuesRoute,
+  AdminAboutWhyChooseUsRoute: AdminAboutWhyChooseUsRoute,
   AdminBlogIdRoute: AdminBlogIdRoute,
   AdminCareerApplicationsRoute: AdminCareerApplicationsRoute,
   AdminCareerListingsRoute: AdminCareerListingsRoute,
+  AdminGalleryPodcastsRoute: AdminGalleryPodcastsRoute,
   AdminGalleryVirtualTourRoute: AdminGalleryVirtualTourRoute,
   AdminHomepageCtaBannerRoute: AdminHomepageCtaBannerRoute,
   AdminHomepageDoctorsHeadingRoute: AdminHomepageDoctorsHeadingRoute,
@@ -891,13 +954,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

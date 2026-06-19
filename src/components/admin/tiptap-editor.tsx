@@ -31,7 +31,9 @@ export function TiptapEditor({ value, onChange }: Props) {
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        heading: { levels: [1, 2, 3, 4] },
+      }),
       Underline,
       TextStyle,
       Color,
@@ -43,7 +45,8 @@ export function TiptapEditor({ value, onChange }: Props) {
       CharacterCount,
       Placeholder.configure({ placeholder: "Write your post content…" }),
     ],
-    content: value || "",
+    content: value || "<p></p>",
+    autofocus: false,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML()
       const words = editor.storage.characterCount.words()
@@ -55,7 +58,7 @@ export function TiptapEditor({ value, onChange }: Props) {
 
   useEffect(() => {
     if (editor && value !== editor.getHTML() && !editor.isFocused) {
-      editor.commands.setContent(value || "", { emitUpdate: false })
+      editor.commands.setContent(value || "<p></p>", { emitUpdate: false })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value])

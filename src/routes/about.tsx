@@ -1,8 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, Link } from "@tanstack/react-router"
 import { motion } from "framer-motion"
 import * as Icons from "lucide-react"
-import { Target, Eye, Award, HeartHandshake, Sparkles, ShieldCheck } from "lucide-react"
-import { PageLayout, PageCTABanner, Section, SectionHeading, BRAND } from "@/components/page-layout"
+import { Target, Eye, Sparkles, HeartHandshake, ShieldCheck, Award } from "lucide-react"
+import { PageLayout, Section, BRAND } from "@/components/page-layout"
 import whoClinic from "@/assets/who-clinic.jpg"
 import whoTeam from "@/assets/who-team.jpg"
 import { useAboutSection } from "@/lib/use-cms-content"
@@ -21,13 +21,11 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
 })
 
-const whyChoose = [
-  { icon: HeartHandshake, label: "Personalised Plans" },
-  { icon: Sparkles, label: "Emotional Support" },
-  { icon: Award, label: "Affordable Care" },
-]
+type Card = { icon: string; title: string; description: string }
 
 const DEFAULT_STORY = {
+  heading: "Our Story",
+  heading_color: "#C2185B",
   paragraph_1:
     "Founded over 12 years ago, Subhashree IVF & Fertility Centre has grown into Nepal's most trusted name in reproductive medicine. From our first clinic to today's full-service centre of excellence, our mission has remained the same - bringing happiness into your life.",
   paragraph_2:
@@ -35,6 +33,7 @@ const DEFAULT_STORY = {
   images: [
     { url: whoClinic, alt: "Shubhashree IVF Clinic building and reception in Kathmandu" },
     { url: whoTeam, alt: "Our fertility specialist team at Shubhashree IVF Clinic, Kathmandu" },
+    { url: whoClinic, alt: "Shubhashree IVF Clinic facilities" },
   ] as { url: string; alt: string }[],
 }
 
@@ -45,14 +44,35 @@ const DEFAULT_MV = {
   vision_title: "Our Vision",
   vision_text:
     "To be South Asia's most trusted fertility centre, recognised for medical excellence, ethical practice and the joy we bring to families.",
+  mission_icon: "Target",
+  vision_icon: "Eye",
+}
+
+const DEFAULT_WHY = {
+  heading: "Why Choose Us",
+  heading_color: "#C2185B",
+  cards: [
+    { icon: "HeartHandshake", title: "Personalised Plans", description: "Treatment plans tailored to your unique journey." },
+    { icon: "Sparkles", title: "Emotional Support", description: "Counselling and compassion at every step." },
+    { icon: "Award", title: "Affordable Care", description: "World-class fertility care accessible to all." },
+  ] as Card[],
 }
 
 const DEFAULT_VALUES = {
+  heading: "Our Values",
+  heading_color: "#C2185B",
   items: [
     { icon: "HeartHandshake", title: "Compassion", description: "Every patient is treated with empathy, dignity and unwavering support." },
     { icon: "ShieldCheck", title: "Excellence", description: "World-class technology and protocols, refined over more than a decade." },
     { icon: "Sparkles", title: "Hope", description: "We believe in the dream of every family - and work tirelessly to honour it." },
-  ],
+  ] as Card[],
+}
+
+const DEFAULT_CTA = {
+  heading: "Ready to Start Your Journey?",
+  subtext: "Take the first step towards parenthood. Our compassionate team is here for you.",
+  button_text: "Book Consultation",
+  button_url: "/contact",
 }
 
 function IconByName({ name, className, style }: { name: string; className?: string; style?: React.CSSProperties }) {
@@ -60,8 +80,24 @@ function IconByName({ name, className, style }: { name: string; className?: stri
   return <Cmp className={className} style={style} />
 }
 
+function Heading({ children, color }: { children: React.ReactNode; color?: string }) {
+  return (
+    <h2
+      style={{
+        fontFamily: "'Playfair Display', serif",
+        color: color || BRAND.heading,
+        fontSize: "clamp(26px, 3.5vw, 38px)",
+        fontWeight: 700,
+        textAlign: "center",
+        marginBottom: 36,
+      }}
+    >
+      {children}
+    </h2>
+  )
+}
+
 function resolveImage(url: string) {
-  // Old seed used /src/assets/* paths - fall back to bundled imports
   if (url?.includes("who-clinic")) return whoClinic
   if (url?.includes("who-team")) return whoTeam
   return url
@@ -70,31 +106,38 @@ function resolveImage(url: string) {
 function AboutPage() {
   const story = useAboutSection("story_images", DEFAULT_STORY)
   const mv = useAboutSection("mission_vision", DEFAULT_MV)
+  const why = useAboutSection("why_choose_us", DEFAULT_WHY)
   const valuesRow = useAboutSection("values", DEFAULT_VALUES)
+  const cta = useAboutSection("cta_banner", DEFAULT_CTA)
+
   const images = (story.images && story.images.length ? story.images : DEFAULT_STORY.images).slice(0, 3)
-  const values = valuesRow.items && valuesRow.items.length ? valuesRow.items : DEFAULT_VALUES.items
+  const whyCards: Card[] = why.cards && why.cards.length ? why.cards : DEFAULT_WHY.cards
+  const values: Card[] = valuesRow.items && valuesRow.items.length ? valuesRow.items : DEFAULT_VALUES.items
+  const MissionIcon = ((Icons as any)[mv.mission_icon || "Target"] || Target) as typeof Target
+  const VisionIcon = ((Icons as any)[mv.vision_icon || "Eye"] || Eye) as typeof Eye
 
   return (
     <PageLayout title="About Us" breadcrumb="About Us">
       {/* Section 1 - Our Story */}
       <Section bg="white">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <SectionHeading align="left">Our Story</SectionHeading>
+          <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+            <h2
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                color: story.heading_color || BRAND.heading,
+                fontSize: "clamp(26px, 3.5vw, 38px)",
+                fontWeight: 700,
+                textAlign: "left",
+                marginBottom: 24,
+              }}
+            >
+              {story.heading || "Our Story"}
+            </h2>
             <p style={{ color: BRAND.navLink, lineHeight: 1.8, marginBottom: 16 }}>{story.paragraph_1}</p>
             <p style={{ color: BRAND.navLink, lineHeight: 1.8 }}>{story.paragraph_2}</p>
           </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+          <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             <style>{`
               .story-collage { display: flex; flex-direction: row; gap: 16px; align-items: stretch; width: 100%; }
               .story-collage-left { display: flex; flex-direction: column; gap: 16px; width: 45%; }
@@ -109,17 +152,11 @@ function AboutPage() {
             `}</style>
             <div className="story-collage">
               <div className="story-collage-left">
-                {images[0] && (
-                  <img src={resolveImage(images[0].url)} alt={images[0].alt} className="story-collage-img-sm" />
-                )}
-                {images[1] && (
-                  <img src={resolveImage(images[1].url)} alt={images[1].alt} className="story-collage-img-sm" />
-                )}
+                {images[0]?.url && <img src={resolveImage(images[0].url)} alt={images[0].alt || ""} className="story-collage-img-sm" />}
+                {images[1]?.url && <img src={resolveImage(images[1].url)} alt={images[1].alt || ""} className="story-collage-img-sm" />}
               </div>
               <div className="story-collage-right">
-                {images[2] && (
-                  <img src={resolveImage(images[2].url)} alt={images[2].alt} className="story-collage-img-tall" />
-                )}
+                {images[2]?.url && <img src={resolveImage(images[2].url)} alt={images[2].alt || ""} className="story-collage-img-tall" />}
               </div>
             </div>
           </motion.div>
@@ -128,11 +165,11 @@ function AboutPage() {
 
       {/* Section 2 - Mission & Vision */}
       <Section bg="white">
-        <SectionHeading>Our Mission & Vision</SectionHeading>
+        <Heading>Our Mission & Vision</Heading>
         <div className="grid md:grid-cols-2 gap-6">
           {[
-            { Icon: Target, title: mv.mission_title, bg: BRAND.pinkSoft, text: mv.mission_text },
-            { Icon: Eye, title: mv.vision_title, bg: BRAND.blueSoft, text: mv.vision_text },
+            { Icon: MissionIcon, title: mv.mission_title, bg: BRAND.pinkSoft, text: mv.mission_text },
+            { Icon: VisionIcon, title: mv.vision_title, bg: BRAND.blueSoft, text: mv.vision_text },
           ].map((c) => (
             <motion.div
               key={c.title}
@@ -155,22 +192,23 @@ function AboutPage() {
 
       {/* Section 3 - Why Choose Us */}
       <Section bg={BRAND.pinkSoft}>
-        <SectionHeading>Why Choose Us</SectionHeading>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", width: "100%", maxWidth: "900px", margin: "0 auto" }}>
-          {whyChoose.map((w, i) => (
+        <Heading color={why.heading_color}>{why.heading || "Why Choose Us"}</Heading>
+        <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
+          {whyCards.map((w, i) => (
             <motion.div
-              key={w.label}
+              key={(w.title || "") + i}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="bg-white rounded-2xl p-5 flex items-center gap-4 transition-transform hover:-translate-y-1"
-              style={{ border: "1px solid rgba(230,0,126,0.12)", width: "100%" }}
+              className="bg-white rounded-2xl p-6 transition-transform hover:-translate-y-1"
+              style={{ border: "1px solid rgba(230,0,126,0.12)" }}
             >
-              <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: BRAND.pinkSoft }}>
-                <w.icon className="w-6 h-6" style={{ color: BRAND.pink }} />
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4" style={{ background: BRAND.pinkSoft }}>
+                <IconByName name={w.icon || "HeartHandshake"} className="w-6 h-6" style={{ color: BRAND.pink }} />
               </div>
-              <div className="font-semibold" style={{ color: BRAND.plum }}>{w.label}</div>
+              <div className="font-bold mb-2" style={{ color: BRAND.plum }}>{w.title}</div>
+              {w.description && <p style={{ color: BRAND.navLink, lineHeight: 1.6, fontSize: 14 }}>{w.description}</p>}
             </motion.div>
           ))}
         </div>
@@ -178,11 +216,11 @@ function AboutPage() {
 
       {/* Section 4 - Our Values */}
       <Section bg="white">
-        <SectionHeading>Our Values</SectionHeading>
+        <Heading color={valuesRow.heading_color}>{valuesRow.heading || "Our Values"}</Heading>
         <div className="grid md:grid-cols-3 gap-6">
-          {values.map((v: any, i: number) => (
+          {values.map((v: Card, i: number) => (
             <motion.div
-              key={v.title + i}
+              key={(v.title || "") + i}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -194,13 +232,54 @@ function AboutPage() {
                 <IconByName name={v.icon || "Sparkles"} className="w-8 h-8 text-white" />
               </div>
               <h3 className="font-serif text-xl font-bold mb-2" style={{ color: BRAND.heading }}>{v.title}</h3>
-              <p style={{ color: BRAND.navLink, lineHeight: 1.7 }}>{v.description || v.desc}</p>
+              <p style={{ color: BRAND.navLink, lineHeight: 1.7 }}>{v.description}</p>
             </motion.div>
           ))}
         </div>
       </Section>
 
-      <PageCTABanner />
+      {/* Section 5 - CTA Banner */}
+      <section
+        style={{
+          padding: "60px 8%",
+          background: "linear-gradient(135deg, rgba(248,187,217,0.4) 0%, #FFFAF7 50%, rgba(255,248,225,0.4) 100%)",
+          color: BRAND.plum,
+          textAlign: "center",
+        }}
+      >
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6 }}>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 700, marginBottom: 14, color: BRAND.heading }}>
+            {cta.heading}
+          </h2>
+          {cta.subtext && (
+            <p style={{ opacity: 0.85, maxWidth: 620, margin: "0 auto 28px", fontSize: 16, color: BRAND.plum }}>{cta.subtext}</p>
+          )}
+          <div className="flex flex-wrap justify-center gap-4">
+            {cta.button_text && (
+              cta.button_url?.startsWith("/") ? (
+                <Link
+                  to={cta.button_url as any}
+                  className="px-7 py-3 rounded-full font-bold transition-transform hover:scale-105"
+                  style={{ background: "#8B0F50", color: "white" }}
+                >
+                  {cta.button_text}
+                </Link>
+              ) : (
+                <a
+                  href={cta.button_url || "#"}
+                  className="px-7 py-3 rounded-full font-bold transition-transform hover:scale-105"
+                  style={{ background: "#8B0F50", color: "white" }}
+                >
+                  {cta.button_text}
+                </a>
+              )
+            )}
+          </div>
+        </motion.div>
+      </section>
     </PageLayout>
   )
 }
+
+// Suppress unused-import warnings for icons referenced only via dynamic IconByName
+void HeartHandshake; void ShieldCheck; void Award;

@@ -203,69 +203,75 @@ export function HeroEditor() {
 }
 
 // ─────────────────────────────────────────────────────────
-// ABOUT - story / mission-vision / values
+// ABOUT - story / mission-vision / values / why-choose-us / cta-banner
 // ─────────────────────────────────────────────────────────
 const STORY_DEFAULTS = {
+  heading: "Our Story",
+  heading_color: "#C2185B",
   paragraph_1: "",
   paragraph_2: "",
   images: [] as { url: string; alt: string }[],
 }
-const MV_DEFAULTS = { mission_title: "", mission_text: "", vision_title: "", vision_text: "" }
-const VALUES_DEFAULTS = { items: [] as { icon: string; title: string; description: string }[] }
+const MV_DEFAULTS = {
+  mission_title: "",
+  mission_text: "",
+  vision_title: "",
+  vision_text: "",
+  mission_icon: "Target",
+  vision_icon: "Eye",
+}
+const VALUES_DEFAULTS = {
+  heading: "Our Values",
+  heading_color: "#C2185B",
+  items: [] as { icon: string; title: string; description: string }[],
+}
+const WHY_DEFAULTS = {
+  heading: "Why Choose Us",
+  heading_color: "#C2185B",
+  cards: [] as { icon: string; title: string; description: string }[],
+}
+const ABOUT_CTA_DEFAULTS = {
+  heading: "Ready to Start Your Journey?",
+  subtext: "Take the first step towards parenthood. Our compassionate team is here for you.",
+  button_text: "Book Consultation",
+  button_url: "/contact",
+}
 
 export function StoryEditor() {
   const story = useSection("about_content", "story_images", STORY_DEFAULTS)
 
-  const moveImg = (i: number, dir: -1 | 1) => {
-    const next = [...story.data.images]
-    const j = i + dir
-    if (j < 0 || j >= next.length) return
-    ;[next[i], next[j]] = [next[j], next[i]]
+  // Ensure exactly 3 image slots for clarity (1: left top, 2: left bottom, 3: right tall)
+  const images = [0, 1, 2].map((i) => story.data.images[i] || { url: "", alt: "" })
+  const setImage = (i: number, patch: Partial<{ url: string; alt: string }>) => {
+    const next = [...images]
+    next[i] = { ...next[i], ...patch }
     story.setData({ ...story.data, images: next })
   }
+  const slotLabels = ["Image 1 (left top)", "Image 2 (left bottom)", "Image 3 (right tall)"]
 
   return (
     <div className="bg-white rounded-xl border p-5 space-y-4">
-      <h3 className="font-bold">Story Images & Text</h3>
+      <h3 className="font-bold">Our Story</h3>
+      <Field label="Section heading">
+        <input value={story.data.heading || ""} onChange={(e) => story.setData({ ...story.data, heading: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+      </Field>
+      <Field label="Heading color">
+        <ColorPicker value={story.data.heading_color || "#C2185B"} onChange={(c) => story.setData({ ...story.data, heading_color: c })} />
+      </Field>
       <Field label="Paragraph 1">
         <textarea rows={3} value={story.data.paragraph_1} onChange={(e) => story.setData({ ...story.data, paragraph_1: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
       </Field>
       <Field label="Paragraph 2">
         <textarea rows={3} value={story.data.paragraph_2} onChange={(e) => story.setData({ ...story.data, paragraph_2: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
       </Field>
-      <div>
-        <div className="flex items-center mb-2">
-          <div className="text-xs font-semibold text-muted-foreground">Collage images (up to 3)</div>
-          {story.data.images.length < 3 && (
-            <button
-              onClick={() => story.setData({ ...story.data, images: [...story.data.images, { url: "", alt: "" }] })}
-              className="ml-auto text-xs px-2 py-1 rounded border inline-flex items-center gap-1"
-            >
-              <Plus className="w-3 h-3" /> Add image
-            </button>
-          )}
-        </div>
-        <div className="space-y-3">
-          {story.data.images.map((img, i) => (
-            <div key={i} className="flex items-start gap-2 p-3 border rounded-lg">
-              <div className="flex flex-col gap-1">
-                <button onClick={() => moveImg(i, -1)} className="p-1 rounded hover:bg-gray-100"><ArrowUp className="w-3 h-3" /></button>
-                <button onClick={() => moveImg(i, 1)} className="p-1 rounded hover:bg-gray-100"><ArrowDown className="w-3 h-3" /></button>
-              </div>
-              <div className="flex-1 space-y-2">
-                <ImageUpload value={img.url} onChange={(url) => {
-                  const next = [...story.data.images]; next[i] = { ...next[i], url: url || "" }
-                  story.setData({ ...story.data, images: next })
-                }} folder="about" />
-                <input value={img.alt} onChange={(e) => {
-                  const next = [...story.data.images]; next[i] = { ...next[i], alt: e.target.value }
-                  story.setData({ ...story.data, images: next })
-                }} placeholder="Alt text" className="w-full px-3 py-2 border rounded-lg text-sm" />
-              </div>
-              <button onClick={() => story.setData({ ...story.data, images: story.data.images.filter((_, j) => j !== i) })} className="p-1.5 rounded hover:bg-red-50 text-red-600"><Trash2 className="w-4 h-4" /></button>
-            </div>
-          ))}
-        </div>
+      <div className="space-y-3">
+        {images.map((img, i) => (
+          <div key={i} className="p-3 border rounded-lg space-y-2">
+            <div className="text-xs font-semibold text-muted-foreground">{slotLabels[i]}</div>
+            <ImageUpload value={img.url} onChange={(url) => setImage(i, { url: url || "" })} folder="about" />
+            <input value={img.alt} onChange={(e) => setImage(i, { alt: e.target.value })} placeholder="Alt text (for SEO & accessibility)" className="w-full px-3 py-2 border rounded-lg text-sm" />
+          </div>
+        ))}
       </div>
       <div className="flex justify-end">
         <button onClick={story.save} disabled={story.saving} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold disabled:opacity-50" style={{ background: "#E6007E" }}>
@@ -283,19 +289,25 @@ export function MissionVisionEditor() {
       <h3 className="font-bold">Mission & Vision</h3>
       <div className="grid md:grid-cols-2 gap-4">
         <div className="space-y-3">
-          <Field label="Mission title">
+          <Field label="Mission heading">
             <input value={mv.data.mission_title} onChange={(e) => mv.setData({ ...mv.data, mission_title: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
           </Field>
           <Field label="Mission text">
             <textarea rows={4} value={mv.data.mission_text} onChange={(e) => mv.setData({ ...mv.data, mission_text: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
           </Field>
+          <Field label="Mission icon (lucide name)" hint="e.g. Target, Heart, Compass">
+            <input value={mv.data.mission_icon || "Target"} onChange={(e) => mv.setData({ ...mv.data, mission_icon: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+          </Field>
         </div>
         <div className="space-y-3">
-          <Field label="Vision title">
+          <Field label="Vision heading">
             <input value={mv.data.vision_title} onChange={(e) => mv.setData({ ...mv.data, vision_title: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
           </Field>
           <Field label="Vision text">
             <textarea rows={4} value={mv.data.vision_text} onChange={(e) => mv.setData({ ...mv.data, vision_text: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+          </Field>
+          <Field label="Vision icon (lucide name)" hint="e.g. Eye, Telescope, Star">
+            <input value={mv.data.vision_icon || "Eye"} onChange={(e) => mv.setData({ ...mv.data, vision_icon: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
           </Field>
         </div>
       </div>
@@ -308,45 +320,68 @@ export function MissionVisionEditor() {
   )
 }
 
+function CardListEditor({
+  title,
+  items,
+  onChange,
+}: {
+  title: string
+  items: { icon: string; title: string; description: string }[]
+  onChange: (next: { icon: string; title: string; description: string }[]) => void
+}) {
+  const move = (i: number, dir: -1 | 1) => {
+    const j = i + dir
+    if (j < 0 || j >= items.length) return
+    const next = [...items]
+    ;[next[i], next[j]] = [next[j], next[i]]
+    onChange(next)
+  }
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center">
+        <div className="text-xs font-semibold text-muted-foreground">{title}</div>
+        <button onClick={() => onChange([...items, { icon: "Sparkles", title: "", description: "" }])} className="ml-auto text-xs px-2 py-1 rounded border inline-flex items-center gap-1">
+          <Plus className="w-3 h-3" /> Add card
+        </button>
+      </div>
+      {items.map((v, i) => (
+        <div key={i} className="border rounded-lg p-3 grid md:grid-cols-[36px_160px_1fr_2fr_auto] gap-3 items-start">
+          <div className="flex flex-col gap-1">
+            <button onClick={() => move(i, -1)} className="p-1 rounded hover:bg-gray-100"><ArrowUp className="w-3 h-3" /></button>
+            <button onClick={() => move(i, 1)} className="p-1 rounded hover:bg-gray-100"><ArrowDown className="w-3 h-3" /></button>
+          </div>
+          <Field label="Icon (lucide name)">
+            <input value={v.icon} onChange={(e) => { const next = [...items]; next[i] = { ...next[i], icon: e.target.value }; onChange(next) }} placeholder="Sparkles" className="w-full px-2 py-1.5 border rounded text-sm" />
+          </Field>
+          <Field label="Title">
+            <input value={v.title} onChange={(e) => { const next = [...items]; next[i] = { ...next[i], title: e.target.value }; onChange(next) }} className="w-full px-2 py-1.5 border rounded text-sm" />
+          </Field>
+          <Field label="Description">
+            <textarea rows={2} value={v.description} onChange={(e) => { const next = [...items]; next[i] = { ...next[i], description: e.target.value }; onChange(next) }} className="w-full px-2 py-1.5 border rounded text-sm" />
+          </Field>
+          <button onClick={() => onChange(items.filter((_, j) => j !== i))} className="p-1.5 rounded hover:bg-red-50 text-red-600 mt-5"><Trash2 className="w-4 h-4" /></button>
+        </div>
+      ))}
+      {items.length === 0 && <div className="text-xs text-muted-foreground">No cards yet.</div>}
+      <div className="text-[11px] text-muted-foreground">
+        Icon names use the lucide-react library. Examples: <code>HeartHandshake</code>, <code>ShieldCheck</code>, <code>Sparkles</code>, <code>Award</code>, <code>Star</code>.
+      </div>
+    </div>
+  )
+}
+
 export function ValuesEditor() {
   const vals = useSection("about_content", "values", VALUES_DEFAULTS)
   return (
     <div className="bg-white rounded-xl border p-5 space-y-4">
-      <div className="flex items-center">
-        <h3 className="font-bold">Values</h3>
-        <button onClick={() => vals.setData({ items: [...vals.data.items, { icon: "Sparkles", title: "", description: "" }] })} className="ml-auto text-xs px-2 py-1 rounded border inline-flex items-center gap-1">
-          <Plus className="w-3 h-3" /> Add value
-        </button>
-      </div>
-      <div className="space-y-3">
-        {vals.data.items.map((v, i) => (
-          <div key={i} className="border rounded-lg p-3 grid md:grid-cols-[140px_1fr_2fr_auto] gap-3 items-start">
-            <Field label="Icon (lucide name)">
-              <input value={v.icon} onChange={(e) => {
-                const next = [...vals.data.items]; next[i] = { ...next[i], icon: e.target.value }
-                vals.setData({ items: next })
-              }} placeholder="Sparkles" className="w-full px-2 py-1.5 border rounded text-sm" />
-            </Field>
-            <Field label="Title">
-              <input value={v.title} onChange={(e) => {
-                const next = [...vals.data.items]; next[i] = { ...next[i], title: e.target.value }
-                vals.setData({ items: next })
-              }} className="w-full px-2 py-1.5 border rounded text-sm" />
-            </Field>
-            <Field label="Description">
-              <textarea rows={2} value={v.description} onChange={(e) => {
-                const next = [...vals.data.items]; next[i] = { ...next[i], description: e.target.value }
-                vals.setData({ items: next })
-              }} className="w-full px-2 py-1.5 border rounded text-sm" />
-            </Field>
-            <button onClick={() => vals.setData({ items: vals.data.items.filter((_, j) => j !== i) })} className="p-1.5 rounded hover:bg-red-50 text-red-600 mt-5"><Trash2 className="w-4 h-4" /></button>
-          </div>
-        ))}
-        {vals.data.items.length === 0 && <div className="text-xs text-muted-foreground">No values yet.</div>}
-      </div>
-      <div className="text-[11px] text-muted-foreground">
-        Icon names use the lucide-react library. Examples: <code>HeartHandshake</code>, <code>ShieldCheck</code>, <code>Sparkles</code>, <code>Award</code>, <code>Star</code>.
-      </div>
+      <h3 className="font-bold">Our Values</h3>
+      <Field label="Section heading">
+        <input value={vals.data.heading || ""} onChange={(e) => vals.setData({ ...vals.data, heading: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+      </Field>
+      <Field label="Heading color">
+        <ColorPicker value={vals.data.heading_color || "#C2185B"} onChange={(c) => vals.setData({ ...vals.data, heading_color: c })} />
+      </Field>
+      <CardListEditor title="Values" items={vals.data.items || []} onChange={(items) => vals.setData({ ...vals.data, items })} />
       <div className="flex justify-end">
         <button onClick={vals.save} disabled={vals.saving} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold disabled:opacity-50" style={{ background: "#E6007E" }}>
           <Save className="w-4 h-4" /> Save Values
@@ -355,6 +390,56 @@ export function ValuesEditor() {
     </div>
   )
 }
+
+export function WhyChooseUsEditor() {
+  const why = useSection("about_content", "why_choose_us", WHY_DEFAULTS)
+  return (
+    <div className="bg-white rounded-xl border p-5 space-y-4">
+      <h3 className="font-bold">Why Choose Us</h3>
+      <Field label="Section heading">
+        <input value={why.data.heading || ""} onChange={(e) => why.setData({ ...why.data, heading: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+      </Field>
+      <Field label="Heading color">
+        <ColorPicker value={why.data.heading_color || "#C2185B"} onChange={(c) => why.setData({ ...why.data, heading_color: c })} />
+      </Field>
+      <CardListEditor title="Cards" items={why.data.cards || []} onChange={(cards) => why.setData({ ...why.data, cards })} />
+      <div className="flex justify-end">
+        <button onClick={why.save} disabled={why.saving} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold disabled:opacity-50" style={{ background: "#E6007E" }}>
+          <Save className="w-4 h-4" /> Save
+        </button>
+      </div>
+    </div>
+  )
+}
+
+export function AboutCtaBannerEditor() {
+  const cta = useSection("about_content", "cta_banner", ABOUT_CTA_DEFAULTS)
+  return (
+    <div className="bg-white rounded-xl border p-5 space-y-4">
+      <h3 className="font-bold">About Page — CTA Banner</h3>
+      <Field label="Heading">
+        <input value={cta.data.heading || ""} onChange={(e) => cta.setData({ ...cta.data, heading: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+      </Field>
+      <Field label="Subtext">
+        <textarea rows={3} value={cta.data.subtext || ""} onChange={(e) => cta.setData({ ...cta.data, subtext: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+      </Field>
+      <div className="grid md:grid-cols-2 gap-4">
+        <Field label="Button text">
+          <input value={cta.data.button_text || ""} onChange={(e) => cta.setData({ ...cta.data, button_text: e.target.value })} className="w-full px-3 py-2 border rounded-lg" />
+        </Field>
+        <Field label="Button URL">
+          <input value={cta.data.button_url || ""} onChange={(e) => cta.setData({ ...cta.data, button_url: e.target.value })} placeholder="/contact" className="w-full px-3 py-2 border rounded-lg" />
+        </Field>
+      </div>
+      <div className="flex justify-end">
+        <button onClick={cta.save} disabled={cta.saving} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold disabled:opacity-50" style={{ background: "#E6007E" }}>
+          <Save className="w-4 h-4" /> Save
+        </button>
+      </div>
+    </div>
+  )
+}
+
 
 // ─────────────────────────────────────────────────────────
 // SECTION CONTENT helpers (storytelling slots)
