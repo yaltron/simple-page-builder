@@ -1,9 +1,8 @@
-Plan to equalize the footer logo with the header logo.
+Change the mobile "Book Appointment" button in the navbar mobile drawer to use the existing CTA color token (#8B0F50). This will make it consistent with the desktop navbar buttons and match the requested color.
 
-Current sizes:
-- Header logo (src/components/navbar.tsx): `height: 72`, `maxWidth: 180`, `objectFit: "contain"`, `objectPosition: "left center"`
-- Footer logo (src/components/footer.tsx): `height: 53`, `maxWidth: 211`, `objectFit: "contain"`, `objectPosition: "center"`
+### Implementation
+- File: `src/components/navbar.tsx`
+- Target: The mobile drawer "Book Appointment" button at the bottom of the mobile menu (currently `background: COLORS.magenta`).
+- Change: Replace `background: COLORS.magenta` with `background: COLORS.cta` on that button.
 
-Change the footer logo inline style to match the header logo dimensions: set `height: 72`, `maxWidth: 180`, and keep `objectFit: "contain"`. The footer logo will remain centered in its column by its parent container, so the object position can stay centered to look balanced in the footer layout, while the rendered pixel height matches the header.
-
-Only file touched: src/components/footer.tsx. No public pages, layouts, or unrelated functionality changed.
+No other files or UI components will be touched.

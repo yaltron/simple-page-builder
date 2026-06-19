@@ -491,7 +491,7 @@ export function Navbar() {
                   to="/contact"
                   onClick={() => setIsMobileOpen(false)}
                   className="w-full py-3 text-white font-bold flex items-center justify-center gap-2"
-                  style={{ background: COLORS.magenta, borderRadius: 50 }}
+                  style={{ background: COLORS.cta, borderRadius: 50 }}
                 >
                   📅 Book Appointment
                 </Link>
