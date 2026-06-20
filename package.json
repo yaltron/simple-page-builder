@@ -85,7 +85,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@lovable.dev/vite-tanstack-config": "2.3.2",
+    "@lovable.dev/vite-tanstack-config": "1.8.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/node": "^22",
@@ -99,5 +99,9 @@
     "vite": "^7.3.1",
     "vite-tsconfig-paths": "^6",
     "vitest": "^4.1.6"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   }
 }
