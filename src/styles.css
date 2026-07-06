@@ -550,7 +550,7 @@ textarea {
     padding-left: 6px !important;
     padding-right: 6px !important;
   }
-  .nav-logo { height: 40px !important; width: auto !important; }
+  .nav-logo { height: 56px !important; width: auto !important; max-width: 220px !important; }
 }
 
 /* At ≤820px: process steps fallback to 2×2, hide decorative wave if any */
