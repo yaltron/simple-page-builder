@@ -55,10 +55,10 @@ const linkStyle: React.CSSProperties = {
 }
 
 const contactItems = [
-  { Icon: MapPin, label: "Address", value: "Soalteemode, Kathmandu, Nepal", href: "https://maps.app.goo.gl/uBT758S7LyZYjHJz5", external: true },
-  { Icon: Phone, label: "Phone", value: "+977 9861141699", href: "tel:+9779861141699", external: false },
-  { Icon: Mail, label: "Email", value: "Shubhashreeivf@gmail.com", href: "mailto:Shubhashreeivf@gmail.com", external: false },
-  { Icon: Clock, label: "Hours", value: "Sun-Fri: 8:00 AM - 6:00 PM", href: undefined, external: false },
+  { Icon: MapPin, label: "Address", value: "Soltimode, Kathmandu 44600, Nepal", href: "https://maps.app.goo.gl/uBT758S7LyZYjHJz5", external: true },
+  { Icon: Phone, label: "Phone", value: "+977-1-5312007 / +977-9861141699", href: "tel:+9779861141699", external: false },
+  { Icon: Mail, label: "Email", value: "subhashreeivfclinic@gmail.com", href: "mailto:subhashreeivfclinic@gmail.com", external: false },
+  { Icon: Clock, label: "Hours", value: "Sun-Fri: 9:00 AM - 5:00 PM", href: undefined, external: false },
 ] as const
 
 export function Footer() {
