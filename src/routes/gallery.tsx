@@ -34,6 +34,19 @@ export const Route = createFileRoute("/gallery")({
 
 const cats = ["All", "Clinic", "Team", "Patients", "Events", "Videos"] as const
 
+// Serve Supabase Storage images through the render-image transform so
+// gallery grid loads WebP at reasonable dimensions instead of full-res PNGs.
+function getOptimizedUrl(url: string | null | undefined): string {
+  if (!url) return ""
+  if (url.includes("supabase.co") && url.includes("/storage/v1/object/public/")) {
+    const rendered = url.replace("/storage/v1/object/public/", "/storage/v1/render/image/public/")
+    const sep = rendered.includes("?") ? "&" : "?"
+    return `${rendered}${sep}width=800&quality=75&format=webp`
+  }
+  return url
+}
+
+
 
 function GalleryPage() {
   const [items, setItems] = useState<any[]>([])
