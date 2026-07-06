@@ -418,7 +418,7 @@ textarea {
   body img { max-width: 100%; }
 
   /* ── Navbar ── */
-  .nav-logo { height: 44px !important; width: auto !important; }
+  .nav-logo { height: 56px !important; width: auto !important; max-width: 220px !important; }
   .nav-cta-row { gap: 8px !important; }
   .nav-cta-btn {
     padding: 9px 16px !important;
