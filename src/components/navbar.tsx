@@ -205,9 +205,9 @@ export function Navbar() {
           fetchPriority="high"
           loading="eager"
           style={{
-            height: 56,
+            height: 72,
             width: "auto",
-            maxWidth: 220,
+            maxWidth: 180,
             objectFit: "contain",
             objectPosition: "left center",
             display: "block",
