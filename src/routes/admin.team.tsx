@@ -23,9 +23,11 @@ type Doc = {
   experience_years: number | null
   display_order: number
   status: string
+  nmc_number: string | null
+  nmc_color: string | null
 }
 
-const empty: Doc = { name: "", title: "", bio: "", image: null, specialties: [], qualifications: "", experience_years: null, display_order: 0, status: "published" }
+const empty: Doc = { name: "", title: "", bio: "", image: null, specialties: [], qualifications: "", experience_years: null, display_order: 0, status: "published", nmc_number: "", nmc_color: "#8B0F50" }
 
 function AdminDoctorsPage() {
   const { loading, isAdmin } = useAdminAuth()
