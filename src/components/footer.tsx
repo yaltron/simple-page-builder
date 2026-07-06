@@ -90,15 +90,21 @@ export function Footer() {
             <Link to="/" className="inline-flex items-center w-fit" style={{ marginBottom: 16 }}>
               <img
                 src={logo}
-                srcSet={`${logo} 2x`}
                 alt="Shubhashree IVF Clinic Pvt. Ltd."
-                className="footer-logo crisp-logo"
+                className="footer-logo"
+                fetchPriority="high"
+                loading="eager"
                 style={{
-                  height: 48,
+                  height: 60,
                   width: "auto",
+                  maxWidth: 240,
                   objectFit: "contain",
                   objectPosition: "center",
                   display: "block",
+                  imageRendering: "auto",
+                  WebkitFontSmoothing: "antialiased",
+                  transform: "translateZ(0)",
+                  willChange: "transform",
                 }}
               />
             </Link>
