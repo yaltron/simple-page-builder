@@ -13,6 +13,8 @@ export type CMSDoctor = {
   experience_years: number | null
   display_order: number
   status: string
+  nmc_number: string | null
+  nmc_color: string | null
 }
 
 export function useDoctors() {
