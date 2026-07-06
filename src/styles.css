@@ -418,7 +418,7 @@ textarea {
   body img { max-width: 100%; }
 
   /* ── Navbar ── */
-  .nav-logo { height: 56px !important; width: auto !important; max-width: 220px !important; }
+  .nav-logo { height: 72px !important; width: auto !important; max-width: 180px !important; }
   .nav-cta-row { gap: 8px !important; }
   .nav-cta-btn {
     padding: 9px 16px !important;
@@ -550,7 +550,7 @@ textarea {
     padding-left: 6px !important;
     padding-right: 6px !important;
   }
-  .nav-logo { height: 56px !important; width: auto !important; max-width: 220px !important; }
+  .nav-logo { height: 72px !important; width: auto !important; max-width: 180px !important; }
 }
 
 /* At ≤820px: process steps fallback to 2×2, hide decorative wave if any */
