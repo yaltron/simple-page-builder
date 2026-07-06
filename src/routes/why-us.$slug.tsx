@@ -13,9 +13,9 @@ export const Route = createFileRoute("/why-us/$slug")({
   head: ({ params }) => ({
     meta: [
       { title: `Why Choose Us | ${params.slug}` },
-      { property: "og:url", content: `https://subhashree-ui.lovable.app/why-us/${params.slug}` },
+      { property: "og:url", content: `https://shubhashreeivf.com/why-us/${params.slug}` },
     ],
-    links: [{ rel: "canonical", href: `https://subhashree-ui.lovable.app/why-us/${params.slug}` }],
+    links: [{ rel: "canonical", href: `https://shubhashreeivf.com/why-us/${params.slug}` }],
   }),
   component: WhyUsDetailPage,
   errorComponent: ({ error }) => <div className="p-10 text-center">{error.message}</div>,

@@ -26,10 +26,10 @@ export const Route = createRootRoute({
         content:
           "IVF, fertility, Nepal, Kathmandu, infertility treatment, ICSI, embryo freezing",
       },
-      { property: "og:site_name", content: "Shubhashree IVF & Fertility Centre" },
+      { property: "og:site_name", content: "Shubhashree IVF Clinic" },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2763929e-3781-4f77-96d6-089915beb33e/id-preview-0338afa5--21c28b4a-1c9f-40e2-a587-0b34d8e11f6f.lovable.app-1777588428747.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2763929e-3781-4f77-96d6-089915beb33e/id-preview-0338afa5--21c28b4a-1c9f-40e2-a587-0b34d8e11f6f.lovable.app-1777588428747.png" },
+      { property: "og:image", content: "https://shubhashreeivf.com/og-image.jpg" },
+      { name: "twitter:image", content: "https://shubhashreeivf.com/og-image.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -57,6 +57,10 @@ function RootDocument({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-sans antialiased">
+        <noscript>
+          <h1>Shubhashree IVF Clinic</h1>
+          <p>Fertility and IVF treatment center in Soltimode, Kathmandu 44600, Nepal. Services: IVF, IUI, ICSI, fertility diagnostics and counseling. Phone: +977-1-5312007, +977-9861141699. Email: subhashreeivfclinic@gmail.com. Open Sunday to Friday, 9:00 AM to 5:00 PM.</p>
+        </noscript>
         <ScrollToTop />
         {children}
         <Toaster position="top-center" richColors closeButton />

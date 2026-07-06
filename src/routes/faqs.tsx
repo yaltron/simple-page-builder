@@ -42,9 +42,9 @@ export const Route = createFileRoute("/faqs")({
           property: "og:description",
           content: "Common fertility, IVF and ICSI questions answered by the specialists at Shubhashree IVF, Kathmandu.",
         },
-        { property: "og:url", content: "https://subhashree-ui.lovable.app/faqs" },
+        { property: "og:url", content: "https://shubhashreeivf.com/faqs" },
       ],
-      links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/faqs" }],
+      links: [{ rel: "canonical", href: "https://shubhashreeivf.com/faqs" }],
       scripts: [
         {
           type: "application/ld+json",

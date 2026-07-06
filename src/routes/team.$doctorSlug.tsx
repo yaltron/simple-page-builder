@@ -25,7 +25,7 @@ export const Route = createFileRoute("/team/$doctorSlug")({
   head: ({ loaderData }) => {
     const doctor = loaderData as CMSDoctor
     const title = `${doctor.name} - Shubhashree IVF`
-    const url = `https://subhashree-ui.lovable.app/team/${doctor.slug}`
+    const url = `https://shubhashreeivf.com/team/${doctor.slug}`
     return {
       meta: [
         { title },

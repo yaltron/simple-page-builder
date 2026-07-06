@@ -13,9 +13,9 @@ export const Route = createFileRoute("/success-stories")({
       { name: "description", content: "Real families, real journeys. Read how Shubhashree IVF Clinic in Kathmandu has helped thousands of couples become parents through IVF and ICSI." },
       { property: "og:title", content: "Patient Success Stories | Shubhashree IVF, Kathmandu" },
       { property: "og:description", content: "Real stories of hope and joy from families who became parents at Shubhashree IVF, Kathmandu." },
-      { property: "og:url", content: "https://subhashree-ui.lovable.app/success-stories" },
+      { property: "og:url", content: "https://shubhashreeivf.com/success-stories" },
     ],
-    links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/success-stories" }],
+    links: [{ rel: "canonical", href: "https://shubhashreeivf.com/success-stories" }],
   }),
   component: StoriesPage,
 })

@@ -25,9 +25,9 @@ export const Route = createFileRoute("/gallery")({
       { name: "description", content: "Explore the Shubhashree IVF Clinic, Kathmandu - photos and videos of our facilities, fertility team, happy patients and events." },
       { property: "og:title", content: "Photo & Video Gallery | Shubhashree IVF, Kathmandu" },
       { property: "og:description", content: "Photos and videos from our clinic, fertility team and patient events at Shubhashree IVF, Kathmandu." },
-      { property: "og:url", content: "https://subhashree-ui.lovable.app/gallery" },
+      { property: "og:url", content: "https://shubhashreeivf.com/gallery" },
     ],
-    links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/gallery" }],
+    links: [{ rel: "canonical", href: "https://shubhashreeivf.com/gallery" }],
   }),
   component: GalleryPage,
 })

@@ -13,7 +13,7 @@ export const Route = createFileRoute("/admin/blog/$id")({
 })
 
 const CATEGORIES = ["IVF", "ICSI", "Fertility Tips", "Patient Stories", "News", "General"]
-const PROJECT_URL = "https://subhashree-ui.lovable.app"
+const PROJECT_URL = "https://shubhashreeivf.com"
 
 function BlogEditorPage() {
   const { id } = useParams({ from: "/admin/blog/$id" })
@@ -232,7 +232,7 @@ function BlogEditorPage() {
 
               {/* Google preview */}
               <div className="border rounded-lg p-3 text-xs bg-gray-50">
-                <div className="text-[#202124] text-xs mb-0.5">Subhashree IVF</div>
+                <div className="text-[#202124] text-xs mb-0.5">Shubhashree IVF</div>
                 <div className="text-[#1a0dab] text-base leading-tight truncate">{form.meta_title || form.title || "Title preview"}</div>
                 <div className="text-[#006621] text-xs">{PROJECT_URL}/blog/{form.slug || "slug"}</div>
                 <div className="text-[#4d5156] text-xs mt-1 line-clamp-2">{form.meta_description || form.excerpt || "Description preview…"}</div>

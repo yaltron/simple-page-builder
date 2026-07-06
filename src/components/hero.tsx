@@ -11,7 +11,7 @@ const DEFAULT_HERO = {
   headline: "",
   headline_highlight: "Your Life",
   subheadline:
-    "With over 12 years of excellence and 5,000+ successful treatments, Subhashree IVF & Fertility Centre has been transforming dreams of parenthood into beautiful realities for families across Nepal and beyond.",
+    "With over 12 years of excellence and 5,000+ successful treatments, Shubhashree IVF & Fertility Centre has been transforming dreams of parenthood into beautiful realities for families across Nepal and beyond.",
   cta_primary_text: "Book Consultation",
   cta_primary_url: "/contact",
   cta_secondary_text: "Watch Our Story",
