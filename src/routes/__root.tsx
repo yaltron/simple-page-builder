@@ -57,6 +57,10 @@ function RootDocument({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-sans antialiased">
+        <noscript>
+          <h1>Shubhashree IVF Clinic</h1>
+          <p>Fertility and IVF treatment center in Soltimode, Kathmandu 44600, Nepal. Services: IVF, IUI, ICSI, fertility diagnostics and counseling. Phone: +977-1-5312007, +977-9861141699. Email: subhashreeivfclinic@gmail.com. Open Sunday to Friday, 9:00 AM to 5:00 PM.</p>
+        </noscript>
         <ScrollToTop />
         {children}
         <Toaster position="top-center" richColors closeButton />
