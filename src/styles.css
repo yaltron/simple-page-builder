@@ -602,15 +602,7 @@ input[type="date"]::-webkit-date-and-time-value {
 }
 input[type="date"]:focus { border-color: #E6007E; outline: none; }
 
-/* Crisp logo rendering used across navbar/footer/admin */
-.crisp-logo {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  -webkit-font-smoothing: antialiased;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  transform: translateZ(0);
-}
+/* Logo rendering hints applied inline on the img element */
 
 /* ===== TipTap in-editor WYSIWYG styling =====
    Scoped to .tiptap-content .ProseMirror so it never leaks to public pages. */
