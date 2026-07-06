@@ -16,9 +16,10 @@ import { BlogPreview } from "@/components/blog-preview";
 import { CTABanner } from "@/components/cta-banner";
 import { Footer } from "@/components/footer";
 
-const HOME_TITLE = "Best IVF Centre in Kathmandu, Nepal | Shubhashree IVF";
-const HOME_DESC = "Shubhashree IVF Clinic in Kathmandu offers IVF, ICSI & IUI with high success rates and caring, ethical fertility treatment. Book your consultation today.";
+const HOME_TITLE = "Shubhashree IVF Clinic | Fertility & IVF Treatment in Kathmandu, Nepal";
+const HOME_DESC = "Shubhashree IVF Clinic in Soltimode, Kathmandu offers IVF, IUI, ICSI and fertility diagnostics with experienced gynecologists and embryologists. Call +977-9861141699.";
 const HOME_URL = "https://shubhashreeivf.com/";
+const OG_IMAGE = "https://shubhashreeivf.com/og-image.jpg";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -30,9 +31,11 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: HOME_DESC },
       { property: "og:type", content: "website" },
       { property: "og:url", content: HOME_URL },
+      { property: "og:image", content: OG_IMAGE },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: HOME_TITLE },
       { name: "twitter:description", content: HOME_DESC },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [{ rel: "canonical", href: HOME_URL }],
     scripts: [
@@ -42,16 +45,17 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "MedicalClinic",
           name: "Shubhashree IVF Clinic",
+          url: "https://shubhashreeivf.com/",
+          telephone: "+977-9861141699",
+          email: "subhashreeivfclinic@gmail.com",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "Soalteemode",
+            streetAddress: "Soltimode",
             addressLocality: "Kathmandu",
-            addressCountry: "Nepal",
+            postalCode: "44600",
+            addressCountry: "NP",
           },
-          telephone: "+977 986-1141699",
-          email: "shubhashreeivf@gmail.com",
-          url: "https://shubhashreeivf.com",
-          openingHours: "Mo-Su 08:00-17:00",
+          openingHours: "Su-Fr 09:00-17:00",
           medicalSpecialty: "Reproductive Endocrinology",
         }),
       },
