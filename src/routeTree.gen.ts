@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SuccessStoriesRouteImport } from './routes/success-stories'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -61,6 +62,11 @@ const SuccessStoriesRoute = SuccessStoriesRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GalleryRoute = GalleryRouteImport.update({
@@ -279,6 +285,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/gallery': typeof GalleryRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRouteWithChildren
   '/success-stories': typeof SuccessStoriesRoute
   '/admin/login': typeof AdminLoginRoute
@@ -324,6 +331,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/gallery': typeof GalleryRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/success-stories': typeof SuccessStoriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
@@ -369,6 +377,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/gallery': typeof GalleryRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRouteWithChildren
   '/success-stories': typeof SuccessStoriesRoute
   '/admin/login': typeof AdminLoginRoute
@@ -416,6 +425,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faqs'
     | '/gallery'
+    | '/privacy-policy'
     | '/services'
     | '/success-stories'
     | '/admin/login'
@@ -461,6 +471,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faqs'
     | '/gallery'
+    | '/privacy-policy'
     | '/success-stories'
     | '/admin/login'
     | '/admin/popup-banners'
@@ -505,6 +516,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faqs'
     | '/gallery'
+    | '/privacy-policy'
     | '/services'
     | '/success-stories'
     | '/admin/login'
@@ -551,6 +563,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   FaqsRoute: typeof FaqsRoute
   GalleryRoute: typeof GalleryRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   SuccessStoriesRoute: typeof SuccessStoriesRoute
   AdminLoginRoute: typeof AdminLoginRoute
@@ -602,6 +615,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gallery': {
@@ -915,6 +935,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   FaqsRoute: FaqsRoute,
   GalleryRoute: GalleryRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
   ServicesRoute: ServicesRouteWithChildren,
   SuccessStoriesRoute: SuccessStoriesRoute,
   AdminLoginRoute: AdminLoginRoute,

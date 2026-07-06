@@ -13,6 +13,7 @@ const quickLinks = [
   { name: "FAQs", to: "/faqs" },
   { name: "Career", to: "/careers" },
   { name: "Contact", to: "/contact" },
+  { name: "Privacy Policy", to: "/privacy-policy" },
 ] as const
 
 function TikTokIcon({ className }: { className?: string }) {
