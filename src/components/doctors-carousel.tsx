@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react"
 import { motion, AnimatePresence, useInView, type PanInfo } from "framer-motion"
-import { ArrowRight, ArrowLeft, Calendar, User, Sparkles } from "lucide-react"
+import { ArrowRight, ArrowLeft, Calendar, User } from "lucide-react"
 import { Link } from "@tanstack/react-router"
 import { useHomepageSection } from "@/lib/use-cms-content"
 import { useDoctors, type CMSDoctor } from "@/lib/use-doctors"
