@@ -13,9 +13,9 @@ export const Route = createFileRoute("/services/$slug")({
     meta: [
       { title: `Service - Shubhashree IVF` },
       { property: "og:title", content: `Service - Shubhashree IVF` },
-      { property: "og:url", content: `https://subhashree-ui.lovable.app/services/${params.slug}` },
+      { property: "og:url", content: `https://shubhashreeivf.com/services/${params.slug}` },
     ],
-    links: [{ rel: "canonical", href: `https://subhashree-ui.lovable.app/services/${params.slug}` }],
+    links: [{ rel: "canonical", href: `https://shubhashreeivf.com/services/${params.slug}` }],
   }),
   component: ServiceDetailPage,
 })

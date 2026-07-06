@@ -13,9 +13,9 @@ export const Route = createFileRoute("/blog/")({
       { name: "description", content: "Expert articles on IVF, IUI, PCOS, male infertility, and fertility care from the specialists at Shubhashree IVF Clinic, Kathmandu." },
       { property: "og:title", content: "Fertility & IVF Blog | Shubhashree IVF Clinic, Kathmandu" },
       { property: "og:description", content: "Expert articles on IVF, IUI, PCOS, male infertility, and fertility care from the specialists at Shubhashree IVF Clinic, Kathmandu." },
-      { property: "og:url", content: "https://subhashree-ui.lovable.app/blog" },
+      { property: "og:url", content: "https://shubhashreeivf.com/blog" },
     ],
-    links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/blog" }],
+    links: [{ rel: "canonical", href: "https://shubhashreeivf.com/blog" }],
   }),
   component: BlogPage,
 })

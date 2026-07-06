@@ -258,7 +258,7 @@ export function Footer() {
         }}
       >
         <p style={{ fontSize: 13, color: "#7A2050", margin: 0 }}>
-          © {new Date().getFullYear()} Subhashree IVF Clinic Pvt. Ltd. All rights reserved.
+          © {new Date().getFullYear()} Shubhashree IVF Clinic Pvt. Ltd. All rights reserved.
         </p>
       </div>
     </footer>

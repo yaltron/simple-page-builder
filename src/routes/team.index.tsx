@@ -11,9 +11,9 @@ export const Route = createFileRoute("/team/")({
       { name: "description", content: "Meet the experienced fertility specialists and embryologists at Shubhashree IVF Clinic, Kathmandu. Expert, compassionate infertility care." },
       { property: "og:title", content: "Our Fertility Doctors in Kathmandu | Shubhashree IVF" },
       { property: "og:description", content: "Meet the experienced fertility specialists and embryologists at Shubhashree IVF Clinic, Kathmandu." },
-      { property: "og:url", content: "https://subhashree-ui.lovable.app/team" },
+      { property: "og:url", content: "https://shubhashreeivf.com/team" },
     ],
-    links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/team" }],
+    links: [{ rel: "canonical", href: "https://shubhashreeivf.com/team" }],
   }),
   component: TeamPage,
 })

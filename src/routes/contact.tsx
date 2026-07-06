@@ -13,9 +13,9 @@ export const Route = createFileRoute("/contact")({
       { name: "description", content: "Contact Shubhashree IVF Clinic in Soalteemode, Kathmandu. Call +977 986-1141699 or book a fertility consultation online today." },
       { property: "og:title", content: "Contact Shubhashree IVF Clinic, Kathmandu | Book a Consultation" },
       { property: "og:description", content: "Contact Shubhashree IVF Clinic in Soalteemode, Kathmandu. Call +977 986-1141699 or book a fertility consultation online today." },
-      { property: "og:url", content: "https://subhashree-ui.lovable.app/contact" },
+      { property: "og:url", content: "https://shubhashreeivf.com/contact" },
     ],
-    links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/contact" }],
+    links: [{ rel: "canonical", href: "https://shubhashreeivf.com/contact" }],
   }),
   component: ContactPage,
 })

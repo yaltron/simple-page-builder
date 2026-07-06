@@ -14,9 +14,9 @@ export const Route = createFileRoute("/about")({
       { name: "description", content: "Learn about Shubhashree IVF Clinic in Kathmandu - our mission, ethical approach, and experienced fertility specialists. Caring fertility care in Nepal." },
       { property: "og:title", content: "About Shubhashree IVF Clinic | Fertility Experts in Kathmandu" },
       { property: "og:description", content: "Learn about Shubhashree IVF Clinic in Kathmandu - our mission, ethical approach, and experienced fertility specialists." },
-      { property: "og:url", content: "https://subhashree-ui.lovable.app/about" },
+      { property: "og:url", content: "https://shubhashreeivf.com/about" },
     ],
-    links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/about" }],
+    links: [{ rel: "canonical", href: "https://shubhashreeivf.com/about" }],
   }),
   component: AboutPage,
 })
@@ -27,7 +27,7 @@ const DEFAULT_STORY = {
   heading: "Our Story",
   heading_color: "#C2185B",
   paragraph_1:
-    "Founded over 12 years ago, Subhashree IVF & Fertility Centre has grown into Nepal's most trusted name in reproductive medicine. From our first clinic to today's full-service centre of excellence, our mission has remained the same - bringing happiness into your life.",
+    "Founded over 12 years ago, Shubhashree IVF & Fertility Centre has grown into Nepal's most trusted name in reproductive medicine. From our first clinic to today's full-service centre of excellence, our mission has remained the same - bringing happiness into your life.",
   paragraph_2:
     "With more than 5,000 successful treatments and a dedicated team of specialists, embryologists and counsellors, we have built a reputation founded on outcomes, transparency and compassionate care for every couple who walks through our doors.",
   images: [

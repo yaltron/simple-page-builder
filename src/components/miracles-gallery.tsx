@@ -10,7 +10,7 @@ const DEFAULT_MIRACLES = {
   count_suffix: "+",
   heading: "Miracles & Counting",
   description:
-    "Every baby born at Subhashree IVF is a miracle we celebrate. These are the faces of hope, the smiles of joy, and the beginning of beautiful family stories.",
+    "Every baby born at Shubhashree IVF is a miracle we celebrate. These are the faces of hope, the smiles of joy, and the beginning of beautiful family stories.",
   cta_text: "Your Miracle Awaits",
   cta_url: "/success-stories",
 }

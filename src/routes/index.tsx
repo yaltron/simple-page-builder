@@ -18,7 +18,7 @@ import { Footer } from "@/components/footer";
 
 const HOME_TITLE = "Best IVF Centre in Kathmandu, Nepal | Shubhashree IVF";
 const HOME_DESC = "Shubhashree IVF Clinic in Kathmandu offers IVF, ICSI & IUI with high success rates and caring, ethical fertility treatment. Book your consultation today.";
-const HOME_URL = "https://subhashree-ui.lovable.app/";
+const HOME_URL = "https://shubhashreeivf.com/";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
