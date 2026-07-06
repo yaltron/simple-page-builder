@@ -30,15 +30,15 @@ const fetchPost = createServerFn({ method: "GET" })
     return { post, related: related || [] }
   })
 
-const BASE_URL = "https://subhashree-ui.lovable.app"
+const BASE_URL = "https://shubhashreeivf.com"
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ params }) => fetchPost({ data: { slug: params.slug } }),
   head: ({ loaderData }) => {
     const p: any = (loaderData as any)?.post
     if (!p) return { meta: [] }
-    const title = dashesToHyphen(p.meta_title || `${p.title} - Subhashree IVF`)
-    const desc = dashesToHyphen(p.meta_description || p.excerpt || "Read the full article on Subhashree IVF.")
+    const title = dashesToHyphen(p.meta_title || `${p.title} - Shubhashree IVF`)
+    const desc = dashesToHyphen(p.meta_description || p.excerpt || "Read the full article on Shubhashree IVF.")
     const url = `${BASE_URL}/blog/${p.slug}`
     return {
       meta: [
@@ -63,7 +63,7 @@ export const Route = createFileRoute("/blog/$slug")({
             "@type": "BlogPosting",
             headline: p.title,
             image: p.featured_image,
-            author: { "@type": "Person", name: p.author || "Subhashree IVF" },
+            author: { "@type": "Person", name: p.author || "Shubhashree IVF" },
             datePublished: p.published_at,
             dateModified: p.updated_at,
             description: desc,

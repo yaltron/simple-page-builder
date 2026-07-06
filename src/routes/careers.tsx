@@ -13,9 +13,9 @@ export const Route = createFileRoute("/careers")({
       { name: "description", content: "Explore career opportunities at Shubhashree IVF Clinic, Kathmandu. See current openings for fertility specialists, embryologists and support staff and how to apply." },
       { property: "og:title", content: "Careers at Shubhashree IVF Clinic, Kathmandu | Join Our Team" },
       { property: "og:description", content: "Build your career at Nepal's leading fertility centre - Shubhashree IVF Clinic, Kathmandu." },
-      { property: "og:url", content: "https://subhashree-ui.lovable.app/careers" },
+      { property: "og:url", content: "https://shubhashreeivf.com/careers" },
     ],
-    links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/careers" }],
+    links: [{ rel: "canonical", href: "https://shubhashreeivf.com/careers" }],
   }),
   component: CareersPage,
 })

@@ -156,7 +156,7 @@ export function AdminShell({ title, breadcrumb, children }: { title: string; bre
       `}</style>
       <aside className="w-64 flex-shrink-0 flex flex-col text-white admin-sidebar-scroll" style={{ background: "#2D0A1E", height: "100vh", overflowY: "auto", overflowX: "hidden", position: "sticky", top: 0, left: 0 }}>
         <div style={{ padding: "16px 16px 8px 16px", borderBottom: "1px solid rgba(255,255,255,0.08)", marginBottom: 8 }}>
-          <img src={logo} alt="Subhashree IVF" className="crisp-logo" style={{ height: 36, width: "auto", maxWidth: 140, objectFit: "contain", objectPosition: "center", display: "block", margin: "0 auto 4px auto", background: "white", borderRadius: 8, padding: 4 }} />
+          <img src={logo} alt="Shubhashree IVF" className="crisp-logo" style={{ height: 36, width: "auto", maxWidth: 140, objectFit: "contain", objectPosition: "center", display: "block", margin: "0 auto 4px auto", background: "white", borderRadius: 8, padding: 4 }} />
           <div style={{ fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", color: "rgba(255,255,255,0.45)", textAlign: "center", paddingBottom: 8 }}>CMS Dashboard</div>
         </div>
         <nav className="flex-1 px-3 py-2 overflow-y-auto">

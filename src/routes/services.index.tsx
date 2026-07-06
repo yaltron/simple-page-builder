@@ -15,9 +15,9 @@ export const Route = createFileRoute("/services/")({
       { name: "description", content: "IVF, ICSI, IUI, embryo freezing, genetic testing and donor programmes at Shubhashree IVF Clinic, Kathmandu - comprehensive fertility care under one roof." },
       { property: "og:title", content: "Fertility Treatment Services | Shubhashree IVF, Kathmandu" },
       { property: "og:description", content: "Comprehensive fertility services tailored for you at Shubhashree IVF Clinic, Kathmandu." },
-      { property: "og:url", content: "https://subhashree-ui.lovable.app/services" },
+      { property: "og:url", content: "https://shubhashreeivf.com/services" },
     ],
-    links: [{ rel: "canonical", href: "https://subhashree-ui.lovable.app/services" }],
+    links: [{ rel: "canonical", href: "https://shubhashreeivf.com/services" }],
   }),
   component: ServicesPage,
 })
