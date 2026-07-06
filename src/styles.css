@@ -497,7 +497,7 @@ textarea {
   }
   .footer-root .footer-col-brand { grid-column: 1 / -1 !important; }
   .footer-root .footer-col-contact { grid-column: 1 / -1 !important; }
-  .footer-root .footer-logo { width: 160px !important; }
+  .footer-root .footer-logo { height: 48px !important; width: auto !important; }
 
   /* ── About page ── */
   body .about-mission-vision-grid { grid-template-columns: 1fr !important; }
