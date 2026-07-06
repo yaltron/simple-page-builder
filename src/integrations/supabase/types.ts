@@ -262,6 +262,8 @@ export type Database = {
           id: string
           image: string | null
           name: string
+          nmc_color: string | null
+          nmc_number: string | null
           qualifications: string | null
           slug: string | null
           specialties: string[] | null
@@ -277,6 +279,8 @@ export type Database = {
           id?: string
           image?: string | null
           name: string
+          nmc_color?: string | null
+          nmc_number?: string | null
           qualifications?: string | null
           slug?: string | null
           specialties?: string[] | null
@@ -292,6 +296,8 @@ export type Database = {
           id?: string
           image?: string | null
           name?: string
+          nmc_color?: string | null
+          nmc_number?: string | null
           qualifications?: string | null
           slug?: string | null
           specialties?: string[] | null

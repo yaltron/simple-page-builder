@@ -42,6 +42,7 @@ function GalleryCarousel({ radius }: { radius: number }) {
   const { items } = useMomentsGallery()
   const [perView, setPerView] = useState(3)
   const [index, setIndex] = useState(0)
+  const [enableTransition, setEnableTransition] = useState(true)
   const pausedRef = useRef(false)
   const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -59,22 +60,18 @@ function GalleryCarousel({ radius }: { radius: number }) {
   }, [])
 
   const total = items.length
-  const pages = total > 0 ? Math.max(1, total - perView + 1) : 0
 
-  // Reset index if it falls out of range when items/perView change
+  // Autoplay: advance every 4s. Index can exceed total by up to `perView`
+  // because we render `perView` clones of the first items after the tail —
+  // when we hit that boundary we snap back to 0 with transition disabled.
   useEffect(() => {
-    if (index >= pages) setIndex(0)
-  }, [pages, index])
-
-  // Auto-advance every 4s using requestAnimationFrame for smoother performance
-  useEffect(() => {
-    if (pages <= 1) return
+    if (total < 2) return
     let rafId = 0
     let last = performance.now()
     const tick = (now: number) => {
       if (!pausedRef.current) {
         if (now - last >= 4000) {
-          setIndex((i) => (i + 1) % pages)
+          setIndex((i) => i + 1)
           last = now
         }
       } else {
@@ -90,7 +87,26 @@ function GalleryCarousel({ radius }: { radius: number }) {
         resumeTimeoutRef.current = null
       }
     }
-  }, [pages])
+  }, [total])
+
+  // Seamless wrap: when index reaches `total` (first clone position),
+  // wait for the transition to end then jump back to 0 without animating.
+  const handleTransitionEnd = () => {
+    if (index >= total) {
+      setEnableTransition(false)
+      setIndex(0)
+      // re-enable transition on the next frame so subsequent moves animate
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => setEnableTransition(true))
+      })
+    } else if (index < 0) {
+      setEnableTransition(false)
+      setIndex(total - 1)
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => setEnableTransition(true))
+      })
+    }
+  }
 
   const handleMouseEnter = () => {
     if (resumeTimeoutRef.current) {
@@ -109,6 +125,10 @@ function GalleryCarousel({ radius }: { radius: number }) {
 
   if (total === 0) return null
 
+  // Slides: real items + `perView` clones of the first items appended,
+  // so scrolling past the end reveals the first images seamlessly before
+  // the invisible snap-back on transitionend.
+  const slides = perView > 0 ? items.concat(items.slice(0, perView)) : items
   const slidePct = 100 / perView
   const translatePct = index * slidePct
 
@@ -128,17 +148,20 @@ function GalleryCarousel({ radius }: { radius: number }) {
       <div className="overflow-hidden" style={{ borderRadius: radius }}>
         <div
           className="flex"
+          onTransitionEnd={handleTransitionEnd}
           style={{
             transform: `translateX(-${translatePct}%)`,
-            transition: "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+            transition: enableTransition
+              ? "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+              : "none",
             willChange: "transform",
           }}
         >
-          {items.map((item, i) => {
+          {slides.map((item, i) => {
             const isActive = i >= index && i < index + perView
             return (
               <div
-                key={item.id}
+                key={`${item.id}-${i}`}
                 className="shrink-0 px-2"
                 style={{
                   flex: `0 0 ${slidePct}%`,
@@ -174,7 +197,7 @@ function GalleryCarousel({ radius }: { radius: number }) {
       </div>
 
       {/* Dot indicators */}
-      {pages > 1 && (
+      {total > 1 && (
         <div
           style={{
             display: "flex",
@@ -184,8 +207,8 @@ function GalleryCarousel({ radius }: { radius: number }) {
             marginTop: 20,
           }}
         >
-          {Array.from({ length: pages }).map((_, i) => {
-            const active = i === index
+          {items.map((_, i) => {
+            const active = (((index % total) + total) % total) === i
             return (
               <button
                 key={i}

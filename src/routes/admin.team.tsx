@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { Plus, Pencil, Trash2, X } from "lucide-react"
 import { AdminShell, AdminLoading } from "@/components/admin/admin-shell"
 import { ImageUpload } from "@/components/admin/image-upload"
+import { ColorPicker } from "@/components/admin/color-picker"
 import { useAdminAuth } from "@/lib/use-admin-auth"
 import { supabase } from "@/integrations/supabase/client"
 import { toast } from "sonner"
@@ -22,9 +23,11 @@ type Doc = {
   experience_years: number | null
   display_order: number
   status: string
+  nmc_number: string | null
+  nmc_color: string | null
 }
 
-const empty: Doc = { name: "", title: "", bio: "", image: null, specialties: [], qualifications: "", experience_years: null, display_order: 0, status: "published" }
+const empty: Doc = { name: "", title: "", bio: "", image: null, specialties: [], qualifications: "", experience_years: null, display_order: 0, status: "published", nmc_number: "", nmc_color: "#8B0F50" }
 
 function AdminDoctorsPage() {
   const { loading, isAdmin } = useAdminAuth()
@@ -97,6 +100,8 @@ function AdminDoctorsPage() {
               <Field label="Name"><input value={editing.name} onChange={(e) => setEditing({ ...editing, name: e.target.value })} className="w-full px-3 py-2 border rounded-lg" /></Field>
               <Field label="Title / Specialty"><input value={editing.title || ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} className="w-full px-3 py-2 border rounded-lg" /></Field>
               <Field label="Qualifications"><input value={editing.qualifications || ""} onChange={(e) => setEditing({ ...editing, qualifications: e.target.value })} placeholder="MD, DGO, Fellowship in IVF" className="w-full px-3 py-2 border rounded-lg" /></Field>
+              <Field label="NMC Registration Number"><input value={editing.nmc_number || ""} onChange={(e) => setEditing({ ...editing, nmc_number: e.target.value })} placeholder="e.g. 12345" className="w-full px-3 py-2 border rounded-lg" /></Field>
+              <Field label="NMC Number Color"><ColorPicker value={editing.nmc_color || "#8B0F50"} onChange={(hex) => setEditing({ ...editing, nmc_color: hex })} /></Field>
               <div className="grid grid-cols-2 gap-3">
                 <Field label="Years of experience"><input type="number" value={editing.experience_years || ""} onChange={(e) => setEditing({ ...editing, experience_years: e.target.value ? Number(e.target.value) : null })} className="w-full px-3 py-2 border rounded-lg" /></Field>
                 <Field label="Display order"><input type="number" value={editing.display_order} onChange={(e) => setEditing({ ...editing, display_order: Number(e.target.value) })} className="w-full px-3 py-2 border rounded-lg" /></Field>

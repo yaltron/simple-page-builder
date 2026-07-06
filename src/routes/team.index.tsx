@@ -48,23 +48,35 @@ function TeamPage() {
                 border: "1px solid rgba(230,0,126,0.12)",
               }}
             >
-              <div className="aspect-[4/5] overflow-hidden bg-gray-100">
-                {d.image && <img src={d.image} alt={d.name} className="w-full h-full object-cover" />}
-              </div>
-              <div className="p-4">
-                <h3 className="font-serif text-base font-bold mb-1" style={{ color: BRAND.heading }}>{d.name}</h3>
-                {d.title && <p className="text-xs font-semibold mb-1" style={{ color: "#8B0F50" }}>{d.title}</p>}
-                {d.qualifications && <p className="text-xs mb-1" style={{ color: BRAND.navLink }}>{d.qualifications}</p>}
-                {d.experience_years ? <p className="text-[11px] font-semibold mb-3" style={{ color: BRAND.plum }}>{d.experience_years}+ Years</p> : <div className="mb-3" />}
-                <div className="flex gap-2">
-                  <Link to="/team/$doctorSlug" params={{ doctorSlug: d.slug || "" }} className="flex-1 py-2 text-xs font-bold rounded-full inline-flex items-center justify-center gap-1.5 transition-transform hover:scale-[1.02] border" style={{ color: "#8B0F50", borderColor: "#8B0F50", background: "white" }}>
-                    View Profile
-                  </Link>
-                  <Link to="/contact" className="flex-1 py-2 text-white text-xs font-bold rounded-full inline-flex items-center justify-center gap-1.5 transition-transform hover:scale-[1.02]" style={{ background: "#8B0F50" }}>
-                    <Calendar className="w-3.5 h-3.5" /> Book
-                  </Link>
+              <Link
+                to="/team/$doctorSlug"
+                params={{ doctorSlug: d.slug || "" }}
+                className="block cursor-pointer"
+                aria-label={`View profile of ${d.name}`}
+              >
+                <div className="aspect-[4/5] overflow-hidden bg-gray-100">
+                  {d.image && <img src={d.image} alt={d.name} className="w-full h-full object-cover" />}
                 </div>
-              </div>
+                <div className="p-4">
+                  <h3 className="font-serif text-base font-bold mb-1" style={{ color: "#8B0F50" }}>{d.name}</h3>
+                  {d.title && <p className="text-xs font-semibold mb-1" style={{ color: "#8B0F50" }}>{d.title}</p>}
+                  {d.qualifications && <p className="text-xs mb-1" style={{ color: "#8B0F50" }}>{d.qualifications}</p>}
+                  {d.nmc_number && (
+                    <p style={{ color: d.nmc_color || "#8B0F50", fontSize: 12, fontWeight: 600, marginTop: 4, marginBottom: 4 }}>
+                      NMC No: {d.nmc_number}
+                    </p>
+                  )}
+                  {d.experience_years ? <p className="text-[11px] font-semibold mb-3" style={{ color: "#8B0F50" }}>{d.experience_years}+ Years</p> : <div className="mb-3" />}
+                  <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+                    <Link to="/team/$doctorSlug" params={{ doctorSlug: d.slug || "" }} className="flex-1 py-2 text-xs font-bold rounded-full inline-flex items-center justify-center gap-1.5 transition-transform hover:scale-[1.02] border" style={{ color: "#8B0F50", borderColor: "#8B0F50", background: "white" }}>
+                      View Profile
+                    </Link>
+                    <Link to="/contact" className="flex-1 py-2 text-white text-xs font-bold rounded-full inline-flex items-center justify-center gap-1.5 transition-transform hover:scale-[1.02]" style={{ background: "#8B0F50" }}>
+                      <Calendar className="w-3.5 h-3.5" /> Book
+                    </Link>
+                  </div>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>

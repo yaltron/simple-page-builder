@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react"
 import { motion, AnimatePresence, useInView, type PanInfo } from "framer-motion"
-import { ArrowRight, ArrowLeft, Calendar, User, Sparkles } from "lucide-react"
+import { ArrowRight, ArrowLeft, Calendar, User } from "lucide-react"
 import { Link } from "@tanstack/react-router"
 import { useHomepageSection } from "@/lib/use-cms-content"
 import { useDoctors, type CMSDoctor } from "@/lib/use-doctors"
@@ -133,15 +133,20 @@ export function DoctorsCarousel() {
                 exit={{ opacity: 0, x: direction === 1 ? -60 : 60 }}
                 transition={{ duration: 0.35 }}
               >
-                <div
+                <Link
+                  to="/team/$doctorSlug"
+                  params={{ doctorSlug: current.slug || "" }}
+                  aria-label={`View profile of ${current.name}`}
                   style={{
                     position: "relative",
+                    display: "block",
                     width: "100%",
                     aspectRatio: "4 / 5",
                     borderRadius: 16,
                     overflow: "hidden",
                     background: "white",
                     boxShadow: "0 4px 20px rgba(230,0,126,0.10)",
+                    cursor: "pointer",
                   }}
                 >
                   {current.image && (
@@ -202,8 +207,20 @@ export function DoctorsCarousel() {
                         {current.title}
                       </p>
                     )}
+                    {current.nmc_number && (
+                      <p
+                        style={{
+                          color: current.nmc_color || "#8B0F50",
+                          fontSize: 11,
+                          fontWeight: 600,
+                          margin: "4px 0 0",
+                        }}
+                      >
+                        NMC No: {current.nmc_number}
+                      </p>
+                    )}
                   </div>
-                </div>
+                </Link>
                 <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
                   <Link
                     to="/contact"
@@ -349,9 +366,6 @@ export function DoctorsCarousel() {
           transition={{ duration: 0.4 }}
           className="text-center max-w-3xl mx-auto mb-4 space-y-3"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/60 backdrop-blur-sm border border-rose-200/50 text-xs font-semibold tracking-wide uppercase text-rose-600">
-            <Sparkles className="w-3.5 h-3.5" /> Meet our team
-          </div>
           <h2
             className="font-serif text-3xl lg:text-4xl font-bold"
             style={{ color: cms.heading_color }}
@@ -492,38 +506,47 @@ export function DoctorsCarousel() {
                 animate="center"
                 exit="exit"
                 transition={SPRING_SOFT}
-                style={{ willChange: "transform, opacity" }}
+                style={{ willChange: "transform, opacity", cursor: "pointer" }}
                 className="rounded-[28px] p-6 sm:p-8 lg:p-9 backdrop-blur-xl bg-white/55 border border-white/70 shadow-[0_20px_60px_-20px_rgba(194,24,91,0.2)]"
               >
-                <p className="text-xs font-bold tracking-[0.2em] uppercase text-rose-500 mb-3">
-                  Meet our team
-                </p>
-                <h3 className="font-serif text-3xl lg:text-4xl font-bold text-plum leading-tight mb-2">
-                  {current.name}
-                </h3>
-                {current.title && (
-                  <p className="text-base font-semibold mb-2" style={{ color: "#8B0F50" }}>
-                    {current.title}
-                  </p>
-                )}
-                {current.qualifications && (
-                  <p className="text-sm text-plum/70 mb-1">
-                    {current.qualifications}
-                  </p>
-                )}
-                {current.experience_years ? (
-                  <p className="text-sm font-semibold text-plum/80 mb-4">
-                    {current.experience_years}+ Years of Experience
-                  </p>
-                ) : (
-                  <div className="mb-4" />
-                )}
+                <Link
+                  to="/team/$doctorSlug"
+                  params={{ doctorSlug: current.slug || "" }}
+                  className="block"
+                  aria-label={`View profile of ${current.name}`}
+                >
+                  <h3 className="font-serif text-3xl lg:text-4xl font-bold text-plum leading-tight mb-2">
+                    {current.name}
+                  </h3>
+                  {current.title && (
+                    <p className="text-base font-semibold mb-2" style={{ color: "#8B0F50" }}>
+                      {current.title}
+                    </p>
+                  )}
+                  {current.qualifications && (
+                    <p className="text-sm mb-1" style={{ color: "#8B0F50" }}>
+                      {current.qualifications}
+                    </p>
+                  )}
+                  {current.nmc_number && (
+                    <p style={{ color: current.nmc_color || "#8B0F50", fontSize: 12, fontWeight: 600, marginTop: 4 }}>
+                      NMC No: {current.nmc_number}
+                    </p>
+                  )}
+                  {current.experience_years ? (
+                    <p className="text-sm font-semibold mt-2 mb-4" style={{ color: "#8B0F50" }}>
+                      {current.experience_years}+ Years of Experience
+                    </p>
+                  ) : (
+                    <div className="mb-4" />
+                  )}
 
-                {current.bio && (
-                  <p className="text-[15px] leading-relaxed text-plum/80 mb-5 line-clamp-4">
-                    {current.bio}
-                  </p>
-                )}
+                  {current.bio && (
+                    <p className="text-[15px] leading-relaxed text-plum/80 mb-5 line-clamp-4">
+                      {current.bio}
+                    </p>
+                  )}
+                </Link>
 
                 {current.specialties && current.specialties.length > 0 && (
                   <div className="mb-6">
@@ -546,7 +569,7 @@ export function DoctorsCarousel() {
                   </div>
                 )}
 
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3" onClick={(e) => e.stopPropagation()}>
                   <Link
                     to="/contact"
                     className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-bold text-white shadow-lg shadow-rose-500/30 hover:shadow-rose-500/50 hover:-translate-y-0.5 transition-all"

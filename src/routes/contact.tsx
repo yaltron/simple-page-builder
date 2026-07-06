@@ -49,7 +49,7 @@ function getMaxDate() {
 const info = [
   { icon: MapPin, label: "Address", value: "Soalteemode, Kathmandu, Nepal" },
   { icon: Phone, label: "Phone", value: "+977 9861141699" },
-  { icon: Mail, label: "Email", value: "Shubhashreeivf@gmail.com" },
+  { icon: Mail, label: "Email", value: "shubhashreeivf@gmail.com" },
   { icon: Clock, label: "Hours", value: "Sun-Fri: 8:00 AM - 6:00 PM" },
 ]
 
