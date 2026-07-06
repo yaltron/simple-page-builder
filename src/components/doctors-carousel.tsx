@@ -133,15 +133,20 @@ export function DoctorsCarousel() {
                 exit={{ opacity: 0, x: direction === 1 ? -60 : 60 }}
                 transition={{ duration: 0.35 }}
               >
-                <div
+                <Link
+                  to="/team/$doctorSlug"
+                  params={{ doctorSlug: current.slug || "" }}
+                  aria-label={`View profile of ${current.name}`}
                   style={{
                     position: "relative",
+                    display: "block",
                     width: "100%",
                     aspectRatio: "4 / 5",
                     borderRadius: 16,
                     overflow: "hidden",
                     background: "white",
                     boxShadow: "0 4px 20px rgba(230,0,126,0.10)",
+                    cursor: "pointer",
                   }}
                 >
                   {current.image && (
@@ -202,8 +207,20 @@ export function DoctorsCarousel() {
                         {current.title}
                       </p>
                     )}
+                    {current.nmc_number && (
+                      <p
+                        style={{
+                          color: current.nmc_color || "#8B0F50",
+                          fontSize: 11,
+                          fontWeight: 600,
+                          margin: "4px 0 0",
+                        }}
+                      >
+                        NMC No: {current.nmc_number}
+                      </p>
+                    )}
                   </div>
-                </div>
+                </Link>
                 <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
                   <Link
                     to="/contact"
