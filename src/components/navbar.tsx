@@ -194,17 +194,28 @@ export function Navbar() {
   }
 
   const row1Height = isScrolled ? 54 : 68
-  const logoScale = isScrolled ? 0.88 : 1
 
   const Logo = (
-    <Link to="/" className="flex items-center" style={{ transform: `scale(${logoScale})`, transformOrigin: "left center", transition: "transform 0.35s ease", alignItems: "center" }}>
+    <Link to="/" className="flex items-center" style={{ alignItems: "center" }}>
       {!logoFailed ? (
         <img
           src={logo}
-          srcSet={`${logo} 2x`}
           alt="Shubhashree IVF Clinic Kathmandu logo"
-          className="nav-logo crisp-logo"
-          style={{ height: 44, width: "auto", objectFit: "contain", objectPosition: "left center", display: "block" }}
+          className="nav-logo"
+          fetchPriority="high"
+          loading="eager"
+          style={{
+            height: 56,
+            width: "auto",
+            maxWidth: 220,
+            objectFit: "contain",
+            objectPosition: "left center",
+            display: "block",
+            imageRendering: "auto",
+            WebkitFontSmoothing: "antialiased",
+            transform: "translateZ(0)",
+            willChange: "transform",
+          }}
           onError={() => setLogoFailed(true)}
         />
       ) : (
