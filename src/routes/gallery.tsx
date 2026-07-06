@@ -92,60 +92,100 @@ function GalleryPage() {
         {filtered.length === 0 ? (
           <div className="text-center py-16 text-muted-foreground">No items in this category yet.</div>
         ) : (
-          <div style={{ columnCount: 3, columnGap: 16 }} className="max-md:!columns-2 max-sm:!columns-1">
-            <AnimatePresence mode="popLayout">
-              {filtered.map((img, i) => {
-                const isVideo = img.media_type === "video"
-                return (
-                  <motion.div
-                    key={img.id}
-                    layout
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.35 }}
-                    className="mb-4 break-inside-avoid relative group cursor-pointer rounded-xl overflow-hidden"
-                    onClick={() => isVideo ? setVideo(img.video_url || img.url) : setLightbox(i)}
-                  >
-                    <img src={img.thumbnail || img.url} alt={img.title || ""} loading="lazy" className="w-full transition-transform duration-300 group-hover:scale-[1.03]" style={{ objectFit: "cover" }} />
-                    {isVideo ? (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div
-                          className="rounded-full flex items-center justify-center transition-all duration-[250ms]"
-                          style={{
-                            width: 60,
-                            height: 60,
-                            background: "rgba(255,255,255,0.92)",
-                            boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
-                          }}
-                          onMouseEnter={(e) => {
-                            const el = e.currentTarget
-                            el.style.background = "#ffffff"
-                            el.style.transform = "scale(1.12)"
-                            el.style.boxShadow = "0 0 0 8px rgba(230,0,126,0.15)"
-                          }}
-                          onMouseLeave={(e) => {
-                            const el = e.currentTarget
-                            el.style.background = "rgba(255,255,255,0.92)"
-                            el.style.transform = "scale(1)"
-                            el.style.boxShadow = "0 4px 20px rgba(0,0,0,0.2)"
-                          }}
-                        >
-                          <span style={{ color: "#E6007E", fontSize: 22, lineHeight: 1, marginLeft: 3 }}>▶</span>
+          <>
+            <style>{`
+              @keyframes shimmer {
+                0% { background-position: 200% 0; }
+                100% { background-position: -200% 0; }
+              }
+              .gallery-img-wrap { position: relative; }
+              .gallery-img-skeleton {
+                position: absolute; inset: 0;
+                background: linear-gradient(90deg, #f0e0e8 25%, #fce4ec 50%, #f0e0e8 75%);
+                background-size: 200% 100%;
+                animation: shimmer 1.5s infinite;
+                border-radius: inherit;
+                transition: opacity 0.3s ease;
+              }
+              .gallery-img-loaded { opacity: 0; pointer-events: none; }
+            `}</style>
+            <div
+              style={{
+                columnCount: 3,
+                columnGap: 16,
+                contentVisibility: "auto",
+                containIntrinsicSize: "300px",
+              }}
+              className="max-md:!columns-2 max-sm:!columns-1"
+            >
+              <AnimatePresence mode="popLayout">
+                {filtered.map((img, i) => {
+                  const isVideo = img.media_type === "video"
+                  const rawSrc = img.thumbnail || img.url
+                  const optimizedSrc = getOptimizedUrl(rawSrc)
+                  return (
+                    <motion.div
+                      key={img.id}
+                      layout
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.35 }}
+                      className="mb-4 break-inside-avoid relative group cursor-pointer rounded-xl overflow-hidden gallery-img-wrap"
+                      onClick={() => isVideo ? setVideo(img.video_url || img.url) : setLightbox(i)}
+                    >
+                      <img
+                        src={optimizedSrc}
+                        alt={img.title || ""}
+                        loading="lazy"
+                        decoding="async"
+                        onLoad={(e) => {
+                          const skel = (e.currentTarget.parentElement?.querySelector(".gallery-img-skeleton")) as HTMLElement | null
+                          if (skel) skel.classList.add("gallery-img-loaded")
+                        }}
+                        className="w-full transition-transform duration-300 group-hover:scale-[1.03]"
+                        style={{ objectFit: "cover", display: "block" }}
+                      />
+                      <div className="gallery-img-skeleton" aria-hidden="true" />
+                      {isVideo ? (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div
+                            className="rounded-full flex items-center justify-center transition-all duration-[250ms]"
+                            style={{
+                              width: 60,
+                              height: 60,
+                              background: "rgba(255,255,255,0.92)",
+                              boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
+                            }}
+                            onMouseEnter={(e) => {
+                              const el = e.currentTarget
+                              el.style.background = "#ffffff"
+                              el.style.transform = "scale(1.12)"
+                              el.style.boxShadow = "0 0 0 8px rgba(230,0,126,0.15)"
+                            }}
+                            onMouseLeave={(e) => {
+                              const el = e.currentTarget
+                              el.style.background = "rgba(255,255,255,0.92)"
+                              el.style.transform = "scale(1)"
+                              el.style.boxShadow = "0 4px 20px rgba(0,0,0,0.2)"
+                            }}
+                          >
+                            <span style={{ color: "#E6007E", fontSize: 22, lineHeight: 1, marginLeft: 3 }}>▶</span>
+                          </div>
                         </div>
-                      </div>
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center transition-opacity opacity-0 group-hover:opacity-100" style={{ background: "rgba(230,0,126,0.15)" }}>
-                        <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
-                          <Search className="w-6 h-6" style={{ color: BRAND.pink }} />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center transition-opacity opacity-0 group-hover:opacity-100" style={{ background: "rgba(230,0,126,0.15)" }}>
+                          <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
+                            <Search className="w-6 h-6" style={{ color: BRAND.pink }} />
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </motion.div>
-                )
-              })}
-            </AnimatePresence>
-          </div>
+                      )}
+                    </motion.div>
+                  )
+                })}
+              </AnimatePresence>
+            </div>
+          </>
         )}
       </Section>
 
