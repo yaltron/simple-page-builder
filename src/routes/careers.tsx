@@ -78,7 +78,7 @@ function CareersPage() {
         {listings.length === 0 ? (
           <div className="text-center py-10 rounded-2xl bg-white" style={{ color: BRAND.navLink, border: "1px solid rgba(230,0,126,0.12)" }}>
             <Briefcase className="w-10 h-10 mx-auto mb-3" style={{ color: BRAND.pink }} />
-            No current openings. Please check back later or send us your CV at <a href="mailto:Shubhashreeivf@gmail.com" style={{ color: BRAND.pink, fontWeight: 600 }}>Shubhashreeivf@gmail.com</a>.
+            No current openings. Please check back later or send us your CV at <a href="mailto:shubhashreeivf@gmail.com" style={{ color: BRAND.pink, fontWeight: 600 }}>shubhashreeivf@gmail.com</a>.
           </div>
         ) : (
           <div className="grid md:grid-cols-2 gap-5">

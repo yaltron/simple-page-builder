@@ -1,30 +1,33 @@
-Plan:
+## Root cause
 
-1. Update `package.json` dependency versions only:
-   - Change `@lovable.dev/vite-tanstack-config` from `2.3.2` to `1.8.0`.
-   - Add the requested `engines` field:
-     - `node`: `>=18.0.0`
-     - `npm`: `>=8.0.0`
+The logo looks small and blurry because:
+1. `srcSet={`${logo} 2x`}` tells the browser the file is a 2× asset, so it renders at half its intrinsic pixel size (softens the image).
+2. `transform: scale(0.88)` on the navbar wrapper when scrolled shrinks it further.
+3. `.crisp-logo` uses `image-rendering: crisp-edges`, which produces a pixelated/blurry result on anti-aliased PNG artwork.
+4. Displayed height is only 44px (navbar) / 48px (footer) — user wants 56 / 60.
 
-2. Add npm peer-resolution config:
-   - Create `.npmrc` in the project root with:
-     - `legacy-peer-deps=true`
+The file at `public/logo.png` (56 KB, original) is already the correct source — no re-upload or storage move needed. Keep `src="/logo.png"` with no query params.
 
-3. Lockfile handling:
-   - There is no `package-lock.json` currently in the project root, so there is nothing to delete.
-   - Leave `bun.lock` untouched unless a later install step updates it automatically.
+## Changes
 
-4. Build/deploy command handling:
-   - Do not change application source files, routes, components, or styles.
-   - I will not add a root `install` script that runs `npm install`, because npm treats `install` as a lifecycle script and that can recursively trigger installs.
-   - Keep the app build script focused on building the app unless you explicitly want the recursive-risk script added.
-   - The `.npmrc` setting will make normal `npm install` use legacy peer dependency resolution automatically.
+**`src/components/navbar.tsx`** (Logo block, ~lines 199–217)
+- Remove `transform: scale(${logoScale})` from the `<Link>` wrapper style (keep the rest of the flex/alignment styles). Drop the now-unused `logoScale` variable.
+- On the `<img>`:
+  - Remove `srcSet`.
+  - Replace inline style with: `{ height: 56, width: 'auto', maxWidth: 220, objectFit: 'contain', objectPosition: 'left center', display: 'block', imageRendering: 'auto', WebkitFontSmoothing: 'antialiased', transform: 'translateZ(0)', willChange: 'transform' }`.
+  - Add `fetchPriority="high"` and `loading="eager"`.
+  - Remove the `crisp-logo` class (keep `nav-logo` for CSS hook).
 
-5. Custom deploy platform files:
-   - No `netlify.toml` or `vercel.json` exists right now.
-   - I will not create platform-specific deploy files unless you confirm which platform you use.
+**`src/components/footer.tsx`** (~lines 91–103)
+- On the `<img>`:
+  - Remove `srcSet`.
+  - Style: `{ height: 60, width: 'auto', maxWidth: 240, objectFit: 'contain', objectPosition: 'center', display: 'block', imageRendering: 'auto', WebkitFontSmoothing: 'antialiased', transform: 'translateZ(0)', willChange: 'transform' }`.
+  - Add `fetchPriority="high"` and `loading="eager"`.
+  - Remove the `crisp-logo` class.
 
-6. Verification after approval:
-   - Verify dependency install behavior with npm using legacy peer deps.
-   - Verify the build still completes.
-   - Report exactly which dependency/config versions changed.
+**`src/styles.css`**
+- Update `.nav-logo` rules (lines 421 and 553 in the responsive blocks) from `height: 44px` / `40px` to `height: 56px !important; width: auto !important; max-width: 220px !important;`.
+- Update `.footer-root .footer-logo` (line 500) to `height: 60px !important; width: auto !important; max-width: 240px !important;`.
+- Delete the `.crisp-logo` block (lines 606–613) — inline styles now handle rendering hints, and `crisp-edges` was the primary source of blur.
+
+**No other files touched.** Navbar height, padding, layout, colors, and every other element stay exactly as they are. `public/logo.png` is left in place unchanged.

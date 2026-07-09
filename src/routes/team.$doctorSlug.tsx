@@ -91,6 +91,11 @@ function DoctorProfilePage() {
             {doctor.title && (
               <p style={{ color: "#8B0F50", fontWeight: 700, fontSize: 15, marginTop: 6 }}>{doctor.title}</p>
             )}
+            {doctor.nmc_number && (
+              <p style={{ color: doctor.nmc_color || "#8B0F50", fontSize: 12, fontWeight: 600, marginTop: 4 }}>
+                NMC No: {doctor.nmc_number}
+              </p>
+            )}
             <hr style={{ margin: "18px 0", border: 0, borderTop: "1px solid rgba(139,15,80,0.18)" }} />
 
             <div className="flex flex-wrap gap-2 mb-6">

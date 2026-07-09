@@ -91,14 +91,20 @@ export function Footer() {
               <img
                 src={logo}
                 alt="Shubhashree IVF Clinic Pvt. Ltd."
-                className="footer-logo crisp-logo"
+                className="footer-logo"
+                fetchPriority="high"
+                loading="eager"
                 style={{
-                  height: 72,
+                  height: 60,
                   width: "auto",
-                  maxWidth: 180,
+                  maxWidth: 240,
                   objectFit: "contain",
                   objectPosition: "center",
                   display: "block",
+                  imageRendering: "auto",
+                  WebkitFontSmoothing: "antialiased",
+                  transform: "translateZ(0)",
+                  willChange: "transform",
                 }}
               />
             </Link>
