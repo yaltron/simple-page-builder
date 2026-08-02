@@ -9,84 +9,55 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SuccessStoriesRouteImport } from './routes/success-stories'
-import { Route as ServicesRouteImport } from './routes/services'
-import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
-import { Route as GalleryRouteImport } from './routes/gallery'
-import { Route as FaqsRouteImport } from './routes/faqs'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CareersRouteImport } from './routes/careers'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as TeamIndexRouteImport } from './routes/team.index'
-import { Route as ServicesIndexRouteImport } from './routes/services.index'
-import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as CareersRouteImport } from './routes/careers'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as FaqsRouteImport } from './routes/faqs'
+import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SuccessStoriesRouteImport } from './routes/success-stories'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as WhyUsSlugRouteImport } from './routes/why-us.$slug'
-import { Route as TeamDoctorSlugRouteImport } from './routes/team.$doctorSlug'
-import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
-import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
-import { Route as AdminTeamRouteImport } from './routes/admin.team'
-import { Route as AdminPopupBannersRouteImport } from './routes/admin.popup-banners'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
-import { Route as AdminTestimonialsIndexRouteImport } from './routes/admin.testimonials.index'
-import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
-import { Route as AdminGalleryIndexRouteImport } from './routes/admin.gallery.index'
-import { Route as AdminFaqsIndexRouteImport } from './routes/admin.faqs.index'
-import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
-import { Route as AdminAppointmentsIndexRouteImport } from './routes/admin.appointments.index'
-import { Route as AdminHomepageWhyChooseUsRouteImport } from './routes/admin.homepage.why-choose-us'
-import { Route as AdminHomepageWhoWeAreRouteImport } from './routes/admin.homepage.who-we-are'
-import { Route as AdminHomepageWhenToVisitRouteImport } from './routes/admin.homepage.when-to-visit'
-import { Route as AdminHomepageServicesRouteImport } from './routes/admin.homepage.services'
-import { Route as AdminHomepageHowItWorksRouteImport } from './routes/admin.homepage.how-it-works'
-import { Route as AdminHomepageHeroRouteImport } from './routes/admin.homepage.hero'
-import { Route as AdminHomepageDoctorsHeadingRouteImport } from './routes/admin.homepage.doctors-heading'
-import { Route as AdminHomepageCtaBannerRouteImport } from './routes/admin.homepage.cta-banner'
-import { Route as AdminGalleryVirtualTourRouteImport } from './routes/admin.gallery.virtual-tour'
-import { Route as AdminGalleryPodcastsRouteImport } from './routes/admin.gallery.podcasts'
-import { Route as AdminCareerListingsRouteImport } from './routes/admin.career.listings'
-import { Route as AdminCareerApplicationsRouteImport } from './routes/admin.career.applications'
-import { Route as AdminBlogIdRouteImport } from './routes/admin.blog.$id'
-import { Route as AdminAboutWhyChooseUsRouteImport } from './routes/admin.about.why-choose-us'
-import { Route as AdminAboutValuesRouteImport } from './routes/admin.about.values'
-import { Route as AdminAboutOurStoryRouteImport } from './routes/admin.about.our-story'
-import { Route as AdminAboutMissionVisionRouteImport } from './routes/admin.about.mission-vision'
+import { Route as AdminPopupBannersRouteImport } from './routes/admin.popup-banners'
+import { Route as AdminTeamRouteImport } from './routes/admin.team'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as ServicesIndexRouteImport } from './routes/services.index'
+import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as TeamIndexRouteImport } from './routes/team.index'
+import { Route as TeamDoctorSlugRouteImport } from './routes/team.$doctorSlug'
+import { Route as WhyUsSlugRouteImport } from './routes/why-us.$slug'
 import { Route as AdminAboutCtaBannerRouteImport } from './routes/admin.about.cta-banner'
+import { Route as AdminAboutMissionVisionRouteImport } from './routes/admin.about.mission-vision'
+import { Route as AdminAboutOurStoryRouteImport } from './routes/admin.about.our-story'
+import { Route as AdminAboutValuesRouteImport } from './routes/admin.about.values'
+import { Route as AdminAboutWhyChooseUsRouteImport } from './routes/admin.about.why-choose-us'
+import { Route as AdminAppointmentsIndexRouteImport } from './routes/admin.appointments.index'
+import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
+import { Route as AdminBlogIdRouteImport } from './routes/admin.blog.$id'
+import { Route as AdminCareerApplicationsRouteImport } from './routes/admin.career.applications'
+import { Route as AdminCareerListingsRouteImport } from './routes/admin.career.listings'
+import { Route as AdminFaqsIndexRouteImport } from './routes/admin.faqs.index'
+import { Route as AdminGalleryIndexRouteImport } from './routes/admin.gallery.index'
+import { Route as AdminGalleryPodcastsRouteImport } from './routes/admin.gallery.podcasts'
+import { Route as AdminGalleryVirtualTourRouteImport } from './routes/admin.gallery.virtual-tour'
+import { Route as AdminHomepageCtaBannerRouteImport } from './routes/admin.homepage.cta-banner'
+import { Route as AdminHomepageDoctorsHeadingRouteImport } from './routes/admin.homepage.doctors-heading'
+import { Route as AdminHomepageHeroRouteImport } from './routes/admin.homepage.hero'
+import { Route as AdminHomepageHowItWorksRouteImport } from './routes/admin.homepage.how-it-works'
+import { Route as AdminHomepageServicesRouteImport } from './routes/admin.homepage.services'
+import { Route as AdminHomepageWhenToVisitRouteImport } from './routes/admin.homepage.when-to-visit'
+import { Route as AdminHomepageWhoWeAreRouteImport } from './routes/admin.homepage.who-we-are'
+import { Route as AdminHomepageWhyChooseUsRouteImport } from './routes/admin.homepage.why-choose-us'
+import { Route as AdminServicesIndexRouteImport } from './routes/admin.services.index'
+import { Route as AdminTestimonialsIndexRouteImport } from './routes/admin.testimonials.index'
 
-const SuccessStoriesRoute = SuccessStoriesRouteImport.update({
-  id: '/success-stories',
-  path: '/success-stories',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesRoute = ServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
-  id: '/privacy-policy',
-  path: '/privacy-policy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GalleryRoute = GalleryRouteImport.update({
-  id: '/gallery',
-  path: '/gallery',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FaqsRoute = FaqsRouteImport.update({
-  id: '/faqs',
-  path: '/faqs',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CareersRoute = CareersRouteImport.update({
-  id: '/careers',
-  path: '/careers',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -94,24 +65,44 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TeamIndexRoute = TeamIndexRouteImport.update({
-  id: '/team/',
-  path: '/team/',
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ServicesIndexRoute = ServicesIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ServicesRoute,
+const FaqsRoute = FaqsRouteImport.update({
+  id: '/faqs',
+  path: '/faqs',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const BlogIndexRoute = BlogIndexRouteImport.update({
-  id: '/blog/',
-  path: '/blog/',
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuccessStoriesRoute = SuccessStoriesRouteImport.update({
+  id: '/success-stories',
+  path: '/success-stories',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -119,29 +110,9 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WhyUsSlugRoute = WhyUsSlugRouteImport.update({
-  id: '/why-us/$slug',
-  path: '/why-us/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TeamDoctorSlugRoute = TeamDoctorSlugRouteImport.update({
-  id: '/team/$doctorSlug',
-  path: '/team/$doctorSlug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesSlugRoute = ServicesSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => ServicesRoute,
-} as any)
-const BlogSlugRoute = BlogSlugRouteImport.update({
-  id: '/blog/$slug',
-  path: '/blog/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminTeamRoute = AdminTeamRouteImport.update({
-  id: '/admin/team',
-  path: '/admin/team',
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminPopupBannersRoute = AdminPopupBannersRouteImport.update({
@@ -149,34 +120,69 @@ const AdminPopupBannersRoute = AdminPopupBannersRouteImport.update({
   path: '/admin/popup-banners',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/admin/login',
-  path: '/admin/login',
+const AdminTeamRoute = AdminTeamRouteImport.update({
+  id: '/admin/team',
+  path: '/admin/team',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminTestimonialsIndexRoute = AdminTestimonialsIndexRouteImport.update({
-  id: '/admin/testimonials/',
-  path: '/admin/testimonials/',
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminServicesIndexRoute = AdminServicesIndexRouteImport.update({
-  id: '/admin/services/',
-  path: '/admin/services/',
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminGalleryIndexRoute = AdminGalleryIndexRouteImport.update({
-  id: '/admin/gallery/',
-  path: '/admin/gallery/',
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const ServicesSlugRoute = ServicesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ServicesRoute,
+} as any)
+const TeamIndexRoute = TeamIndexRouteImport.update({
+  id: '/team/',
+  path: '/team/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminFaqsIndexRoute = AdminFaqsIndexRouteImport.update({
-  id: '/admin/faqs/',
-  path: '/admin/faqs/',
+const TeamDoctorSlugRoute = TeamDoctorSlugRouteImport.update({
+  id: '/team/$doctorSlug',
+  path: '/team/$doctorSlug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminBlogIndexRoute = AdminBlogIndexRouteImport.update({
-  id: '/admin/blog/',
-  path: '/admin/blog/',
+const WhyUsSlugRoute = WhyUsSlugRouteImport.update({
+  id: '/why-us/$slug',
+  path: '/why-us/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAboutCtaBannerRoute = AdminAboutCtaBannerRouteImport.update({
+  id: '/admin/about/cta-banner',
+  path: '/admin/about/cta-banner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAboutMissionVisionRoute = AdminAboutMissionVisionRouteImport.update({
+  id: '/admin/about/mission-vision',
+  path: '/admin/about/mission-vision',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAboutOurStoryRoute = AdminAboutOurStoryRouteImport.update({
+  id: '/admin/about/our-story',
+  path: '/admin/about/our-story',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAboutValuesRoute = AdminAboutValuesRouteImport.update({
+  id: '/admin/about/values',
+  path: '/admin/about/values',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAboutWhyChooseUsRoute = AdminAboutWhyChooseUsRouteImport.update({
+  id: '/admin/about/why-choose-us',
+  path: '/admin/about/why-choose-us',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminAppointmentsIndexRoute = AdminAppointmentsIndexRouteImport.update({
@@ -184,36 +190,49 @@ const AdminAppointmentsIndexRoute = AdminAppointmentsIndexRouteImport.update({
   path: '/admin/appointments/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminHomepageWhyChooseUsRoute =
-  AdminHomepageWhyChooseUsRouteImport.update({
-    id: '/admin/homepage/why-choose-us',
-    path: '/admin/homepage/why-choose-us',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const AdminHomepageWhoWeAreRoute = AdminHomepageWhoWeAreRouteImport.update({
-  id: '/admin/homepage/who-we-are',
-  path: '/admin/homepage/who-we-are',
+const AdminBlogIndexRoute = AdminBlogIndexRouteImport.update({
+  id: '/admin/blog/',
+  path: '/admin/blog/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminHomepageWhenToVisitRoute =
-  AdminHomepageWhenToVisitRouteImport.update({
-    id: '/admin/homepage/when-to-visit',
-    path: '/admin/homepage/when-to-visit',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const AdminHomepageServicesRoute = AdminHomepageServicesRouteImport.update({
-  id: '/admin/homepage/services',
-  path: '/admin/homepage/services',
+const AdminBlogIdRoute = AdminBlogIdRouteImport.update({
+  id: '/admin/blog/$id',
+  path: '/admin/blog/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminHomepageHowItWorksRoute = AdminHomepageHowItWorksRouteImport.update({
-  id: '/admin/homepage/how-it-works',
-  path: '/admin/homepage/how-it-works',
+const AdminCareerApplicationsRoute = AdminCareerApplicationsRouteImport.update({
+  id: '/admin/career/applications',
+  path: '/admin/career/applications',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminHomepageHeroRoute = AdminHomepageHeroRouteImport.update({
-  id: '/admin/homepage/hero',
-  path: '/admin/homepage/hero',
+const AdminCareerListingsRoute = AdminCareerListingsRouteImport.update({
+  id: '/admin/career/listings',
+  path: '/admin/career/listings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminFaqsIndexRoute = AdminFaqsIndexRouteImport.update({
+  id: '/admin/faqs/',
+  path: '/admin/faqs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminGalleryIndexRoute = AdminGalleryIndexRouteImport.update({
+  id: '/admin/gallery/',
+  path: '/admin/gallery/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminGalleryPodcastsRoute = AdminGalleryPodcastsRouteImport.update({
+  id: '/admin/gallery/podcasts',
+  path: '/admin/gallery/podcasts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminGalleryVirtualTourRoute = AdminGalleryVirtualTourRouteImport.update({
+  id: '/admin/gallery/virtual-tour',
+  path: '/admin/gallery/virtual-tour',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminHomepageCtaBannerRoute = AdminHomepageCtaBannerRouteImport.update({
+  id: '/admin/homepage/cta-banner',
+  path: '/admin/homepage/cta-banner',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminHomepageDoctorsHeadingRoute =
@@ -222,59 +241,46 @@ const AdminHomepageDoctorsHeadingRoute =
     path: '/admin/homepage/doctors-heading',
     getParentRoute: () => rootRouteImport,
   } as any)
-const AdminHomepageCtaBannerRoute = AdminHomepageCtaBannerRouteImport.update({
-  id: '/admin/homepage/cta-banner',
-  path: '/admin/homepage/cta-banner',
+const AdminHomepageHeroRoute = AdminHomepageHeroRouteImport.update({
+  id: '/admin/homepage/hero',
+  path: '/admin/homepage/hero',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminGalleryVirtualTourRoute = AdminGalleryVirtualTourRouteImport.update({
-  id: '/admin/gallery/virtual-tour',
-  path: '/admin/gallery/virtual-tour',
+const AdminHomepageHowItWorksRoute = AdminHomepageHowItWorksRouteImport.update({
+  id: '/admin/homepage/how-it-works',
+  path: '/admin/homepage/how-it-works',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminGalleryPodcastsRoute = AdminGalleryPodcastsRouteImport.update({
-  id: '/admin/gallery/podcasts',
-  path: '/admin/gallery/podcasts',
+const AdminHomepageServicesRoute = AdminHomepageServicesRouteImport.update({
+  id: '/admin/homepage/services',
+  path: '/admin/homepage/services',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminCareerListingsRoute = AdminCareerListingsRouteImport.update({
-  id: '/admin/career/listings',
-  path: '/admin/career/listings',
+const AdminHomepageWhenToVisitRoute =
+  AdminHomepageWhenToVisitRouteImport.update({
+    id: '/admin/homepage/when-to-visit',
+    path: '/admin/homepage/when-to-visit',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminHomepageWhoWeAreRoute = AdminHomepageWhoWeAreRouteImport.update({
+  id: '/admin/homepage/who-we-are',
+  path: '/admin/homepage/who-we-are',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminCareerApplicationsRoute = AdminCareerApplicationsRouteImport.update({
-  id: '/admin/career/applications',
-  path: '/admin/career/applications',
+const AdminHomepageWhyChooseUsRoute =
+  AdminHomepageWhyChooseUsRouteImport.update({
+    id: '/admin/homepage/why-choose-us',
+    path: '/admin/homepage/why-choose-us',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminServicesIndexRoute = AdminServicesIndexRouteImport.update({
+  id: '/admin/services/',
+  path: '/admin/services/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminBlogIdRoute = AdminBlogIdRouteImport.update({
-  id: '/admin/blog/$id',
-  path: '/admin/blog/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminAboutWhyChooseUsRoute = AdminAboutWhyChooseUsRouteImport.update({
-  id: '/admin/about/why-choose-us',
-  path: '/admin/about/why-choose-us',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminAboutValuesRoute = AdminAboutValuesRouteImport.update({
-  id: '/admin/about/values',
-  path: '/admin/about/values',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminAboutOurStoryRoute = AdminAboutOurStoryRouteImport.update({
-  id: '/admin/about/our-story',
-  path: '/admin/about/our-story',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminAboutMissionVisionRoute = AdminAboutMissionVisionRouteImport.update({
-  id: '/admin/about/mission-vision',
-  path: '/admin/about/mission-vision',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminAboutCtaBannerRoute = AdminAboutCtaBannerRouteImport.update({
-  id: '/admin/about/cta-banner',
-  path: '/admin/about/cta-banner',
+const AdminTestimonialsIndexRoute = AdminTestimonialsIndexRouteImport.update({
+  id: '/admin/testimonials/',
+  path: '/admin/testimonials/',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -287,6 +293,7 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/success-stories': typeof SuccessStoriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
@@ -332,6 +339,7 @@ export interface FileRoutesByTo {
   '/faqs': typeof FaqsRoute
   '/gallery': typeof GalleryRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/success-stories': typeof SuccessStoriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
@@ -379,6 +387,7 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/success-stories': typeof SuccessStoriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
@@ -427,6 +436,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/privacy-policy'
     | '/services'
+    | '/sitemap.xml'
     | '/success-stories'
     | '/admin/login'
     | '/admin/popup-banners'
@@ -472,6 +482,7 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/gallery'
     | '/privacy-policy'
+    | '/sitemap.xml'
     | '/success-stories'
     | '/admin/login'
     | '/admin/popup-banners'
@@ -518,6 +529,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/privacy-policy'
     | '/services'
+    | '/sitemap.xml'
     | '/success-stories'
     | '/admin/login'
     | '/admin/popup-banners'
@@ -565,6 +577,7 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ServicesRoute: typeof ServicesRouteWithChildren
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SuccessStoriesRoute: typeof SuccessStoriesRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminPopupBannersRoute: typeof AdminPopupBannersRoute
@@ -603,53 +616,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/success-stories': {
-      id: '/success-stories'
-      path: '/success-stories'
-      fullPath: '/success-stories'
-      preLoaderRoute: typeof SuccessStoriesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/services': {
-      id: '/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof ServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy-policy': {
-      id: '/privacy-policy'
-      path: '/privacy-policy'
-      fullPath: '/privacy-policy'
-      preLoaderRoute: typeof PrivacyPolicyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gallery': {
-      id: '/gallery'
-      path: '/gallery'
-      fullPath: '/gallery'
-      preLoaderRoute: typeof GalleryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/faqs': {
-      id: '/faqs'
-      path: '/faqs'
-      fullPath: '/faqs'
-      preLoaderRoute: typeof FaqsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/careers': {
-      id: '/careers'
-      path: '/careers'
-      fullPath: '/careers'
-      preLoaderRoute: typeof CareersRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -659,32 +630,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/team/': {
-      id: '/team/'
-      path: '/team'
-      fullPath: '/team/'
-      preLoaderRoute: typeof TeamIndexRouteImport
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/services/': {
-      id: '/services/'
-      path: '/'
-      fullPath: '/services/'
-      preLoaderRoute: typeof ServicesIndexRouteImport
-      parentRoute: typeof ServicesRoute
+    '/faqs': {
+      id: '/faqs'
+      path: '/faqs'
+      fullPath: '/faqs'
+      preLoaderRoute: typeof FaqsRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/blog/': {
-      id: '/blog/'
-      path: '/blog'
-      fullPath: '/blog/'
-      preLoaderRoute: typeof BlogIndexRouteImport
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/success-stories': {
+      id: '/success-stories'
+      path: '/success-stories'
+      fullPath: '/success-stories'
+      preLoaderRoute: typeof SuccessStoriesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -694,39 +693,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/why-us/$slug': {
-      id: '/why-us/$slug'
-      path: '/why-us/$slug'
-      fullPath: '/why-us/$slug'
-      preLoaderRoute: typeof WhyUsSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/team/$doctorSlug': {
-      id: '/team/$doctorSlug'
-      path: '/team/$doctorSlug'
-      fullPath: '/team/$doctorSlug'
-      preLoaderRoute: typeof TeamDoctorSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/services/$slug': {
-      id: '/services/$slug'
-      path: '/$slug'
-      fullPath: '/services/$slug'
-      preLoaderRoute: typeof ServicesSlugRouteImport
-      parentRoute: typeof ServicesRoute
-    }
-    '/blog/$slug': {
-      id: '/blog/$slug'
-      path: '/blog/$slug'
-      fullPath: '/blog/$slug'
-      preLoaderRoute: typeof BlogSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/team': {
-      id: '/admin/team'
-      path: '/admin/team'
-      fullPath: '/admin/team'
-      preLoaderRoute: typeof AdminTeamRouteImport
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/popup-banners': {
@@ -736,165 +707,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPopupBannersRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/login': {
-      id: '/admin/login'
-      path: '/admin/login'
-      fullPath: '/admin/login'
-      preLoaderRoute: typeof AdminLoginRouteImport
+    '/admin/team': {
+      id: '/admin/team'
+      path: '/admin/team'
+      fullPath: '/admin/team'
+      preLoaderRoute: typeof AdminTeamRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/testimonials/': {
-      id: '/admin/testimonials/'
-      path: '/admin/testimonials'
-      fullPath: '/admin/testimonials/'
-      preLoaderRoute: typeof AdminTestimonialsIndexRouteImport
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/services/': {
-      id: '/admin/services/'
-      path: '/admin/services'
-      fullPath: '/admin/services/'
-      preLoaderRoute: typeof AdminServicesIndexRouteImport
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/gallery/': {
-      id: '/admin/gallery/'
-      path: '/admin/gallery'
-      fullPath: '/admin/gallery/'
-      preLoaderRoute: typeof AdminGalleryIndexRouteImport
+    '/services/': {
+      id: '/services/'
+      path: '/'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/services/$slug': {
+      id: '/services/$slug'
+      path: '/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof ServicesSlugRouteImport
+      parentRoute: typeof ServicesRoute
+    }
+    '/team/': {
+      id: '/team/'
+      path: '/team'
+      fullPath: '/team/'
+      preLoaderRoute: typeof TeamIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/faqs/': {
-      id: '/admin/faqs/'
-      path: '/admin/faqs'
-      fullPath: '/admin/faqs/'
-      preLoaderRoute: typeof AdminFaqsIndexRouteImport
+    '/team/$doctorSlug': {
+      id: '/team/$doctorSlug'
+      path: '/team/$doctorSlug'
+      fullPath: '/team/$doctorSlug'
+      preLoaderRoute: typeof TeamDoctorSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/blog/': {
-      id: '/admin/blog/'
-      path: '/admin/blog'
-      fullPath: '/admin/blog/'
-      preLoaderRoute: typeof AdminBlogIndexRouteImport
+    '/why-us/$slug': {
+      id: '/why-us/$slug'
+      path: '/why-us/$slug'
+      fullPath: '/why-us/$slug'
+      preLoaderRoute: typeof WhyUsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/appointments/': {
-      id: '/admin/appointments/'
-      path: '/admin/appointments'
-      fullPath: '/admin/appointments/'
-      preLoaderRoute: typeof AdminAppointmentsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/homepage/why-choose-us': {
-      id: '/admin/homepage/why-choose-us'
-      path: '/admin/homepage/why-choose-us'
-      fullPath: '/admin/homepage/why-choose-us'
-      preLoaderRoute: typeof AdminHomepageWhyChooseUsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/homepage/who-we-are': {
-      id: '/admin/homepage/who-we-are'
-      path: '/admin/homepage/who-we-are'
-      fullPath: '/admin/homepage/who-we-are'
-      preLoaderRoute: typeof AdminHomepageWhoWeAreRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/homepage/when-to-visit': {
-      id: '/admin/homepage/when-to-visit'
-      path: '/admin/homepage/when-to-visit'
-      fullPath: '/admin/homepage/when-to-visit'
-      preLoaderRoute: typeof AdminHomepageWhenToVisitRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/homepage/services': {
-      id: '/admin/homepage/services'
-      path: '/admin/homepage/services'
-      fullPath: '/admin/homepage/services'
-      preLoaderRoute: typeof AdminHomepageServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/homepage/how-it-works': {
-      id: '/admin/homepage/how-it-works'
-      path: '/admin/homepage/how-it-works'
-      fullPath: '/admin/homepage/how-it-works'
-      preLoaderRoute: typeof AdminHomepageHowItWorksRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/homepage/hero': {
-      id: '/admin/homepage/hero'
-      path: '/admin/homepage/hero'
-      fullPath: '/admin/homepage/hero'
-      preLoaderRoute: typeof AdminHomepageHeroRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/homepage/doctors-heading': {
-      id: '/admin/homepage/doctors-heading'
-      path: '/admin/homepage/doctors-heading'
-      fullPath: '/admin/homepage/doctors-heading'
-      preLoaderRoute: typeof AdminHomepageDoctorsHeadingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/homepage/cta-banner': {
-      id: '/admin/homepage/cta-banner'
-      path: '/admin/homepage/cta-banner'
-      fullPath: '/admin/homepage/cta-banner'
-      preLoaderRoute: typeof AdminHomepageCtaBannerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/gallery/virtual-tour': {
-      id: '/admin/gallery/virtual-tour'
-      path: '/admin/gallery/virtual-tour'
-      fullPath: '/admin/gallery/virtual-tour'
-      preLoaderRoute: typeof AdminGalleryVirtualTourRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/gallery/podcasts': {
-      id: '/admin/gallery/podcasts'
-      path: '/admin/gallery/podcasts'
-      fullPath: '/admin/gallery/podcasts'
-      preLoaderRoute: typeof AdminGalleryPodcastsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/career/listings': {
-      id: '/admin/career/listings'
-      path: '/admin/career/listings'
-      fullPath: '/admin/career/listings'
-      preLoaderRoute: typeof AdminCareerListingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/career/applications': {
-      id: '/admin/career/applications'
-      path: '/admin/career/applications'
-      fullPath: '/admin/career/applications'
-      preLoaderRoute: typeof AdminCareerApplicationsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/blog/$id': {
-      id: '/admin/blog/$id'
-      path: '/admin/blog/$id'
-      fullPath: '/admin/blog/$id'
-      preLoaderRoute: typeof AdminBlogIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/about/why-choose-us': {
-      id: '/admin/about/why-choose-us'
-      path: '/admin/about/why-choose-us'
-      fullPath: '/admin/about/why-choose-us'
-      preLoaderRoute: typeof AdminAboutWhyChooseUsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/about/values': {
-      id: '/admin/about/values'
-      path: '/admin/about/values'
-      fullPath: '/admin/about/values'
-      preLoaderRoute: typeof AdminAboutValuesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/about/our-story': {
-      id: '/admin/about/our-story'
-      path: '/admin/about/our-story'
-      fullPath: '/admin/about/our-story'
-      preLoaderRoute: typeof AdminAboutOurStoryRouteImport
+    '/admin/about/cta-banner': {
+      id: '/admin/about/cta-banner'
+      path: '/admin/about/cta-banner'
+      fullPath: '/admin/about/cta-banner'
+      preLoaderRoute: typeof AdminAboutCtaBannerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/about/mission-vision': {
@@ -904,11 +777,158 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAboutMissionVisionRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/about/cta-banner': {
-      id: '/admin/about/cta-banner'
-      path: '/admin/about/cta-banner'
-      fullPath: '/admin/about/cta-banner'
-      preLoaderRoute: typeof AdminAboutCtaBannerRouteImport
+    '/admin/about/our-story': {
+      id: '/admin/about/our-story'
+      path: '/admin/about/our-story'
+      fullPath: '/admin/about/our-story'
+      preLoaderRoute: typeof AdminAboutOurStoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/about/values': {
+      id: '/admin/about/values'
+      path: '/admin/about/values'
+      fullPath: '/admin/about/values'
+      preLoaderRoute: typeof AdminAboutValuesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/about/why-choose-us': {
+      id: '/admin/about/why-choose-us'
+      path: '/admin/about/why-choose-us'
+      fullPath: '/admin/about/why-choose-us'
+      preLoaderRoute: typeof AdminAboutWhyChooseUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/appointments/': {
+      id: '/admin/appointments/'
+      path: '/admin/appointments'
+      fullPath: '/admin/appointments/'
+      preLoaderRoute: typeof AdminAppointmentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/blog/': {
+      id: '/admin/blog/'
+      path: '/admin/blog'
+      fullPath: '/admin/blog/'
+      preLoaderRoute: typeof AdminBlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/blog/$id': {
+      id: '/admin/blog/$id'
+      path: '/admin/blog/$id'
+      fullPath: '/admin/blog/$id'
+      preLoaderRoute: typeof AdminBlogIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/career/applications': {
+      id: '/admin/career/applications'
+      path: '/admin/career/applications'
+      fullPath: '/admin/career/applications'
+      preLoaderRoute: typeof AdminCareerApplicationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/career/listings': {
+      id: '/admin/career/listings'
+      path: '/admin/career/listings'
+      fullPath: '/admin/career/listings'
+      preLoaderRoute: typeof AdminCareerListingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/faqs/': {
+      id: '/admin/faqs/'
+      path: '/admin/faqs'
+      fullPath: '/admin/faqs/'
+      preLoaderRoute: typeof AdminFaqsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/gallery/': {
+      id: '/admin/gallery/'
+      path: '/admin/gallery'
+      fullPath: '/admin/gallery/'
+      preLoaderRoute: typeof AdminGalleryIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/gallery/podcasts': {
+      id: '/admin/gallery/podcasts'
+      path: '/admin/gallery/podcasts'
+      fullPath: '/admin/gallery/podcasts'
+      preLoaderRoute: typeof AdminGalleryPodcastsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/gallery/virtual-tour': {
+      id: '/admin/gallery/virtual-tour'
+      path: '/admin/gallery/virtual-tour'
+      fullPath: '/admin/gallery/virtual-tour'
+      preLoaderRoute: typeof AdminGalleryVirtualTourRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage/cta-banner': {
+      id: '/admin/homepage/cta-banner'
+      path: '/admin/homepage/cta-banner'
+      fullPath: '/admin/homepage/cta-banner'
+      preLoaderRoute: typeof AdminHomepageCtaBannerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage/doctors-heading': {
+      id: '/admin/homepage/doctors-heading'
+      path: '/admin/homepage/doctors-heading'
+      fullPath: '/admin/homepage/doctors-heading'
+      preLoaderRoute: typeof AdminHomepageDoctorsHeadingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage/hero': {
+      id: '/admin/homepage/hero'
+      path: '/admin/homepage/hero'
+      fullPath: '/admin/homepage/hero'
+      preLoaderRoute: typeof AdminHomepageHeroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage/how-it-works': {
+      id: '/admin/homepage/how-it-works'
+      path: '/admin/homepage/how-it-works'
+      fullPath: '/admin/homepage/how-it-works'
+      preLoaderRoute: typeof AdminHomepageHowItWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage/services': {
+      id: '/admin/homepage/services'
+      path: '/admin/homepage/services'
+      fullPath: '/admin/homepage/services'
+      preLoaderRoute: typeof AdminHomepageServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage/when-to-visit': {
+      id: '/admin/homepage/when-to-visit'
+      path: '/admin/homepage/when-to-visit'
+      fullPath: '/admin/homepage/when-to-visit'
+      preLoaderRoute: typeof AdminHomepageWhenToVisitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage/who-we-are': {
+      id: '/admin/homepage/who-we-are'
+      path: '/admin/homepage/who-we-are'
+      fullPath: '/admin/homepage/who-we-are'
+      preLoaderRoute: typeof AdminHomepageWhoWeAreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/homepage/why-choose-us': {
+      id: '/admin/homepage/why-choose-us'
+      path: '/admin/homepage/why-choose-us'
+      fullPath: '/admin/homepage/why-choose-us'
+      preLoaderRoute: typeof AdminHomepageWhyChooseUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/services/': {
+      id: '/admin/services/'
+      path: '/admin/services'
+      fullPath: '/admin/services/'
+      preLoaderRoute: typeof AdminServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/testimonials/': {
+      id: '/admin/testimonials/'
+      path: '/admin/testimonials'
+      fullPath: '/admin/testimonials/'
+      preLoaderRoute: typeof AdminTestimonialsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -937,6 +957,7 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   ServicesRoute: ServicesRouteWithChildren,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SuccessStoriesRoute: SuccessStoriesRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminPopupBannersRoute: AdminPopupBannersRoute,
@@ -975,3 +996,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
