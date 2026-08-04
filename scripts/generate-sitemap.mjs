@@ -1,9 +1,31 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { supabase } from "@/integrations/supabase/client"
+// Build-time sitemap generator. Runs as "prebuild" (see package.json) since
+// the site is served via `vite preview` under PM2, not Cloudflare Workers —
+// a Nitro server route (src/routes/sitemap[.]xml.ts) never executes there.
+import { createClient } from "@supabase/supabase-js"
+import { writeFile } from "node:fs/promises"
+import path from "node:path"
+import process from "node:process"
+
+try {
+  process.loadEnvFile()
+} catch {
+  // .env not present; rely on already-exported environment variables
+}
 
 const BASE_URL = "https://shubhashreeivf.com"
+const OUTPUT_PATH = path.resolve(process.cwd(), "public/sitemap.xml")
 
-const STATIC_PAGES: { path: string; changefreq: string; priority: string }[] = [
+const SUPABASE_URL = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL
+const SUPABASE_KEY = process.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY
+
+if (!SUPABASE_URL || !SUPABASE_KEY) {
+  console.error("[sitemap] Missing SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY env vars.")
+  process.exit(1)
+}
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+
+const STATIC_PAGES = [
   { path: "/", changefreq: "weekly", priority: "1.0" },
   { path: "/about", changefreq: "monthly", priority: "0.8" },
   { path: "/services", changefreq: "monthly", priority: "0.9" },
@@ -17,7 +39,7 @@ const STATIC_PAGES: { path: string; changefreq: string; priority: string }[] = [
   { path: "/privacy-policy", changefreq: "yearly", priority: "0.3" },
 ]
 
-function escapeXml(value: string): string {
+function escapeXml(value) {
   return value
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -26,25 +48,21 @@ function escapeXml(value: string): string {
     .replace(/'/g, "&apos;")
 }
 
-function toLastmod(value: string | null): string {
+function toLastmod(value) {
   const date = value ? new Date(value) : new Date()
   return Number.isNaN(date.getTime()) ? new Date().toISOString().split("T")[0] : date.toISOString().split("T")[0]
 }
 
-function buildUrls(
-  rows: { slug: string | null; updated_at: string | null }[] | null,
-  pathPrefix: string,
-  priority: string,
-): string[] {
+function buildUrls(rows, pathPrefix, priority) {
   return (rows ?? [])
-    .filter((row): row is { slug: string; updated_at: string | null } => !!row.slug)
+    .filter((row) => !!row.slug)
     .map((row) => {
       const lastmod = toLastmod(row.updated_at)
       return `  <url><loc>${BASE_URL}${pathPrefix}${escapeXml(row.slug)}</loc><lastmod>${lastmod}</lastmod><changefreq>monthly</changefreq><priority>${priority}</priority></url>`
     })
 }
 
-async function buildSitemapXml(): Promise<string> {
+async function buildSitemapXml() {
   const [blogsRes, servicesRes, doctorsRes, trustFeaturesRes] = await Promise.all([
     supabase
       .from("blogs")
@@ -61,7 +79,7 @@ async function buildSitemapXml(): Promise<string> {
     ["services", servicesRes],
     ["doctors", doctorsRes],
     ["trust_features", trustFeaturesRes],
-  ] as const) {
+  ]) {
     if (res.error) {
       console.error(`[sitemap] Failed to fetch ${label}:`, res.error.message)
     }
@@ -83,21 +101,14 @@ async function buildSitemapXml(): Promise<string> {
   const doctorUrls = buildUrls(doctorsRes.data, "/team/", "0.6")
   const whyUsUrls = buildUrls(trustFeaturesRes.data, "/why-us/", "0.5")
 
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[...staticUrls, ...blogUrls, ...serviceUrls, ...doctorUrls, ...whyUsUrls].join("\n")}\n</urlset>\n`
+  const urls = [...staticUrls, ...blogUrls, ...serviceUrls, ...doctorUrls, ...whyUsUrls]
+
+  return {
+    xml: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>\n`,
+    count: urls.length,
+  }
 }
 
-export const Route = createFileRoute("/sitemap.xml")({
-  server: {
-    handlers: {
-      GET: async () => {
-        const xml = await buildSitemapXml()
-        return new Response(xml, {
-          headers: {
-            "Content-Type": "application/xml; charset=utf-8",
-            "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
-          },
-        })
-      },
-    },
-  },
-})
+const { xml, count } = await buildSitemapXml()
+await writeFile(OUTPUT_PATH, xml, "utf-8")
+console.log(`[sitemap] Wrote ${count} URLs to ${path.relative(process.cwd(), OUTPUT_PATH)}`)

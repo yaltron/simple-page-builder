@@ -17,7 +17,6 @@ import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as ServicesRouteImport } from './routes/services'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SuccessStoriesRouteImport } from './routes/success-stories'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
@@ -93,11 +92,6 @@ const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SuccessStoriesRoute = SuccessStoriesRouteImport.update({
@@ -293,7 +287,6 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRouteWithChildren
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/success-stories': typeof SuccessStoriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
@@ -339,7 +332,6 @@ export interface FileRoutesByTo {
   '/faqs': typeof FaqsRoute
   '/gallery': typeof GalleryRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/success-stories': typeof SuccessStoriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
@@ -387,7 +379,6 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRouteWithChildren
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/success-stories': typeof SuccessStoriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/popup-banners': typeof AdminPopupBannersRoute
@@ -436,7 +427,6 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/privacy-policy'
     | '/services'
-    | '/sitemap.xml'
     | '/success-stories'
     | '/admin/login'
     | '/admin/popup-banners'
@@ -482,7 +472,6 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/gallery'
     | '/privacy-policy'
-    | '/sitemap.xml'
     | '/success-stories'
     | '/admin/login'
     | '/admin/popup-banners'
@@ -529,7 +518,6 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/privacy-policy'
     | '/services'
-    | '/sitemap.xml'
     | '/success-stories'
     | '/admin/login'
     | '/admin/popup-banners'
@@ -577,7 +565,6 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ServicesRoute: typeof ServicesRouteWithChildren
-  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SuccessStoriesRoute: typeof SuccessStoriesRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminPopupBannersRoute: typeof AdminPopupBannersRoute
@@ -670,13 +657,6 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/success-stories': {
@@ -957,7 +937,6 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   ServicesRoute: ServicesRouteWithChildren,
-  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SuccessStoriesRoute: SuccessStoriesRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminPopupBannersRoute: AdminPopupBannersRoute,
