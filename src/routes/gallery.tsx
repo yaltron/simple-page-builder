@@ -75,18 +75,27 @@ function GalleryPage() {
   return (
     <PageLayout title="Gallery" breadcrumb="Gallery">
       <Section bg="white">
-        <div className="flex flex-wrap justify-center gap-3 mb-10">
-          {cats.map((c) => {
-            const isActive = active === c
-            return (
-              <button
-                key={c}
-                onClick={() => setActive(c)}
-                className="px-5 py-2 rounded-full font-semibold text-sm transition-all"
-                style={{ background: isActive ? BRAND.pink : "white", color: isActive ? "white" : BRAND.pink, border: `1px solid ${BRAND.pink}` }}
-              >{c}</button>
-            )
-          })}
+        <div className="gallery-filters mb-8 md:mb-12 -mx-[5vw] px-[5vw] sm:mx-0 sm:px-0">
+          <div
+            className="inline-flex shrink-0 gap-1 p-1 rounded-full mx-auto"
+            style={{ background: BRAND.pinkSoft, border: `1px solid ${BRAND.border}` }}
+          >
+            {cats.map((c) => {
+              const isActive = active === c
+              return (
+                <button
+                  key={c}
+                  onClick={() => setActive(c)}
+                  className="px-4 md:px-5 py-1.5 md:py-2 rounded-full text-[13px] md:text-sm font-medium tracking-wide whitespace-nowrap transition-all duration-300"
+                  style={{
+                    background: isActive ? BRAND.pink : "transparent",
+                    color: isActive ? "white" : BRAND.navLink,
+                    boxShadow: isActive ? "0 4px 14px rgba(230,0,126,0.25)" : "none",
+                  }}
+                >{c}</button>
+              )
+            })}
+          </div>
         </div>
 
         {filtered.length === 0 ? (
@@ -108,16 +117,41 @@ function GalleryPage() {
                 transition: opacity 0.3s ease;
               }
               .gallery-img-loaded { opacity: 0; pointer-events: none; }
+              .gallery-filters { display: flex; overflow-x: auto; scrollbar-width: none; }
+              .gallery-filters::-webkit-scrollbar { display: none; }
+              .gallery-tile {
+                box-shadow: 0 1px 2px rgba(45,10,30,0.04), 0 4px 16px rgba(45,10,30,0.06);
+                transition: transform 0.45s cubic-bezier(.2,.7,.2,1), box-shadow 0.45s cubic-bezier(.2,.7,.2,1);
+              }
+              .gallery-tile:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 2px 4px rgba(45,10,30,0.05), 0 16px 36px rgba(139,15,80,0.16);
+              }
+              .gallery-tile img { transition: transform 0.7s cubic-bezier(.2,.7,.2,1); }
+              .gallery-tile:hover img { transform: scale(1.06); }
+              .gallery-tile-overlay {
+                background: linear-gradient(to top, rgba(45,10,30,0.72) 0%, rgba(45,10,30,0.15) 45%, rgba(45,10,30,0) 70%);
+                opacity: 0; transition: opacity 0.4s ease;
+              }
+              .gallery-tile:hover .gallery-tile-overlay { opacity: 1; }
+              .gallery-tile-caption { transform: translateY(8px); transition: transform 0.4s ease; }
+              .gallery-tile:hover .gallery-tile-caption { transform: translateY(0); }
+              .gallery-play {
+                background: rgba(255,255,255,0.9);
+                backdrop-filter: blur(6px);
+                box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+              }
+              .gallery-tile:hover .gallery-play {
+                transform: scale(1.08);
+                box-shadow: 0 0 0 8px rgba(255,255,255,0.25), 0 6px 24px rgba(0,0,0,0.2);
+              }
+              @media (hover: none) {
+                .gallery-tile:hover { transform: none; }
+                .gallery-tile:hover img { transform: none; }
+              }
             `}</style>
-            <div
-              style={{
-                columnCount: 3,
-                columnGap: 16,
-                contentVisibility: "auto",
-                containIntrinsicSize: "300px",
-              }}
-              className="max-md:!columns-2 max-sm:!columns-1"
-            >
+            <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
               <AnimatePresence mode="popLayout">
                 {filtered.map((img, i) => {
                   const isVideo = img.media_type === "video"
@@ -127,11 +161,11 @@ function GalleryPage() {
                     <motion.div
                       key={img.id}
                       layout
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 0.35 }}
-                      className="mb-4 break-inside-avoid relative group cursor-pointer rounded-xl overflow-hidden gallery-img-wrap"
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.96 }}
+                      transition={{ duration: 0.4, ease: [0.2, 0.7, 0.2, 1] }}
+                      className="gallery-tile gallery-img-wrap relative aspect-[4/5] cursor-pointer rounded-xl md:rounded-2xl overflow-hidden bg-[#FFF1F7]"
                       onClick={() => isVideo ? setVideo(img.video_url || img.url) : setLightbox(i)}
                     >
                       <img
@@ -143,40 +177,30 @@ function GalleryPage() {
                           const skel = (e.currentTarget.parentElement?.querySelector(".gallery-img-skeleton")) as HTMLElement | null
                           if (skel) skel.classList.add("gallery-img-loaded")
                         }}
-                        className="w-full transition-transform duration-300 group-hover:scale-[1.03]"
-                        style={{ objectFit: "cover", display: "block" }}
+                        className="absolute inset-0 w-full h-full object-cover"
                       />
                       <div className="gallery-img-skeleton" aria-hidden="true" />
-                      {isVideo ? (
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div
-                            className="rounded-full flex items-center justify-center transition-all duration-[250ms]"
-                            style={{
-                              width: 60,
-                              height: 60,
-                              background: "rgba(255,255,255,0.92)",
-                              boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
-                            }}
-                            onMouseEnter={(e) => {
-                              const el = e.currentTarget
-                              el.style.background = "#ffffff"
-                              el.style.transform = "scale(1.12)"
-                              el.style.boxShadow = "0 0 0 8px rgba(230,0,126,0.15)"
-                            }}
-                            onMouseLeave={(e) => {
-                              const el = e.currentTarget
-                              el.style.background = "rgba(255,255,255,0.92)"
-                              el.style.transform = "scale(1)"
-                              el.style.boxShadow = "0 4px 20px rgba(0,0,0,0.2)"
-                            }}
-                          >
-                            <span style={{ color: "#E6007E", fontSize: 22, lineHeight: 1, marginLeft: 3 }}>▶</span>
+                      <div className="gallery-tile-overlay absolute inset-0 flex items-end p-3 md:p-4">
+                        <div className="gallery-tile-caption flex items-center justify-between gap-2 w-full text-white">
+                          <div className="min-w-0">
+                            {img.category && (
+                              <div className="text-[10px] md:text-[11px] uppercase tracking-[0.14em] opacity-80">{img.category}</div>
+                            )}
+                            {img.title && (
+                              <div className="text-sm md:text-[15px] font-medium leading-snug truncate" style={{ fontFamily: "'Playfair Display', serif" }}>{img.title}</div>
+                            )}
                           </div>
+                          {!isVideo && (
+                            <div className="shrink-0 w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                              <Search className="w-4 h-4" />
+                            </div>
+                          )}
                         </div>
-                      ) : (
-                        <div className="absolute inset-0 flex items-center justify-center transition-opacity opacity-0 group-hover:opacity-100" style={{ background: "rgba(230,0,126,0.15)" }}>
-                          <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
-                            <Search className="w-6 h-6" style={{ color: BRAND.pink }} />
+                      </div>
+                      {isVideo && (
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                          <div className="gallery-play rounded-full flex items-center justify-center w-12 h-12 md:w-14 md:h-14">
+                            <Play className="w-5 h-5 ml-0.5" style={{ color: BRAND.pink, fill: BRAND.pink }} />
                           </div>
                         </div>
                       )}
@@ -306,11 +330,24 @@ function GalleryPage() {
 
       <AnimatePresence>
         {lightbox !== null && filtered[lightbox] && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[1000000] flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.9)" }} onClick={() => setLightbox(null)}>
-            <button aria-label="Close image viewer" onClick={(e) => { e.stopPropagation(); setLightbox(null) }} className="absolute top-5 right-5 text-white p-2"><X className="w-8 h-8" /></button>
-            <button aria-label="Previous image" onClick={(e) => { e.stopPropagation(); prev() }} className="absolute left-5 text-white p-3 rounded-full bg-white/10 hover:bg-white/20"><ChevronLeft className="w-6 h-6" /></button>
-            <img src={filtered[lightbox].url} alt={filtered[lightbox].title || ""} className="max-h-[85vh] max-w-[90vw] rounded-xl" onClick={(e) => e.stopPropagation()} />
-            <button aria-label="Next image" onClick={(e) => { e.stopPropagation(); next() }} className="absolute right-5 text-white p-3 rounded-full bg-white/10 hover:bg-white/20"><ChevronRight className="w-6 h-6" /></button>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[1000000] flex flex-col items-center justify-center p-4 backdrop-blur-sm" style={{ background: "rgba(20,5,14,0.92)" }} onClick={() => setLightbox(null)}>
+            <div className="absolute top-4 left-5 text-white/70 text-sm tracking-widest">{lightbox + 1} / {filtered.length}</div>
+            <button aria-label="Close image viewer" onClick={(e) => { e.stopPropagation(); setLightbox(null) }} className="absolute top-3 right-3 md:top-5 md:right-5 text-white p-2 rounded-full hover:bg-white/10 transition-colors"><X className="w-6 h-6 md:w-7 md:h-7" /></button>
+            <button aria-label="Previous image" onClick={(e) => { e.stopPropagation(); prev() }} className="absolute left-2 md:left-6 z-10 text-white p-2.5 md:p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur transition-colors"><ChevronLeft className="w-5 h-5 md:w-6 md:h-6" /></button>
+            <motion.img
+              key={filtered[lightbox].id}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+              src={filtered[lightbox].url}
+              alt={filtered[lightbox].title || ""}
+              className="max-h-[78vh] max-w-[92vw] md:max-w-[80vw] rounded-lg shadow-2xl object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+            {filtered[lightbox].title && (
+              <div className="mt-4 text-center text-white/90 text-sm md:text-base px-10" style={{ fontFamily: "'Playfair Display', serif" }}>{filtered[lightbox].title}</div>
+            )}
+            <button aria-label="Next image" onClick={(e) => { e.stopPropagation(); next() }} className="absolute right-2 md:right-6 z-10 text-white p-2.5 md:p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur transition-colors"><ChevronRight className="w-5 h-5 md:w-6 md:h-6" /></button>
           </motion.div>
         )}
       </AnimatePresence>
