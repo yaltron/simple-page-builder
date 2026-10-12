@@ -1,0 +1,282 @@
+import { r as reactExports, W as jsxRuntimeExports } from "./index.mjs";
+import { u as useAdminAuth, A as AdminLoading, a as AdminShell } from "./use-admin-auth-x8M1bRId.mjs";
+import { C as ColorPicker } from "./color-picker-BcfGrOpe.mjs";
+import { X, s as supabase, b as ue } from "./router-D3NQCnuk.mjs";
+import { R as RichTextEditor } from "./rich-text-editor-CX4qyGpg.mjs";
+import { T as Trash2 } from "./trash-2-DhLuOvGs.mjs";
+import { P as Plus } from "./plus-_pcJFpCM.mjs";
+import { A as ArrowUp, a as ArrowDown } from "./arrow-up-Bz_3TtFV.mjs";
+import { P as Pencil } from "./pencil-mCoYCDbe.mjs";
+import { S as Save } from "./save-DVe6ySDW.mjs";
+
+
+
+import "./user-round-BantWQqJ.mjs";
+import "./file-text-Cs7vjiTg.mjs";
+import "./stethoscope-DY6D4onH.mjs";
+import "./briefcase-C6CtCSJl.mjs";
+import "./index-CZVAwXUt.mjs";
+import "./undo-BAl34KoQ.mjs";
+import "./quote-BllpPa8P.mjs";
+import "./minus-Bw_s4iG4.mjs";
+
+import "../_libs/unenv.mjs";
+
+
+const CATEGORIES = ["General", "IVF", "ICSI", "Costs", "Preparation", "After Treatment", "Gynecology", "Fertility", "Radiology"];
+const empty = {
+  question: "",
+  answer: "",
+  category: "General",
+  order_index: 0,
+  is_active: true
+};
+function AdminFAQsPage() {
+  const {
+    loading,
+    isAdmin
+  } = useAdminAuth();
+  const [items, setItems] = reactExports.useState([]);
+  const [editing, setEditing] = reactExports.useState(null);
+  const [filter, setFilter] = reactExports.useState("All");
+  const [selected, setSelected] = reactExports.useState(/* @__PURE__ */ new Set());
+  const load = async () => {
+    const {
+      data,
+      error
+    } = await supabase.from("faqs").select("*").order("category").order("order_index");
+    if (error) ue.error(error.message);
+    setItems(data || []);
+  };
+  reactExports.useEffect(() => {
+    if (isAdmin) load();
+  }, [isAdmin]);
+  const save = async () => {
+    if (!editing) return;
+    if (!editing.question.trim() || !editing.answer.trim()) {
+      return ue.error("Question and answer are required");
+    }
+    const {
+      error
+    } = editing.id ? await supabase.from("faqs").update(editing).eq("id", editing.id) : await supabase.from("faqs").insert(editing);
+    if (error) return ue.error(error.message);
+    ue.success("Saved");
+    setEditing(null);
+    load();
+  };
+  const remove = async (id) => {
+    if (!confirm("Delete this FAQ?")) return;
+    const {
+      error
+    } = await supabase.from("faqs").delete().eq("id", id);
+    if (error) return ue.error(error.message);
+    ue.success("Deleted");
+    load();
+  };
+  const bulkDelete = async () => {
+    if (selected.size === 0) return;
+    if (!confirm(`Delete ${selected.size} FAQ(s)?`)) return;
+    const {
+      error
+    } = await supabase.from("faqs").delete().in("id", Array.from(selected));
+    if (error) return ue.error(error.message);
+    ue.success("Deleted");
+    setSelected(/* @__PURE__ */ new Set());
+    load();
+  };
+  const toggleActive = async (f) => {
+    const {
+      error
+    } = await supabase.from("faqs").update({
+      is_active: !f.is_active
+    }).eq("id", f.id);
+    if (error) return ue.error(error.message);
+    load();
+  };
+  const move = async (f, dir) => {
+    const sameCat = items.filter((x) => x.category === f.category).sort((a, b) => a.order_index - b.order_index);
+    const idx = sameCat.findIndex((x) => x.id === f.id);
+    const swap = sameCat[idx + dir];
+    if (!swap) return;
+    await supabase.from("faqs").update({
+      order_index: swap.order_index
+    }).eq("id", f.id);
+    await supabase.from("faqs").update({
+      order_index: f.order_index
+    }).eq("id", swap.id);
+    load();
+  };
+  const filtered = filter === "All" ? items : items.filter((i) => i.category === filter);
+  if (loading || !isAdmin) return /* @__PURE__ */ jsxRuntimeExports.jsx(AdminLoading, {});
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(AdminShell, { title: "FAQs", breadcrumb: "Admin / FAQs", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(HeadingColorEditor, { sectionKey: "faq_section", label: "FAQ Section Heading Color" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 mb-5 flex-wrap", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("select", { value: filter, onChange: (e) => setFilter(e.target.value), className: "px-3 py-2 border rounded-lg bg-white text-sm", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("option", { children: "All" }),
+        CATEGORIES.map((c) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { children: c }, c))
+      ] }),
+      selected.size > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: bulkDelete, className: "px-3 py-2 text-sm rounded-lg border border-red-300 text-red-600 hover:bg-red-50 inline-flex items-center gap-1", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { className: "w-4 h-4" }),
+        " Delete ",
+        selected.size
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-sm text-muted-foreground ml-auto", children: [
+        filtered.length,
+        " FAQ(s)"
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => {
+        const next = items.filter((i) => i.category === (filter === "All" ? "General" : filter));
+        const maxOrder = next.reduce((m, x) => Math.max(m, x.order_index || 0), 0);
+        setEditing({
+          ...empty,
+          category: filter === "All" ? "General" : filter,
+          order_index: maxOrder + 1
+        });
+      }, className: "inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold", style: {
+        background: "#E6007E"
+      }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { className: "w-4 h-4" }),
+        " New FAQ"
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-white rounded-xl border overflow-hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "w-full text-sm", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { className: "bg-gray-50 text-xs uppercase text-muted-foreground", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "p-3 w-8" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "p-3 text-left", children: "Question" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "p-3 text-left", children: "Category" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "p-3", children: "Status" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "p-3", children: "Order" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "p-3" })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("tbody", { children: [
+        filtered.map((f) => /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { className: "border-t", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "p-3", children: /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "checkbox", checked: selected.has(f.id), onChange: (e) => {
+            const n = new Set(selected);
+            if (e.target.checked) n.add(f.id);
+            else n.delete(f.id);
+            setSelected(n);
+          } }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "p-3 font-medium text-plum", children: f.question }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "p-3", children: f.category }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "p-3 text-center", children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => toggleActive(f), className: "text-[10px] px-2 py-0.5 rounded-full font-semibold", style: {
+            background: f.is_active ? "#dcfce7" : "#f1f5f9",
+            color: f.is_active ? "#166534" : "#475569"
+          }, children: f.is_active ? "Active" : "Hidden" }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "p-3 text-center", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "inline-flex items-center gap-1", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => move(f, -1), className: "p-1 rounded hover:bg-gray-100", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUp, { className: "w-3 h-3" }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs w-5", children: f.order_index }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => move(f, 1), className: "p-1 rounded hover:bg-gray-100", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowDown, { className: "w-3 h-3" }) })
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("td", { className: "p-3 text-right", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setEditing(f), className: "p-1.5 rounded hover:bg-gray-100", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Pencil, { className: "w-3.5 h-3.5" }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => remove(f.id), className: "p-1.5 rounded hover:bg-red-50 text-red-600", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { className: "w-3.5 h-3.5" }) })
+          ] })
+        ] }, f.id)),
+        filtered.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: 6, className: "p-10 text-center text-muted-foreground", children: "No FAQs." }) })
+      ] })
+    ] }) }),
+    editing && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fixed inset-0 z-50 bg-black/50 flex justify-end", onClick: () => setEditing(null), children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full max-w-xl bg-white h-full overflow-auto p-6", onClick: (e) => e.stopPropagation(), children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center mb-5", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "font-bold text-lg", children: [
+          editing.id ? "Edit" : "New",
+          " FAQ"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setEditing(null), className: "ml-auto p-1.5 hover:bg-gray-100 rounded", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { className: "w-4 h-4" }) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Question", children: /* @__PURE__ */ jsxRuntimeExports.jsx("input", { value: editing.question, onChange: (e) => setEditing({
+          ...editing,
+          question: e.target.value
+        }), className: "w-full px-3 py-2 border rounded-lg" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Answer", children: /* @__PURE__ */ jsxRuntimeExports.jsx(RichTextEditor, { value: editing.answer, onChange: (html) => setEditing({
+          ...editing,
+          answer: html
+        }), minHeight: 180 }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-2 gap-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Category", children: /* @__PURE__ */ jsxRuntimeExports.jsx("select", { value: editing.category, onChange: (e) => setEditing({
+            ...editing,
+            category: e.target.value
+          }), className: "w-full px-3 py-2 border rounded-lg bg-white", children: CATEGORIES.map((c) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { children: c }, c)) }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Order", children: /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "number", value: editing.order_index, onChange: (e) => setEditing({
+            ...editing,
+            order_index: Number(e.target.value)
+          }), className: "w-full px-3 py-2 border rounded-lg" }) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-center gap-2 text-sm", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "checkbox", checked: editing.is_active, onChange: (e) => setEditing({
+            ...editing,
+            is_active: e.target.checked
+          }) }),
+          "Active (visible on /faqs)"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: save, className: "w-full py-2.5 rounded-lg text-white font-semibold", style: {
+          background: "#E6007E"
+        }, children: "Save" })
+      ] })
+    ] }) })
+  ] });
+}
+function Field({
+  label,
+  children
+}) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "block", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs font-semibold text-muted-foreground mb-1", children: label }),
+    children
+  ] });
+}
+function HeadingColorEditor({
+  sectionKey,
+  label
+}) {
+  const [color, setColor] = reactExports.useState("#C2185B");
+  const [loaded, setLoaded] = reactExports.useState(false);
+  const [saving, setSaving] = reactExports.useState(false);
+  reactExports.useEffect(() => {
+    (async () => {
+      const {
+        data
+      } = await supabase.from("homepage_content").select("content").eq("section", sectionKey).maybeSingle();
+      if (data?.content && typeof data.content.heading_color === "string") {
+        setColor(data.content.heading_color);
+      }
+      setLoaded(true);
+    })();
+  }, [sectionKey]);
+  const save = async () => {
+    setSaving(true);
+    const {
+      data: existing
+    } = await supabase.from("homepage_content").select("id, content").eq("section", sectionKey).maybeSingle();
+    const next = {
+      ...existing?.content || {},
+      heading_color: color
+    };
+    const {
+      error
+    } = existing ? await supabase.from("homepage_content").update({
+      content: next
+    }).eq("id", existing.id) : await supabase.from("homepage_content").insert({
+      section: sectionKey,
+      content: next
+    });
+    setSaving(false);
+    if (error) ue.error(error.message);
+    else ue.success("Saved");
+  };
+  if (!loaded) return null;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-white rounded-xl border p-4 mb-5 flex items-center gap-4 flex-wrap", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm font-semibold", children: label }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(ColorPicker, { value: color, onChange: setColor }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: save, disabled: saving, className: "ml-auto inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-semibold", style: {
+      background: "#8B0F50"
+    }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Save, { className: "w-4 h-4" }),
+      " ",
+      saving ? "Saving…" : "Save Color"
+    ] })
+  ] });
+}
+export {
+  AdminFAQsPage as component
+};

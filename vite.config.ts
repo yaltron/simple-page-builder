@@ -53,8 +53,8 @@ export default defineConfig({
     },
     server: {
       host: true,
-      allowedHosts:['subhashreeivf.com.np','shubhashreeivf.com']
-      port: 8080,
+      allowedHosts:['subhashreeivf.com.np','shubhashreeivf.com', 'www.shubhashreeivf.com', 'www.subhashreeivf.com.np'],
+      port: 4173,
       strictPort: true,
     },
   },

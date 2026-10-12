@@ -1,0 +1,1 @@
+function e(u){if(!u)return null;const t=u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/|v\/))([^&\n?#]+)/);return t?t[1]:null}function n(u){const t=e(u);return t?`https://www.youtube.com/embed/${t}`:null}function o(u){const t=e(u);return t?`https://i.ytimg.com/vi/${t}/mqdefault.jpg`:null}export{o as a,n as g};

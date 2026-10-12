@@ -17049,7 +17049,7 @@ function getResponse() {
 }
 var HEADERS = { TSS_SHELL: "X-TSS_SHELL" };
 async function getStartManifest(matchedRoutes) {
-  const { tsrStartManifest } = await import("./assets/_tanstack-start-manifest_v-CaO80Uau.js");
+  const { tsrStartManifest } = await import("./assets/_tanstack-start-manifest_v-D5HaXARa.js");
   const startManifest = tsrStartManifest();
   let routes = startManifest.routes;
   routes[rootRouteId];
@@ -17069,9 +17069,13 @@ async function getStartManifest(matchedRoutes) {
   };
 }
 const manifest = {
+  "1ed4365c74b148e0a90e150fe1ea2bd2792593df92c74b96fd0dc40a49e28ef8": {
+    functionName: "fetchDoctor_createServerFn_handler",
+    importer: () => import("./assets/team._doctorSlug-Cx6zJul2.js")
+  },
   "70ca892c0ce80924f4010c4d9bd37ef380164b6ce0824155ad27f68cbcdcedd5": {
     functionName: "fetchPost_createServerFn_handler",
-    importer: () => import("./assets/blog._slug-Coh0bsOB.js")
+    importer: () => import("./assets/blog._slug-HMKOdJfw.js")
   }
 };
 async function getServerFnById(id, access) {
@@ -18302,7 +18306,7 @@ var getBaseManifest = getProdBaseManifest;
 var createEarlyHintsForRequest = createEarlyHintsCollector;
 async function loadEntries() {
   const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
-    import("./assets/router-4B5-JGly.js").then((n2) => n2.o),
+    import("./assets/router-BvFo6ij6.js").then((n2) => n2.s),
     import("./assets/start-BxMWpHt0.js"),
     import("./assets/empty-plugin-adapters-BFgPZ6_d.js")
   ]);
@@ -18671,7 +18675,7 @@ function createServerEntry(entry) {
 }
 const server = createServerEntry({ fetch: fetch$1 });
 export {
-  requireReactDom as $,
+  requireReact as $,
   hasKeys as A,
   interpolatePath as B,
   ClientOnly as C,
@@ -18686,29 +18690,30 @@ export {
   joinPaths as L,
   jsxRuntimeExports as M,
   last as N,
-  matchContext as O,
-  notFound as P,
-  nullReplaceEqualDeep as Q,
+  Outlet as O,
+  matchContext as P,
+  notFound as Q,
   React as R,
-  parseHref as S,
+  nullReplaceEqualDeep as S,
   TSS_SERVER_FUNCTION as T,
-  processRouteMasks as U,
-  processRouteTree as V,
-  reactExports as W,
-  redirect as X,
-  removeTrailingSlash as Y,
-  replaceEqualDeep as Z,
-  requireReact as _,
+  parseHref as U,
+  processRouteMasks as V,
+  processRouteTree as W,
+  reactExports as X,
+  redirect as Y,
+  removeTrailingSlash as Z,
+  replaceEqualDeep as _,
   appendUniqueUserTags as a,
-  resolveManifestCssLink as a0,
-  resolvePath as a1,
-  rewriteBasepath as a2,
-  rootRouteId as a3,
-  trimPath as a4,
-  trimPathLeft as a5,
-  trimPathRight as a6,
-  useHydrated as a7,
-  useRouter as a8,
+  requireReactDom as a0,
+  resolveManifestCssLink as a1,
+  resolvePath as a2,
+  rewriteBasepath as a3,
+  rootRouteId as a4,
+  trimPath as a5,
+  trimPathLeft as a6,
+  trimPathRight as a7,
+  useHydrated as a8,
+  useRouter as a9,
   arraysEqual as b,
   buildRouteBranch as c,
   createServerEntry,
