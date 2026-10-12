@@ -16,6 +16,9 @@ const SSR_OPTIMIZE_INCLUDE = [
 ];
 
 export default defineConfig({
+  // Self-hosted with `vite preview`, which serves dist/. With nitro enabled the
+  // build targets a Cloudflare Worker in .output/ instead, leaving dist/ stale.
+  nitro: false,
   vite: {
     resolve: {
       alias: {
